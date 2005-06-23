@@ -1,0 +1,193 @@
+#
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {JSTOR}
+
+	# The link the front page of this service
+	url {http://www.jstor.org}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Richard Cameron}
+
+	# Your email address
+	email {camster@citeulike.org}
+
+	# Language you wrote the plugin in
+	language {tcl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	regexp {jstor.org[^/]*/(browse|view|cgi-bin/jstor/viewitem)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)}
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout JSTOR {
+	return [list "JSTOR" \
+				"http://links.jstor.org/sici?sici=$ckey_1"
+				]
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://www.jstor.org/view/00376752/ap010113/01a00130/0} {
+	formatted_url {JSTOR http://links.jstor.org/sici?sici=0037-6752%28198424%291%3A28%3A4%3C533%3AANOMEG%3E2.0.CO%3B2-3}
+	linkout {JSTOR {} 0037-6752%28198424%291%3A28%3A4%3C533%3AANOMEG%3E2.0.CO%3B2-3 {} {}}
+	volume 28
+	year 1984
+	issue 4
+	author {Fiene Donald DM {Donald M. Fiene}}
+	title {A Note on May Eve, Good Friday, and the Full Moon in Bulgakov's The Master and Margarita}
+	start_page 533
+	end_page 537
+	journal {The Slavic and East European Journal}
+	type JOUR
+	status ok
+}
+
+
+
+test {http://www.jstor.org/view/01605682/di011126/01p0003s/0?searchID=cc993341.11009940110&frame=noframe&currentResult=01605682%2bdi011126%2b01p0003s%2b0%2c01%2b19800600%2b9995%2b80199399&userID=82586042@man.ac.uk/01cc99333c00501699080&dpi=3&sortOrder=SCORE&config=jstor&viewContent=Article} {
+	formatted_url {JSTOR http://links.jstor.org/sici?sici=0160-5682%28198006%2931%3A6%3C467%3ADSATF%3E2.0.CO%3B2-Q}
+	linkout {JSTOR {} 0160-5682%28198006%2931%3A6%3C467%3ADSATF%3E2.0.CO%3B2-Q {} {}}
+	volume 31
+	year 1980
+	issue 6
+	author {Tomlinson Rolfe R {Rolfe Tomlinson}}
+	title {Doing Something about the Future}
+	start_page 467
+	end_page 476
+	journal {The Journal of the Operational Research Society}
+	type JOUR
+	abstract {This paper is concerned with the need for more interdisciplinary, systems oriented, research directed towards major problems encountered by decision makers in industry and government; a need which is more difficult to meet in the face of traditional methods of organising knowledge and research. It emphasises the need to acknowledge the true complexity of the problems and the interactive nature of any effective research procedure. As an illustration, both of the need and the problems involved in meeting it, the development of a new program of research into problems of Management and Technology at the International Institute of Applied Systems Analysis, which is supported by seventeen nations of all political complexions, is analysed. The implication is that we can do something about the future, but we must be prepared to do.}
+	status ok
+}
+
+test {http://www.jstor.org/browse/00318248/ap010202/01a00150/0?frame=noframe&userID=82586042@man.ac.uk/01cc99333c00501699080&backcontext=page&backurl=/cgi-bin/jstor/viewitem/00318248/ap010202/01a00150/0%3fframe%3dnoframe%26dpi%3d3%26userID%3d82586042@man.ac.uk/01cc99333c00501699080%26config%3djstor%26PAGE%3d0&config=jstor} {
+	formatted_url {JSTOR http://links.jstor.org/sici?sici=0031-8248%28198312%2950%3A4%3C660%3ASKCEAC%3E2.0.CO%3B2-R}
+	linkout {JSTOR {} 0031-8248%28198312%2950%3A4%3C660%3ASKCEAC%3E2.0.CO%3B2-R {} {}}
+	volume 50 
+	year 1983 
+	issue 4 
+	author {Shrader Douglas D {Douglas Shrader}}
+	title {Review: Scientific Knowledge: Causation, Explanation, and Corroboration} 
+	start_page 660
+	end_page 662
+	journal {Philosophy of Science} 
+	type JOUR
+	status ok
+}
+
+test {http://www.jstor.org/browse/10477039/di013145/01p0085t/0?frame=noframe&userID=82586042@man.ac.uk/01cce440350050163c4b8&backcontext=page&backurl=/cgi-bin/jstor/viewitem/10477039/di013145/01p0085t/0?frame=noframe&dpi=3&userID=82586042@man.ac.uk/01cce440350050163c4b8&config=&PAGE=0&config=jstor} {
+	formatted_url {JSTOR http://links.jstor.org/sici?sici=1047-7039%28199208%293%3A3%3C321%3ADADPON%3E2.0.CO%3B2-G}
+	linkout {JSTOR {} 1047-7039%28199208%293%3A3%3C321%3ADADPON%3E2.0.CO%3B2-G {} {}}
+	volume 3 
+	year 1992 
+	start_page 321 
+	type JOUR 
+	end_page 341 
+	issue 3 
+	title {Demography and Design: Predictors of New Product Team Performance} 
+	journal {Organization Science} 
+	abstract {The increasing reliance on teams in organizations raises the question of how these teams should be formed. Should they be formed completely of engineers or should they include a range of specialists? Should they be made up to people who have long tenure in the organization, or those with a wide range of experience? As teams increasingly get called upon to do more complex tasks and to cross functional boundaries within the organization, conventional wisdom has suggested that teams be composed of more diverse members. This study suggests that the answer may not be so simple. Using 409 individuals from 45 new product teams in five high-technology companies, this study investigates the impact of diversity on team performance. We found that functional and tenure diversity each has its own distinct effects. The greater the functional diversity, the more team members communicated outside the team's boundaries. This communication was with a variety of groups such as marketing, manufacturing, and top management. The more the external communication, the higher the managerial ratings of innovation. Tenure diversity had its impact on internal group dynamics rather than external communications. Tenure diversity is associated with improved task work such as clarifying group goals and setting priorities. In turn, this clarity is associated with high team ratings of overall performance. Yet diversity is not solely positive. While it does produce internal processes and external communications that facilitate performance, it also directly impedes performance. That is, overall the effect of diversity on performance is negative, even though some aspects of group work are enhanced. It may be that for these teams diversity brings more creativity to problem solving and product development, but it impedes implementation because there is less capability for teamwork than there is for homogeneous teams. These research findings suggest that simply changing the structure of teams (i.e. combining representatives of diverse function and tenure) will not improve performance. The team must find a way to garner the positive process effects of diversity and to reduce the negative direct effects. At the team level, greater negotiation and conflict resolution skills may be necessary. At the organization level, the team may need to be protected from external political pressures and rewarded for team, rather than functional, outcomes.}
+	author {Ancona Deborah DG {Deborah Gladstein Ancona}}
+	author {Caldwell David DF {David F. Caldwell}}
+	status ok
+}
+
+test {http://www.jstor.org/view/00487511/dm980079/98p01516/0} {
+	formatted_url {JSTOR http://links.jstor.org/sici?sici=0048-7511%28199209%2920%3A3%3C291%3AYMRT%3E2.0.CO%3B2-I}
+	linkout {JSTOR {} 0048-7511%28199209%2920%3A3%3C291%3AYMRT%3E2.0.CO%3B2-I {} {}}
+	volume 20 
+	year 1992 
+	issue 3
+	type JOUR
+	author {Masur Louis LP {Louis P. Masur}}
+	start_page 291
+	title {You Must Remember this [Mystic Chords of Memory: The Transformation of Tradition in American Culture., Michael Kammen]}
+	end_page 296
+	journal {Reviews in American History}
+	status ok
+}
+
