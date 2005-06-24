@@ -141,3 +141,21 @@ test {http://www.usenix.org/events/osdi04/tech/swift.html} {
     type INCONF
     status ok
 }
+
+test {http://www.usenix.org/events/osdi02/tech/vahdat.html} {
+        formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi02/tech/vahdat.html}
+    formatted_url {{USENIX (library proceedings)} http://www.usenix.org/publications/library/proceedings/osdi02/tech/vahdat.html}
+    author {Vahdat Amin A {Amin Vahdat}}
+    author {Yocum Ken K {Ken Yocum}}
+    author {Walsh Kevin K {Kevin Walsh}}
+    author {Mahadevan Priya P {Priya Mahadevan}}
+    author {Kostic Dejan D {Dejan Kostic}}
+    author {Chase Jeff J {Jeff Chase}}
+    author {Becker David D {David Becker}}
+    linkout {USENX {} osdi02 {} vahdat}
+    title {Scalability and Accuracy in a Large-Scale Network Emulator}
+    journal {OSDI '02}
+    type INCONF
+    status ok
+}
+
