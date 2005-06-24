@@ -19,8 +19,6 @@ title_m  = re.search("<H2>(.*)\s*</H2>", content, re.IGNORECASE)
 if title_m != None:
     title = title_m.group(1)
     print "title\t%s" % title.strip()
-else:
-    print "title\tuntitled"
 
 author_m = re.search("</H2>\s*(.*),\s*<i>", content, re.IGNORECASE)
 if author_m != None:
