@@ -48,7 +48,7 @@ print "begin_tsv\n";
 
 # We can get the bog-standard Nature linkout from just looking at the URL
 
-if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/]+)/([^/]+)(_[^.]+)?.(html|pdf|ris)})	 {
+if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/]+)/([^/]+)(_[^._]+)?.(html|pdf|ris)})	 {
 # Old style
 	($journal,$vol,$num,$view_type,$article)=($1,$2,$3,$4,$5);
 } elsif ($url =~ m{www.nature.com/([^/]+)/journal/v([0-9]+)/n([0-9]+)/[^/]+/([^/.]+)}) {

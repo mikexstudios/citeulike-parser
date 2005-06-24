@@ -78,7 +78,7 @@ plugin {
 	#
 	# Nature have two styles of URLs for their articles.. they seem to be slowly
 	# moving to the second.
-	regexp {(www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/]+)/([^/]+)(_[^.]+)?.(html|pdf|ris))|www.nature.com/([^/]+)/journal/v([0-9]+)/n([0-9]+)/[^/]+/([^/.]+)}
+	regexp {(www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/]+)/([^/]+)(_[^.]+)?.(html|pdf|ris))|www.nature.com/([^/]+)/journal/v([0-9]+)/n([0-9]+)/[^/]+/([^/._]+)}
 }
 
 
@@ -173,5 +173,27 @@ test {http://www.nature.com/nature/journal/v435/n7043/full/435718a.html} {
 	title {Chemistry society goes head to head with NIH in fight over public database}
 	journal Nature
 	author {Marris Emma E {Marris, Emma}}
+	status ok
+}
+
+test {http://www.nature.com/nchembio/journal/v1/n2/pdf/nchembio0705-69.pdf} {
+	linkout {NATUR 1 nchembio0705-69 2 nchembio}
+	linkout {DOI {} 10.1038/nchembio0705-69 {} {}}
+	formatted_url {Nature http://dx.doi.org/10.1038/nchembio0705-69}
+	formatted_url {DOI http://dx.doi.org/10.1038/nchembio0705-69}
+	serial 1552-4450
+	volume 1
+	year 2005
+	type JOUR
+	start_page 69
+	url http://dx.doi.org/10.1038/nchembio0705-69
+	end_page 70
+	doi 10.1038/nchembio0705-69
+	issue 2
+	title {A photochemical snapshot of CD22 binding}
+	journal {Nat Chem Biol}
+	author {Yarema Kevin K {Yarema, Kevin J}}
+	author {Sun Zhonghui Z {Sun, Zhonghui}}
+	month 7
 	status ok
 }
