@@ -37,9 +37,20 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-source author.tcl
-source bibtex.tcl
-source ris.tcl
+proc driver_from_command_line {} {
+	if {[info exists ::argv0] && [file tail $::argv0]=="driver.tcl"} {
+		# We've been started up from the command line (by a plugin developer)
+		# rather than from inside the application.
+		return 1
+	}
+	return 0
+}
+
+if {[driver_from_command_line]} {
+	source author.tcl
+	source bibtex.tcl
+	source ris.tcl
+}
 
 # First thing to do is load the plugin description files and get some idea of what we're dealing with.
 # They're all defined in a tcl-like syntax, so we need to define two trivial commands to parse them
@@ -360,6 +371,10 @@ namespace eval driver {
 		return {}
 	}
 
+	proc executable_base_dir {} {
+		return "$::env(PWD)"
+	}
+
 	proc executable_for_name {language plugin} {
 		
 		switch -- [string tolower $language] {
@@ -375,7 +390,7 @@ namespace eval driver {
 		if {![regexp {[A-Za-z0-9_-]} $plugin]} {
 			error "Illegal plugin name: $plugin"
 		}
-		return "$::env(PWD)/$language/${plugin}.${ext}"
+		return "[executable_base_dir]/$language/${plugin}.${ext}"
 	}
 
 
@@ -521,12 +536,14 @@ namespace eval driver {
 	}
 
 
-	# On startup....
-	read_descr
 
-	if {[info exists ::argv0] && [file tail $::argv0]=="driver.tcl"} {
-		# We've been called from the command line
+	if {[driver_from_command_line]} {
 
+		# On startup from command line do stuff. Otherwise leave
+		# the decision to the main application.
+		read_descr
+
+		
 		set ok 0
 		if {[llength $::argv]==2 && ([lindex $argv 0]=="test" || [lindex $argv 0]=="parse")} {
 			set ok 1

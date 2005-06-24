@@ -61,6 +61,10 @@ proc bibtex_cleanup {} {
 	}
 }
 
+proc bibtex_style_dir {} {
+	return $::env(PWD)
+}
+
 proc parse_bibtex {bibtex_rec} {
 	set bibdir [bib_dir]
 	file mkdir $bibdir
@@ -80,7 +84,7 @@ proc parse_bibtex {bibtex_rec} {
 	file delete -- "$fname.blg"
 	
 	# Copy the style file into the directory
-	file copy -force $::env(PWD)/citeulike.bst $bibdir
+	file copy -force [bibtex_style_dir]/citeulike.bst $bibdir
 
 	#Create a dummy .aux file which cites everything
 	set fp [open "${fname}.aux" w]
