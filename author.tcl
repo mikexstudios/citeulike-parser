@@ -159,6 +159,12 @@ namespace eval author {
 				 $raw -> ret(last_name) ret(initials) ret(first_name)]} { return [array get ret] }
 		
 
+		# Now we'll give up. This should always be the last case.
+		# See if we can extract anything that looks even vaguely like a surname
+		# and be happy with that.
+		if {[regexp [subst {($SURNAME)}]\
+				 $raw -> ret(last_name)]} { return [array get ret] }
+
 	}
 
 
