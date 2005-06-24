@@ -191,3 +191,18 @@ test {http://www.jstor.org/view/00487511/dm980079/98p01516/0} {
 	status ok
 }
 
+test {http://www.jstor.org/view/03050270/dm995486/99p0003r/0} {
+	formatted_url {JSTOR http://links.jstor.org/sici?sici=0305-0270%28198407%2911%3A4%3C289%3ATPCOVM%3E2.0.CO%3B2-T}
+	linkout {JSTOR {} 0305-0270%28198407%2911%3A4%3C289%3ATPCOVM%3E2.0.CO%3B2-T {} {}}
+	volume 11
+	year 1984
+	issue 4
+	type JOUR
+	author {Atkinson Tony T {Tony Atkinson}}
+	title {The Plant Communities of Valley Mires in the New Forest, Hampshire}
+	start_page {289}
+	end_page {317}
+	journal {Journal of Biogeography}
+	abstract {The New Forest has a long history of semi-protective management. It retains an unparalleled concentration of lowland valley mires set in extensive tracts of lowland heathland and in a few cases wooded or afforested catchments. The variability of plant communities in these valley mires is analysed in 845 quadrats recorded along transects from twenty-seven mire systems in the New Forest. Twenty-four noda are distinguished and are described by objective indices of fidelity and constancy of their species assemblages. The noda fall into six natural groups: mire-surround, wet-heath, seepage-terrace, mire-expanse, carr and grazed mire. Continuing conservation concern is required to safeguard the full range of variation present in the valley mires of the New Forest.}
+	status ok
+}
