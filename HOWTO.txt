@@ -663,7 +663,7 @@ Each article must define a field called "type" taking one of the following value
  UNPB           | Unpublished work                 | unpublished       | UNPB
 
 
-==Putting it all together==
+==How to submit your code==
 
 Once you think you've got a working plugin, make sure that you write
 copious test cases for it. As a developer, you know where the weak
