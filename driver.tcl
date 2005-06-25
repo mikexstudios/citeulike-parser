@@ -358,6 +358,11 @@ namespace eval driver {
 				}
 			}
 
+			# This is a particular BibTeX oddity
+			if {[info exists ret(end_page)] && $ret(end_page)=="+"} {
+				unset ret(end_page)
+			}
+
 			set ret(plugin) $plugin
 			set ret(plugin_version) [set DETAIL_${plugin}(version)]
 			
