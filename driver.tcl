@@ -516,7 +516,7 @@ namespace eval driver {
 				}
 				
 				if {![string equal $actual_v $v]} {
-					test_error Error $plugin $url $k "Expected:\n---\n$v\n---\nbut actually got:\n---\n$actual_v\n---\n\n\n"
+					test_error Error $plugin $url $k "Expected:\n'$v'\nbut actually got:\n'$actual_v'\n\n\n"
 				}
 			}
 
