@@ -45,7 +45,7 @@ sub oops {
 
 my $url = <> ;
 
-if ($url =~ m{anthrosource.net/doi/(abs|pdf|pdfplus)/(.*)})
+if ($url =~ m{anthrosource.net/doi/(abs|pdf|pdfplus)/([^?\n]+)})
 { 
 	$doi = $2;
 }

@@ -40,7 +40,7 @@ plugin {
 	# The name of the plugin, as displayed on the "CiteULike  supports..." page
 	name {Anthrosource}
 	# The link the front page of this service
-	url {www.anthrosource.net}
+	url {http://www.anthrosource.net}
 	# Author Name
 	author {Christopher Kelty}
 	# Author email
@@ -147,4 +147,21 @@ test {http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.461} {
 	url		    http://www.anthrosource.net/loi/ae
 	abstract    {Sound has come to have a particular resonance in many disciplines over the past decade. Social theorists, historians, literary researchers, folklorists, and scholars in science and technology studies and visual, performative, and cultural studies provide a range of substantively rich accounts and epistemologically provocative models for how researchers can take sound seriously. This conversation explores general outlines of an anthropology of sound. Its main focus, however, is on the issues involved in using sound as a primary medium for ethnographic research.}
 	status      ok
+}
+
+test {http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.530?prevSearch=allfield%3A%28apple%29} {
+	formatted_url {DOI http://dx.doi.org/10.1525/ae.2004.31.4.530}
+	linkout       {DOI {} 10.1525/ae.2004.31.4.530 {} {}}
+	volume        31
+	year          2004
+	type          JOUR
+	start_page    530
+	end_page      551
+	url           http://www.anthrosource.net/loi/ae
+	issue         4
+	title         {Open towns and manipulated indebtedness among agricultural workers in the New South}
+	journal       {American Ethnologist}
+	abstract      {Reselling consumable commodities like food, alcohol, and cigarettes to agricultural workers has long been a strategy of control and indebtedness used by North American labor bosses to manage workers in situations of demanding and risky work. Recent inclusion of crack cocaine among advanced commodities has brought new risks for workers, as it has permitted them a precarious means to enter a once-restricted resale domain, and it has altered strategies of control and profit by labor contractors by conferring a veneer of independence on workers. Discussion emphasizes an inside view of crack distribution amidst the shifting agencies and counteragencies between labor and management.}
+	author       {Bletzer Keith KV {Bletzer, Keith V.}}
+	status        ok
 }
