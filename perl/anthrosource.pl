@@ -38,13 +38,18 @@ use warnings;
 use LWP;
 use HTTP::Cookies;
 
+sub oops {
+	print "status\terr\t".shift()."\n";
+	exit;
+}
+
 my $url = <> ;
 
 if ($url =~ m{anthrosource.net/doi/(abs|pdf|pdfplus)/(.*)})
 { 
 	$doi = $2;
 }
-else {die "This does not appear to be an anthrosource URL"};
+else {oops "This does not appear to be an anthrosource URL"};
 
 # Or, assuming that people only cite from the abstract or pdf pages, then
 # this is an easy hack, so long as the structure of the URLs
@@ -53,8 +58,8 @@ else {die "This does not appear to be an anthrosource URL"};
 #my $doi ="$fields[5]/$fields[6]";
 
 
-# required attributes in order to produce Bibtex format
-my $attributes ="&include=cit&format=bibtex&direct=1";
+# required attributes in order to produce RIS format
+my $attributes ="&include=cit&format=refman&direct=1";
 
 # concatenate for user agent request
 my $content = "doi=".$doi.$attributes;
@@ -62,28 +67,46 @@ my $content = "doi=".$doi.$attributes;
 # The base url of the Anthrosource citation creation script
 my $baseurl="http://www.anthrosource.net/action/downloadCitation"; 
 
+print "begin_tsv\n";
+print "linkout\tDOI\t\t$doi\t\t\n";
+
+# Everything on Anthrosource seems to be a journal, and the
+# RIS record they give us doesn't contain that information,
+# so bodge that there:
+print "type\tJOUR\n";
+
 # standard creation of user agent object
 my $browser = new LWP::UserAgent;
 
 # Anthrosource uses cookies, so the UserAgent needs to keep a cookie file 
 # that must be initialized. 
-$browser->cookie_jar(HTTP::Cookies->new(file => "lwpcookies.txt",
-										autosave => 1));
+$browser->cookie_jar( {} );
+
+# Grab the abstract from the abstract page.
+# This also has the nice effect of setting the cookies required
+# for the subsequent request.
+my $page = $browser->get("http://www.anthrosource.net/doi/abs/$doi") or oops "Couldn't fetch the abstract page from Anthrosource.net";
+
+if ($page->content =~ m{<div class="abstractSection"><p>(.*?)</p>}) {
+	print "abstract\t$1\n";
+}
 
 # The request sends a POST request to Anthrosource
+# to get the RIS record.
 my $req = HTTP::Request->new(POST, $baseurl);
 $req->content_type('application/x-www-form-urlencoded');
 $req->content( $content );
 
-# The response from Anthrosource ( this needs error handling code). 
+# The response from Anthrosource
+my $resp = $browser->request($req) or oops "Couldn't fetch the RIS record from Anthrosource";
+my $ris = $resp->content;
 
-my $resp = $browser->request($req);
-my @ris = split("\n\n", $resp->as_string); #remove header crap
+# Perform surgery to turn the author names into something a bit more parsable:
+# Carmack,Robert M. -> Carmack, Robert M.
+$ris =~ s/A1  - ([^,]+),(.*)/A1  - $1, $2/g;
 
-print "begin_tsv\n";
-print "linkout\tDOI\t\t$doi\t\t\n";
 print "end_tsv\n\n";
-print "begin_bibtex\n";
-print "$ris[1]";
-print "end_bibtex\n";
+print "begin_ris\n";
+print "$ris";
+print "end_ris\n";
 print "status\tok\n";

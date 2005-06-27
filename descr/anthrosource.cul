@@ -101,7 +101,7 @@ format_linkout ANTH {
 test {http://www.anthrosource.net/doi/pdfplus/10.1525/em.1972.1.1.1} {
 	formatted_url  {DOI http://dx.doi.org/10.1525/em.1972.1.1.1}
 	linkout        {DOI {} 10.1525/em.1972.1.1.1 {} {}}
-	author	       {Carmack Robert RM {Robert M. Carmack}}
+	author	       {Carmack Robert RM {Carmack, Robert M.}}
 	title	       {El Mensajero}
 	journal	       {El Mensajero}
 	volume	       {1}
@@ -110,15 +110,14 @@ test {http://www.anthrosource.net/doi/pdfplus/10.1525/em.1972.1.1.1} {
 	end_page       12
 	year	       1972
 	type	       JOUR
-	url	       http://www.anthrosource.net/doi/abs/10.1525/em.1972.1.1.1
-	eprint	       http://www.anthrosource.net/doi/pdf/10.1525/em.1972.1.1.1
+	url	           http://www.anthrosource.net/loi/em
 	status	       ok
 }
 
 test {http://www.anthrosource.net/doi/abs/10.1525/can.2005.20.2.185} {
 	formatted_url  {DOI http://dx.doi.org/10.1525/can.2005.20.2.185}
 	linkout	       {DOI {} 10.1525/can.2005.20.2.185 {} {}}
-	author	       {Kelty Christopher C {Christopher Kelty}}
+	author	       {Kelty Christopher C {Kelty, Christopher}}
 	title	       {Geeks, Social Imaginaries, and Recursive Publics}
 	journal	       {Cultural Anthropology}
 	volume	       {20}
@@ -127,15 +126,16 @@ test {http://www.anthrosource.net/doi/abs/10.1525/can.2005.20.2.185} {
 	end_page       {214}
 	year	       {2005}
 	type	       {JOUR}
-	url	       {http://www.anthrosource.net/doi/abs/10.1525/can.2005.20.2.185}
-	eprint	       {http://www.anthrosource.net/doi/pdf/10.1525/can.2005.20.2.185}
-	status		ok
+	url	           http://www.anthrosource.net/loi/can
+	abstract       {This article investigates the social, technical, and legal affiliations among "geeks" (hackers, lawyers, activists, and IT entrepreneurs) on the Internet. The mode of association specific to this group is that of a "recursive public sphere" constituted by a shared imaginary of the technical and legal conditions of possibility for their own association. On the basis of fieldwork conducted in the United States, Europe, and India, I argue that geeks imagine their social existence and relations as much through technical practices (hacking, networking, and code writing) as through discursive argument (rights, identities, and relations). In addition, they consider a "right to tinker" a form of free speech that takes the form of creating, implementing, modifying, or using specific kinds of software (especially Free Software) rather than verbal discourse.}
+	status		   ok
 }
 
 test {http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.461} {
 	formatted_url   {DOI http://dx.doi.org/10.1525/ae.2004.31.4.461}
 	linkout		{DOI {} 10.1525/ae.2004.31.4.461 {} {}}
-	author		{Feld,Steven and Brenneis,Donald}
+	author      {Feld Steven S {Feld, Steven}}
+	author      {Brenneis Donald D {Brenneis, Donald}}
 	title		{Doing anthropology in sound}
 	journal		{American Ethnologist}
 	type		{JOUR}
@@ -144,7 +144,7 @@ test {http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.461} {
 	start_page	{461}
 	end_page	{474}
 	year		{2004}
-	url		{http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.461}
-	eprint		{http://www.anthrosource.net/doi/pdf/10.1525/ae.2004.31.4.461}
-	status  ok
+	url		    http://www.anthrosource.net/loi/ae
+	abstract    {Sound has come to have a particular resonance in many disciplines over the past decade. Social theorists, historians, literary researchers, folklorists, and scholars in science and technology studies and visual, performative, and cultural studies provide a range of substantively rich accounts and epistemologically provocative models for how researchers can take sound seriously. This conversation explores general outlines of an anthropology of sound. Its main focus, however, is on the issues involved in using sound as a primary medium for ethnographic research.}
+	status      ok
 }
