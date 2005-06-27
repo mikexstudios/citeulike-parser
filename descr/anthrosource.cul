@@ -1,0 +1,150 @@
+#
+# Copyright (c) 2005 Christopher Kelty
+# All rights reserved.
+#
+
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+	# The name of the plugin, as displayed on the "CiteULike  supports..." page
+	name {Anthrosource}
+	# The link the front page of this service
+	url {www.anthrosource.net}
+	# Author Name
+	author {Christopher Kelty}
+	# Author email
+	email {info@kelty.org}
+	# Parser language
+	language {perl}
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the
+	# number of false positives by making your regexp as restrictive as
+	# possible. If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a  chance
+	# to refine this decision in your code. For now, try to make a
+	# reasonable approximation - like, check for URLs on the right hostname
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+
+	regexp {http://www.anthrosource.net/doi/(abs|pdf|pdfplus)/10.1525/(.*)}
+
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the
+# dynamically.
+# Each plugin is required to define a small procedure which does this
+# formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout ANTH {
+
+	return [list "Anthrosource" 
+			"http://www.anthrosource.net/doi/pdf/${ckey_1}"
+		   ]																 }
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break
+# whenever the provider decides to redisign their site. CiteULike
+# willperiodically run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+
+test {http://www.anthrosource.net/doi/pdfplus/10.1525/em.1972.1.1.1} {
+	formatted_url  {DOI http://dx.doi.org/10.1525/em.1972.1.1.1}
+	linkout        {DOI {} 10.1525/em.1972.1.1.1 {} {}}
+	author	       {Carmack Robert RM {Robert M. Carmack}}
+	title	       {El Mensajero}
+	journal	       {El Mensajero}
+	volume	       {1}
+	issue	       1
+	start_page     1
+	end_page       12
+	year	       1972
+	type	       JOUR
+	url	       http://www.anthrosource.net/doi/abs/10.1525/em.1972.1.1.1
+	eprint	       http://www.anthrosource.net/doi/pdf/10.1525/em.1972.1.1.1
+	status	       ok
+}
+
+test {http://www.anthrosource.net/doi/abs/10.1525/can.2005.20.2.185} {
+	formatted_url  {DOI http://dx.doi.org/10.1525/can.2005.20.2.185}
+	linkout	       {DOI {} 10.1525/can.2005.20.2.185 {} {}}
+	author	       {Kelty Christopher C {Christopher Kelty}}
+	title	       {Geeks, Social Imaginaries, and Recursive Publics}
+	journal	       {Cultural Anthropology}
+	volume	       {20}
+	issue	       {2}
+	start_page     {185}
+	end_page       {214}
+	year	       {2005}
+	type	       {JOUR}
+	url	       {http://www.anthrosource.net/doi/abs/10.1525/can.2005.20.2.185}
+	eprint	       {http://www.anthrosource.net/doi/pdf/10.1525/can.2005.20.2.185}
+	status		ok
+}
+
+test {http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.461} {
+	formatted_url   {DOI http://dx.doi.org/10.1525/ae.2004.31.4.461}
+	linkout		{DOI {} 10.1525/ae.2004.31.4.461 {} {}}
+	author		{Feld,Steven and Brenneis,Donald}
+	title		{Doing anthropology in sound}
+	journal		{American Ethnologist}
+	type		{JOUR}
+	volume		{31}
+	issue		{4}
+	start_page	{461}
+	end_page	{474}
+	year		{2004}
+	url		{http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.461}
+	eprint		{http://www.anthrosource.net/doi/pdf/10.1525/ae.2004.31.4.461}
+	status  ok
+}
