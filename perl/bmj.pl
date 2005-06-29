@@ -67,12 +67,12 @@ print "begin_tsv\n";
 
 if ($url =~ m{([^/]+).bmjjournals.com/cgi/content/([^/]+)/([0-9]+)/([0-9]+)/([0-9a-zA-Z-]+)})	 {
 	($journal,$page_type,$vol,$num,$startpage)=($1,$2,$3,$4,$5);
+	# NB: page_type isnt used. AFAIK this can either be full,abstract or abridged
 } else {
 	print "status\terr\tThis page does not appear to be a BMJ article\n";
 	exit;
 }
 print "linkout\tBMJJ\t$vol\t$num\t$startpage\t$journal\n";
-$pdf = "http://${journal}.bmjjournals.com/cgi/reprint/${vol}/${num}/${startpage}";
 
 # lets grab the source of the shortest page - want to be quick.. 
 $res = $ua->get("http://${journal}.bmjjournals.com/cgi/content/abstract/${vol}/${num}/${startpage}") || (print "status\terr\tCouldn't fetch the src details from the BMJ web site.\n" and exit);
@@ -86,15 +86,30 @@ if ($src =~ m/Access to this site from IP address/) {
 
 # We can extract a DOI if we're cunning, so that'll give us another linkout
 if ($src =~ m{doi:10.1136/([A-Za-z0-9.-]+)}) {
-#	print "linkout\tDOI\t\tdoi:10.1136/$1\t\t\n";
 	print "linkout\tDOI\t\t10.1136/$1\t\t\n";
 }
+# we can be really cool and get the pub/hubmed links too since bmj often have the access number in the page
+# the access_num we want is numeric followed by a ampersand - not the ISI WOS one that is also in the source
+#  e.g. /cgi/external_ref?access_num=15817527&
+if ($src =~ m{access_num=([0-9]+)&link_type=PUBMED}) {
+	print "linkout\tPMID\t$1\t\t\t\n";
+}
+
 print "end_tsv\n";
 
 # TWO methods for BMJ - RIS or Bibtex
 # Grab the RIS file
+
+# because some highwire sites have odd citation links that arent the same as the journal name we have to scrape the proper key for their ris feeder
+if ($src =~ m{gca=([A-Za-z0-9./;]+)"}) {
+	$riskey = $1;
+} else {
+	$riskey = "${journal};${vol}/${num}/${startpage}";
+}
+	
 if ($method=='ris') {
-	$res = $ua->get("http://${journal}.bmjjournals.com/cgi/citmgr_procite?gca=${journal};${vol}/${num}/${startpage}") || (print "status\terr\tCouldn't fetch the ris details from the BMJ web site.\n" and exit);
+		
+	$res = $ua->get("http://${journal}.bmjjournals.com/cgi/citmgr_procite?gca=${riskey}") || (print "status\terr\tCouldn't fetch the ris details from the BMJ web site.\n" and exit);
 	$ris = $res->content;
 	print "begin_ris\n";
 	print $ris;
