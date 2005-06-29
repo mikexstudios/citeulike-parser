@@ -130,6 +130,7 @@ test {http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2004PhRvD..70f4030
 	journal {Phys. Rev. D}
 	cite 2004PhRvD..70f4030O
 	type JOUR
+	doi  10.1103/PhysRevD.70.064030
 	abstract {We study brane cosmology as 4D (four-dimensional) domain-wall dynamics
 in 5D bulk spacetime. For a generic 5D bulk with 3D maximal symmetry, we
 derive the equation of motion of a domain wall and find that it depends
