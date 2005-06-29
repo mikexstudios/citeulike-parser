@@ -1,0 +1,238 @@
+#
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#    Michael Miller <citeulike@michmill.com>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {AIP Scitation}
+
+	# The link the front page of this service
+	url {http://scitation.aip.org}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Michael Miller}
+
+	# Your email address
+	email {citeulike@michmill.com}
+
+	# Language you wrote the plugin in
+	language {tcl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	regexp {aip.org/(getabs|vsearch)}
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout AIP {
+	return [list "Scitation (AIP)" \
+				"http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=${ckey_1}&idtype=cvips&gifs=yes" ]
+}
+format_linkout APS {
+	return [list "APS Permanent Link" \
+				"http://link.aps.org/abstract/${ckey_1}/v${ikey_1}/${ckey_2}" ]
+}
+format_linkout AIPP {
+	#format: Note--The AIP Resolver is buggy--some of these may cop out but it's not my fault
+	return [list "Scitation (AIP) (Permanent Link)" \
+				"http://link.aip.org/link/\?${ckey_1}/${ikey_1}/${ckey_2}" ]
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://scitation.aip.org/vsearch/servlet/VerityServlet%3fKEY=ALL&smode=strresults&maxdisp=10&possible1=network+evolution&possible1zone=article&OUTLOG=NO&viewabs=PLEEE8&key=DISPLAY&docID=9&page=0&chapter=0} {
+	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PLEEE8000052000005005610000001&idtype=cvips&gifs=yes}
+	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRE/v52/p5}
+	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRE/v52/p5}
+	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevE.52.5610}
+	keywords {RIVERS; NETWORK ANALYSIS; DRAINAGE; EROSION; MATHEMATICAL MODELS; TIMING PROPERTIES; COMPUTERIZED SIMULATION}
+	volume {52}
+	linkout {AIP {} PLEEE8000052000005005610000001 {} {}}
+	linkout {APS 52 PRE {} p5}
+	linkout {}
+	linkout {DOI {} 10.1103/PhysRevE.52.5610 {} {}}
+	year 1995
+	start_page 5610
+	type JOUR
+	url {http://link.aps.org/abstract/PRE/v52/p5610}
+	end_page 5620
+	doi {10.1103/PhysRevE.52.5610}
+	publisher {APS}
+	issue 5
+	title {Simple model for river network evolution}
+	journal {Physical Review E (Statistical Physics, Plasmas, Fluids, and Related Interdisciplinary Topics)}
+	cite {leheny:5610}
+	author {Leheny Robert RL {Robert L. Leheny}}
+	abstract {We simulate the evolution of a drainage basin by erosion from precipitation and avalanching on hillslopes. The avalanches create a competition in growth between neighboring basins and play the central role in driving the evolution. The simulated landscapes form drainage systems that share many qualitative features with Glock's model for natural network evolution and maintain statistical properties that characterize real river networks. We also present results from a second model with a modified, mass conserving avalanche scheme. Although the terrains from these two models are qualitatively dissimilar, their drainage networks share the same general evolution and statistical features.}
+	status ok
+}
+
+
+
+test {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes} {
+	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes}
+	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e1}
+	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e1}
+	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevD.71.103508}
+	keywords {cosmology; superstrings; membrane theory}
+	pages 103508
+	volume 71
+	linkout {AIP {} PRVDAQ000071000010103508000001 {} {}}
+	linkout {APS 71 PRD {} e1}
+	linkout {}
+	linkout {DOI {} 10.1103/PhysRevD.71.103508 {} {}}
+	year 2005
+	type JOUR
+	url {http://link.aps.org/abstract/PRD/v71/e103508}
+	doi {10.1103/PhysRevD.71.103508}
+	publisher {APS}
+	issue 10
+	title {Scaling of multitension cosmic superstring networks}
+	eid 103508
+	journal {Physical Review D (Particles, Fields, Gravitation, and Cosmology)}
+	abstract {Brane inflation in superstring theory ends when branes collide, initiating the hot big bang. Cosmic superstrings are produced during the brane collision. The cosmic superstrings produced in a D3-brane-antibrane inflationary scenario have a spectrum: (p,q) bound states of p fundamental (F) strings and q D-strings, where p and q are coprime. By extending the velocity-dependent one-scale network evolution equations for Abelian Higgs cosmic strings to allow a spectrum of string tensions, we construct a coupled (infinite) set of equations for strings that interact through binding and self-interactions. We apply this model to a network of (p,q) superstrings. Our numerical solutions show that (p,q) networks rapidly approach a stable scaling solution. We also extract the relative densities of each string type from our solutions. Typically, only a small number of the lowest tension states are populated substantially once scaling is reached. The model we study also has an interesting new feature: the energy released in (p,q) string binding is by itself adequate to allow the network to reach scaling. This result suggests that the scaling solution is robust. To demonstrate that this result is not trivial, we show that choosing a different form for string interactions can lead to network frustration.}
+	cite {tye:103508}
+	author {Tye Henry HSH {S. H. Henry Tye}} 
+	author {Wasserman Ira I {Ira Wasserman}} 
+	author {Wyman Mark M {Mark Wyman}}
+	status ok
+}
+
+test {http://spiedl.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME5000014000002029901000001&idtype=cvips&gifs=Yes&ver=dl} {
+	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME5000014000002029901000001&idtype=cvips&gifs=yes}
+	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?JEI/14/029901}
+	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?JEI/14/029901}
+	formatted_url {DOI http://dx.doi.org/10.1117/1.1905634}
+	keywords  {vectors; mathematical operators; Fourier analysis; Fourier transforms; spectral analysis; wavelet transforms; group theory; image processing; diffraction; photons; stochastic processes; estimation theory; inverse problems; single photon emission computed tomography; speckle}
+	pages  029901
+	volume  14
+	linkout {AIP {} JEIME5000014000002029901000001 {} {}}
+	linkout {AIPP 14 JEI {} 029901}
+	linkout {}
+	linkout {DOI {} 10.1117/1.1905634 {} {}}
+	year  2005
+	type  JOUR
+	url  {http://link.aip.org/link/?JEI/14/029901/1}
+	doi  {10.1117/1.1905634}
+	publisher  {SPIE}
+	issue  2
+	title  {Foundations of Image Science}
+	eid  {029901}
+	journal  {Journal of Electronic Imaging}
+	cite  {barrett:029901}
+	author {Barrett Harrison HH {Harrison H. Barrett}} 
+	author {Myers Kyle KJ {Kyle J. Myers}}
+	author {Dhurjaty Sreeram S {Sreeram Dhurjaty}}
+	status ok
+
+}
+
+test {http://spiedl.aip.org/vsearch/servlet/VerityServlet?KEY=SPIEDL&smode=strresults&sort=rel&maxdisp=25&threshold=0&pjournals=SPIEDL&possible1=network&possible1zone=article&SMODE=strsearch&OUTLOG=NO&deliveryType=spiedl&viewabs=PSISDG&key=DISPLAY&docID=1&page=0&chapter=0} {
+	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PSISDG004583000001000139000001&idtype=cvips&gifs=yes}
+	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?PSI/4583/139}
+	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?PSI/4583/139}
+	formatted_url {DOI http://dx.doi.org/10.1117/12.445121}
+	volume  4583
+	linkout {AIP {} PSISDG004583000001000139000001 {} {}}
+	linkout {AIPP 4583 PSI {} 139}
+	linkout {}
+	linkout {DOI {} 10.1117/12.445121 {} {}}
+	year  2001
+	start_page  139
+	type  INCONF
+	end_page  148
+	url  {http://link.aip.org/link/?PSI/4583/139/1}
+	doi  {10.1117/12.445121}
+	publisher  {SPIE}
+	issue  1
+	editor  {Gu Wanyi W {Wanyi Gu}}
+	editor {Zhou Jianhui J {Jianhui Zhou}}
+	editor {Pan Jin JY {Jin Yi Pan}}
+	title  {Planning and deployment of DWDM systems: a reality}
+	journal  {Metro and Access Networks}
+	abstract {The new definition and implementation of new communication network architectures and elements in the present data-centric world are due to dramatic change in technology, explosive growth in bandwidth requirement and de-regulated, privatized and competitive telecommunication market. Network Convergence, Disruptive Technology and Convulsive Market are the basic forces who are pushing the future network towards Packet based Optical Core Network and varieties of Access Network along with integrated NMS. Well-known Moore's law governs the result of progress in silicon processing and accordingly the present capacity of network must be multiplied by 100 times in 10 years. To build a global network which is 100 times powerful than present one by scaling up today's technology can not be a practical solution due to requirement of 100 fold increase in cost, power and size. Today's two network (Low delay, fixed bandwidth, Poisson voice traffic based, circuit-switched PSTN/PLMN and variable delay, variable bandwidth, no-guaranteed QoS based packet switched internet) are converging towards two-layer network (IP and ATM in lower layer; DWDM in network layer). SDH Network which was well drafted before explosive data traffic and was best suitable for Interoperability, Survivability, Reliability and Manageability will be taken over by DWDM Network by 2005 due to 90% of data traffic. This paper describes the way to build the Communication Network (either by migration or by overlay) with an overview of the equipment and technologies required to design the DWDM Network. Service Providers are facing tough challenges for selection of emerging technologies and advances in network standard for bandwidth hungry, valued customers. The reduction of cost of services due to increased competition , explosive growth of internet and 10GbE Ethernet (which is being considered as an end-to-end network solution) have given surprise to many network architects and designers. To provide transparency to data-rate and data-format the gap between electrical layer and Optical backbone layer has to be filled. By partitioning the Optical Bandwidth of Optical Fibre Cable into the wavelengths (32 to 120) Wavelength Division Multiplexing can transport data rate from 10MB/s to 10GB/s on each wavelength. In this paper we will analyze the difficult strategies of suppliers and obstacles in the way of service providers to make DWDM a reality in the field either as Upgrade or Overlay or New Network. The difficult constraint of protection scheme with respect to compatibility with existing network and network under development has to sorted out along with present standard of Optical Fibre to carry DWDM signal in cost effective way to Access , Edge and Metro part of our network. The future of IP under DWDM is going to be key element for Network Planners in future. Fundamental limitation of bit manipulation in Photonic domain will have implication on the network design, cost and migration to all optical network because Photons are computer un-friendly and not mature enough to give memory and logic devices. In the environment of heterogeneous traffic the DWDM based All Optical Network should behave as per expectation of users whose primary traffic will be multi-media IP type. The quality of service (QoS), Virtual Path Network (VPN) over DWDM, OXC and intelligence at the edge will play a major role in future deployment of DWDM in our network . The development of improved fiber characteristics, EDFAs and Photonic component has led the carriers to go for Dense WDM Network.}
+	cite {mishra:139}
+	author {Mishra Data DS {Data S. Mishra}}
+	status ok
+}
+
