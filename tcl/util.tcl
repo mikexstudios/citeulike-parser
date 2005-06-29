@@ -50,6 +50,15 @@ if {[info exists env(http_proxy_port)] && $::env(http_proxy_port)!=""} {
 	http::config -proxyport $::env(http_proxy_port)
 }
 
+# This method contains a kid's version of a cookie jar.
+# A "starter cookie jar", if you will. It will store cookies
+# from previous responses and send them back again. The reason
+# it's not a full implementation is that it completely ignores
+# the hostname, and will send all cookies to all sites.
+#
+# This isn't a problem here, as we exec() a new process each
+# time, and we're generally only sending requests to one
+# publishers's site. One to keep an eye on though.
 proc url_get {url} {
 
 	set url [string trim $url]
@@ -59,9 +68,33 @@ proc url_get {url} {
 	set count 0
 	while {$getting==1} {
 
-		set token [http::geturl $url]
+		# We'll pass in whatever cookies we know about
+		set cookie_list {}
+		foreach {k v} [array get ::COOKIES] {
+			lappend cookie_list $v
+		}
+		if {[llength $cookie_list]>0} {
+			set headers [list Cookie [join $cookie_list {;}]]
+		} else {
+			set headers {}
+		}
+		
+		# Do it.
+		set token [http::geturl $url -headers $headers]
 		upvar #0 $token state
 		
+		# Set whatever cookies get returned into our hi-tech
+		# global variable storage system.
+		foreach {name value} $state(meta) {
+			if {$name=="Set-Cookie"} {
+				set cookie_set [lindex [split $value {;}] 0]
+				# Blatantly ignoring expires. host, path, etc
+				if {[regexp {^[^=]+=(.*)$} $cookie_set -> cookie_key cookie_val]} {
+					set ::COOKIES($cookie_key) $cookie_set
+				}
+			}
+		}
+				
 		set code [lindex $state(http) 1]
 		if {$code==302 || $code==301} {
 			array set meta $state(meta)
