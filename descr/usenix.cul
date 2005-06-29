@@ -113,7 +113,7 @@ format_linkout USENX {
 # you add the offending page as a test case.
 
 test {http://www.usenix.org/events/osdi04/tech/renesse.html} {
-	formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi04/tech/renesse.html}
+    formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi04/tech/renesse.html}
     formatted_url {{USENIX (library proceedings)} http://www.usenix.org/publications/library/proceedings/osdi04/tech/renesse.html}
     author {{van Renesse} Robbert R {Robbert van Renesse}}												
     author {Schneider Fred FB {Fred B. Schneider}}
@@ -122,12 +122,13 @@ test {http://www.usenix.org/events/osdi04/tech/renesse.html} {
     end_page 104
     title {Chain Replication for Supporting High Throughput and Availability}
     journal {OSDI '04}
+    abstract {Chain replication is a new approach to coordinating clusters of fail- stop storage servers. The approach is intended for supporting large- scale storage services that exhibit high throughput and availability without sacrificing strong consistency guarantees. Besides outlining the chain replication protocols themselves, simulation experiments explore the performance characteristics of a prototype implementation. Throughput, availability, and several object-placement strategies (including schemes based on distributed hash table routing) are discussed.      <P>}
     type INCONF
     status ok
 }
 
 test {http://www.usenix.org/events/osdi04/tech/swift.html} {
-	formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi04/tech/swift.html}
+    formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi04/tech/swift.html}
     formatted_url {{USENIX (library proceedings)} http://www.usenix.org/publications/library/proceedings/osdi04/tech/swift.html}
     author {Swift Michael MM {Michael M. Swift}}
     author {Annamalai Muthukaruppan M {Muthukaruppan Annamalai}}
@@ -138,24 +139,21 @@ test {http://www.usenix.org/events/osdi04/tech/swift.html} {
     end_page 16
     title {Recovering Device Drivers}
     journal {OSDI '04}
+    abstract {This paper presents a new mechanism that enables applications to run correctly when device drivers fail. Because device drivers are the principal failing component in most systems, reducing driver-induced failures greatly improves overall reliability. Earlier work has shown that an operating system can survive driver failures&nbsp;[<a href="#swift04" name="CITEswift04">33</a>], but the applications that depend on them cannot. Thus, while operating system reliability was greatly improved, application reliability generally was not.  <P> To remedy this situation, we introduce a new operating system mechanism called a <em>shadow driver</em>. A shadow driver monitors device drivers and transparently recovers from driver failures. Moreover, it assumes the role of the failed driver during recovery. In this way, applications using the failed driver, as well as the kernel itself, continue to function as expected.  <P> We implemented shadow drivers for the Linux operating system and tested them on over a dozen device drivers. Our results show that applications and the OS can indeed survive the failure of a variety of device drivers. Moreover, shadow drivers impose minimal performance overhead.  Lastly, they can be introduced with only modest changes to the OS kernel and with no changes at all to existing device drivers.     <P>}
     type INCONF
     status ok
 }
 
-test {http://www.usenix.org/events/osdi02/tech/vahdat.html} {
-        formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi02/tech/vahdat.html}
-    formatted_url {{USENIX (library proceedings)} http://www.usenix.org/publications/library/proceedings/osdi02/tech/vahdat.html}
-    author {Vahdat Amin A {Amin Vahdat}}
-    author {Yocum Ken K {Ken Yocum}}
-    author {Walsh Kevin K {Kevin Walsh}}
-    author {Mahadevan Priya P {Priya Mahadevan}}
-    author {Kostic Dejan D {Dejan Kostic}}
-    author {Chase Jeff J {Jeff Chase}}
-    author {Becker David D {David Becker}}
-    linkout {USENX {} osdi02 {} vahdat}
-    title {Scalability and Accuracy in a Large-Scale Network Emulator}
+test {http://www.usenix.org/events/osdi02/tech/madden.html} {
+    formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi02/tech/madden.html}
+    formatted_url {{USENIX (library proceedings)} http://www.usenix.org/publications/library/proceedings/osdi02/tech/madden.html}
+    abstract {We present the Tiny AGgregation (TAG) service for aggregation in low- power, distributed, wireless environments. TAG allows users to express simple, declarative queries and have them distributed and executed efficiently in networks of low-power, wireless sensors. We discuss various generic properties of aggregates, and show how those properties affect the performance of our in network approach. We include a performance study demonstrating the advantages of our approach over traditional centralized, out-of-network methods, and discuss a variety of optimizations for improving the performance and fault-tolerance of the basic solution.}
+    linkout {USENX {} osdi02 {} madden}
+    author {Madden Samuel S {Samuel Madden}} 
+    author {Franklin Michael MJ {Michael J. Franklin}} 
+    author {Joseph {} {} {Joseph M. Hellerstein, <i>University of California, Berkeley</i>; Wei Hong}}
+    title {TAG: A Tiny AGgregation Service for Ad-Hoc Sensor Networks}
     journal {OSDI '02}
     type INCONF
     status ok
 }
-
