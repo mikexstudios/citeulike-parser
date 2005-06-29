@@ -107,8 +107,10 @@ namespace eval author {
 
 		# Cameron, Richard D
 		if {[regexp\
-				 [subst {^($SURNAME),(?:(?: $TITLE_JUNK)| )($NAME_2)( $INITIALS_4)?}]\
-				 $raw -> ret(last_name) ret(first_name) ret(initials)]} { return [array get ret] }
+				 [subst {^($SURNAME), ?($NAME_2)( \[A-Z\]+)?}]\
+				 $raw -> ret(last_name) ret(first_name) ret(initials)]} { 
+			return [array get ret]
+		}
 		
 
 		# R.D. Cameron
@@ -144,16 +146,15 @@ namespace eval author {
 				 $raw -> ret(initials) ret(first_name) ret(last_name)]} { return [array get ret] }
 		
 
-		# Smithers, D Waylon
+		# Deborah Gladstein Ancona
 		if {[regexp\
 				 [subst {^($NAME_2) ($NAME_2) ($SURNAME) $}]\
 				 $raw -> ret(first_name) middle_name ret(last_name)]} {
 			set ret(initials) [string range $middle_name 0 0]
 			return [array get ret] 
 		}
-
-
-		# Deborah Gladstein Ancona
+   	
+		# Smithers, D Waylon
 		if {[regexp\
 				 [subst {^($SURNAME), ($INITIALS_4)($NAME_2) $}]\
 				 $raw -> ret(last_name) ret(initials) ret(first_name)]} { return [array get ret] }
@@ -225,6 +226,7 @@ namespace eval author {
 		
  	proc parse_test_cases {} {
  		return [list \
+ 					{"Edozien" "Leroy" "LC" "Edozien, Leroy C"}\
  					{"Chaitin" "" "GJ" "G. J. Chaitin"} \
  					{"Chaitin" "" "GJ" "G. J. Chaitin	 "}\
  					{"Chaitin" "" "GJ" "    G. J. Chaitin"}\

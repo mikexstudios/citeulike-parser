@@ -146,7 +146,7 @@ test {http://www.nature.com/nature/journal/v433/n7024/abs/nature03261.html} {
 	serial 0028-0836
 	doi 10.1038/nature03261
 	url {http://dx.doi.org/10.1038/nature03261}
-	author {Lee Ho H {Lee, Ho Nyung}}
+	author {Lee Ho HN {Lee, Ho Nyung}}
 	author {Christen Hans HM {Christen, Hans M.}}
 	author {Chisholm Matthew MF {Chisholm, Matthew F.}}
 	author {Rouleau Christopher CM {Rouleau, Christopher M.}} 
@@ -192,7 +192,7 @@ test {http://www.nature.com/nchembio/journal/v1/n2/pdf/nchembio0705-69.pdf} {
 	issue 2
 	title {A photochemical snapshot of CD22 binding}
 	journal {Nat Chem Biol}
-	author {Yarema Kevin K {Yarema, Kevin J}}
+	author {Yarema Kevin KJ {Yarema, Kevin J}}
 	author {Sun Zhonghui Z {Sun, Zhonghui}}
 	month 7
 	status ok
