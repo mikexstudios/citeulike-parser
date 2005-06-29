@@ -338,7 +338,7 @@ namespace eval driver {
 
 
 			if {[info exists ret(editor)]} {
-				foreach editor $ret(editors) {
+				foreach editor $ret(editor) {
 					lappend ret(editors) [::author::parse_author $editor]
 				}
 				unset ret(editor)
