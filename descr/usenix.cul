@@ -76,7 +76,8 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {^http://www\.usenix\.org/(events/|publications/library/proceedings/)([^/]+/)tech/+([a-z]+\.html)$}
+    # regexp {^http://www\.usenix\.org/(events/|publications/library/proceedings/)([^/]+/)tech/+([a-z]+\.html)$}
+	regexp {^http://www\.usenix\.org/(events/|publications/library/proceedings/)([^/]+/)*([a-z]+\.html)$}
 }
 
 #
@@ -93,10 +94,11 @@ plugin {
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
 format_linkout USENX {
-	return [list "USENIX (tech session)" \
-				"http://www.usenix.org/events/${ckey_1}/tech/${ckey_2}.html" \
-				"USENIX (library proceedings)" \
-				"http://www.usenix.org/publications/library/proceedings/${ckey_1}/tech/${ckey_2}.html"]
+    #return [list "USENIX (tech session)" \
+                #"http://www.usenix.org/events/${ckey_1}/tech/${ckey_2}.html" \
+                #"USENIX (library proceedings)" \
+                #"http://www.usenix.org/publications/library/proceedings/${ckey_1}/tech/${ckey_2}.html"]
+    return [list "USENIX" "${ckey_1}"]
 }
 
 #
@@ -113,11 +115,10 @@ format_linkout USENX {
 # you add the offending page as a test case.
 
 test {http://www.usenix.org/events/osdi04/tech/renesse.html} {
-    formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi04/tech/renesse.html}
-    formatted_url {{USENIX (library proceedings)} http://www.usenix.org/publications/library/proceedings/osdi04/tech/renesse.html}
+    formatted_url {USENIX http://www.usenix.org/events/osdi04/tech/renesse.html}
     author {{van Renesse} Robbert R {Robbert van Renesse}}												
     author {Schneider Fred FB {Fred B. Schneider}}
-    linkout {USENX {} osdi04 {} renesse}
+    linkout {USENX {} http://www.usenix.org/events/osdi04/tech/renesse.html {} {}}
     start_page 91
     end_page 104
     title {Chain Replication for Supporting High Throughput and Availability}
@@ -128,13 +129,12 @@ test {http://www.usenix.org/events/osdi04/tech/renesse.html} {
 }
 
 test {http://www.usenix.org/events/osdi04/tech/swift.html} {
-    formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi04/tech/swift.html}
-    formatted_url {{USENIX (library proceedings)} http://www.usenix.org/publications/library/proceedings/osdi04/tech/swift.html}
+    formatted_url {USENIX http://www.usenix.org/events/osdi04/tech/swift.html}
     author {Swift Michael MM {Michael M. Swift}}
     author {Annamalai Muthukaruppan M {Muthukaruppan Annamalai}}
     author {Bershad Brian BN {Brian N. Bershad}}
     author {Levy Henry HM {Henry M. Levy}}
-    linkout {USENX {} osdi04 {} swift}
+    linkout {USENX {} http://www.usenix.org/events/osdi04/tech/swift.html {} {}}
     start_page 1
     end_page 16
     title {Recovering Device Drivers}
@@ -145,15 +145,49 @@ test {http://www.usenix.org/events/osdi04/tech/swift.html} {
 }
 
 test {http://www.usenix.org/events/osdi02/tech/madden.html} {
-    formatted_url {{USENIX (tech session)} http://www.usenix.org/events/osdi02/tech/madden.html}
-    formatted_url {{USENIX (library proceedings)} http://www.usenix.org/publications/library/proceedings/osdi02/tech/madden.html}
+    formatted_url {USENIX http://www.usenix.org/events/osdi02/tech/madden.html}
     abstract {We present the Tiny AGgregation (TAG) service for aggregation in low- power, distributed, wireless environments. TAG allows users to express simple, declarative queries and have them distributed and executed efficiently in networks of low-power, wireless sensors. We discuss various generic properties of aggregates, and show how those properties affect the performance of our in network approach. We include a performance study demonstrating the advantages of our approach over traditional centralized, out-of-network methods, and discuss a variety of optimizations for improving the performance and fault-tolerance of the basic solution.}
-    linkout {USENX {} osdi02 {} madden}
+    linkout {USENX {} http://www.usenix.org/events/osdi02/tech/madden.html {} {}}
     author {Madden Samuel S {Samuel Madden}} 
     author {Franklin Michael MJ {Michael J. Franklin}} 
     author {Joseph {} {} {Joseph M. Hellerstein, <i>University of California, Berkeley</i>; Wei Hong}}
     title {TAG: A Tiny AGgregation Service for Ad-Hoc Sensor Networks}
     journal {OSDI '02}
+    type INCONF
+    status ok
+}
+
+test {http://www.usenix.org/publications/library/proceedings/sec98/paxson.html} {
+    formatted_url {USENIX http://www.usenix.org/publications/library/proceedings/sec98/paxson.html}
+    abstract {We describe Bro, a stand-alone system for detecting network intruders in real-time by passively monitoring a network link over which the intruder's traffic transits.  We give an overview of the system's design, which emphasizes high-speed (FDDI-rate) monitoring, real-time notification, clear separation between mechanism and policy, and extensibility. To achieve these ends, Bro is divided into an ``event engine'' that reduces a kernel-filtered network traffic stream into a series of higher-level events, and a ``policy script interpreter'' that interprets event handlers written in a specialized language used to express a site's security policy.  Event handlers can update state information, synthesize new events, record information to disk, and generate real-time notifications via <em>syslog</em>.  We also discuss a number of attacks that attempt to subvert passive monitoring systems and defenses against these, and give particulars of how Bro analyzes the four applications integrated into it so far: Finger, FTP, Portmapper and Telnet. The system is publicly available in source code form.}
+    linkout {USENX {} http://www.usenix.org/publications/library/proceedings/sec98/paxson.html {} {}}
+    type INCONF
+    title {Bro: A System for Detecting Network Intruders in Real-Time}
+    status ok
+}
+
+test {http://www.usenix.org/events/usenix04/tech/freenix/kreibich.html} {
+    formatted_url {USENIX http://www.usenix.org/events/usenix04/tech/freenix/kreibich.html}
+    abstract {We present the design and implementation of a framework for inspection, visualization, and modification of tcpdump packet trace files. The system is modularized into components for distinct application purposes, readily extensible, accessible through programmatic and graphical interfaces, and capable of handling trace files of arbitrary size and content. We include experiences of using the system in several real-world scenarios.}
+    linkout {USENX {} http://www.usenix.org/events/usenix04/tech/freenix/kreibich.html {} {}}
+    author {Kreibich Christian C {Christian Kreibich}}
+    title {Design and Implementation of Netdude, a Framework for Packet Trace Manipulation}
+    start_page 63
+    end_page 72
+    journal {USENIX 2004 Annual Technical Conference, FREENIX Track}
+    type INCONF
+    status ok
+}
+
+test {http://www.usenix.org/events/sec01/handley.html} {
+    formatted_url {USENIX http://www.usenix.org/events/sec01/handley.html}
+    abstract {A fundamental problem for network intrusion detection systems is the ability of a skilled attacker to evade detection by exploiting ambiguities in the traffic stream as seen by the monitor.  We discuss the viability of addressing this problem by introducing a new network forwarding element called a traffic normalizer.  The normalizer sits directly in the path of traffic into a site and patches up the packet stream to eliminate potential ambiguities before the traffic is seen by the monitor, removing evasion opportunities.  We examine a number of tradeoffs in designing a normalizer, emphasizing the important question of the degree to which normalizations undermine end-to-end protocol semantics. We discuss the key practical issues of ``cold start'' and attacks on the normalizer, and develop a methodology for systematically examining the ambiguities present in a protocol based on walking the protocol's header.  We then present norm, a publicly available user-level implementation of a normalizer that can normalize a TCP traffic stream at 100,000 pkts/sec in memory-to-memory copies, suggesting that a kernel implementation using PC hardware could keep pace with  a bidirectional 100 Mbps link with sufficient headroom to weather a  high-speed flooding attack of small packets.}
+    linkout {USENX {} http://www.usenix.org/events/sec01/handley.html {} {}}
+    author {Mark {} H {Mark H}}
+    author {Ley {} {} ley}
+    author {Paxson Vern V {Vern Paxson}}
+    title {Network Intrusion Detection: Evasion, Traffic Normalization, and End-to-End Protocol Semantics}
+    journal {Security '01}
     type INCONF
     status ok
 }

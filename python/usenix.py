@@ -41,16 +41,17 @@ import urllib2
 import textwrap
 
 url = sys.stdin.readline()
-keys = re.search("events/(\S*)/tech/(\S*).html", url)
-ckey_1 = keys.group(1)
-ckey_2 = keys.group(2)
+ckey_1 = url.strip()
+#keys = re.search("events/(([^/]+/)*)(\S*).html", url)
+#ckey_1 = keys.group(1)
+#ckey_2 = keys.group(2)
 print "begin_tsv"
-print "linkout\tUSENX\t\t%s\t\t%s" % (ckey_1, ckey_2)
+print "linkout\tUSENX\t\t%s\t\t" % (ckey_1)
 
 f = urllib2.urlopen(url)
 content = f.read()
 
-title_m  = re.search("<H2>(.*)\s*</H2>", content, re.IGNORECASE)
+title_m  = re.search("<H2>\s*(.*)\s*</H2>", content, re.IGNORECASE)
 if title_m != None:
     title = title_m.group(1)
     print "title\t%s" % title.strip()
@@ -65,6 +66,8 @@ if author_m != None:
             authors.append(tmp[1])
         else:
             authors = tmp
+    else:
+        authors = tmp
     for author in authors:
         print "author\t%s" % author.strip()
 
