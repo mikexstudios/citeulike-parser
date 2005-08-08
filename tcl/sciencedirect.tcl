@@ -63,25 +63,32 @@ set page [url_get [canon_url $url]]
 #
 set re "FONT-SIZE: xx-small; font-family:Verdana;\"><a href=\"http://dx.doi.org/(\[^\"\]+)\" target=\"doilink\" onClick=\"var doiWin;"
 if {[regexp $re $page match doi]} {
-	# Fetch a "fresh" copy of the page if we can
-	set doi_page [url_get "http://dx.doi.org/$doi"]
 
-	if {![regexp {cannot be found in the Handle System} $doi_page]} {
-		set page $doi_page
-		puts "linkout\tDOI\t\t$doi\t\t"
-	}
+	puts "linkout\tDOI\t\t$doi\t\t"
 
-	# And now there's an even more rediculous hop, which is sometimes SD asks us whether
-	# we want to get the article at sciencedirect or some other site. We'll need to follow that link too
-	if {[regexp {<a HREF=\"([^\"]+)\">\n			    							Article via\s*\n			    							ScienceDirect</a>} $page -> next_url]} {
-		# Idiots have urlencoded the link.
-		set next_url [string map [list "&amp;" "&"] $next_url]
-		set page [url_get $next_url]
+	# Only if the DOI points to elsevier..
+	if {[string first "10.1016/" $doi]==0} {
+		
+		# Fetch a "fresh" copy of the page if we can
+		set doi_page [url_get "http://dx.doi.org/$doi"]
+		
+		if {![regexp {cannot be found in the Handle System} $doi_page]} {
+			set page $doi_page
+		}
+		
+		# And now there's an even more rediculous hop, which is sometimes SD asks us whether
+		# we want to get the article at sciencedirect or some other site. We'll need to follow that link too
+		if {[regexp {<a HREF=\"([^\"]+)\">\n			    							Article via\s*\n			    							ScienceDirect</a>} $page -> next_url]} {
+			# Idiots have urlencoded the link.
+			set next_url [string map [list "&amp;" "&"] $next_url]
+			set page [url_get $next_url]
+		}
 	}
-}
+}	
 
 # Look for an export citation link
 if {![regexp "<a href=\"(\[^>\]*)\">Export Citation</a>" $page match export_url]} {
+	puts stderr $page
 	bail "Are you looking at the full text or the summary of the article you're trying to add? Is it possible you tried to post a page containing a list of search results? I can't recognise your page as a ScienceDirect article. Try again when you're looking at the full-text page. It's the one with the full details of the article and a link on the right hand side saying 'Export Citation'"
 }
 
