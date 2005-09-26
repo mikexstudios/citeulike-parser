@@ -75,7 +75,10 @@ set page [url_get $uk_url]
 # known to work, if a little messy.
 
 # AUTHORS
-regexp "<B>Authors:</B>.{0,5}((<a href=\"\[^\"\]+\">\[^<\]+</a>\[^<\]*)+)" $page match hauthors
+regexp "<B>Authors?:</B>.{0,5}((<a href=\"\[^\"\]+\">\[^<\]+</a>\[^<\]*)+)" $page match hauthors
+if {![info exists hauthors]} {
+    puts stderr "Page was $page"
+}
 foreach authorlink [split $hauthors "\n"] {
 	regexp "<a href=\"\[^\"\]+\">(\[^<\]+)</a>" $authorlink match name
 	puts "author\t$name"

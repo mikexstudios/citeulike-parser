@@ -139,3 +139,26 @@ voter model dynamics associated with the conservation law of the magnetization.}
 	day 4
 	status ok
 }
+
+test {http://arxiv.org/abs/cond-mat/9903025} {
+    formatted_url {{arXiv (abstract)} http://arxiv.org/abs/cond-mat/9903025}
+    formatted_url {{arXiv (PDF)} http://arxiv.org/pdf/cond-mat/9903025}
+    linkout {ARXIV {} cond-mat/9903025 {} {}}
+    title {Non-perturbative results for level correlations from the replica nonlinear sigma model}
+    author {Yurkevich Igor IV {Igor V. Yurkevich}}
+    author {Lerner Igor IV {Igor V. Lerner}}
+    abstract {We show that for all the three standard symmetry classes (unitary, orthogonal
+and symplectic), the conventional replica nonlinear sigma model gives the
+correct non-perturbative result for the two-level correlation functions
+R_2(\omega) of electrons in disordered metals in the limit of large \omega. In
+this limit, non-perturbative oscillatory contributions arise from a degenerate
+saddle-point manifold within this sigma model which corresponds to the
+replica-symmetry breaking. Moreover, we demonstrate that in the unitary case
+the very same results can be extracted from the well known exact integral
+representation for R_2(\omega).}
+    type ELEC
+    year 1999
+    month Mar
+    day 1
+    status ok
+}    
