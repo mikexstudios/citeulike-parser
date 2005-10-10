@@ -104,13 +104,16 @@ format_linkout BMJJ {
 	# Need to turn the following (example) fields into a URL:
 	#type=BMJ
 	#ikey_1=330
-	#ckey_1=7499
-	#ikey_2=1049
+	#ckey_1=7499,1049
+	#ikey_2=
 	#ckey_2=bmj
+	set l [split $ckey_1 ","]
+	set vol [lindex $l 0]
+	set page [lindex $l 1]
 	return [list "BMJ (PDF version)" \
-				"http://${ckey_2}.bmjjournals.com/cgi/content/reprint/${ikey_1}/${ckey_1}/${ikey_2}" \
+				"http://${ckey_2}.bmjjournals.com/cgi/content/reprint/${ikey_1}/${vol}/${page}" \
 				"BMJ (HTML version)"\
-				"http://${ckey_2}.bmjjournals.com/cgi/content/full/${ikey_1}/${ckey_1}/${ikey_2}"]
+				"http://${ckey_2}.bmjjournals.com/cgi/content/full/${ikey_1}/${vol}/${page}"]
 }
 
 
@@ -134,7 +137,7 @@ test {http://bmj.bmjjournals.com/cgi/content/abstract/330/7499/1049} {
 	formatted_url {DOI http://dx.doi.org/10.1136/bmj.38414.422650.8F}
 	formatted_url {Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=15817527}
 	formatted_url {Hubmed http://www.hubmed.org/display.cgi?uids=15817527}
-	linkout {BMJJ 330 7499 1049 bmj}
+	linkout {BMJJ 330 7499,1049 {} bmj}
 	linkout {DOI {} 10.1136/bmj.38414.422650.8F {} {}}
 	linkout {PMID 15817527 {} {} {}}
 	volume 330
@@ -159,7 +162,7 @@ test {http://bmj.bmjjournals.com/cgi/content/abstract/330/7499/1049} {
 
 # Test the thing when there's extra junk on the end of the URL (E.g: ?ehom)
 test {http://bmj.bmjjournals.com/cgi/content/abstract/330/7506/1457?ehom} {
-	linkout       {BMJJ 330 7506 1457 bmj}
+	linkout       {BMJJ 330 7506,1457 {} bmj}
 	linkout       {DOI {} 10.1136/bmj.330.7506.1457 {} {}}
 	linkout       {PMID 15976393 {} {} {}}
 	formatted_url {{BMJ (PDF version)} http://bmj.bmjjournals.com/cgi/content/reprint/330/7506/1457}
@@ -184,7 +187,7 @@ test {http://bmj.bmjjournals.com/cgi/content/abstract/330/7506/1457?ehom} {
 
 # Slightly non-standard page number
 test {http://bmj.bmjjournals.com/cgi/content/full/330/7506/0-g?ehom} {
-	linkout       {BMJJ 330 7506 0-g bmj}
+	linkout       {BMJJ 330 7506,0-g {} bmj}
 	linkout       {DOI {} 10.1136/bmj.330.7506.0-g {} {}}
 	formatted_url {{BMJ (PDF version)} http://bmj.bmjjournals.com/cgi/content/reprint/330/7506/0-g}
 	formatted_url {{BMJ (HTML version)} http://bmj.bmjjournals.com/cgi/content/full/330/7506/0-g}
@@ -205,7 +208,7 @@ test {http://bmj.bmjjournals.com/cgi/content/full/330/7506/0-g?ehom} {
 
 # From a search result, with some interesting other junk on the end
 test {http://bmj.bmjjournals.com/cgi/content/full/329/7475/1188-c/DC1?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&author1=cameron&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120043717953_4754&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4} {
-	linkout       {BMJJ 329 7475 1188-c bmj}
+	linkout       {BMJJ 329 7475,1188-c {} bmj}
 	linkout       {DOI {} 10.1136/bmj.329.7475.1188-c {} {}}
 	formatted_url {{BMJ (PDF version)} http://bmj.bmjjournals.com/cgi/content/reprint/329/7475/1188-c}
 	formatted_url {{BMJ (HTML version)} http://bmj.bmjjournals.com/cgi/content/full/329/7475/1188-c}
@@ -230,7 +233,7 @@ test {http://bmj.bmjjournals.com/cgi/content/full/329/7475/1188-c/DC1?maxtoshow=
 # Doesn't have PDF linkout.. but I don't think it's possible to determine
 # this without too much effort.
 test {http://bmj.bmjjournals.com/cgi/content/full/309/6970/1686?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120044557327_5038&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4} {
-	linkout       {BMJJ 309 6970 1686 bmj}
+	linkout       {BMJJ 309 6970,1686 {} bmj}
 	linkout       {PMID 7819986 {} {} {}}
 	formatted_url {{BMJ (PDF version)} http://bmj.bmjjournals.com/cgi/content/reprint/309/6970/1686}
 	formatted_url {{BMJ (HTML version)} http://bmj.bmjjournals.com/cgi/content/full/309/6970/1686}
@@ -260,7 +263,7 @@ test {http://bjsm.bmjjournals.com/cgi/content/abstract/39/4/223} {
 	formatted_url {{BMJ (HTML version)} http://bjsm.bmjjournals.com/cgi/content/full/39/4/223}
 	formatted_url {Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=15793092}
 	formatted_url {Hubmed http://www.hubmed.org/display.cgi?uids=15793092}
-	linkout {BMJJ 39 4 223 bjsm}
+	linkout {BMJJ 39 4,223 {} bjsm}
 	linkout {PMID 15793092 {} {} {}}
 	volume 39
 	year 2005
@@ -278,3 +281,29 @@ test {http://bjsm.bmjjournals.com/cgi/content/abstract/39/4/223} {
 	status ok
 	abstract {Objectives: To investigate safety risks in slowpitch softball by conducting laboratory and experimental studies on the performance of high tech softball bats with polyurethane softballs. To compare the results with the recommended safety standards.  Methods: ASTM standard compression testing of seven softball models was conducted. Using these seven softball models, bat/ball impact testing was performed using seven adult male softball players and six high tech softball bat models to determine mean batted ball speeds. Over 500 bat/ball impact measurements were recorded and analysed. Available pitcher reaction time was calculated from the mean batted ball speed measurements.  Results: According to the United States Specialty Sports Association and the Amateur Softball Association, the maximum initial batted ball speed should be 137.2 km/h, which corresponds to a minimum pitcher reaction time of 0.420 second. These experiments produced mean batted ball speeds of 134.0-159.7 km/h, which correspond to available pitcher reaction times of 0.409-0.361 second.  Conclusion: The use of high tech softball bats with polyurethane softballs can result in batted ball speeds that exceed the recommended safety limits, which correspond to decreased available pitcher reaction times.}
 }
+
+#
+# Weird exception where the journal "ip" needs to be translated into
+# "injury prevention" in order to get the RIS record
+test {http://ip.bmjjournals.com/cgi/content/full/7/2/166-a} {
+	volume 7
+	linkout {BMJJ 7 2,166-a {} ip}
+	linkout {PMID 11428567 {} {} {}}
+	year 2001
+	type JOUR
+	start_page 166-a
+	url http://ip.bmjjournals.com
+	day 1
+	formatted_url {{BMJ (PDF version)} http://ip.bmjjournals.com/cgi/content/reprint/7/2/166-a}
+	formatted_url {{BMJ (HTML version)} http://ip.bmjjournals.com/cgi/content/full/7/2/166-a}
+	formatted_url {Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=11428567}
+	formatted_url {Hubmed http://www.hubmed.org/display.cgi?uids=11428567}
+	title {Scooter injuries to children}
+	journal {Inj Prev}
+	author {Stokes {} M {Stokes, M}} 
+	author {Corbo {} MP {Corbo, M P}}
+	month 6
+	issue 2
+	status ok
+}
+

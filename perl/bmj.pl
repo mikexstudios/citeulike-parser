@@ -72,7 +72,7 @@ if ($url =~ m{([^/]+).bmjjournals.com/cgi/content/([^/]+)/([0-9]+)/([0-9]+)/([0-
 	print "status\terr\tThis page does not appear to be a BMJ article\n";
 	exit;
 }
-print "linkout\tBMJJ\t$vol\t$num\t$startpage\t$journal\n";
+print "linkout\tBMJJ\t$vol\t${num},${startpage}\t\t$journal\n";
 
 # lets grab the source of the shortest page - want to be quick.. 
 $res = $ua->get("http://${journal}.bmjjournals.com/cgi/content/abstract/${vol}/${num}/${startpage}") || (print "status\terr\tCouldn't fetch the src details from the BMJ web site.\n" and exit);
@@ -104,7 +104,9 @@ print "end_tsv\n";
 if ($src =~ m{gca=([A-Za-z0-9./;]+)"}) {
 	$riskey = $1;
 } else {
-	$riskey = "${journal};${vol}/${num}/${startpage}";
+	$risjournal = $journal;
+	$risjournal = "injuryprev" if $journal eq "ip";
+	$riskey = "${risjournal};${vol}/${num}/${startpage}";
 }
 	
 if ($method=='ris') {
