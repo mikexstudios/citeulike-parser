@@ -106,6 +106,7 @@ if ($src =~ m{gca=([A-Za-z0-9./;]+)"}) {
 } else {
 	$risjournal = $journal;
 	$risjournal = "injuryprev" if $journal eq "ip";
+	$risjournal = "archdischild" if $journal eq "adc";
 	$riskey = "${risjournal};${vol}/${num}/${startpage}";
 }
 	
