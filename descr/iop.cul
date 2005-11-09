@@ -1,0 +1,107 @@
+plugin {
+	version {1}
+	name {IoP Electronic Journals}
+	url {http://journals.iop.org}
+	blurb {}
+	author {Kristinn B. Gylfason}
+	email {citeulike@askur.org}
+	language {python}
+	regexp {iop\.org[^/]*/EJ/abstract/}
+}
+
+format_linkout IOP {
+	return [list "Electronic Journals (IoP)" \
+			"http://stacks.iop.org/${ckey_1}/${ikey_1}/${ckey_2}"]
+}
+
+test {http://www.iop.org/EJ/abstract/-ffissn=0305-4470/-ff30=all/0305-4470/38/45/008} {
+	formatted_url {{Electronic Journals (IoP)} http://stacks.iop.org/0305-4470/38/9849}
+	formatted_url {DOI http://dx.doi.org/10.1088/0305-4470/38/45/008}
+	volume 38
+	linkout {IOP 38 0305-4470 {} 9849}
+	linkout {DOI {} 10.1088/0305-4470/38/45/008 {} {}}
+	year 2005
+	start_page 9849
+	type JOUR
+	url {http://stacks.iop.org/0305-4470/38/9849}
+	end_page 9858
+	doi {10.1088/0305-4470/38/45/008}
+	issue 45
+	title {Interactions and non-commutativity in quantum Hall systems}
+	journal {Journal of Physics A: Mathematical and General}
+	cite {0305-4470-38-45-008}
+	author {Scholtz Frederik FG {Frederik G Scholtz}}
+	author {Chakraborty Biswajit B {Biswajit Chakraborty}}
+	author {Gangopadhyay Sunandan S {Sunandan Gangopadhyay}}
+	author {Govaerts Jan J {Jan Govaerts}}
+	abstract {We discuss the role that interactions play in the non-commutative structure that arises when the relative coordinates of two interacting particles are projected onto the lowest Landau level. It is shown that the interactions in general renormalize the non-commutative parameter away from the non-interacting value \frac1{B} . The effective non-commutative parameter is in general also angular momentum dependent. A heuristic argument, based on the non-commutative coordinates, is given to find the filling fractions at incompressibilty, which are in general renormalized by the interactions, and the results are consistent with known results in the case of singular magnetic fields.}
+	status ok
+}
+
+test {http://www.iop.org/EJ/abstract/0031-9155/11/3/306} {
+	formatted_url {{Electronic Journals (IoP)} http://stacks.iop.org/0031-9155/11/405}
+	formatted_url {DOI http://dx.doi.org/10.1088/0031-9155/11/3/306}
+	volume 11
+	linkout {IOP 11 0031-9155 {} 405}
+	linkout {DOI {} 10.1088/0031-9155/11/3/306 {} {}}
+	year 1966
+	start_page 405
+	type JOUR
+	url {http://stacks.iop.org/0031-9155/11/405}
+	end_page 409
+	doi {10.1088/0031-9155/11/3/306}
+	issue 3
+	title {Parameters Describing the Microscopic Distribution of Radiation Dose}
+	journal {Physics in Medicine and Biology}
+	cite {0031-9155-11-3-306}
+	author {Bevan John JS {John S Bevan}}
+	abstract {The parameters introduced by Rossi for the quantification of energy deposition in small spherical volumes are discussed, and more general parameters, appropriate to the distribution of radiation dose in volumes of arbitrary shape, are defined. It is shown that the Rossi parameters can be regarded as a special case of the more general parameters. The application of these new parameters to cylindrical volumes is outlined, and a resulting ` definition ' of a long cylinder is suggested.}
+	status ok
+}
+
+test {http://www.iop.org/EJ/abstract/1009-1963/12/7/306} {
+	formatted_url {{Electronic Journals (IoP)} http://stacks.iop.org/1009-1963/12/732}
+	formatted_url {DOI http://dx.doi.org/10.1088/1009-1963/12/7/306}
+	volume 12
+	linkout {IOP 12 1009-1963 {} 732}
+	linkout {DOI {} 10.1088/1009-1963/12/7/306 {} {}}
+	year 2003
+	start_page 732
+	type JOUR
+	url {http://stacks.iop.org/1009-1963/12/732}
+	end_page 737
+	doi {10.1088/1009-1963/12/7/306}
+	issue 7
+	title {Spectral property and its shape transition on $^72-84$ Kr isotopes in microscopic core plus two-quasiparticle approach}
+	journal {Chinese Physics}
+#	keywords {microscopic sdIBM-2+2q.p. approach; high-spin states; shape phase transition;  72-84 Kr isotopes}
+	cite {1009-1963-12-7-306}
+	author {Yi Shi SZ {Shi Zhu Yi}}
+	author {Zhi Zhao ZX {Zhao Xing Zhi}}
+	author {Hong Tong T {Tong Hong}}
+	abstract {By using a microscopic sdIBM-2+2q.p. approach, the levels of the ground-band, \&gamma; -band and partial two-quasi-particle bands for $^72-84$ Kr isotopes are calculated. The data obtained are in good agreement with the recent experimental results and successfully reproduce the nuclear shape phase transition of $^{72-84}$ Kr isotopes at zero temperature. The ground-state band is described successfully up to J $^{\&pi;}$ =18 $^{+}$ and E $_{ x }$ =10.0MeV. Based on this model, the aligned requisite minimum energy has been deduced. The theoretical calculations indicate that no distinct change of nuclear states is caused by the abruptly broken pair of a boson and predict that the first backbending of Kr isotopes may be the result of aligning of two quasi-neutrons in orbit g $_{9/2}$ , which gains the new experimental support of the measurements of g factors in the $^{78-86}$ Kr isotopes.}
+	status ok
+}
+
+test {http://www.iop.org/EJ/abstract/1464-4266/7/3/013} {
+	formatted_url {{Electronic Journals (IoP)} http://stacks.iop.org/1464-4266/7/S89}
+	formatted_url {DOI http://dx.doi.org/10.1088/1464-4266/7/3/013}
+	volume 7
+	linkout {IOP 7 1464-4266 {} S89}
+	linkout {DOI {} 10.1088/1464-4266/7/3/013 {} {}}
+	year 2005
+	start_page S89 
+	type JOUR
+	url {http://stacks.iop.org/1464-4266/7/S89}
+	end_page S99
+	doi {10.1088/1464-4266/7/3/013}
+	issue 3
+	title {The dynamical Casimir effect in a periodically changing domain: a dynamical systems approach}
+	journal {Journal of Optics B: Quantum and Semiclassical Optics}
+#	keywords {dynamical Casimir effect; dynamical systems; wave equation; geometrical optics; resonances}
+	cite {1464-4266-7-3-013}
+	author {Petrov Nikola NP {Nikola P Petrov}}
+	abstract {We study the problem of the behaviour of a quantum massless scalar field in the space between two parallel infinite perfectly conducting plates, one of them stationary, the other moving periodically. We reformulate the physical problem into a problem about the asymptotic behaviour of the iterates of a map of the circle, and then apply results from the theory of dynamical systems to study the properties of the map. Many of the general mathematical properties of maps of the circle translate into properties of the field in the cavity. For example, we give a complete classification of the possible resonances in the system, and show that small enough perturbations do not destroy the resonances. We use some mathematical identities to give a transparent physical interpretation of the processes of creation and amplification of the quantum field due to the motion of the boundary and to elucidate the similarities of and the differences between the classical and quantum fields in domains with moving boundaries.}
+	status ok
+}
+
