@@ -75,7 +75,7 @@ set page [url_get $uk_url]
 # known to work, if a little messy.
 
 # AUTHORS
-regexp "<B>Authors?:</B>.{0,5}((<a href=\"\[^\"\]+\">\[^<\]+</a>\[^<\]*)+)" $page match hauthors
+regexp "Authors?:.{0,20}((<a href=\"\[^\"\]+\">\[^<\]+</a>\[^<\]*)+)" $page match hauthors
 if {![info exists hauthors]} {
     puts stderr "Page was $page"
 }
@@ -85,7 +85,7 @@ foreach authorlink [split $hauthors "\n"] {
 }
 
 # TITLE		
-regexp "<H2>(.+)</H2>" $page match title
+regexp {dc:title="(.*?)"} $page match title
 set title [string trim $title]
 # CRs not significant in HTML
 set title [string map [list "\n" ""] $title]
@@ -94,8 +94,8 @@ set title [string map [list "  " " "] $title]
 puts "title\t$title"
 
 # abstract
-set spos [string first "<BLOCKQUOTE>" $page]
-set epos [string first "</BLOCKQUOTE>" $page]
+set spos [string first "<blockquote>" $page]
+set epos [string first "</blockquote>" $page]
 if {$spos >-1 && $epos >-1} {
 	incr spos 13
 	incr epos -2
