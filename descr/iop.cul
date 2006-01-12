@@ -6,7 +6,7 @@ plugin {
 	author {Kristinn B. Gylfason}
 	email {citeulike@askur.org}
 	language {python}
-	regexp {iop\.org[^/]*/EJ/abstract/}
+	regexp {iop.org[^/]*/EJ/abstract/}
 }
 
 format_linkout IOP {
@@ -74,7 +74,6 @@ test {http://www.iop.org/EJ/abstract/1009-1963/12/7/306} {
 	issue 7
 	title {Spectral property and its shape transition on $^72-84$ Kr isotopes in microscopic core plus two-quasiparticle approach}
 	journal {Chinese Physics}
-#	keywords {microscopic sdIBM-2+2q.p. approach; high-spin states; shape phase transition;  72-84 Kr isotopes}
 	cite {1009-1963-12-7-306}
 	author {Yi Shi SZ {Shi Zhu Yi}}
 	author {Zhi Zhao ZX {Zhao Xing Zhi}}
@@ -98,7 +97,6 @@ test {http://www.iop.org/EJ/abstract/1464-4266/7/3/013} {
 	issue 3
 	title {The dynamical Casimir effect in a periodically changing domain: a dynamical systems approach}
 	journal {Journal of Optics B: Quantum and Semiclassical Optics}
-#	keywords {dynamical Casimir effect; dynamical systems; wave equation; geometrical optics; resonances}
 	cite {1464-4266-7-3-013}
 	author {Petrov Nikola NP {Nikola P Petrov}}
 	abstract {We study the problem of the behaviour of a quantum massless scalar field in the space between two parallel infinite perfectly conducting plates, one of them stationary, the other moving periodically. We reformulate the physical problem into a problem about the asymptotic behaviour of the iterates of a map of the circle, and then apply results from the theory of dynamical systems to study the properties of the map. Many of the general mathematical properties of maps of the circle translate into properties of the field in the cavity. For example, we give a complete classification of the possible resonances in the system, and show that small enough perturbations do not destroy the resonances. We use some mathematical identities to give a transparent physical interpretation of the processes of creation and amplification of the quantum field due to the motion of the boundary and to elucidate the similarities of and the differences between the classical and quantum fields in domains with moving boundaries.}
