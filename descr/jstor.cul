@@ -40,7 +40,7 @@
 plugin {
 	# Integer version number for the plugin code. When this number is incremented,
 	# CiteULike may reparse all existing articles with the new code.
-	version {1}
+	version {2}
 
 	# The name of the plugin, as displayed on the "CiteULike supports..." page
 	name {JSTOR}
@@ -151,7 +151,7 @@ test {http://www.jstor.org/browse/00318248/ap010202/01a00150/0?frame=noframe&use
 	year 1983 
 	issue 4 
 	author {Shrader Douglas D {Douglas Shrader}}
-	title {Review: Scientific Knowledge: Causation, Explanation, and Corroboration} 
+	title {[Scientific Knowledge: Causation, Explanation, and Corroboration (James H. Fetzer)]}
 	start_page 660
 	end_page 662
 	journal {Philosophy of Science} 
@@ -185,7 +185,7 @@ test {http://www.jstor.org/view/00487511/dm980079/98p01516/0} {
 	type JOUR
 	author {Masur Louis LP {Louis P. Masur}}
 	start_page 291
-	title {You Must Remember this [Mystic Chords of Memory: The Transformation of Tradition in American Culture., Michael Kammen]}
+	title {You Must Remember this [Mystic Chords of Memory: The Transformation of Tradition in American Culture. (Michael Kammen)]}
 	end_page 296
 	journal {Reviews in American History}
 	status ok

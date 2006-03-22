@@ -95,7 +95,13 @@ puts "title\t$title"
 
 # abstract
 set spos [string first "<blockquote>" $page]
+if {$spos==-1} {
+	set spos [string first "<BLOCKQUOTE>" $page]
+}
 set epos [string first "</blockquote>" $page]
+if {$epos==-1} {
+	set epos [string first "</BLOCKQUOTE>" $page]
+}
 if {$spos >-1 && $epos >-1} {
 	incr spos 13
 	incr epos -2

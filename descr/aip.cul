@@ -120,35 +120,6 @@ format_linkout AIPP {
 # If you ever fix a bug in the parser, it is highly recommended that
 # you add the offending page as a test case.
 
-test {http://scitation.aip.org/vsearch/servlet/VerityServlet%3fKEY=ALL&smode=strresults&maxdisp=10&possible1=network+evolution&possible1zone=article&OUTLOG=NO&viewabs=PLEEE8&key=DISPLAY&docID=9&page=0&chapter=0} {
-	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PLEEE8000052000005005610000001&idtype=cvips&gifs=yes}
-	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRE/v52/p5}
-	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRE/v52/p5}
-	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevE.52.5610}
-	keywords {RIVERS; NETWORK ANALYSIS; DRAINAGE; EROSION; MATHEMATICAL MODELS; TIMING PROPERTIES; COMPUTERIZED SIMULATION}
-	volume {52}
-	linkout {AIP {} PLEEE8000052000005005610000001 {} {}}
-	linkout {APS 52 PRE {} p5}
-	linkout {}
-	linkout {DOI {} 10.1103/PhysRevE.52.5610 {} {}}
-	year 1995
-	start_page 5610
-	type JOUR
-	url {http://link.aps.org/abstract/PRE/v52/p5610}
-	end_page 5620
-	doi {10.1103/PhysRevE.52.5610}
-	publisher {APS}
-	issue 5
-	title {Simple model for river network evolution}
-	journal {Physical Review E (Statistical Physics, Plasmas, Fluids, and Related Interdisciplinary Topics)}
-	cite {leheny:5610}
-	author {Leheny Robert RL {Robert L. Leheny}}
-	abstract {We simulate the evolution of a drainage basin by erosion from precipitation and avalanching on hillslopes. The avalanches create a competition in growth between neighboring basins and play the central role in driving the evolution. The simulated landscapes form drainage systems that share many qualitative features with Glock's model for natural network evolution and maintain statistical properties that characterize real river networks. We also present results from a second model with a modified, mass conserving avalanche scheme. Although the terrains from these two models are qualitatively dissimilar, their drainage networks share the same general evolution and statistical features.}
-	status ok
-}
-
-
-
 test {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes} {
 	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes}
 	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e1}

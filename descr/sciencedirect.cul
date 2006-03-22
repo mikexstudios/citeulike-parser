@@ -137,25 +137,25 @@ test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6TVK-40X8HYB-2&_
 	status ok
 }
 
-test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6X09-4GT63KF-8&_coverDate=07%2F31%2F2005&_alid=302396169&_rdoc=1&_fmt=&_orig=search&_qd=1&_cdi=7209&_sort=d&view=c&_acct=C000058699&_version=1&_urlVersion=0&_userid=2744511&md5=a4e67ff1d73c27a79723943d32982def} {
-	formatted_url {DOI http://dx.doi.org/10.1037/0278-7393.31.4.703}
-	formatted_url {ScienceDirect http://www.sciencedirect.com/science/article/B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8}
-	
-	linkout {DOI {} 10.1037/0278-7393.31.4.703 {} {}}
-	linkout {SD {} B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8 {} {}}
-	
-	type JOUR
-	title "When Do Visual and Verbal Memories Conflict? The Importance of Working-Memory Load and Retrieval"
-	journal "Journal of Experimental Psychology: Learning, Memory, and Cognition"
-	volume 31
-	year 2005
-	start_page 703
-	url http://www.sciencedirect.com/science/article/B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8
-	end_page 713
-	issue 4
-	abstract {Examinations of interference between verbal and visual materials in working memory have produced mixed results. If there is a central form of storage (e.g., the focus of attention; N. Cowan, 2001), then cross-domain interference should be obtained. The authors examined this question with a visual-array comparison task (S. J. Luck & E. K. Vogel, 1997) combined with various verbal memory load conditions. Interference between tasks occurred if there was explicit retrieval of the verbal load during maintenance of a visual array. The effect was localized in the maintenance period of the visual task and was not the result of articulation per se. Interference also occurred when especially large silent verbal and visual loads were held concurrently. These results suggest central storage along with code-specific passive storage.}
-	month 7  
-	author {Morey Candice CC {Morey, Candice C.}}
-	author {Cowan Nelson N {Cowan, Nelson}}
-	status ok
-}
+#test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6X09-4GT63KF-8&_coverDate=07%2F31%2F2005&_alid=302396169&_rdoc=1&_fmt=&_orig=search&_qd=1&_cdi=7209&_sort=d&view=c&_acct=C000058699&_version=1&_urlVersion=0&_userid=2744511&md5=a4e67ff1d73c27a79723943d32982def} {
+#	 formatted_url {DOI http://dx.doi.org/10.1037/0278-7393.31.4.703}
+#	 formatted_url {ScienceDirect http://www.sciencedirect.com/science/article/B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8}
+#	 
+#	 linkout {DOI {} 10.1037/0278-7393.31.4.703 {} {}}
+#	 linkout {SD {} B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8 {} {}}
+#	 
+#	 type JOUR
+#	 title "When Do Visual and Verbal Memories Conflict? The Importance of Working-Memory Load and Retrieval"
+#	 journal "Journal of Experimental Psychology: Learning, Memory, and Cognition"
+#	 volume 31
+#	 year 2005
+#	 start_page 703
+#	 url http://www.sciencedirect.com/science/article/B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8
+#	 end_page 713
+#	 issue 4
+#	 abstract {Examinations of interference between verbal and visual materials in working memory have produced mixed results. If there is a central form of storage (e.g., the focus of attention; N. Cowan, 2001), then cross-domain interference should be obtained. The authors examined this question with a visual-array comparison task (S. J. Luck & E. K. Vogel, 1997) combined with various verbal memory load conditions. Interference between tasks occurred if there was explicit retrieval of the verbal load during maintenance of a visual array. The effect was localized in the maintenance period of the visual task and was not the result of articulation per se. Interference also occurred when especially large silent verbal and visual loads were held concurrently. These results suggest central storage along with code-specific passive storage.}
+#	 month 7  
+#	 author {Morey Candice CC {Morey, Candice C.}}
+#	 author {Cowan Nelson N {Cowan, Nelson}}
+#	 status ok
+#}

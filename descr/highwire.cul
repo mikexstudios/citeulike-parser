@@ -126,7 +126,6 @@ test {http://gr.oxfordjournals.org/cgi/reprint/52/2/205} {
 	journal			{Greece Rome}
 	author			{Dutsch Dorota D {Dutsch, Dorota}}
 	type			{JOUR}
-	url				http://gr.oxfordjournals.org
 	status 			ok
 }
 
@@ -168,10 +167,10 @@ test {http://jhered.oxfordjournals.org/cgi/content/extract/95/5/II} {
 
 test {http://bioinformatics.oxfordjournals.org/cgi/screenpdf/18/4/529} {
 	linkout			{HWIRE 18 bioinformatics.oxfordjournals.org 4 529}
-	linkout			{PMID 12016050 {} {} {}}
+#	linkout			{PMID 12016050 {} {} {}}
 	formatted_url	{HighWire http://bioinformatics.oxfordjournals.org/cgi/content/abstract/18/4/529}
-	formatted_url	{Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=12016050}
-	formatted_url	{Hubmed http://www.hubmed.org/display.cgi?uids=12016050}	
+#	formatted_url	{Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=12016050}
+#	formatted_url	{Hubmed http://www.hubmed.org/display.cgi?uids=12016050}	
 	volume			{18}
 	issue			{4}
 	start_page		{529}

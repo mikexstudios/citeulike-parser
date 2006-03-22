@@ -16,8 +16,8 @@
 # 3. All advertising materials mentioning features or use of this software
 #    must display the following acknowledgement:
 #        This product includes software developed by
-#		 CiteULike <http://www.citeulike.org> and its
-#		 contributors.
+# CiteULike <http://www.citeulike.org> and its
+# contributors.
 # 4. Neither the name of CiteULike nor the names of its
 #    contributors may be used to endorse or promote products derived
 #    from this software without specific prior written permission.
@@ -39,15 +39,15 @@ use LWP;
 use HTTP::Cookies;
 
 sub oops {
-	print "status\terr\t".shift()."\n";
-	exit;
+    print "status\terr\t".shift()."\n";
+    exit;
 }
 
 my $url = <> ;
 
 if ($url =~ m{anthrosource.net/doi/(abs|pdf|pdfplus)/([^?\n]+)})
 { 
-	$doi = $2;
+    $doi = $2;
 }
 else {oops "This does not appear to be an anthrosource URL"};
 
@@ -59,7 +59,8 @@ else {oops "This does not appear to be an anthrosource URL"};
 
 
 # required attributes in order to produce RIS format
-my $attributes ="&include=cit&format=refman&direct=1";
+# (only format=refman seems important)
+my $attributes ="&format=refman";
 
 # concatenate for user agent request
 my $content = "doi=".$doi.$attributes;
@@ -69,11 +70,6 @@ my $baseurl="http://www.anthrosource.net/action/downloadCitation";
 
 print "begin_tsv\n";
 print "linkout\tDOI\t\t$doi\t\t\n";
-
-# Everything on Anthrosource seems to be a journal, and the
-# RIS record they give us doesn't contain that information,
-# so bodge that there:
-print "type\tJOUR\n";
 
 # standard creation of user agent object
 my $browser = new LWP::UserAgent;
@@ -88,18 +84,13 @@ $browser->cookie_jar( {} );
 my $page = $browser->get("http://www.anthrosource.net/doi/abs/$doi") or oops "Couldn't fetch the abstract page from Anthrosource.net";
 
 if ($page->content =~ m{<div class="abstractSection"><p>(.*?)</p>}) {
-	print "abstract\t$1\n";
+    print "abstract\t$1\n";
 }
 
-# The request sends a POST request to Anthrosource
-# to get the RIS record.
-my $req = HTTP::Request->new(POST, $baseurl);
-$req->content_type('application/x-www-form-urlencoded');
-$req->content( $content );
-
-# The response from Anthrosource
-my $resp = $browser->request($req) or oops "Couldn't fetch the RIS record from Anthrosource";
-my $ris = $resp->content;
+# Get the RIS citation information
+my $biblio = $browser->get("http://www.anthrosource.net/action/downloadCitation?$content")
+    or oops "Couldn't fetch the citation informamtion from Anthrosource.net";
+$ris = $biblio->content;
 
 # Perform surgery to turn the author names into something a bit more parsable:
 # Carmack,Robert M. -> Carmack, Robert M.

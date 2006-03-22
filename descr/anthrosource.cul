@@ -36,7 +36,7 @@
 plugin {
 	# Integer version number for the plugin code. When this number is incremented,
 	# CiteULike may reparse all existing articles with the new code.
-	version {1}
+	version {2}
 	# The name of the plugin, as displayed on the "CiteULike  supports..." page
 	name {Anthrosource}
 	# The link the front page of this service
@@ -110,7 +110,7 @@ test {http://www.anthrosource.net/doi/pdfplus/10.1525/em.1972.1.1.1} {
 	end_page       12
 	year	       1972
 	type	       JOUR
-	url	           http://www.anthrosource.net/loi/em
+	url	       http://www.anthrosource.net/doi/abs/10.1525/em.1972.1.1.1
 	status	       ok
 }
 
@@ -126,7 +126,7 @@ test {http://www.anthrosource.net/doi/abs/10.1525/can.2005.20.2.185} {
 	end_page       {214}
 	year	       {2005}
 	type	       {JOUR}
-	url	           http://www.anthrosource.net/loi/can
+	url	       http://www.anthrosource.net/doi/abs/10.1525/can.2005.20.2.185
 	abstract       {This article investigates the social, technical, and legal affiliations among "geeks" (hackers, lawyers, activists, and IT entrepreneurs) on the Internet. The mode of association specific to this group is that of a "recursive public sphere" constituted by a shared imaginary of the technical and legal conditions of possibility for their own association. On the basis of fieldwork conducted in the United States, Europe, and India, I argue that geeks imagine their social existence and relations as much through technical practices (hacking, networking, and code writing) as through discursive argument (rights, identities, and relations). In addition, they consider a "right to tinker" a form of free speech that takes the form of creating, implementing, modifying, or using specific kinds of software (especially Free Software) rather than verbal discourse.}
 	status		   ok
 }
@@ -144,7 +144,7 @@ test {http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.461} {
 	start_page	{461}
 	end_page	{474}
 	year		{2004}
-	url		    http://www.anthrosource.net/loi/ae
+	url		http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.461
 	abstract    {Sound has come to have a particular resonance in many disciplines over the past decade. Social theorists, historians, literary researchers, folklorists, and scholars in science and technology studies and visual, performative, and cultural studies provide a range of substantively rich accounts and epistemologically provocative models for how researchers can take sound seriously. This conversation explores general outlines of an anthropology of sound. Its main focus, however, is on the issues involved in using sound as a primary medium for ethnographic research.}
 	status      ok
 }
@@ -157,7 +157,7 @@ test {http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.530?prevSearch=al
 	type          JOUR
 	start_page    530
 	end_page      551
-	url           http://www.anthrosource.net/loi/ae
+	url           http://www.anthrosource.net/doi/abs/10.1525/ae.2004.31.4.530
 	issue         4
 	title         {Open towns and manipulated indebtedness among agricultural workers in the New South}
 	journal       {American Ethnologist}

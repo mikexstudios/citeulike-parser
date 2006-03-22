@@ -18,8 +18,8 @@
 # 3. All advertising materials mentioning features or use of this software
 #    must display the following acknowledgement:
 #        This product includes software developed by
-#		 CiteULike <http://www.citeulike.org> and its
-#		 contributors.
+# CiteULike <http://www.citeulike.org> and its
+# contributors.
 # 4. Neither the name of CiteULike nor the names of its
 #    contributors may be used to endorse or promote products derived
 #    from this software without specific prior written permission.
@@ -45,11 +45,11 @@ set url [gets stdin]
 puts "begin_tsv"
 
 proc jstor_id {url} {
-	if {[regexp {jstor.org[^/]*/(browse|view|cgi-bin/jstor/viewitem)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)} $url match junk m_journal m_issue m_article]} {
-		set id [join [list $m_journal $m_issue $m_article] "/"]
-		return $id
-	}
-	return ""
+    if {[regexp {jstor.org[^/]*/(browse|view|cgi-bin/jstor/viewitem)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)} $url match junk m_journal m_issue m_article]} {
+	set id [join [list $m_journal $m_issue $m_article] "/"]
+	return $id
+    }
+    return ""
 }
 
 
@@ -71,10 +71,10 @@ set page [url_get $url]
 # Bloody mess. Hope they don't change the page format too much
 
 # Stable URL gives us the linkout
-if {[regexp "links.jstor.org/sici\\?sici=(\[^<\]+)</nobr></DL>" $page -> stable_url]} {
-	puts "linkout\tJSTOR\t\t${stable_url}\t\t"
+if {[regexp "links.jstor.org/sici\\?sici=(\[^<\]+)</nobr>\n</DL>" $page -> stable_url]} {
+    puts "linkout\tJSTOR\t\t${stable_url}\t\t"
 } else {
-	bail "This doesn't look like a JSTOR article. I'd expect to see a stable URL on the page."
+    bail "This doesn't look like a JSTOR article. I'd expect to see a stable URL on the page."
 }
 
 
@@ -83,49 +83,49 @@ if {[regexp "links.jstor.org/sici\\?sici=(\[^<\]+)</nobr></DL>" $page -> stable_
 #
 # Some review pages have a slightly different format, so there are three
 # approaches here.
-#
 
-# This is a book review title
-if [regexp "<DT><DD><B><A HREF=\"\[^\"\]+\">(\[^<\]+)</a></B>\n<DL COMPACT><DT><DD><B>(\[^<\]+)</B>\n<DL COMPACT><DT><DD>(\[^<\]+)</DL>\n</DL><DL COMPACT><DT><DD>Review author\\\[s\\\]: (\[^<\]+)</DL>" $page -> title obj_title obj_author authors] {
-	puts "title\t$title \[$obj_title, $obj_author\]"
-} elseif {[regexp "<DT><DD><B><A HREF=\"\[^\"\]+\">(\[^<\]+)</a></B><DL COMPACT><DT><DD>(\[^<\]+)</DL>" $page -> title authors]} {
-	puts "title\t[string trim $title]"
-} elseif {[regexp {<FONT SIZE=\+1>Book Reviews</FONT>\n<DL COMPACT>\n<DT><DD><B>----------------</B>\n<DL COMPACT><DT><DD><B><A HREF=[^>]+>([^<]+)</a></B>} $page -> ret(title)]} {
-	puts "title\tReview: $ret(title)"
-
-	# May be possible to get some author information here too
-	regexp {<DL COMPACT><DT><DD>Review author\[s\]: ([^<]+)</DL>} $page -> authors
+# For a review without an independent title
+if {[ regexp {<FONT SIZE=\+1>Book Reviews</FONT>\n<DL COMPACT><DT><DD><B>----------------</B><DL COMPACT><DT><DD><B><A HREF="[^"]+">([^<]+)</a></B><DL COMPACT><DT><DD>([^\n]+)\n} $page -> obj_title obj_author]} {
+    puts "title\t\[$obj_title ($obj_author)\]"
+    regexp {<DL COMPACT><DT><DD>Review author\[s\]: ([^<]+)\n</DL>} $page -> authors
+# For a review with an independent title
+} elseif {[ regexp {<DL COMPACT><DT><DD>Review author\[s\]:} $page ]} {
+    regexp {<DL COMPACT><DT><DD><B><A HREF="[^"]+">([^<]+)</a></B><DL COMPACT><DT><DD><B>([^<]+)</B><DL COMPACT><DT><DD>([^\n]+)\n} $page -> title obj_title obj_author
+    puts "title\t$title \[$obj_title ($obj_author)\]"
+    regexp {<DL COMPACT><DT><DD>Review author\[s\]: ([^<]+)\n</DL>} $page -> authors
+# For an independent (non-revew) article
+} else {
+    regexp {<DL COMPACT><DT><DD><B><A HREF="[^"]+">([^<]+)</a></B><DL COMPACT><DT><DD>([^\n]+)\n</DL>} $page -> title authors
+    puts "title\t$title"
 }
-
 
 # authors
 foreach author [split $authors ";"] {
-	set author [string trim $author]
-	set author [string map {"  " " "} $author]
-	puts "author\t$author"
+    set author [string trim $author]
+    set author [string map {"  " " "} $author]
+    puts "author\t$author"
 }
 
-
 # General citation details
-if {[regexp {<DL COMPACT><DT><DD><I>([^<]+)</I>, Vol. (\d+), No. (\d+)(, [^.]+)?. \([^\)]+, (\d\d\d\d)\), pp. ([0-9-]+).</DL>} $page -> journal volume issue junk year pages]} {
+if {[regexp {<DL COMPACT><DT><DD><I>([^<]+)</I>, Vol. (\d+), No. (\d+)(, [^.]+)?. \([^\)]+, (\d\d\d\d)\), pp. ([0-9-]+).\n</DL>} $page -> journal volume issue junk year pages]} {
 
-	puts "journal\t$journal"
-	puts "volume\t$volume"
-	puts "issue\t$issue"
-	puts "year\t$year"
-	
-	foreach {start_page end_page} [parse_page_numbers $pages] {}
-	if {[info exists start_page] && $start_page!=""} {
-		puts "start_page\t$start_page"
-	}
-	if {[info exists end_page] && $end_page!=""} {
-		puts "end_page\t$end_page"
-	}
+    puts "journal\t$journal"
+    puts "volume\t$volume"
+    puts "issue\t$issue"
+    puts "year\t$year"
+    
+    foreach {start_page end_page} [parse_page_numbers $pages] {}
+    if {[info exists start_page] && $start_page!=""} {
+	puts "start_page\t$start_page"
+    }
+    if {[info exists end_page] && $end_page!=""} {
+	puts "end_page\t$end_page"
+    }
 }
 
 # Abstract
-if {[regexp {<H3>Abstract</H3><p class="abstract">([^<]+)</P>} $page -> abstract]} {
-	puts "abstract\t$abstract"
+if {[regexp {<H3>Abstract</H3><div class="abstract">([^<]+)</div>} $page -> abstract]} {
+    puts "abstract\t$abstract"
 }
 
 #As far as I know, JSTOR only does journal articles
