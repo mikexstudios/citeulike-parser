@@ -1,0 +1,74 @@
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {BioMed Central}
+
+	# The link the front page of this service
+	url {http://www.biomedcentral.com}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {Experimental support}
+
+	# Your name
+	author {Alf Eaton}
+
+	# Your email address
+	email {alf@hubmed.org}
+
+	# Language you wrote the plugin in
+	language {perl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	regexp {^http://www.biomedcentral.com/.+}
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redesign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://www.biomedcentral.com/1746-6148/1/5/} {
+	formatted_url {Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=16216120}
+	formatted_url {Hubmed http://www.hubmed.org/display.cgi?uids=16216120}
+	formatted_url {DOI http://dx.doi.org/10.1186/1746-6148-1-5}
+	linkout {PMID 16216120 {} {} {}}
+	linkout {DOI {} 10.1186/1746-6148-1-5 {} {}}
+	year 2005
+	type JOUR
+	issue 1
+	title {The CD11a partner in Sus scrofa lymphocyte function-associated antigen-1 (LFA-1): mRNA cloning, structure analysis and comparison with mammalian homologues} 
+	journal {BMC Veterinary Research}
+	url {http://www.biomedcentral.com/1746-6148/1/5}
+	author {Bergh Philippe PV {Philippe Vanden Bergh}}
+	author {Fett Thomas T {Thomas Fett}}
+	author {Zecchinon Laurent L {Laurent Zecchinon}}
+	author {Thomas Anne A {Anne Thomas}}
+	author {Desmecht Daniel D {Daniel Desmecht}} 
+	pages  5
+	volume 1
+	doi    {http://dx.doi.org/10.1186/1746-6148-1-5}
+	status ok
+	abstract {BACKGROUND:Lymphocyte function-associated antigen-1 (LFA-1, CD11a/CD18, alphaLbeta2), the most abundant and widely expressed beta2-integrin, is required for many cellular adhesive interactions during the immune response. Many studies have shown that LFA-1 is centrally involved in the pathogenesis of several diseases caused by Repeats-in-toxin (RTX) -producing bacteria.RESULTS:The porcine-LFA-1 CD11a (alpha) subunit coding sequence was cloned, sequenced and compared with the available mammalian homologues in this study. Despite some focal differences, it shares all the main characteristics of these latter. Interestingly, as in sheep and humans, an allelic variant with a triplet insertion resulting in an additional Gln-744 was consistently identified, which suggests an allelic polymorphism that might be biologically relevant.CONCLUSION:Together with the pig CD18-encoding cDNA, which has been available for a long time, the sequence data provided here will allow the successful expression of porcine CD11a, thus giving the first opportunity to express the Sus scrofa beta2-integrin LFA-1 in vitro as a tool to examine the specificities of inflammation in the porcine species.}
+}
+
+
