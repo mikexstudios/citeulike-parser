@@ -7,8 +7,10 @@ $ua->agent('CiteULike');
 
 my $url = <>;
 chomp $url;
+$url =~ s!/(abstract|comments|email|citation|postcomment).*$!!;
 
 my $bibtex_url = $url . '/citation?include=cit&format=bibtex&action=submit';
+print "url = $bibtex_url\n";
 
 my $res = $ua->get( $bibtex_url ) || (print "status\terr\tCouldn't fetch the bibtex file.\n" and exit);
 my $bibtex = $res->content;
@@ -38,3 +40,4 @@ if ($bibtex =~ m{\@Article}) {
 } else {
 	print "status\terr\tError.\n";
 }
+
