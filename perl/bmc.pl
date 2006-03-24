@@ -38,6 +38,6 @@ print "end_bibtex\n";
 if ($bibtex =~ m{\@Article}) {
 	print "status\tok\n";
 } else {
-	print "status\terr\tError.\n";
+	print "status\terr\It has not been possible to find the article information from this page. If you're sure you're posting a valid article then, if this problem persists, you may like to consider raising a bug report.\n";
 }
 
