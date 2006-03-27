@@ -1,0 +1,82 @@
+plugin {
+	version {1}
+	name {American Chem. Soc. Publications}
+	url {http://pubs.acs.org/}
+	blurb {}
+	author {Kristinn B. Gylfason}
+	email {citeulike@askur.org}
+	language {python}
+	regexp {pubs.acs.org/cgi-bin/abstract.cgi}
+}
+
+# format_linkout is defined in doi.cul
+
+test {http://pubs.acs.org/cgi-bin/abstract.cgi/bcches/2006/17/i02/abs/bc0501000.html} {
+	formatted_url {DOI http://dx.doi.org/10.1021/bc0501000}
+	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/bc0501000}
+	volume 17
+	linkout {DOI {} 10.1021/bc0501000 {} {}}
+	year 2006
+	start_page 267
+	type JOUR
+	url {http://dx.doi.org/10.1021/bc0501000}
+	end_page 274
+	doi {10.1021/bc0501000}
+	day 15
+	issue 2
+	title {Amphiphilic Conjugates of Human Brain Natriuretic Peptide Designed for Oral Delivery: In Vitro Activity Screening}
+	journal {Bioconjugate Chem.}
+	status ok
+	month 3
+	author {Miller {} MA {Miller, M.A.}} 
+	author {Malkar {} NB {Malkar, N.B.}} 
+	author {Severynse-Stevens {} D {Severynse-Stevens, D.}} 
+	author {Yarbrough {} KG {Yarbrough, K.G.}} 
+	author {Bednarcik {} MJ {Bednarcik, M.J.}} 
+	author {Dugdell {} RE {Dugdell, R.E.}} 
+	author {Puskas {} ME {Puskas, M.E.}} 
+	author {Krishnan {} R {Krishnan, R.}} 
+	author {James {} KD {James, K.D.}}
+}
+
+test {http://pubs.acs.org/cgi-bin/abstract.cgi/jceaax/2006/51/i02/abs/je050369+.html} {
+	formatted_url {DOI http://dx.doi.org/10.1021/je050369+}
+	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/je050369+}
+	volume 51
+	linkout {DOI {} 10.1021/je050369+ {} {}}
+	year 2006
+	start_page 330
+	type JOUR
+	url {http://dx.doi.org/10.1021/je050369+}
+	end_page 337
+	doi {10.1021/je050369+}
+	day 9
+	issue 2
+	title {Evaluation of Three Prediction Methods for Partitioning Coefficients of Organic Solutes between a Long-Chain Aliphatic Alcohol and the Gas Phase as a Function of Temperature}
+	journal {J. Chem. Eng. Data}
+	status ok
+	month 3
+	author {Xiao {} H {Xiao, H.}} 
+	author {Wania {} F {Wania, F.}}
+}
+
+test {http://pubs.acs.org/cgi-bin/abstract.cgi/jpchax/1996/100/i51/abs/jp961497v.html} {
+	formatted_url {DOI http://dx.doi.org/10.1021/jp961497v}
+	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/jp961497v}
+	volume 100
+	linkout {DOI {} 10.1021/jp961497v {} {}}
+	year 1996
+	start_page 19747
+	type JOUR
+	url {http://dx.doi.org/10.1021/jp961497v}
+	end_page 19757
+	doi {10.1021/jp961497v}
+	day 19
+	issue 51
+	title {Uncommon Ultrasonic Absorption Spectra of Tetraalkylammonium Bromides in Aqueous Solution}
+	journal {J. Phys. Chem.}
+	status ok
+	month 12
+	author {Kuhnel {} V {Kuhnel, V.}} 
+	author {Kaatze {} U {Kaatze, U.}}
+}
