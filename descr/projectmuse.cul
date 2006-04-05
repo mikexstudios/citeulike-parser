@@ -1,0 +1,171 @@
+#
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#	Peter Graif <petergraif@yahoo.com>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {Project Muse}
+
+	# The link the front page of this service
+	url {http://muse.jhu.edu/}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Peter Graif}
+
+	# Your email address
+	email {petergraif@yahoo.com}
+
+	# Language you wrote the plugin in
+	language {tcl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	regexp {http://muse.jhu.edu[^/]*/journals/([^/]+)/v([0-9]+)/([0-9]+).([0-9]+)([^.]+).html}
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout MUSE {
+	foreach {a b} [split $ckey_1 :] {}
+	foreach {c d} [split $ckey_2 :] {}
+	return [list "MUSE" "http://muse.jhu.edu/journals/$b/v$a/${c}.${d}.html" ]
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://muse.jhu.edu/journals/sign_language_studies/v002/2.4lucas.html} {
+	formatted_url {MUSE http://muse.jhu.edu/journals/sign_language_studies/v002/2.4lucas.html}
+	linkout {MUSE {} 002:sign_language_studies {} 2:4lucas}
+	volume 2
+	year 2002
+	issue 4
+	author {Lucas Ceil C {Lucas, Ceil}} 
+	author {Bayley Robert R {Bayley, Robert}} 
+	author {Rose Mary M {Rose, Mary}} 
+	author {Wulf Alyssa A {Wulf, Alyssa}}
+	title {Location Variation in American Sign Language}
+	start_page 407
+	end_page 440
+	journal {Sign Language Studies}
+	issn {1533-6263}
+	month {07}
+	day {01}
+	type JOUR
+	abstract {<p>This article, part of a larger project that studied sociolinguistic variation in American Sign Language, examines that variation in a class of American Sign Language signs exemplified by the verb know, which vary in their location. Usually these signs are produced at the forehead, but frequently they are produced at a lower level. Analysis of approximately twenty-nine hundred tokens of signs of this class from more than two hundred signers in seven U.S. sites shows that the lowering of signs such as know is constrained by both linguistic and social factors that parallel variation in spoken languages. Results from signers of three different age groups also provide evidence of change in progress. Despite similarities to variation in spoken languages, results for several social factors are best explained by reference to Deaf history and to the structure of the Deaf community.</p>}
+	status ok
+}
+
+test {http://muse.jhu.edu/journals/anthropological_quarterly/v075/75.2owens.html} {
+	formatted_url {MUSE http://muse.jhu.edu/journals/anthropological_quarterly/v075/75.2owens.html}
+	linkout {MUSE {} 075:anthropological_quarterly {} 75:2owens}
+	volume 75
+	year 2002
+	issue 2
+	author {Owens Bruce BM {Owens, Bruce McCoy}}
+	title {Monumentality, Identity, and the State: Local Practice, World Heritage, and Heterotopia at Swayambhu, Nepal}
+	start_page 269
+	end_page 316
+	journal {Anthropological Quarterly}
+	issn {1534-1518}
+	month {04}
+	day {01}
+	type JOUR
+	status ok
+}
+
+test {http://muse.jhu.edu/journals/journal_of_the_history_of_ideas/v067/67.1popper.html} {
+	formatted_url {MUSE http://muse.jhu.edu/journals/journal_of_the_history_of_ideas/v067/67.1popper.html}
+	linkout {MUSE {} 067:journal_of_the_history_of_ideas {} 67:1popper}
+	volume 67
+	year 2006
+	issue 1
+	author {Popper Nicholas N {Popper, Nicholas}}
+	title {"Abraham, Planter of Mathematics"': Histories of Mathematics and Astrology in Early Modern Europe}
+	start_page 87
+	end_page 106
+	journal {Journal of the History of Ideas}
+	issn {1086-3222}
+	month {03}
+	day {09}
+	type JOUR
+	status ok
+}

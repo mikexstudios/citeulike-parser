@@ -1,0 +1,84 @@
+plugin {
+	version {1}
+	name {Blackwell Synergy}
+	url {http://www.blackwell-synergy.com/}
+	blurb {}
+	author {Kristinn B. Gylfason}
+	email {citeulike@askur.org}
+	language {python}
+	regexp {blackwell-synergy.com}
+}
+
+format_linkout BWELL {
+	return [list "Blackwell Synergy" \
+			"http://www.blackwell-synergy.com/doi/abs/${ckey_1}"]
+}
+
+test {http://www.blackwell-synergy.com/doi/abs/10.1111/j.1475-1305.2005.00207.x} {
+	formatted_url {{Blackwell Synergy} http://www.blackwell-synergy.com/doi/abs/10.1111/j.1475-1305.2005.00207.x}
+	formatted_url {DOI http://dx.doi.org/10.1111/j.1475-1305.2005.00207.x}
+	volume 41
+linkouts ->  
+	linkout {BWELL {} 10.1111/j.1475-1305.2005.00207.x {} {}}
+	linkout {DOI {} 10.1111/j.1475-1305.2005.00207.x {} {}}
+	year 2005
+	start_page 117
+	type JOUR
+	url {http://www.blackwell-synergy.com/doi/abs/10.1111/j.1475-1305.2005.00207.x}
+	end_page 127
+	doi {10.1111/j.1475-1305.2005.00207.x}
+	issue 3
+	title {Structural Health Monitoring of an Annular Component using a Statistical Approach}
+	journal {Strain}
+	author {Mustapha {} F Mustapha,F.}
+	author {Manson {} G Manson,G.}
+	author {Pierce {} SG {Pierce,S. G.}}
+	author {Worden {} K Worden,K.}
+	abstract {For aerospace components there is undoubtedly a critical need to detect incipient damage in the structure, as any microscopic crack or defect can potentially lead to catastrophic failure and loss of human life. This paper investigates the scattering of an ultrasonic-guided wave into a hollow cylinder-like structure, under both damaged and undamaged conditions. Hollow cylinder structures are widely used not only in aerospace components but also in other engineering applications. The wave was sequentially transmitted and captured by means of a 'real-time data-acquisition system' combined with integrated disc-shaped piezoceramic transducers. The integration of the tested structure and the transducers formed a structural health monitoring system. Wave responses were recorded from both of the structural conditions for the purpose of damage identification using a novelty detection method called 'outlier analysis'. The principal component analysis method of reducing the dimensionality of the feature space is also presented in this paper, with its main aim being to visualise how the data sets behave as a function of the structural conditions.}
+	status ok
+}
+
+test {http://www.blackwell-synergy.com/doi/abs/10.1034/j.1600-0730.2003.00771.x} {
+	formatted_url {{Blackwell Synergy} http://www.blackwell-synergy.com/doi/abs/10.1034/j.1600-0730.2003.00771.x}
+	formatted_url {DOI http://dx.doi.org/10.1034/j.1600-0730.2003.00771.x}
+	volume 58
+	linkout {BWELL {} 10.1034/j.1600-0730.2003.00771.x {} {}}
+	linkout {DOI {} 10.1034/j.1600-0730.2003.00771.x {} {}}
+	year 2003
+	start_page 202
+	type JOUR
+	url {http://www.blackwell-synergy.com/doi/abs/10.1034/j.1600-0730.2003.00771.x}
+	end_page 218
+	doi {10.1034/j.1600-0730.2003.00771.x}
+	issue 3
+	title {A return to romance: Winifred Holtby's spinster novels from between the wars}
+	journal {Orbis Litterarum}
+	author {Gan Wendy W Gan,Wendy}
+	abstract {In 'A return to romance: Winifred Holtby's spinster novels from between the wars', I discuss Winifred Holtby's representations of the spinster in The Crowded Street, Poor Caroline and South Riding in the context of contemporary discourses on the spinster which, I argue, affect Holtby's representations negatively. I also suggest that despite Holtby's feminist desire to recuperate the much-maligned spinster in her writing, her failure to decisively uncouple romance from the spinster narrative consolidates the spinster in her traditional social role and transforms alternatives to heterosexual marriage, such as work, into mere consolations for the unmarried woman.}
+	status ok
+}
+
+test {http://www.blackwell-synergy.com/doi/abs/10.1046/j.1439-0418.2001.00539.x} {
+	formatted_url {{Blackwell Synergy} http://www.blackwell-synergy.com/doi/abs/10.1046/j.1439-0418.2001.00539.x}
+	formatted_url {DOI http://dx.doi.org/10.1046/j.1439-0418.2001.00539.x}
+	volume 125
+	linkout {BWELL {} 10.1046/j.1439-0418.2001.00539.x {} {}}
+	linkout {DOI {} 10.1046/j.1439-0418.2001.00539.x {} {}}
+	year 2001
+	start_page 249
+	type JOUR
+	url {http://www.blackwell-synergy.com/doi/abs/10.1046/j.1439-0418.2001.00539.x}
+	end_page 253
+	doi {10.1046/j.1439-0418.2001.00539.x}
+	issue 5
+	title {Effet de l'application d'un melange lambda-cyhalothrin (pesticide chimique) et de spores de Metarhizium anisopliae (flavoviride) var. acridum Driver and Milner (biopesticide) applique sur les larves de sauteriaux au Mali}
+	journal {Journal of Applied Entomology}
+	author {Kpindou Douro D {Douro Kpindou}}
+	author {Lomer {} {} Lomer}
+	author {Langewald {} {} Langewald} 
+	author {Togo {} {} Togo} 
+	author {Sagara {} {} Sagara}
+	abstract {A mixture of lambda-cyhalothrin (lambda-cyhalothrin: chemical insecticide) and Metarhizium anisopliae (flavoviride) var. acridum Driver and Milner, an entomopathogenic fungus (bioinsecticide) was used for grasshopper control in Mali. An oil-based formulation of Metarhizium anisopliae (flavoviride) var. acridum Driver and Milner has been developed by LUBILOSA a collaborative project for locust and grasshoppers control. It takes 6 to 10 days for the biopesticide to kill the hosts, which is not a problem for larvae in fallows because they will die before reaching the farmers' fields. However, if crops are infested by adults, the farmers can not wait for 6 to 10 days. An experiment was conducted in Mali using a mixture of a biopesticide and chemical pesticide. The mixture of lambda-cyhalothrin (chemical insecticide) and Metarhizium anisopliae (flavoviride) var. acridum (biopesticide: oil-based entomopathogenic fungus spore suspension) was applied to nymphs of Sahelian grasshoppers, using ultra low volume (ULV) sprayers. Both the mixture and lambda-cyhalothrin alone gave quick mortality, with slightly higher mortality for the mixture. Mortality due to the Metarhizium treatments began 2 days after application and subsequently reached similar levels of mortality to the lambda-cyhalothrin mixture treatments. The efficacy of the mixture was greater than Metarhizium alone. The efficacy of lambda-cyhalothrin reached 80% on the day following application, but declined after 10 days, due probably to immigration of untreated grasshoppers.}
+	status ok
+}
+
