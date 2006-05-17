@@ -67,7 +67,7 @@ puts "end_bibtex"
 puts "begin_tsv"
 
 # The linkout is easy. it's just the part of the URL.
-if [regexp {^http://citeseer[^/]+edu/([^/]+).html$} $url -> filename] {
+if [regexp {^http://citeseer[^/]+(edu|unizh.ch|edu.sg)/([^/]+).html$} $url -> junk filename] {
 	puts [join [list linkout CITES {} $filename {} {}] "\t"]
 }
 

@@ -76,7 +76,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {^http://citeseer[^/]+edu/([^/]+.html)$}
+	regexp {^http://citeseer[^/]+(edu|unizh.ch|edu.sg)/([^/]+.html)$}
 }
 
 #
@@ -96,7 +96,11 @@ format_linkout CITES {
 	return [list "CiteSeer (at Penn State)" \
 				"http://citeseer.ist.psu.edu/${ckey_1}.html" \
 				"CiteSeer (at MIT)" \
-				"http://citeseer.lcs.mit.edu/${ckey_1}.html"]
+				"http://citeseer.lcs.mit.edu/${ckey_1}.html" \
+				"CiteSeer (at Zurich)" \
+				"http://citeseer.ifi.unizh.ch/${ckey_1}.html" \
+				"CiteSeer (at Singapore)" \
+				"http://citeseer.comp.nus.edu.sg/${ckey_1}.html"]
 }
 
 #
