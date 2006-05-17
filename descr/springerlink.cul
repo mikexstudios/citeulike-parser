@@ -1,0 +1,128 @@
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+#	Stevan Springer <stevan.springer@gmail.com>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+#
+# Plugin description
+#
+
+plugin {
+	version {1}
+	name {SpringerLink}
+	url {http://springerlink.com/}
+	blurb {}
+	author {Stevan Springer}
+	email {stevan.springer@gmail.com}
+	language {perl}
+	regexp {(http://www.springerlink.com/(index/.*|\(\w+\)/app/home/contribution.*))}
+}
+
+# Linkout formatting
+# Raw ingredients required to build the full text URL dynamically using the following variables
+# collected by the plugin: type ikey_1 ckey_1 ikey_2 ckey_2
+
+
+#Tests
+
+test {http://www.springerlink.com/index/10.1007/BF01975011} {
+	linkout			{DOI {} 10.1007/BF01975011 {} {}}
+	formatted_url           {DOI http://dx.doi.org/10.1007/BF01975011}
+	volume			{96}
+	issue			{2}
+	start_page		{168}
+	end_page		{172}
+	year			{1955}
+	month			{4}
+	day			{}
+	title			{The orientation of homing pigeons in relation to change in sun declination}
+	journal			{Journal of Ornithology}
+	author			{Rawson Kenneth KS {Rawson, Kenneth S.}}
+	author			{Rawson Anne AM {Rawson, Anne M.}}
+	type			{JOUR}
+	url			http://dx.doi.org/10.1007/BF01975011
+	doi                     10.1007/BF01975011
+	status 			ok
+}
+
+test {http://www.springerlink.com/index/10.1007/BF01059068} {
+	linkout			{DOI {} 10.1007/BF01059068 {} {}}
+	formatted_url	{DOI http://dx.doi.org/10.1007/BF01059068}
+	volume			{19}
+	issue			{4}
+	start_page		{508}
+	end_page		{512}
+	year			{1990}
+	month			{7}
+	day				{}
+	title			{Recent taxonomic discoveries concerning the mussel<i>Mytilus</i>: Implications for biomonitoring}
+	journal			{Archives of Environmental Contamination and Toxicology}
+	author			{Lobel {} PB {Lobel, P. B.}}  
+	author			{Belkhode {} SP {Belkhode, S. P.}}
+	author			{Jackson {} SE {Jackson, S. E.}}
+	author			{Longerich {} HP {Longerich, H. P.}}
+	type			{JOUR}
+	url			http://dx.doi.org/10.1007/BF01059068
+	doi			10.1007/BF01059068
+	status			ok
+}
+
+test {http://www.springerlink.com/index/10.1007/BF00346688} {
+	linkout			{DOI {} 10.1007/BF00346688 {} {}}
+	formatted_url	{DOI http://dx.doi.org/10.1007/BF00346688}
+	volume			{1}
+	issue			{1}
+	start_page		{2}
+	end_page		{9}
+	year			{1967}
+	month			{6}
+	day				{}
+	title			{Homing of eels (<i>Anguilla anguilla</i>) in the southern North Sea}
+	journal			{Marine Biology}
+	author			{Tesch {} {} {Tesch, F. -W.}}  
+	type			{JOUR}
+	url			http://dx.doi.org/10.1007/BF00346688
+	doi			10.1007/BF00346688
+	status			ok
+}
+
+
+
+
+
+
+
+
