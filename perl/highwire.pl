@@ -100,20 +100,17 @@ else
 # Get the link to the citebuilder url and formulate a link to the reference manager RIS file
 $source_abstract = get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
-if ($source_abstract =~ m{"(.*)">\s*[D|d]ownload to [C|c]itation [M|m]anager})
-	{
+if ($source_abstract =~ m{"(.*)">\s*[D|d]ownload to [C|c]itation [M|m]anager}) {
 	$link_citmgr = "http://"."$journal_site"."$1";
-	$link_refman = $link_citmgr;
-	$link_refman =~ s/citmgr/citmgr_refman/;
-#	print "Link to the Citmgr: $link_citmgr\n";
-#	print "Link to the Refman: $link_refman\n";
+	$source_citmgr = get("$link_citmgr") || (print "status\terr\t (2.5) Could not retrieve information from the citation manager page.\n" and exit);
+	if ($source_citmgr =~ m{"(.*)">\s*<STRONG>Reference<BR><NOBR>Manager}) {
+		$link_refman = "http://"."$journal_site"."$1";
+	} else {
+		print "status\terr\t (3) Could not find the citation details on this page. Try posting the article from the abstract page.\n" and exit;
 	}
-else
-	{
-	print "status\terr\t (3) Could not find the citation details on this page. Try posting the article from the abstract page.\n" and exit;
-	}
-
-
+    } else {
+	print "status\terr\t (4) Could not find the citation details on this page. Try posting the article from the abstract page.\n" and exit;
+    }
 
 #Get the reference manager RIS file and check retrieved file
 $refman = $ua->get("$link_refman") || (print "status\terr\t (4)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
@@ -147,23 +144,4 @@ print "begin_ris\n";
 print $ris;
 print "end_ris\n";
 print "status\tok\n";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
