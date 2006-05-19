@@ -47,9 +47,10 @@ proc driver_from_command_line {} {
 }
 
 if {[driver_from_command_line]} {
-	source author.tcl
-	source bibtex.tcl
-	source ris.tcl
+	set path [file dirname $::argv0]
+	source [file join $path author.tcl]
+	source [file join $path bibtex.tcl]
+	source [file join $path ris.tcl]
 }
 
 # First thing to do is load the plugin description files and get some idea of what we're dealing with.
@@ -99,8 +100,11 @@ namespace eval driver {
 	}
 
 	proc descr_dir {} {
-		# Possibly assuming UNIX style paths here
-		return "$::env(PWD)/descr"
+	    if {![driver_from_command_line]} {
+		return [file join $::env(PWD) descr]
+	    } else {
+		return [file join [file dirname $::argv0] descr]
+	    }
 	}
 
 	proc read_descr {} {
@@ -201,12 +205,14 @@ namespace eval driver {
 			# Blocking IO. In production the server will abort the request
 			# after a timeout and free the filedescriptor if it hangs.
 			set exe [executable_for_name $language $plugin]
+			set olddir [pwd]
 			cd [file dirname $exe]
-			set fd [open "|$exe" "r+"]
+			set fd [open "|./[file tail $exe]" "r+"]
 			puts $fd $url
 			flush $fd
 			set result [read $fd]
 			close $fd
+			cd $olddir
 
 			set lines [split $result "\n"]
 
@@ -377,7 +383,11 @@ namespace eval driver {
 	}
 
 	proc executable_base_dir {} {
+	    if {![driver_from_command_line]} {
 		return "$::env(PWD)"
+	    } else {
+		return [file dirname $::argv0]
+	    }
 	}
 
 	proc executable_for_name {language plugin} {
@@ -395,7 +405,7 @@ namespace eval driver {
 		if {![regexp {[A-Za-z0-9_-]} $plugin]} {
 			error "Illegal plugin name: $plugin"
 		}
-		return "[executable_base_dir]/$language/${plugin}.${ext}"
+		return [file join [executable_base_dir] $language ${plugin}.${ext}]
 	}
 
 
