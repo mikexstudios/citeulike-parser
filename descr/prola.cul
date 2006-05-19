@@ -1,0 +1,153 @@
+plugin {
+	version {1}
+	name {Physical Review Online Archive}
+	url {http://prola.aps.org/}
+	blurb {}
+	author {Eric Moore}
+	email {ewm-list@redtetrahedron.org}
+	language {python}
+	regexp {prola.aps.org/abstract|cornell.mirror.aps.org/abstract|prola.ridge.aps.org|prola.library.cornell.edu/abstract}
+}
+
+format_linkout PROLA {
+	return [list "PROLA (abstract)" \
+				"http://prola.aps.org/abstract/$ckey_1" \
+				"PROLA (pdf)" \
+				"http://prola.aps.org/pdf/$ckey_1" \
+			  ]
+}
+
+
+# Reviews of Modern Physics 
+test {http://prola.aps.org/abstract/RMP/v66/i3/p1105_1} {
+	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/RMP/v66/i3/p1105_1}
+	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/RMP/v66/i3/p1105_1}
+	formatted_url {DOI http://dx.doi.org/10.1103/RevModPhys.66.1105}
+	linkout {PROLA {} RMP/v66/i3/p1105_1 {} {}}
+	linkout {DOI {} 10.1103/RevModPhys.66.1105 {} {}}
+	volume 66
+	year 1994
+	journal_user_abbrev_1 RMP
+	type JOUR
+	start_page 1105
+	url {http://link.aps.org/abstract/RMP/v66/p1105}
+	doi {10.1103/RevModPhys.66.1105}
+	id {10.1103/RevModPhys.66.1105}
+	publisher {American Physical Society}
+	issue 3
+	title {Nuclear halo states}
+	journal {Reviews of Modern Physics}
+	status ok
+	abstract {Halo states extend over an unusually large space where many of their properties hinge on the tail of the wave functions. Their levels lie mainly just below the thresholds for neutron-emission channels. This short review covers the main distinguishing features of halos and how they are revealed in experiments. Special emphasis is placed on the large variety of experiments apt to study halo structures. Some aspects of current research are treated in greater detail.}
+	month 7
+	author {Riisager {} K {Riisager, K.}}
+}
+
+# Physical Review (2nd Series)
+test {http://prola.aps.org/abstract/PR/v69/i1-2/p37_1} {
+	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/PR/v69/i1-2/p37_1}
+	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/PR/v69/i1-2/p37_1}
+	formatted_url {DOI http://dx.doi.org/10.1103/PhysRev.69.37}
+	linkout {PROLA {} PR/v69/i1-2/p37_1 {} {}}
+	linkout {DOI {} 10.1103/PhysRev.69.37 {} {}}
+	volume 69
+	year 1946
+	journal_user_abbrev_1 PR
+	type JOUR
+	start_page 37
+	url {http://link.aps.org/abstract/PR/v69/p37}
+	doi {10.1103/PhysRev.69.37}
+	id {10.1103/PhysRev.69.37}
+	day 1
+	publisher {American Physical Society}
+	issue 1-2
+	title {Resonance Absorption by Nuclear Magnetic Moments in a Solid}
+	journal {Physical Review}
+	status ok
+	month 1
+	author {Purcell {} EM {Purcell, E. M.}}
+	author {Torrey {} HC {Torrey, H. C.}}
+	author {Pound {} RV {Pound, R. V.}}
+}
+
+# Physical Review (Series I)
+test {http://prola.ridge.aps.org/abstract/PRI/v1/i1/p1_1} {
+	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/PRI/v1/i1/p1_1}
+	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/PRI/v1/i1/p1_1}
+	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevSeriesI.1.1}
+	linkout {PROLA {} PRI/v1/i1/p1_1 {} {}}
+	linkout {DOI {} 10.1103/PhysRevSeriesI.1.1 {} {}}
+	volume 1
+	year 1893
+	journal_user_abbrev_1 PRI
+	type JOUR
+	start_page 1
+	url {http://link.aps.org/abstract/PRI/v1/p1}
+	doi {10.1103/PhysRevSeriesI.1.1}
+	id {10.1103/PhysRevSeriesI.1.1}
+	publisher {American Physical Society}
+	issue 1
+	title {A Study of the Transmission Spectra of Certain Substances in the Infra-Red}
+	journal {Physical Review (Series I)}
+	status ok
+	month 7
+	authors {{Nichols Ernest EF {Nichols, Ernest F.}}}
+}
+
+# Physical Review Letters
+test {http://cornell.mirror.aps.org/abstract/PRL/v56/i10/p1043_1} {
+	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/PRL/v56/i10/p1043_1}
+	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/PRL/v56/i10/p1043_1}
+	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevLett.56.1043}
+	linkout {PROLA {} PRL/v56/i10/p1043_1 {} {}}
+	linkout {DOI {} 10.1103/PhysRevLett.56.1043 {} {}}
+	volume 56
+	year 1986
+	journal_user_abbrev_1 PRL
+	type JOUR
+	start_page 1043
+	url {http://link.aps.org/abstract/PRL/v56/p1043}
+	doi {10.1103/PhysRevLett.56.1043}
+	id {10.1103/PhysRevLett.56.1043}
+	day 10
+	publisher {American Physical Society}
+	issue 10
+	title {Precision Measurement of the Mass Difference m_{ pi^{-}}-m_{ pi^{0}}}
+	journal {Physical Review Letters}
+	status ok
+	abstract {Using the time-of-flight method to determine the velocity of the neutrons from the reaction π - + p →π 0 + n  at rest we have measured the mass difference  m π - m π 0  to be 4.5930 ± 0.0013 MeV/ c 2 . From the width of the time-of-flight distributions we conclude that the pionic hydrogen atoms have a mean kinetic energy  T ̅ π p < 12 eV (90% confidence limit) at the time of the charge exchange.}
+	month 3
+	author {Crawford {} JF {Crawford, J. F.}}
+	author {Daum {} M {Daum, M.}}
+	author {Frosch {} R {Frosch, R.}}
+	author {Jost {} B {Jost, B.}}
+	author {Kettle {} {} {Kettle, P. -R.}}
+	author {Marshall {} RM {Marshall, R. M.}}
+	author {Ziock {} KOH {Ziock, K. O. H.}}
+}
+
+# Physical Review C
+test {http://prola.library.cornell.edu/abstract/PRC/v50/i2/pR571_1} {
+	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/PRC/v50/i2/pR571_1}
+	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/PRC/v50/i2/pR571_1}
+	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevC.50.R571}
+	linkout {PROLA {} PRC/v50/i2/pR571_1 {} {}}
+	linkout {DOI {} 10.1103/PhysRevC.50.R571 {} {}}
+	volume 50
+	year 1994
+	journal_user_abbrev_1 PRC
+	type JOUR
+	start_page R571
+	url http://link.aps.org/abstract/PRC/v50/pR571
+	plugin_version 1
+	doi 10.1103/PhysRevC.50.R571
+	id 10.1103/PhysRevC.50.R571
+	publisher {American Physical Society}
+	issue 2
+	title {Hermitian boson mapping and finite truncation}
+	journal {Physical Review C}
+	status ok
+	abstract {Starting from a general; microscopic fermion-to-boson mapping that preserves Hermitian conjugation; we discuss truncations of the boson Fock space basis. We give conditions under which the exact boson images of finite fermion operators are also finite [e.g.; a (1+2)-body fermion Hamiltonian is mapped to a (1+2)-body boson Hamiltonian] in the truncated basis. For the most general case; where the image is not necessarily exactly finite; we discuss how to make practical and controlled approximations.}
+	author {Johnson Calvin CW {Johnson, Calvin W.}}
+	author {Ginocchio Joseph JN {Ginocchio, Joseph N.}}
+}
