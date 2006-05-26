@@ -1,0 +1,98 @@
+plugin {
+	version {1}
+	name {Wiley InterScience}
+	url {http://www.interscience.wiley.com/}
+	blurb {}
+	author {Kristinn B. Gylfason}
+	email {citeulike@askur.org}
+	language {python}
+	regexp {interscience.wiley.com/cgi-bin/abstract/[0-9]*/ABSTRACT}
+}
+
+format_linkout WILEY {
+	return [list "Wiley InterScience" \
+			"http://www3.interscience.wiley.com/cgi-bin/abstract/${ikey_1}/ABSTRACT"]
+}
+
+
+test {http://www3.interscience.wiley.com/cgi-bin/abstract/62500349/ABSTRACT} {
+	formatted_url {{Wiley InterScience} http://www3.interscience.wiley.com/cgi-bin/abstract/62500349/ABSTRACT}
+	formatted_url {DOI {http://dx.doi.org/10.1002/(SICI)1096-9071(199908)58:4<338::AID-JMV4>3.0.CO;2-5}}
+	volume 58
+	linkout {WILEY 62500349 {} {} {}}
+	linkout {DOI {} {10.1002/(SICI)1096-9071(199908)58:4<338::AID-JMV4>3.0.CO;2-5} {} {}}
+	year 1999
+	type JOUR
+	pn 0146-6615
+	copyright {Copyright © 1999 Wiley-Liss, Inc.}
+	start_page 338
+	end_page 345
+	on 1096-9071
+	url {http://dx.doi.org/10.1002/(SICI)1096-9071(199908)58:4<338::AID-JMV4>3.0.CO;2-5}
+	doi {10.1002/(SICI)1096-9071(199908)58:4<338::AID-JMV4>3.0.CO;2-5}
+	issue 4
+	title {Bacterial expression of a human recombinant monoclonal antibody Fab fragment against hepatitis B surface antigen}
+	journal {Journal of Medical Virology}
+	author {Maeda {} F {F. Maeda}} 
+	author {Nagatsuka {} Y {Y. Nagatsuka}} 
+	author {Ihara {} S {S. Ihara}} 
+	author {Aotsuka {} S {S. Aotsuka}} 
+	author {Ono {} Y {Y. Ono}} 
+	author {Inoko {} H {H. Inoko}} 
+	author {Takekoshi {} M {M. Takekoshi}}
+	address {Department of Molecular Life Science, Tokai University School of Medicine, Isehara, Japan; Department of Microbiology, Nihon University School of Medicine, Tokyo, Japan; Tokyo Research Center, Nisshinbo Industries Inc., Tokyo, Japan}
+	abstract {The Fab fragment was cloned from the monoclonal cell line TAPC301-CL4, which was produced using the Epstein-Barr virus (EBV) transformation method. This cell line produces a human monoclonal antibody (CL4MAb) against the hepatitis B surface antigen (HBsAg). This MAb was shown to have hepatitis B virus (HBV) neutralizing activity in chimpanzees. The Fab fragment was produced by subjecting the heavy and light chain antibody genes of the TAPC301-CL4 cell line to reverse transcription-polymerase chain reaction, cloning the products in the plasmid vector pFab1-His2 and introducing the plasmid into bacteria. Sequence analyses of the CL4Fab fragment revealed that the light and heavy chains belong to the Vk3a and VH3 groups of the immunoglobulin (Ig) family, respectively. An enzyme-linked immunosorbent assay confirmed that specificity of the recombinant CL4Fab antibody against HBsAg was the same as that of the parental MAb. Flow cytometric analysis using PLC/PRF/5 (Alexander) cells, which express HBsAg, showed the reactivities of the CL4MAb and CL4Fab antibody were the same. These results suggest that the recombinant CL4Fab antibody produced by Escherichia coli using the new vector-primer system developed for human IgG Fab fragments has a very high affinity for the HBsAg and may be useful clinically. A source for generation of human MAb for human therapy with very stable and specific expression was thus produced by isolating antibodies from EBV-transformed cell lines. J. Med. Virol. 58:338-345, 1999. © 1999 Wiley-Liss, Inc.}
+	status ok
+}
+
+test {http://www3.interscience.wiley.com/cgi-bin/abstract/112510815/ABSTRACT} {
+	formatted_url {{Wiley InterScience} http://www3.interscience.wiley.com/cgi-bin/abstract/112510815/ABSTRACT}
+	formatted_url {DOI http://dx.doi.org/10.1002/bsl.675}
+	volume 24
+	linkout {WILEY 112510815 {} {} {}}
+	linkout {DOI {} 10.1002/bsl.675 {} {}}
+	year 2006
+	type JOUR
+	copyright {Copyright © 2006 John Wiley & Sons, Ltd.}
+	start_page 179
+	end_page 198
+	on 1099-0798
+	pn 0735-3936
+	url {http://dx.doi.org/10.1002/bsl.675}
+	doi {10.1002/bsl.675}
+	issue 2
+	title {The effects of defendant race, victim race, and juror gender on evidence processing in a murder trial}
+	journal {Behavioral Sciences & the Law}
+	author {Forsterlee Robert R {Robert ForsterLee}} 
+	author {Forsterlee Lynne L {Lynne ForsterLee}} 
+	author {Horowitz Irwin IA {Irwin A. Horowitz}} 
+	author {King Ellen E {Ellen King}}
+	address {Central Queensland University; Oregon State University}
+	abstract {The effects of defendant race, victim race, and juror gender on sentencing and information processing were examined within the context of a murder trial. A sample consisting of 96, jury eligible White Australians read one of four versions of a real trial transcript, in which the race of a male defendant and female victim were varied. The participants imposed the severest sentences on the Indigenous (Black) defendant. Jurors were most lenient with White defendants who killed a White victim. Female jurors were more punitive than the males toward the Indigenous defendant. Jurors processed evidence systematically in same-race trials, but used both systematic and heuristic processing in mixed-race trials. In these instances, female jurors employed significantly more emotive responses, especially when the victim was Black. The effects of subtle racism and the black processing effect when the victim was non-White are considered. Copyright © 2006 John Wiley & Sons, Ltd.}
+	status ok
+}
+
+test {http://www3.interscience.wiley.com/cgi-bin/abstract/110462841/ABSTRACT} {
+	formatted_url {{Wiley InterScience} http://www3.interscience.wiley.com/cgi-bin/abstract/110462841/ABSTRACT}
+	formatted_url {DOI http://dx.doi.org/10.1002/elps.1150070102}
+	volume 7
+	linkout {WILEY 110462841 {} {} {}}
+	linkout {DOI {} 10.1002/elps.1150070102 {} {}}
+	year 1986
+	type JOUR
+	copyright {Copyright © 1986 VCH Verlagsgesellschaft mbH}
+	start_page 1
+	end_page 18
+	on 1522-2683
+	pn 0173-0835
+	url {http://dx.doi.org/10.1002/elps.1150070102}
+	doi {10.1002/elps.1150070102}
+	issue 1
+	title {Protein blotting}
+	journal {Electrophoresis}
+	author {Beisiegel Ulrike U {Ulrike Beisiegel}}
+	address {Medizinische Kernklinik und Poliklinik Universitäts-Krankenhaus Eppendorf, Hamburg}
+	abstract {No Abstract.}
+	status ok
+}
+
