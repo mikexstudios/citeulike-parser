@@ -43,13 +43,6 @@ source "util.tcl"
 set url [gets stdin]
 
 
-#set my_cookies {cookon {expires {} persistent_p 0 value 1119854714-CNMZqciYk name cookon full {cookon=1119854714-CNMZqciYk; path=/; domain=.aip.org}}}
-
-
-#tclwebtest::cookies set $my_cookies
-
-
-
 # Could come in a couple of ways--lets figure out which ones are ok to parse and which ones we should bail on:
 #This is the format that we'll probably get our URLs in; notably it has an ID, which is subject to change, but can get us the BibTex reference
 #http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000012123523000001&idtype=cvips&gifs=Yes
@@ -133,7 +126,7 @@ puts "begin_tsv"
 puts "linkout\tAIP\t\t${id}\t\t"	
 if {[regexp {url = \{http://link\.(aps|aip)\.org/(.*)\}} $page -> domain toparse]} {
 	if {[string equal $domain "aps"]} {
-		if {[regexp {abstract/([A-Z]+)/v([0-9]+)/([ep][0-9])(?:.*?)} $toparse -> ckey_1 ikey_1 ckey_2]} {
+		if {[regexp {abstract/([A-Z]+)/v([0-9]+)/([ep]{1,2}[0-9]+)(?:.*?)} $toparse -> ckey_1 ikey_1 ckey_2]} {
 			puts "linkout\tAPS\t${ikey_1}\t${ckey_1}\t\t${ckey_2}"
 		}
 	} elseif {[string equal $domain "aip"]} {
