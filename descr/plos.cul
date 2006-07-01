@@ -48,7 +48,7 @@ plugin {
 	author {Stevan Springer}
 	email {stevan.springer@gmail.com}
 	language {perl}
-	regexp {(http://[a-z]+.plosjournals.org/perlserv/.request=get-document.doi=\S+)}
+	regexp {(http://[a-z]+.plosjournals.org/perlserv.{0,5}request=get-document.doi=\S+)}
 }
 
 # Linkout formatting
