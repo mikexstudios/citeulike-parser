@@ -133,3 +133,44 @@ proc parse_page_numbers {p} {
 	}
 	return {}
 }
+
+proc put_tsv {key value} {
+    puts "${key}\t${value}"
+}
+
+proc put_linkout {type ikey1 ckey1 ikey2 ckey2} {
+    puts [join [list linkout $type $ikey1 $ckey1 $ikey2 $ckey2] "\t"]
+}
+
+proc map_long_month {month} {
+    return  [string map [list \
+	    January 1 \
+	    February 2 \
+	    March 3 \
+	    April 4 \
+	    May 5 \
+	    June 6 \
+	    July 7 \
+	    August 8 \
+	    September 9 \
+	    October 10 \
+	    November 11 \
+	    December 12] $month]
+}
+
+proc parse_start_end_pages {p} {
+    if {[regexp {^(\d+)-+(\d+)$} $p -> first last]} {
+	if {$last < $first} {
+	    # Something like 1293-5
+	    set end_pos "end-[string length $last]"
+	    
+	    set last "[string range $first 0 $end_pos]$last"
+	}
+	return [list $first $last]
+    }
+    return ""
+}
+
+proc strip_html_tags {str} {
+    return [regsub -all {<[^>]+>} $str {}]
+}
