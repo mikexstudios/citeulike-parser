@@ -113,9 +113,7 @@ test {http://www.ajhp.org/cgi/content/full/62/3/239} {
 
 test {http://sth.sagepub.com/cgi/content/refs/28/1/5} {
 	linkout			{HWIRE 28 sth.sagepub.com 1 5}
-	linkout			{DOI {} 10.1177/0162243902238803 {} {}}
 	formatted_url	{HighWire http://sth.sagepub.com/cgi/content/abstract/28/1/5}
-	formatted_url	{DOI http://dx.doi.org/10.1177/0162243902238803}
 	volume			{28}
 	issue			{1}
 	start_page		{5}

@@ -117,5 +117,15 @@ format_linkout IBIKE {
 
 
 test {http://www.ingentaconnect.com/content/els/03064573/2002/00000038/00000001/art00019} {
+    linkout {IBIKE {} els/03064573/2002/00000038/00000001/art00019 {} {}}
+    type JOUR
+    start_page 111
+    end_page 140
+    formatted_url {IngentaConnect http://www.ingentaconnect.com/content/els/03064573/2002/00000038/00000001/art00019}
+    title {Discovering authorities and hubs in different topological web graph structures}
+    month 1
+    author {Meghabghab {} G {Meghabghab G.}}
+    abstract {This research is a part of ongoing study to better understand citation analysis on the Web. It builds on Kleinberg's research (J. Kleinberg, R. Kumar, P. Raghavan, P. Rajagopalan, A. Tomkins, Invited survey at the International Conference on Combinatorics and Computing, 1999) that hyperlinks between web pages constitute a web graph structure and tries to classify different web graphs in the new coordinate space: out-degree, in-degree. The out-degree coordinate is defined as the number of outgoing web pages from a given web page. The in-degree coordinate is the number of web pages that point to a given web page. In this new coordinate space a metric is built to classify how close or far are different web graphs. Kleinberg's web algorithm (J. Kleinberg, Proceedings of the ACM-SIAM Symposium on Discrete Algorithms, 1998, pp. 668-677) on discovering ''hub web pages'' and ''authorities web pages'' is applied in this new coordinate space. Some very uncommon phenomenon has been discovered and new interesting results interpreted. This study does not look at enhancing web retrieval by adding context information. It only considers web hyperlinks as a source to analyze citations on the web. The author believes that understanding the underlying web page as a graph will help design better web algorithms, enhance retrieval and web performance, and recommends using graphs as a part of visual aid for search engine designers.}
+
     status ok
 }

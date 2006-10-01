@@ -157,7 +157,7 @@ test {http://bmj.bmjjournals.com/cgi/content/abstract/330/7499/1049} {
 	month 5
 	day 7
 	status ok
-	abstract {Objectives To compare how allocation concealment is described in publications of randomised clinical trials and corresponding protocols, and to estimate how often trial publications with unclear allocation concealment have adequate concealment according to the protocol.  Design Cohort study of 102 sets of trial protocols and corresponding publications.  Setting Protocols of randomised trials approved by the scientific and ethical committees for Copenhagen and Frederiksberg, 1994 and 1995.  Main outcome measures Frequency of adequate, unclear, and inadequate allocation concealment and sequence generation in trial publications compared with protocols, and the proportion of protocols where methods were reported to be adequate but descriptions were unclear in the trial publications.  Results 96 of the 102 trials had unclear allocation concealment according to the trial publication. According to the protocols, 15 of these 96 trials had adequate allocation concealment (16%, 95% confidence interval 9% to 24%), 80 had unclear concealment (83%, 74% to 90%), and one had inadequate concealment. When retrospectively defined loose criteria for concealment were applied, 83 of the 102 trial publications had unclear concealment. According to their protocol, 33 of these 83 trials had adequate allocation concealment (40%, 29% to 51%), 49 had unclear concealment (59%, 48% to 70%), and one had inadequate concealment.  Conclusions Most randomised clinical trials have unclear allocation concealment on the basis of the trial publication alone. Most of these trials also have unclear allocation concealment according to their protocol.}
+	abstract {Objectives To compare how allocation concealment is described in publications of randomised clinical trials and corresponding protocols, and to estimate how often trial publications with unclear allocation concealment have adequate concealment according to the protocol.  Design Cohort study of 102 sets of trial protocols and corresponding publications.  Setting Protocols of randomised trials approved by the scientific and ethical committees for Copenhagen and Frederiksberg, 1994 and 1995.  Main outcome measures Frequency of adequate, unclear, and inadequate allocation concealment and sequence generation in trial publications compared with protocols, and the proportion of protocols where methods were reported to be adequate but descriptions were unclear in the trial publications.  Results 96 of the 102 trials had unclear allocation concealment according to the trial publication. According to the protocols, 15 of these 96 trials had adequate allocation concealment (16%, 95% confidence interval 9% to 24%), 80 had unclear concealment (83%, 74% to 90%), and one had inadequate concealment. When retrospectively defined loose criteria for concealment were applied, 83 of the 102 trial publications had unclear concealment. According to their protocol, 33 of these 83 trials had adequate allocation concealment (40%, 29% to 51%), 49 had unclear concealment (59%, 48% to 70%), and one had inadequate concealment.  Conclusions Most randomised clinical trials have unclear allocation concealment on the basis of the trial publication alone. Most of these trials also have unclear allocation concealment according to their protocol. 10.1136/bmj.38414.422650.8F}
 }
 
 # Test the thing when there's extra junk on the end of the URL (E.g: ?ehom)
@@ -182,6 +182,7 @@ test {http://bmj.bmjjournals.com/cgi/content/abstract/330/7506/1457?ehom} {
 	author        {Edozien Leroy LC {Edozien, Leroy C}}
 	type          JOUR
 	url           http://bmj.bmjjournals.com
+	abstract      {10.1136/bmj.330.7506.1457}
 	status        ok
 }
 
@@ -203,6 +204,7 @@ test {http://bmj.bmjjournals.com/cgi/content/full/330/7506/0-g?ehom} {
 	author        {Godlee Fiona F {Godlee, Fiona}}
 	issue         7506
 	url           http://bmj.bmjjournals.com
+	abstract      {10.1136/bmj.330.7506.0-g}
 	status        ok
 }
 
@@ -223,6 +225,7 @@ test {http://bmj.bmjjournals.com/cgi/content/full/329/7475/1188-c/DC1?maxtoshow=
 	day           13
 	title         {Graham George Haigh}
 	journal       BMJ
+	abstract      {10.1136/bmj.329.7475.1188-c}
 	author        {Cameron Gordon G {Cameron, Gordon}}	 
 	status        ok
 }
@@ -278,8 +281,8 @@ test {http://bjsm.bmjjournals.com/cgi/content/abstract/39/4/223} {
 	author {Ciocco {} MV {Ciocco, M V}}
 	month 4
 	day 1
+	abstract {Objectives: To investigate safety risks in slowpitch softball by conducting laboratory and experimental studies on the performance of high tech softball bats with polyurethane softballs. To compare the results with the recommended safety standards.  Methods: ASTM standard compression testing of seven softball models was conducted. Using these seven softball models, bat/ball impact testing was performed using seven adult male softball players and six high tech softball bat models to determine mean batted ball speeds. Over 500 bat/ball impact measurements were recorded and analysed. Available pitcher reaction time was calculated from the mean batted ball speed measurements.  Results: According to the United States Specialty Sports Association and the Amateur Softball Association, the maximum initial batted ball speed should be 137.2 km/h, which corresponds to a minimum pitcher reaction time of 0.420 second. These experiments produced mean batted ball speeds of 134.0-159.7 km/h, which correspond to available pitcher reaction times of 0.409-0.361 second.  Conclusion: The use of high tech softball bats with polyurethane softballs can result in batted ball speeds that exceed the recommended safety limits, which correspond to decreased available pitcher reaction times. 10.1136/bjsm.2004.012724}
 	status ok
-	abstract {Objectives: To investigate safety risks in slowpitch softball by conducting laboratory and experimental studies on the performance of high tech softball bats with polyurethane softballs. To compare the results with the recommended safety standards.  Methods: ASTM standard compression testing of seven softball models was conducted. Using these seven softball models, bat/ball impact testing was performed using seven adult male softball players and six high tech softball bat models to determine mean batted ball speeds. Over 500 bat/ball impact measurements were recorded and analysed. Available pitcher reaction time was calculated from the mean batted ball speed measurements.  Results: According to the United States Specialty Sports Association and the Amateur Softball Association, the maximum initial batted ball speed should be 137.2 km/h, which corresponds to a minimum pitcher reaction time of 0.420 second. These experiments produced mean batted ball speeds of 134.0-159.7 km/h, which correspond to available pitcher reaction times of 0.409-0.361 second.  Conclusion: The use of high tech softball bats with polyurethane softballs can result in batted ball speeds that exceed the recommended safety limits, which correspond to decreased available pitcher reaction times.}
 }
 
 #
@@ -302,6 +305,7 @@ test {http://ip.bmjjournals.com/cgi/content/full/7/2/166-a} {
 	journal {Inj Prev}
 	author {Stokes {} M {Stokes, M}} 
 	author {Corbo {} MP {Corbo, M P}}
+	abstract {10.1136/ip.7.2.166-a}
 	month 6
 	issue 2
 	status ok

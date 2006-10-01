@@ -121,7 +121,8 @@ test {http://www.isrl.uiuc.edu/~amag/langev/paper/niyogi_book.html} {
 	formatted_url  {LangEv http://www.isrl.uiuc.edu/~amag/langev/paper/niyogi_book.html}
 	linkout    {LNGV {} niyogi_book {} {}}
 	author    {Niyogi Partha P {Partha Niyogi}}
-	year    Forthcoming
+	year    {2006}
+	month   {April}
 	type    BOOK
 	url    http://www.isrl.uiuc.edu/~amag/langev/paper/niyogi_book.html
 	publisher    {MIT Press}

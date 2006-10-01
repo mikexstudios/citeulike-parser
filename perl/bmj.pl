@@ -112,7 +112,7 @@ if ($src =~ m{gca=([A-Za-z0-9./;]+)"}) {
 	
 if ($method=='ris') {
 		
-	$res = $ua->get("http://${journal}.bmjjournals.com/cgi/citmgr_procite?gca=${riskey}") || (print "status\terr\tCouldn't fetch the ris details from the BMJ web site.\n" and exit);
+	$res = $ua->get("http://${journal}.bmjjournals.com/cgi/citmgr?type=refman&gca=${riskey}") || (print "status\terr\tCouldn't fetch the ris details from the BMJ web site.\n" and exit);
 	$ris = $res->content;
 	print "begin_ris\n";
 	print $ris;

@@ -122,14 +122,14 @@ format_linkout AIPP {
 
 test {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes} {
 	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes}
-	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e1}
-	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e1}
+	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e103508}
+	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e103508}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevD.71.103508}
 	keywords {cosmology; superstrings; membrane theory}
 	pages 103508
 	volume 71
 	linkout {AIP {} PRVDAQ000071000010103508000001 {} {}}
-	linkout {APS 71 PRD {} e1}
+	linkout {APS 71 PRD {} e103508}
 	linkout {}
 	linkout {DOI {} 10.1103/PhysRevD.71.103508 {} {}}
 	year 2005

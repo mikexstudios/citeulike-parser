@@ -123,6 +123,7 @@ test {http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2004PhRvD..70f4030
 	year 2004
 	month September
 	issue 6
+	eprint {hep-th/0405077}
 	author {Okuyama {} N {N. Okuyama}}
 	author {Maeda {} KI {K. I. Maeda}}
 	title {Domain wall dynamics in brane world and nonsingular cosmological models}

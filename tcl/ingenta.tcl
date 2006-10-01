@@ -63,7 +63,7 @@ foreach author [split $rauthors ";"] {
     # lose the disporder
     set author [regsub {\[\d+\]} $author ""]
     set author [string trim [string map [list "  " " "] $author]]
-    put_tsv authors $author
+    put_tsv author $author
 }
 
 

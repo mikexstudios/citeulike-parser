@@ -119,6 +119,8 @@ format_linkout CITES {
 test {http://citeseer.ist.psu.edu/wexelblat99footprints.html} {
 	formatted_url {{CiteSeer (at Penn State)} http://citeseer.ist.psu.edu/wexelblat99footprints.html}
 	formatted_url {{CiteSeer (at MIT)} http://citeseer.lcs.mit.edu/wexelblat99footprints.html}
+	formatted_url {{CiteSeer (at Zurich)} http://citeseer.ifi.unizh.ch/wexelblat99footprints.html} 
+	formatted_url {{CiteSeer (at Singapore)} http://citeseer.comp.nus.edu.sg/wexelblat99footprints.html}
 	linkout {CITES {} wexelblat99footprints {} {}}
 	abstract {Inspired by Hill and Hollan's original work [6], we have been
 developing a theory of interaction history and building tools
@@ -145,6 +147,8 @@ significantly...}
 test {http://citeseer.ist.psu.edu/moffat96selfindexing.html} {
 	formatted_url {{CiteSeer (at Penn State)} http://citeseer.ist.psu.edu/moffat96selfindexing.html}
 	formatted_url {{CiteSeer (at MIT)} http://citeseer.lcs.mit.edu/moffat96selfindexing.html}
+	formatted_url {{CiteSeer (at Zurich)} http://citeseer.ifi.unizh.ch/moffat96selfindexing.html} 
+	formatted_url {{CiteSeer (at Singapore)} http://citeseer.comp.nus.edu.sg/moffat96selfindexing.html}
 	linkout {CITES {} moffat96selfindexing {} {}}
 	abstract {Query processing costs on large text databases are dominated by the need to retrieve and scan the inverted list of each query term. Here we show that query response time for conjunctive Boolean queries and for informal ranked queries can be dramatically reduced, at little cost in terms of storage, by the inclusion of an internal index in each inverted list. This method has been applied in a retrieval system for a collection of nearly two million short documents. Our experimental results show...} 
 	author {Moffat Alistair A {Alistair Moffat}}
