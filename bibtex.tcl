@@ -75,19 +75,20 @@ proc parse_bibtex {bibtex_rec} {
 	set bibfile [open "$bibdir/$fname.bib" "w"]
 	puts $bibfile $bibtex_rec
 	close $bibfile
-	
+
+	set olddir [pwd]
 	cd $bibdir
 	
-	file delete -- "$fname.aux"
-	file delete -- "$fname.bbl"
-	file delete -- "$fname.aux"
-	file delete -- "$fname.blg"
+	file delete -- "$bibdir/$fname.aux"
+	file delete -- "$bibdir/$fname.bbl"
+	file delete -- "$bibdir/$fname.aux"
+	file delete -- "$bibdir/$fname.blg"
 	
 	# Copy the style file into the directory
 	file copy -force [bibtex_style_dir]/citeulike.bst $bibdir
 
 	#Create a dummy .aux file which cites everything
-	set fp [open "${fname}.aux" w]
+	set fp [open "$bibdir/${fname}.aux" w]
 	puts $fp [subst {\\citation{*}\n\\bibdata{$fname}\n\\bibstyle{citeulike}\n}]
 	close $fp
 	
@@ -104,16 +105,19 @@ proc parse_bibtex {bibtex_rec} {
 			set ret(error) $msg
 		}
 
+		cd $olddir
 		bibtex_cleanup
 		return [array get ret]
 	}
 
 	# Extract what bibtex produced
-	set fp [open "${fname}.bbl" r]
+	set fp [open "$bibdir/${fname}.bbl" r]
 	set data [read $fp]
 	close $fp
 
 	set ret [bibtex_untangle $data]
+
+	cd $olddir
 
 	return $ret
 
