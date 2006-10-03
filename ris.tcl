@@ -86,7 +86,7 @@ proc parse_ris {rec} {
 					if {$v=="CHAP"} {
 						set ret(type) INCOL
 					} elseif {$v=="RPRT"} {
-						set type(ret) REP
+						set ret(type) REP
 					} else {
 						set ret(type) $v
 					}
