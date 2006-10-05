@@ -1,11 +1,15 @@
 #!/usr/bin/env perl
 
 use warnings;
-use LWP::Simple;
+#use LWP::Simple;
+use LWP 5.64;
 
 #
 # Copyright (c) 2005 Richard Cameron, CiteULike.org
 # All rights reserved.
+#
+# 05/oct/2006 Marcus Granado <mrc.gran(@)gmail.com>
+#   - added support for cookies,required by new springerlink.com portal
 #
 # This code is derived from software contributed to CiteULike.org
 # by
@@ -41,8 +45,19 @@ use LWP::Simple;
 # POSSIBILITY OF SUCH DAMAGE.
 
 
+my $browser = LWP::UserAgent->new;
+$browser->cookie_jar({}); #springerlink.com expects we store cookies
 
 $url = <>;
+
+#let's emulate better some browser headers
+my @ns_headers = (
+   'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
+   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, 
+        image/pjpeg, image/png, */*',
+   'Accept-Charset' => 'iso-8859-1,*,utf-8',
+   'Accept-Language' => 'en-US',
+  );
 
 #Examples of compatible url formats:
 #ADD some examples here later.
@@ -50,23 +65,32 @@ $url = <>;
 
 # Parser for Springerlink Web Addresses:
 #ADD a parser to link from other forms of the article to the abstract later.
-	
+
+# lets remove any initial 'www.' : springerlink.com doesn't like it
+$url =~ s/www\.//; # remove www.	
 
 $url_abstract = $url;
 
 # Get the link to the reference manager RIS file
-$source_abstract = get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+$response = $browser->get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
-if ($source_abstract =~ m{href="(.*)"\s>RIS<}){
-	$link_ris = "http://springerlink.com$1";
+$source_abstract = $response->content;
+if ($source_abstract =~ m{href="(.*)"\s*>RIS<}){
+	$link_ris = "http://springerlink.com/$1";
+	$link_ris =~ s/&amp;/&/; # replace &amp; for &
+	$link_ris =~ s/\.\.\/*//; # remove any ../ 
+	$link_ris =~ s/\.\.\/*//; # remove any ../ again
 }
-else{
+else{ 
+
 	print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page.\n" and exit;
 }
 
-
 #Get the reference manager RIS file and check retrieved file
-$ris = get("$link_ris") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+$response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+
+$ris = $response->content;
+
 unless ($ris =~ m{ER\s+-})
 	{
 	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
@@ -83,7 +107,9 @@ print "begin_tsv\n";
 # Springer seem to use DOIs exclusively
 #DOI linkout
 #if ($ris =~ m{doi:([0-9a-zA-Z_/.:-]*)}) {
-if ($ris =~ m{doi:(\S*)}) {
+#if ($ris =~ m{doi:(\S*)}) {
+if ($ris =~ m{UR\s+-\s(.*)\s}) {
+       $ris =~ m{http://.*(10.1007/[0-9a-zA-Z_/.:-]*)}; #only doi remains
 	print "linkout\tDOI\t\t$1\t\t\n";
 } else {
 	print "status\terr\tThis document does not have a DOI, so cannot make a permanent link to it.\n" and exit;

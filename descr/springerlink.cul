@@ -48,7 +48,7 @@ plugin {
 	author {Stevan Springer}
 	email {stevan.springer@gmail.com}
 	language {perl}
-	regexp {(http://www.springerlink.com/(index/.*|\(\w+\)/app/home/contribution.*))}
+	regexp {(http://(www.)?springerlink.com/(index/.*|\(\w+\)/app/home/contribution.*|content/.*))}
 }
 
 # Linkout formatting
@@ -58,61 +58,61 @@ plugin {
 
 #Tests
 
-test {http://www.springerlink.com/index/10.1007/BF01975011} {
+test {http://springerlink.com/index/10.1007/BF01975011} {
 	linkout			{DOI {} 10.1007/BF01975011 {} {}}
 	formatted_url           {DOI http://dx.doi.org/10.1007/BF01975011}
-	volume			{96}
+	volume			{V96}
 	issue			{2}
 	start_page		{168}
 	end_page		{172}
 	year			{1955}
 	month			{4}
-	day			{}
+	day			{1}
 	title			{The orientation of homing pigeons in relation to change in sun declination}
 	journal			{Journal of Ornithology}
-	author			{Rawson Kenneth KS {Rawson, Kenneth S.}}
-	author			{Rawson Anne AM {Rawson, Anne M.}}
+	author			{Rawson Kenneth KS {Kenneth S. Rawson}}
+	author			{Rawson Anne AM {Anne M. Rawson}}
 	type			{JOUR}
 	url			http://dx.doi.org/10.1007/BF01975011
 	doi                     10.1007/BF01975011
 	status 			ok
 }
 
-test {http://www.springerlink.com/index/10.1007/BF01059068} {
+test {http://springerlink.com/index/10.1007/BF01059068} {
 	linkout			{DOI {} 10.1007/BF01059068 {} {}}
 	formatted_url	{DOI http://dx.doi.org/10.1007/BF01059068}
-	volume			{19}
+	volume			{V19}
 	issue			{4}
 	start_page		{508}
 	end_page		{512}
 	year			{1990}
 	month			{7}
-	day				{}
+	day				{1}
 	title			{Recent taxonomic discoveries concerning the mussel<i>Mytilus</i>: Implications for biomonitoring}
 	journal			{Archives of Environmental Contamination and Toxicology}
-	author			{Lobel {} PB {Lobel, P. B.}}  
-	author			{Belkhode {} SP {Belkhode, S. P.}}
-	author			{Jackson {} SE {Jackson, S. E.}}
-	author			{Longerich {} HP {Longerich, H. P.}}
+	author			{Lobel {} PB {P. B. Lobel}}  
+	author			{Belkhode {} SP {S. P. Belkhode}}
+	author			{Jackson {} SE {S. E. Jackson}}
+	author			{Longerich {} HP {H. P. Longerich}}
 	type			{JOUR}
 	url			http://dx.doi.org/10.1007/BF01059068
 	doi			10.1007/BF01059068
 	status			ok
 }
 
-test {http://www.springerlink.com/index/10.1007/BF00346688} {
+test {http://springerlink.com/index/10.1007/BF00346688} {
 	linkout			{DOI {} 10.1007/BF00346688 {} {}}
 	formatted_url	{DOI http://dx.doi.org/10.1007/BF00346688}
-	volume			{1}
+	volume			{V1}
 	issue			{1}
 	start_page		{2}
 	end_page		{9}
 	year			{1967}
 	month			{6}
-	day				{}
+	day				{1}
 	title			{Homing of eels (<i>Anguilla anguilla</i>) in the southern North Sea}
 	journal			{Marine Biology}
-	author			{Tesch {} {} {Tesch, F. -W.}}  
+	author			{-W {} {} {F. -W. Tesch}}  
 	type			{JOUR}
 	url			http://dx.doi.org/10.1007/BF00346688
 	doi			10.1007/BF00346688
