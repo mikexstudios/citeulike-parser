@@ -320,6 +320,11 @@ set bibtex [url_get $bibtex_url]
 # and the macro expansion can work.
 set bibtex [regsub {journal = \{\\([a-z0-9]+)\},} $bibtex {journal = \1,}]
 
+# They also include some junk at the start of the record which we need to get rid of:
+# Query Results from the ADS Database
+# Retrieved 1 abstracts, starting with number 1.  Total number selected: 1.
+set bibtex [regsub {^.*?@} $bibtex {@}]
+
 puts $bibtex
 puts "end_bibtex"
 

@@ -75,7 +75,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {^http://adsabs.harvard.edu/cgi-bin/nph-bib_query\?}
+	regexp {^http://adsabs.harvard.edu/(cgi-bin/nph-bib_query\?|abs)}
 }
 
 
