@@ -71,7 +71,7 @@ test {http://www.biomedcentral.com/1746-6148/1/5/} {
 	author {Desmecht Daniel D {Daniel Desmecht}} 
 	pages  5
 	volume 1
-	doi    {http://dx.doi.org/10.1186/1746-6148-1-5}
+	doi    {10.1186/1746-6148-1-5}
 	status ok
 	abstract {BACKGROUND:Lymphocyte function-associated antigen-1 (LFA-1, CD11a/CD18, alphaLbeta2), the most abundant and widely expressed beta2-integrin, is required for many cellular adhesive interactions during the immune response. Many studies have shown that LFA-1 is centrally involved in the pathogenesis of several diseases caused by Repeats-in-toxin (RTX) -producing bacteria.RESULTS:The porcine-LFA-1 CD11a (alpha) subunit coding sequence was cloned, sequenced and compared with the available mammalian homologues in this study. Despite some focal differences, it shares all the main characteristics of these latter. Interestingly, as in sheep and humans, an allelic variant with a triplet insertion resulting in an additional Gln-744 was consistently identified, which suggests an allelic polymorphism that might be biologically relevant.CONCLUSION:Together with the pig CD18-encoding cDNA, which has been available for a long time, the sequence data provided here will allow the successful expression of porcine CD11a, thus giving the first opportunity to express the Sus scrofa beta2-integrin LFA-1 in vitro as a tool to examine the specificities of inflammation in the porcine species.}
 }
