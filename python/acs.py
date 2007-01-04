@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/local/bin/python
 
 # Copyright (c) 2006 Kristinn B. Gylfason <citeulike@askur.org>
 # All rights reserved.
@@ -71,24 +71,22 @@ if not key_match:
 	print ERR_STR_PREFIX + ERR_STR_NO_KEYS + url + '.  ' + ERR_STR_REPORT
 	sys.exit(1)
 
-# set the 'coden' and 'jid' keys
-ris_server_post_data['coden'] = key_match.group(1)
-ris_server_post_data['jid'] = key_match.group(2)
+jid = key_match.group(2)
+doi = ACS_DOI_PREFIX + DOI_SEP + jid
 
-doi = ACS_DOI_PREFIX + DOI_SEP + ris_server_post_data['jid']
 
-# fetch the RIS entry for the article and exit gracefully in case of trouble
-query = urllib.urlencode(ris_server_post_data)
-try:
-	f = urllib2.urlopen(RIS_SERVER_ROOT,query)
-except:
-	print ERR_STR_PREFIX + ERR_STR_FETCH + RIS_SERVER_ROOT + '.  ' + ERR_STR_TRY_AGAIN
-	sys.exit(1)
+from mechanize import Browser
+br = Browser()
+br.open("http://pubs.acs.org/wls/journals/citation2/Citation?jid="+jid)
 
-ris_entry = f.read()
+br.select_form(nr=0)
+br["includeAbstract"]=["citation-abstract"]
+br["format"]=["plainRIS"]
+response = br.submit()
+ris = response.read()
 
 # get rid of the extra newline at the end
-ris_entry = ris_entry.strip()
+ris_entry = ris.strip()
 
 # print the results
 print "begin_tsv"
