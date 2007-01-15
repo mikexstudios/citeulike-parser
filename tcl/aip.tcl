@@ -113,6 +113,13 @@ if {[regexp {<html} $page]} {
 	bail {"I couldn't find the BibTex link on the page"}
 }
 
+
+# Modify the bibtex record to fix their malformed page field
+# pages = {021903} should be
+# pages = {021903+}
+
+set page [regsub {\npages = {([0-9]+)}} $page { pages = {\1+}}]
+
 puts "begin_bibtex"
 puts $page 
 puts "end_bibtex"
