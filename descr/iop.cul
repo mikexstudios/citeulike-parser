@@ -14,11 +14,16 @@ format_linkout IOP {
 			"http://stacks.iop.org/${ckey_1}/${ikey_1}/${ckey_2}"]
 }
 
+format_linkout IOPDOI {
+	return [list "Electronic Journals (IoP DOI based)" \
+			"http://stacks.iop.org/${ckey_1}/${ikey_1}/i=${ikey_2}/a=${ckey_2}"]
+}
+
 test {http://www.iop.org/EJ/abstract/-ffissn=0305-4470/-ff30=all/0305-4470/38/45/008} {
-	formatted_url {{Electronic Journals (IoP)} http://stacks.iop.org/0305-4470/38/9849}
+	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/0305-4470/38/i=45/a=008}
 	formatted_url {DOI http://dx.doi.org/10.1088/0305-4470/38/45/008}
 	volume 38
-	linkout {IOP 38 0305-4470 {} 9849}
+	linkout {IOPDOI 38 0305-4470 45 008}
 	linkout {DOI {} 10.1088/0305-4470/38/45/008 {} {}}
 	year 2005
 	start_page 9849
@@ -39,10 +44,10 @@ test {http://www.iop.org/EJ/abstract/-ffissn=0305-4470/-ff30=all/0305-4470/38/45
 }
 
 test {http://www.iop.org/EJ/abstract/0031-9155/11/3/306} {
-	formatted_url {{Electronic Journals (IoP)} http://stacks.iop.org/0031-9155/11/405}
+	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/0031-9155/11/i=3/a=306}
 	formatted_url {DOI http://dx.doi.org/10.1088/0031-9155/11/3/306}
 	volume 11
-	linkout {IOP 11 0031-9155 {} 405}
+	linkout {IOPDOI 11 0031-9155 3 306}
 	linkout {DOI {} 10.1088/0031-9155/11/3/306 {} {}}
 	year 1966
 	start_page 405
@@ -60,10 +65,10 @@ test {http://www.iop.org/EJ/abstract/0031-9155/11/3/306} {
 }
 
 test {http://www.iop.org/EJ/abstract/1009-1963/12/7/306} {
-	formatted_url {{Electronic Journals (IoP)} http://stacks.iop.org/1009-1963/12/732}
+	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/1009-1963/12/i=7/a=306}
 	formatted_url {DOI http://dx.doi.org/10.1088/1009-1963/12/7/306}
 	volume 12
-	linkout {IOP 12 1009-1963 {} 732}
+	linkout {IOPDOI 12 1009-1963 7 306}
 	linkout {DOI {} 10.1088/1009-1963/12/7/306 {} {}}
 	year 2003
 	start_page 732
@@ -83,10 +88,10 @@ test {http://www.iop.org/EJ/abstract/1009-1963/12/7/306} {
 }
 
 test {http://www.iop.org/EJ/abstract/1464-4266/7/3/013} {
-	formatted_url {{Electronic Journals (IoP)} http://stacks.iop.org/1464-4266/7/S89}
+	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/1464-4266/7/i=3/a=013}
 	formatted_url {DOI http://dx.doi.org/10.1088/1464-4266/7/3/013}
 	volume 7
-	linkout {IOP 7 1464-4266 {} S89}
+	linkout {IOPDOI 7 1464-4266 3 013}
 	linkout {DOI {} 10.1088/1464-4266/7/3/013 {} {}}
 	year 2005
 	start_page S89 
@@ -103,3 +108,32 @@ test {http://www.iop.org/EJ/abstract/1464-4266/7/3/013} {
 	status ok
 }
 
+test {http://www.iop.org/EJ/abstract/1748-9326/1/1/014010} {
+	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/1748-9326/1/i=1/a=014010}
+	formatted_url {DOI http://dx.doi.org/10.1088/1748-9326/1/1/014010}
+	status ok
+	volume 1
+        pages {014010 (12pp)}
+	linkout {IOPDOI 1 1748-9326 1 014010}
+	linkout {DOI {} 10.1088/1748-9326/1/1/014010 {} {}}
+	year 2006
+	type JOUR
+	url {http://stacks.iop.org/1748-9326/1/i=1/a=014010}
+	doi {10.1088/1748-9326/1/1/014010}
+	issue 1
+	title {Community effectiveness of stove and health education interventions for reducing exposure to indoor air pollution from solid fuels in four Chinese provinces}
+	journal {Environmental Research Letters}
+        abstract {Indoor air pollution (IAP) from biomass and coal is a leading cause of mortality and disease burden in the developing world. There is limited evidence of the community effectiveness of interventions for reducing IAP exposure. We conducted a community-based intervention study of stove and health education interventions in four low-income Chinese provinces: Gansu, Guizhou, Inner Mongolia, and Shaanxi. Separate townships in one county in each province were assigned to stove plus behavioral interventions, behavioral interventions alone, and control. Data on household fuel and stove use, and on concentrations of respirable particles (RPM), carbon monoxide (CO), and sulfur dioxide (SO$_2$), were collected in peak and late heating seasons before and after interventions. The effectiveness of interventions was evaluated using difference-in-difference analysis. Pollutant concentrations were also measured in controlled tests, in which stoves were operated by expert users. In controlled tests, there was consistent and substantial reduction in concentrations of RPM ($>$88\%) and CO ($>$66\%); in the two coal-using provinces, SO$_{2}$ concentrations declined more in Shaanxi than in Guizhou. In community implementation, combined stove and behavioral interventions reduced the concentrations of pollutants in rooms where heating was the main purpose of stove use in the peak heating season, with smaller, non-significant, reduction in late heating season. Gansu was the only province where combined stove and behavioral interventions led to pollution reduction where cooking was the primary purpose of stove use. Compared to the control group, no significant IAP reductions were seen in groups with health education alone.}
+	cite {1748-9326-1-1-014010}
+        author {Zhou Zheng Z {Zheng Zhou}} 
+        author {Jin Yinlong Y {Yinlong Jin}} 
+        author {Liu Fan F {Fan Liu}}
+        author {Cheng Yibin Y {Yibin Cheng}}
+        author {Liu Jiang J {Jiang Liu}}
+        author {Kang Jiaqi J {Jiaqi Kang}}
+        author {He Gongli G {Gongli He}}
+        author {Tang Ning N {Ning Tang}}
+        author {Chen Xun X {Xun Chen}}
+        author {Baris Enis E {Enis Baris}}
+        author {Ezzati Majid M {Majid Ezzati}}
+}
