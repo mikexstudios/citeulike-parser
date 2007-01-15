@@ -59,45 +59,97 @@ if {[regexp {muse.jhu.edu[^/]*/journals/([^/]+)/v([0-9]+)/([0-9]+).([^.]+).html}
 #fetch the page
 set page [url_get $url]
 
-# TITLE
-if {[regexp {<doctitle>([^<]+)</doctitle>} $page -> title]} {
-	puts "title\t$title"
-} else {
-	bail "This article doesn't seem to have a title."
-}
-
-# AUTHOR
-# nuke the date and affiliation tags
-while {[regexp {([ |\n|\t]*)<date>([^<]+)</date>([ |\n|\t]*)} $page -> prejunk junk postjunk]} {
-	regsub -all "$prejunk<date>$junk</date>$postjunk" $page "" page
-}
-while {[regexp {([ |\n|\t]*)<affiliation>([^<]+)</affiliation>([ |\n|\t]*)} $page -> prejunk junk postjunk]} {
-	regsub -all "$prejunk<affiliation>$junk</affiliation>$postjunk" $page "" page
-}
-regsub -all "</surname><fname>" $page ", " page
-while {[regexp {([ |\n|\t]*)</fname>([ |\n|\t]*)</docauthor>([ |\n|\t]*)<docauthor>([ |\n|\t]*)<surname} $page -> alphajunk betajunk gammajunk deltajunk]} {
-	regsub -all "$alphajunk</fname>$betajunk</docauthor>$gammajunk<docauthor>$deltajunk<surname>" $page ";" page
-}
-if {[regexp {<docauthor>[ |\n|\t]*<surname>([^<]+)</fname>[ |\n|\t]*</docauthor>} $page -> authors ]} {
-	foreach author [split $authors ";"] {
-    	set author [string trim $author]
-    	set author [string map {"  " " "} $author]
-    	puts "author\t$author"
+# SYTLE ONE
+if {[regexp {<!--_title-->} $page]} {
+	# TITLE
+	if {[regexp {<!--_title-->\n(.+)\n<!--_/title-->} $page -> title]} {
+            if {[regexp {<!--_subtitle-->\n(.+)\n<!--_/subtitle-->} $page -> subtitle]} {
+                set title [concat $title $subtitle]
+            }
+            regsub -all {<[^>]*>} $title "" title
+            regsub -all "\n" $title " " title
+            regsub -all {\s+} $title " " title
+            regsub -all {&quot;} $title "\"" title
+            puts "title\t$title"
+	} else {
+		bail "This article doesn't seem to have a title."
 	}
-}
 
-# OTHER METADATA
-if {[regexp {<journal>([^<]*)</journal>\n<journAbbrev>[^<]*</journAbbrev>\n<issn>([^<]*)</issn>\n<volume>([^<]*)</volume>\n<issue>([^<]*)</issue>\n<year>([^<]*)</year>\n<pubdate>([0-9]*)/([0-9]*)/[0-9]*</pubdate>\n<fpage>([^<]*)</fpage>\n<lpage>([^<]*)</lpage>} $page -> journal issn volume issue year month day start_page end_page]} {
-	puts "journal\t$journal\nissn\t$issn\nvolume\t$volume\nissue\t$issue\nyear\t$year\nmonth\t$month\nday\t$day\nstart_page\t$start_page\nend_page\t$end_page"
+	# AUTHOR
+	if {[regexp {<!--_authorname-->(.+)<!--_/authorname-->} $page -> authors]} {
+            regsub -all {<!--_affiliation-->.+?<!--_/affiliation-->} $authors "" authors
+            regsub -all {<[^>]*>} $authors "" authors
+            regsub -all {\s*and\s*} $authors "" authors
+            regsub -all "\n" $authors " " authors
+            regsub -all {\s+} $authors " " authors
+            regsub -all {&amp;} $authors "," authors
+            foreach author [split $authors ","] {
+                set author [string trim $author]
+                set author [string map {"  " " "} $author]
+                puts "author\t$author"
+            }
+	} elseif {[regexp {<!--_byline-->\n(.+)\n<!--_/byline-->} $page -> author]} {
+            regsub -all {<[^>]*>} $author "" author
+            regsub -all "\n" $author " " author
+            regsub -all {\s+} $author " " author
+            set author [string trim $author]
+            set author [string map {"  " " "} $author]
+            puts "author\t$author"
+	} else {
+        	bail "Cannot parse author."
+	}
+
+	# JOURNAL NAME, VOLUME, ISSUE, YEAR, PAGE NUMBERS
+	if {[regexp {<a name="top"></a>\n<i>([^>]+)</i>\s+(\d+)\.(\d+)\s+\((\d+)\)\s+(\d+)-(\d+)} $page -> journal volume issue year start_page end_page]} {
+		puts "journal\t$journal\nvolume\t$volume\nissue\t$issue\nyear\t$year\nstart_page\t$start_page\nend_page\t$end_page"
+	} else {
+       		bail "I can't read the journal's metadata."
+	}
+	# ABSTRACT
+	#if {[regexp {<abstract>\n([^\n]*)\n</abstract>} $page -> abstract]} {
+	#	puts "abstract\t$abstract"
+	#}
+} elseif {[regexp {<div\s+id="article-title">} $page]} {
+        # TITLE
+        if {[regexp {<div\s+id="article-title">(.+?)</div>\s*<!--CLOSE article-title-->} $page -> title]} {
+	        regsub -all {<[^>]*>} $title "" title
+                regsub -all "\n" $title " " title
+                regsub -all {\s+} $title " " title
+                regsub -all {^\s+} $title "" title
+                regsub -all {\s+$} $title "" title
+                puts "title\t$title"
+        } else {
+            bail "This article doesn't seem to have a title."
+        }
+
+        # AUTHOR
+        if {[regexp {<div\s+id="contrib">\n(.+?)\n</div>\s*<!--CLOSE contrib-->} $page -> author]} {
+            regsub -all {<div\s+class="aff".+?<!--CLOSE aff-->} $author "" author
+            regsub -all {<div.+} $author "" author
+            regsub -all {<[^>]*>} $author "" author
+            regsub -all "\n" $author " " author
+            regsub -all {\s+} $author " " author
+            set author [string trim $author]
+            set author [string map {"  " " "} $author]
+            puts "author\t$author"
+        } else {
+            bail "Cannot parse author."
+        }
+
+        # JOURNAL NAME, VOLUME, ISSUE, YEAR, PAGE NUMBERS
+        if {[regexp {<i>([^>]+)</i>\s+(\d+)\.(\d+)\s+\((\d+)\)\s+(\d+)-(\d+)\n<hr />} $page -> journal volume issue year start_page end_page]} {
+            puts "journal\t$journal\nvolume\t$volume\nissue\t$issue\nyear\t$year\nstart_page\t$start_page\nend_page\t$end_page"
+        } else {
+            bail "I can't read the journal's metadata."
+        }
+        # ABSTRACT
+        #if {[regexp {<abstract>\n([^\n]*)\n</abstract>} $page -> abstract]} {
+        #       puts "abstract\t$abstract"
+        #}
+
 } else {
-	bail "I can't read the journal's metadata."
+	bail "Unsupported article markup."
 }
-
-# ABSTRACT
-if {[regexp {<abstract>\n([^\n]*)\n</abstract>} $page -> abstract]} {
-	puts "abstract\t$abstract"
-}
-
 puts "type\tJOUR"
 puts "end_tsv"
 puts "status\tok"
