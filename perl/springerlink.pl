@@ -75,7 +75,7 @@ $url_abstract = $url;
 $response = $browser->get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 $source_abstract = $response->content;
-if ($source_abstract =~ m{href="(.*)"\s*>RIS<}){
+if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
 	$link_ris = "http://springerlink.com/$1";
 	$link_ris =~ s/&amp;/&/; # replace &amp; for &
 	$link_ris =~ s/\.\.\/*//; # remove any ../ 
@@ -83,7 +83,7 @@ if ($source_abstract =~ m{href="(.*)"\s*>RIS<}){
 }
 else{ 
 
-	print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page.\n" and exit;
+	print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
 }
 
 #Get the reference manager RIS file and check retrieved file
