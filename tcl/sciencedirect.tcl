@@ -97,18 +97,23 @@ if {![regexp "<a href=\"(\[^>\]*)\">Export Citation</a>" $page match export_url]
 # Follow it
 set export_page [url_get "http://www.sciencedirect.com$export_url"]
 
-foreach p {_acct _userid _docType _ArticleListID encodedHandle _rdoc md5 RETURN_URL} {
+
+
+foreach p {_ob _method _ArticleListID _uoikey count _docType _acct _version _userid md5} {
+#_acct _userid _docType _ArticleListID encodedHandle _rdoc md5 RETURN_URL
 	regexp "<input type=hidden name=$p value=(\[^>\]*)>" $export_page match param($p)
 }
 set param(_ob) "DownloadURL"
 set param(_method) "finish"
 set param(format) "cite-abs"
 set param(citation-type) "RIS"
+set param(JAVASCRIPT_ON) Y
+set param(count) 1
 set param(x) 11
 set param(y) 14
 
 set qry ""
-foreach {k} [list _ob _method _acct _userid _docType _ArticleListID encodedHandle _rdoc md5 format citation-type x y RETURN_URL] {
+foreach {k} [list _ob _method _acct _userid _docType _ArticleListID _uoikey encodedHandle _rdoc md5 format citation-type x y RETURN_URL] {
 	if {[info exists param($k)]} {
 		set v $param($k)
 		lappend qry "$k=$v"
@@ -117,7 +122,6 @@ foreach {k} [list _ob _method _acct _userid _docType _ArticleListID encodedHandl
 
 set qry [join $qry "&"]
 set target "http://www.sciencedirect.com/science?$qry"
-
 set ris [url_get $target]
 
 
