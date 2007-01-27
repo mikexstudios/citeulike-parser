@@ -1,0 +1,54 @@
+plugin {
+	version {1}
+	name {Scopus}
+	url {http://www.scopus.com/}
+	blurb {}
+	author {Dolf Andringa}
+	email {dolf.andringa@elcyion.nl}
+	language {python}
+	regexp {scopus.com}
+}
+
+format_linkout SCOPUS {
+	return [list "Scopus" \
+			"http://www.scopus.com/scopus/record/display.url?view=extended&origin=resultslist&eid=${ckey_1}"]
+}
+test {http://www.scopus.com/scopus/record/display.url?view=basic&origin=resultslist&eid=2-s2.0-33646709446&sort=plf-f&src=s&st1=mangrove*+AND+predat*+AND+nursery&st2=&affilName=&affilCity=&affilCntry=&sid=erEAstYlbSNQkFG6aUNDpvZ%3a30&sot=b&sdt=b&sl=48&s=TITLE-ABS-KEY%28mangrove*+AND+predat*+AND+nursery%29&relpos=0} {
+	formatted_url {Scopus http://www.scopus.com/scopus/record/display.url?view=extended&origin=resultslist&eid=2-s2.0-33646709446}
+	formatted_url {DOI http://dx.doi.org/10.1007/s10750-005-1428-2}
+	linkout {SCOPUS {} 2-s2.0-33646709446 {} {}}
+	linkout {DOI {} 10.1007/s10750-005-1428-2 {} {}}
+	year 2006
+	volume 563
+	issue 1
+	start_page 45
+	end_page 60
+	type JOUR
+	doi {10.1007/s10750-005-1428-2}
+	author {Dorenbosch {} M {Dorenbosch, M.}}
+	author {Grol {} MGG {Grol, M.G.G.}}
+	author {Nagelkerken {} I {Nagelkerken, I.}}
+	author {{Van Der Velde} {} G {Van Der Velde, G.}}
+	journal {Hydrobiologia}
+	address {Department of Animal Ecology and Ecophysiology, Institute for Water and Wetland Research, Radboud University Nijmegen, Toernooiveld 1, 6525 ED, Nijmegen, Netherlands}
+	title {Different surrounding landscapes may result in different fish assemblages in East African seagrass beds}
+	abstract {Few studies have considered how seagrass fish assemblages are influenced by surrounding habitats. This information is needed for a better understanding of the connectivity between tropical coastal ecosystems. To study the effects of surrounding habitats on the composition, diversity and densities of coral reef fish species on seagrass beds, underwater visual census surveys were carried out in two seagrass habitat types at various locations along the coast of Zanzibar (Tanzania) in the western Indian Ocean. Fish assemblages of seagrass beds in a marine embayment with large areas of mangroves (bay seagrasses) situated 9 km away from coral reefs were compared with those of seagrass beds situated on the continental shelf adjacent to coral reefs (reef seagrasses). No differences in total fish density, total species richness or total juvenile fish density and species richness were observed between the two seagrass habitat types. However, at species level, nine species showed significantly higher densities in bay seagrasses, while eight other species showed significantly higher densities in reef seagrasses. Another four species were exclusively observed in bay seagrasses. Since seagrass complexity could not be related to these differences, it is suggested that the arrangement of seagrass beds in the surrounding landscape (i.e. the arrangement on the continental shelf adjacent to the coral reef, or the arrangement in an embayment with mangroves situated away from reefs) has a possible effect on the occurrence of various reef-associated fish species on seagrass beds. Fish migration from or to the seagrass beds and recruitment and settlement patterns of larvae possibly explain these observations. Juvenile fish densities were similar in the two types of seagrass habitats indicating that seagrass beds adjacent to coral reefs also function as important juvenile habitats, even though they may be subject to higher levels of predation. On the contrary, the density and species richness of adult fish was significantly higher on reef seagrasses than on bay seagrasses, indicating that proximity to the coral reef increases density of adult fish on reef seagrasses, and/or that ontogenetic shifts to the reef may reduce adult density on bay seagrasses. © Springer 2006.}
+	status ok
+}
+test {http://www.scopus.com/scopus/record/display.url?view=basic&origin=resultslist&eid=2-s2.0-33750880593&sort=plf-f&src=s&st1=&st2=Marine&affilName=&affilCity=&affilCntry=&sid=zxx5bYG9W13ROMR3GzVXIF5%3a150&sot=b&sdt=b&sl=12&s=CONF%28Marine%29&relpos=0} {
+	formatted_url {Scopus http://www.scopus.com/scopus/record/display.url?view=extended&origin=resultslist&eid=2-s2.0-33750880593}
+	linkout {SCOPUS {} 2-s2.0-33750880593 {} {}}
+	volume 2006
+	title_series {RINA, Royal Institution of Naval Architects International Conference - Learning from Marine Incidents III}
+	city London
+	start_page 45
+	end_page 48
+	type CONF
+	author {Goodwin {} S {Goodwin, S.}}
+	journal {RINA, Royal Inst. Naval Architects Int. Conf. Learn. Marine Incidents Pap.}
+	address {Det Norske Veritas, United Kingdom}
+	title {Does work keep you awake at night?}
+	abstract {In the maritime sector, the IMO has stated that "fatigue is now widely perceived as the cause of numerous marine casualties." In the UK, there have been 60 reported groundings due to bridge watchkeepers' incapacitation or absence in the 10 years between 1993 and 2003. The MAIB has stated that despite recommendations on manning and alarms "...both merchant and fishing vessels are still finding themselves aground, having overshot their waypoints because the sole bridge watchkeeper has fallen asleep." This paper will discuss fatigue and present some of the results from a major research programme designed to investigate seafarer fatigue. Common sense, as well as fatigue research, tells us that we need enough sleep to feel well rested and alert. Yet fatigue is a key issue challenging performance and safety in the maritime industry. The problem is best addressed using an approach that seeks to identify those areas where the problem is greatest and targets solutions accordingly, allowing us to achieve "alertness when required and sleep when desired". © 2006: The Royal Institution of Naval Architects.}
+	status ok
+}
+
