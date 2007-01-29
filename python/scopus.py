@@ -1,8 +1,8 @@
 #!/usr/local/bin/python
-import re, sys, urllib2, cookielib 
+import re, sys, urllib2, cookielib
 
 # regexp to extract the scopus eid of the article from the url
-EID_REGEXP="&eid=[a-zA-Z0-9\.\-]*&"
+EID_REGEXP="&eid=[a-zA-Z0-9\.\-]*(&|$)"
 # regexp to extract the input formfield holding the stateKey value for this session
 STATEKEY_REGEXP='<input type="hidden" name="stateKey" value="[A-Z]*_[0-9]*">'
 # regexp to extract the stateKey value from the stateKey input formfield
@@ -43,14 +43,17 @@ ERR_STR_NO_DOI = 'No document object identifier found in the URL: '
 ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
 ERR_STR_NO_EID = 'No eid could be found in the URL: '
 ERR_STR_NO_STATEKEY = 'No statekey input field could be found in the source of the page at URL: '
+ERR_STR_NO_TYPE = 'No Document type could be found in the ris source for ris url: '
 
 # read url from std input
 #url=sys.argv[1]
 url = sys.stdin.readline()
 #fetch the eid form the url
 url = url.strip()
-eid=re.search(EID_REGEXP,url).group(0)[5:-1]
-if not eid:
+try:
+    eid=re.search(EID_REGEXP,url).group(0)[5:]
+    if eid[-1]=='&': eid=eid[:-1]
+except:
     print ERR_STR_PREFIX+ERR_STR_NO_EID+url+'. '+ERR_STR_REPORT
     sys.exit(1)
 #set up a html reader
@@ -90,14 +93,21 @@ except:
     doi=""
 
 #get the document type
-tpe=re.search('^TY  - \S*',ris,re.MULTILINE).group(0)[6:]
+try:
+    tpe=re.search('^TY  - \S*',ris,re.MULTILINE).group(0)[6:]
+    #modify the type if it is SER (CiteULike does not know it)
+    if tpe=='SER': tpe="JOUR"
+except:
+    print ERR_STR_PREFIX+ERR_STR_NO_TYPE+risurl+'. '+ERR_STR_REPORT
+    sys.exit(1)
 
 ris=str(ris).split('\n')
+
 #remove the Source: Scopus and Export Date fields and some others. Also remove empty lines
 ris2=ris[:]
 ris=[]
 for line in ris2:
-    if not "Source: Scopus" in line and not "Export Date" in line and line!='' and not 'UR  - ' in line and not 'N1  - doi:' in line and not "Conference Code:" in line:
+    if not "Source: Scopus" in line and not "Export Date" in line and line!='' and not 'UR  - ' in line and not 'N1  - doi:' in line and not "Conference Code:" in line and not 'TY  - \S*' in line:
         ris.append(line)
 
 ris='\n'.join(ris)
