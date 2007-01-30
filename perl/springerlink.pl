@@ -109,7 +109,7 @@ print "begin_tsv\n";
 #if ($ris =~ m{doi:([0-9a-zA-Z_/.:-]*)}) {
 #if ($ris =~ m{doi:(\S*)}) {
 if ($ris =~ m{UR\s+-\s(.*)\s}) {
-       $ris =~ m{http://.*(10.1007/[0-9a-zA-Z_/.:-]*)}; #only doi remains
+       $ris =~ m{http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}; #only doi remains
 	print "linkout\tDOI\t\t$1\t\t\n";
 } else {
 	print "status\terr\tThis document does not have a DOI, so cannot make a permanent link to it.\n" and exit;
