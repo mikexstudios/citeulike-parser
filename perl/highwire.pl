@@ -100,8 +100,10 @@ else
 # Get the link to the citebuilder url and formulate a link to the reference manager RIS file
 $source_abstract = get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
-if ($source_abstract =~ m{"(.*)">\s*(([D|d]ownload to [C|c]itation [M|m]anager)|(Download Citation))}) {
-	$link_citmgr = "http://"."$journal_site"."$1";
+if ($source_abstract =~ m{"([^"]+)">\s*(([D|d]ownload to [C|c]itation [M|m]anager)|(Download Citation))}) {
+	$link_citmgr = $1;
+	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
+
 	$source_citmgr = get("$link_citmgr") || (print "status\terr\t (2.5) Could not retrieve information from the citation manager page.\n" and exit);
 	if ($source_citmgr =~ m{"(.*)">\s*<STRONG>Reference<BR><NOBR>Manager}) {
 		$link_refman = "http://"."$journal_site"."$1";
