@@ -64,9 +64,20 @@ set id [jstor_id $url]
 # We've already extracted an ID like 
 #   00318248/ap010204/01a00010
 
+# We've possibly got one of the weird pemalinks if the id is null
+if {$id==""} {
+    if {[regexp {jstor.org/sici\?sici=([^&]+)} $url -> sici]} {
+	set lpage [url_get "http://links.jstor.org/sici?sici=$sici"]
+	if {[regexp {HREF="(/view/[^"]+)"} $lpage -> stdurl]} {
+		set id [jstor_id "http://www.jstor.org$stdurl"]
+	}
+    }
+}
+	
 set base "http://www.jstor.org/browse"
 set url "${base}/${id}"
 set page [url_get $url]
+
 
 # Bloody mess. Hope they don't change the page format too much
 
