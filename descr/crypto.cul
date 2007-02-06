@@ -1,0 +1,75 @@
+plugin {
+    version  {1}
+    url      {http://eprint.iacr.org}
+    name     {Cryptology ePrint Archive}
+    author   {Mike}
+    email    {deactivated@gmail.com}
+    language {perl}
+    regexp   {eprint.iacr.org/(?:\d{4}/\d+|cgi-bin/cite\.pl\?entry=\d{4}/\d+)}
+}
+
+
+format_linkout IACR {
+    return [list "Cryptology ePrint Archive" \
+		"http://eprint.iacr.org/${ikey_1}/${ckey_1}" \
+	   ]
+}
+
+
+test {http://eprint.iacr.org/2006/125} {
+    formatted_url {{Cryptology ePrint Archive} http://eprint.iacr.org/2006/125}
+    linkout       {IACR 2006 125 {} {}}
+
+    title         {Fast computation of Tate pairing on general divisors of genus 3 hyperelliptic curves}
+    abstract      {For the Tate pairing computation over hyperelliptic curves, there are developments by Duursma-Lee and Barreto et al., and those computations are focused on {\it degenerate} divisors. As divisors are not degenerate form in general, it is necessary to find algorithms on {\it general} divisors for the Tate pairing computation. In this paper, we present two efficient methods for computing the Tate pairing over divisor class groups of the hyperelliptic curves $y^2 = x^p - x + d, ~ d = \pm 1$ of genus 3. First, we provide the {\it pointwise} method, which is a generalization of the previous developments by Duursma-Lee and Barreto et al. In the second method, we use the {\it resultant} for the Tate pairing computation. According to our theoretical analysis of the complexity, the {\it resultant} method is $48.5 \%$ faster than the pointwise method in the best case and $15.3 \%$ faster in the worst case, and our implementation result shows that the {\it resultant} method is much faster than the pointwise method. These two methods are completely general in the sense that they work for general divisors with Mumford representation, and they provide very explicit algorithms.}
+
+    author        {Lee Eunjeong E {Eunjeong Lee}}
+    author        {Lee Hyang-Sook H {Hyang-Sook Lee}}
+    author        {Lee Yoonjin Y {Yoonjin Lee}}
+
+    how_published {Cryptology ePrint Archive, Report 2006/125}
+    type          ELEC
+    year          2006
+    month         Mar
+    day           26
+    status        ok
+}
+
+
+test {http://eprint.iacr.org/cgi-bin/cite.pl?entry=2006/014} {
+    formatted_url {{Cryptology ePrint Archive} http://eprint.iacr.org/2006/014}
+    linkout       {IACR 2006 014 {} {}}
+
+    title         {Sound Computational Interpretation of Formal Hashes}
+    abstract      {This paper provides one more step towards bridging the gap between the formal and computational approaches to cryptographic protocols. We extend the well-known Abadi-Rogaway logic with probabilistic hashes and we give precise semantic to it using Canetti's oracle hashing. Finally, we show that this interpretation is computationally sound.}
+    author        {Garcia Flavio FD {Flavio D. Garcia}}
+    author        {{van Rossum} Peter P {Peter van Rossum}}
+
+    how_published {Cryptology ePrint Archive, Report 2006/014}
+    type          ELEC
+    year          2006
+    month         Jan
+    day           13
+    status        ok
+}
+
+test {http://eprint.iacr.org/1998/002} {
+    formatted_url {{Cryptology ePrint Archive} http://eprint.iacr.org/1998/002}
+    linkout       {IACR 1998 002 {} {}}
+
+    title         {The Graph Clustering Problem has a Perfect Zero-Knowledge Proof}
+    abstract      {The input to the Graph Clustering Problem  consists of a sequence of integers $m_1,...,m_t$ and a sequence of $\sum_{i=1}^{t}m_i$ graphs. The question is whether the equivalence classes, under the graph isomorphism relation, of the input graphs have sizes which match the input sequence of integers. In this note we show that this problem has a (perfect) zero-knowledge interactive proof system. <P> This result improves over &lt;a href=&quot;http:../1996/96-14.html&quot;&gt;record 96-14&lt;/a&gt;, where a parametrized (by the sequence of integers) version of the problem was studied.}
+
+    author        {{De Santis} {} A {A. De Santis}}
+    author        {{Di Crescenzo} {} G {G. Di Crescenzo}}
+    author        {Goldreich {} O {O. Goldreich}}
+    author        {Persiano {} {} {G. Persiano.}}
+
+    how_published {Cryptology ePrint Archive, Report 1998/002}
+    type          ELEC
+    year          1998
+    month         January
+    day           27
+    year          1998
+    status        ok
+}
