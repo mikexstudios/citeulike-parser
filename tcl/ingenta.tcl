@@ -40,6 +40,11 @@
 source util.tcl
 
 set url [gets stdin]
+
+if {[regexp {ingentaconnect.com/content/[^/]+/[^/]+/[^/]+/[^/]+/[^/]+$} $url]} {
+    bail "It appears you are trying to bookmark an entire issue of a journal. Try navigating to the abstract page for just one article on Ingenta and bookmark that instead (if you're trying to choose which article you want by using the check-boxes on the page then, regrettably, that won't work)."
+}
+
 set page [url_get $url]
 
 proc get_meta {page name} {
