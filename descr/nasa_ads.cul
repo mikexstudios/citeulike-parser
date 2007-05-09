@@ -123,7 +123,7 @@ test {http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2004PhRvD..70f4030
 	year 2004
 	month September
 	issue 6
-	eprint {hep-th/0405077}
+	eprint {arXiv:hep-th/0405077}
 	author {Okuyama {} N {N. Okuyama}}
 	author {Maeda {} KI {K. I. Maeda}}
 	title {Domain wall dynamics in brane world and nonsingular cosmological models}
@@ -143,5 +143,39 @@ bulk spacetime. Applying our result to the case with SU(2) gauge bulk
 field, we obtain a singularity-free universe in brane world scenario,
 that is, not only a big bang initial singularity of the brane is avoided
 but also a singularity in a 5D bulk does not exist.}
+	status ok
+}
+
+test {http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2002ApJ...574L..65F} {
+	formatted_url {{NASA ADS} http://adsabs.harvard.edu/cgi-bin/nph-bib_query?bibcode=2002ApJ...574L..65F}
+	formatted_url {{arXiv (abstract)} http://arxiv.org/abs/astro-ph/0206017}
+	formatted_url {{arXiv (PDF)} http://arxiv.org/pdf/astro-ph/0206017}
+	formatted_url {DOI http://dx.doi.org/10.1086/342258}
+	linkout {NASA {} 2002ApJ...574L..65F {} {}}
+	linkout {ARXIV {} astro-ph/0206017 {} {}}
+	linkout {DOI {} 10.1086/342258 {} {}}
+	volume 574
+	year 2002
+	month July
+	eprint {arXiv:astro-ph/0206017}
+	author {Fryer {} CL {C. L. Fryer}}
+	author {Warren {} MS {M. S. Warren}}
+	title {Modeling Core-Collapse Supernovae in Three Dimensions}
+	start_page L65
+	end_page L68
+	journal {Astrophys. J. Lett.}
+	cite 2002ApJ...574L..65F
+	type JOUR
+	doi 10.1086/342258
+	abstract {We present the first complete three-dimensional simulations of the core
+collapse of a massive star from the onset of collapse to the resultant
+supernova explosion. We compare the structure of the convective
+instabilities that occur in three-dimensional models with those of past
+two-dimensional simulations. Although the convective instabilities are
+clearly three-dimensional in nature, we find that both the size scale of
+the flows and the net enhancement to neutrino heating does not differ
+greatly between two- and three-dimensional models. The explosion energy,
+explosion timescale, and remnant mass does not differ by more than 10%
+between two- and three-dimensional simulations.}
 	status ok
 }

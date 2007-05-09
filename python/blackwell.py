@@ -48,8 +48,8 @@ DOI_SEP ='/'
 # regexp for document object identifiers (DOI)
 DOI_REGEXP = r"""/		# begin at slash
 		(10\.\S*?)/	# valid DOI prefixes start with '10.'
-		(.*?)		# DOI suffixes can be anything
-		\s*$"""		# terminate at end of line (strip witesp.)
+		([^/?]+)		# DOI suffixes can be anything
+		\s*"""		# terminate at end of line (strip witesp.)
 DOI_REGEXP_FLAGS = re.IGNORECASE | re.VERBOSE
 
 # error messages

@@ -75,7 +75,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {((arxiv\.org|xxx.soton.ac.uk|xxx.lanl.gov)/(pdf|abs|format|ps)/([^/]+/[^/?]+))|(front.math.ucdavis.edu/([^/]+/[^/?]+))}
+	regexp {((arxiv\.org|xxx.soton.ac.uk|xxx.lanl.gov)/(pdf|abs|format|ps)/([^/]+/?[^/?]+))|(front.math.ucdavis.edu/([^/]+/?[^/?]+))}
 }
 
 

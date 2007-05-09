@@ -87,7 +87,7 @@ if {[regexp $re $page match doi]} {
 }	
 
 # Look for an export citation link
-if {![regexp "<a href=\"(\[^>\]*)\">Export Citation</a>" $page match export_url]} {
+if {![regexp {<a href="([^"]+)" onmouseover="document.images.'export'.} $page match export_url]} {
 	puts stderr $page
 	bail "Are you looking at the full text or the summary of the article you're trying to add? Is it possible you tried to post a page containing a list of search results? I can't recognise your page as a ScienceDirect article. Try again when you're looking at the full-text page. It's the one with the full details of the article and a link on the right hand side saying 'Export Citation'"
 }

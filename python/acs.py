@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/python2.4
 
 # Copyright (c) 2006 Kristinn B. Gylfason <citeulike@askur.org>
 # All rights reserved.
@@ -39,6 +39,7 @@
 
 
 import re, sys, urllib, urllib2
+from urllib import quote
 
 RIS_SERVER_ROOT = 'http://pubs.acs.org/servlet/citation/CitationServlet'
 ACS_DOI_PREFIX = '10.1021'
@@ -77,7 +78,7 @@ doi = ACS_DOI_PREFIX + DOI_SEP + jid
 
 from mechanize import Browser
 br = Browser()
-br.open("http://pubs.acs.org/wls/journals/citation2/Citation?jid="+jid)
+br.open("http://pubs.acs.org/wls/journals/citation2/Citation?jid="+quote(jid))
 
 br.select_form(nr=0)
 br["includeAbstract"]=["citation-abstract"]

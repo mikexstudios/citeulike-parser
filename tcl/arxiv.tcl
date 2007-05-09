@@ -47,13 +47,13 @@ proc arxiv_id {url} {
 	set mirrors [list arxiv.org xxx.soton.ac.uk xxx.lanl.gov]
 	set re "([join $mirrors "|"])"
 	append re {[^/]*}
-	append re {/(pdf|abs|format|ps)/([^/]+/[^/?]+)}
+	append re {/(pdf|abs|format|ps)/([^/]+/?[^/?]+)}
 	
 	if {[regexp $re $url match -> document_type arxiv_id]} {
 		return $arxiv_id
 	}
 	
-	if {[regexp {front.math.ucdavis.edu/([^/]+/[^/?]+)} $url match arxiv_id]} {
+	if {[regexp {front.math.ucdavis.edu/([^/]+/?[^/?]+)} $url match arxiv_id]} {
 		return $arxiv_id
 	}
 	
@@ -94,21 +94,20 @@ set title [string map [list "  " " "] $title]
 puts "title\t$title"
 
 # abstract
-set spos [string first "<blockquote>" $page]
-if {$spos==-1} {
-	set spos [string first "<BLOCKQUOTE>" $page]
-}
+set spos [string first {<span class="descriptor">Abstract:</span>} $page]
 set epos [string first "</blockquote>" $page]
 if {$epos==-1} {
 	set epos [string first "</BLOCKQUOTE>" $page]
 }
 if {$spos >-1 && $epos >-1} {
-	incr spos 13
+	incr spos 43
 	incr epos -2
 	set abstract [string range $page $spos $epos]
 }
-set abstract [string map [list "<BR />" "\n\n"] $abstract]
-puts "abstract\t$abstract"
+set abstract [string map [list "<br />" "\n\n"] $abstract]
+if {[info exists abstract]} {
+	puts "abstract\t$abstract"
+}
 
 # Date
 set re {(Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\d\d?) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d\d\d\d) \d\d:\d\d:\d\d}

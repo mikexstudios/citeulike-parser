@@ -43,7 +43,7 @@ except:
 	sys.exit(1)
 content = f.read()
 
-match = re.search(r"""<div class="aps-abstractbox"><p>(.*)</p></div>""", content, re.DOTALL)
+match = re.search(r"""aps-abstractbox\s*aps-mediumfont">\s*<p>(.*)</p><br\s/>""", content, re.DOTALL)
 abstract = ''
 if match:
 	# strip HTML tags (taken from iop.py)
@@ -57,11 +57,17 @@ if match:
 	parser.feed(match.group(1))
 	abstract = parser.just_text.replace(',',';').strip()
 
-match2 = re.search(r"""span class="aps-boldfont">DOI:</span>(.*?)<br/>""", content, re.DOTALL)
-if not match2:
+# We would much much rather extract the DOI from the ris feed, since it has a
+# much more std structure, (that isn't as subject to change as the page conent.
+# I don't ever expect that we should get to the else clause.  If the re is
+# going to fail, we've probably failed to get the ris earlier.
+
+match = re.search(r"""^ID\s*-\s*(10\..*)""", ris, re.MULTILINE)
+if match:
+	doi = match.group(1)
+else:
 	print ERR_STR_PREFIX + ERR_STR_NO_DOI + absurl + '.  ' + ERR_STR_REPORT
 	sys.exit(1)
-doi = match2.group(1).strip()
 
 #We can look at the 3 letter code in the address to get the journal name.
 	
