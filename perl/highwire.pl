@@ -67,7 +67,7 @@ $url = <>;
 #  Published articles, determine journal,volume,number and page details. 
 #  Create URL that links to abstract.
 
-if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|extract|full|refs|reprint|screenpdf|summary)/(?:[a-zA-Z]+;)?([0-9]+)/([0-9]+)/((?:pe)?[0-9]+|[i|v|x|l|c|d|m]+|[I|V|X|L|C|D|M]+)})
+if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|extract|full|refs|reprint|screenpdf|summary|eletters)/(?:[a-zA-Z]+;)?([0-9]+)/([0-9]+)/((?:[a-z]{1,2})?[0-9]+|[i|v|x|l|c|d|m]+|[I|V|X|L|C|D|M]+)})
 	{
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
 	$url_abstract = "http://$journal_site/cgi/content/abstract/$volume/$number/$page";
