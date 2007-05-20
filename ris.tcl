@@ -83,7 +83,7 @@ proc parse_ris {rec} {
 
 				{ER} {}
 				{TY} {
-					if {$v=="CHAP"} {
+					if {$v=="CHAP" || $v=="CHAPTER"} {
 						set ret(type) INCOL
 					} elseif {$v=="RPRT"} {
 						set ret(type) REP

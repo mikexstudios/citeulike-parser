@@ -67,7 +67,7 @@ $url = <>;
 #  Published articles, determine journal,volume,number and page details. 
 #  Create URL that links to abstract.
 
-if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|extract|full|refs|reprint|screenpdf|summary|eletters)/(?:[a-zA-Z]+;)?([0-9]+)/([0-9]+)/((?:[a-z]{1,2})?[0-9]+|[i|v|x|l|c|d|m]+|[I|V|X|L|C|D|M]+)})
+if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/((?:[a-z]{1,2})?[0-9]+[a-zA-Z]?|[i|v|x|l|c|d|m]+|[I|V|X|L|C|D|M]+)})
 	{
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
 	$url_abstract = "http://$journal_site/cgi/content/abstract/$volume/$number/$page";
@@ -125,14 +125,20 @@ unless ($ris =~ m{ER\s+-})
 #Generate linkouts and print output:
 #HighWire linkout
 print "begin_tsv\n";
-print "linkout\tHWIRE\t$volume\t$journal_site\t$number\t$page\n";
+if ($volume =~ m/^[0-9]+$/) {
+	print "linkout\tHWIRE\t$volume\t$journal_site\t$number\t$page\n";
+}
 
 #DOI linkout
-if ($source_abstract =~ m{[DOI|doi|Doi]\s*:\s*([0-9]+.[0-9]+/([A-Za-z0-9.-/]+))})
-	{
+if ($source_abstract =~ m!<meta name="citation_doi" content="([^"]+)">!) {
 	$doi = $1;
 	print "linkout\tDOI\t\t$doi\t\t\n";
-	}
+}    
+# if ($source_abstract =~ m{[DOI|doi|Doi]\s*:\s*([0-9]+.[0-9]+/([A-Za-z0-9.-/]+))})
+# 	{
+# 	$doi = $1;
+# 	print "linkout\tDOI\t\t$doi\t\t\n";
+# 	}
 
 #PubMed/HubMed linkout
 if ($source_abstract =~ m{access_num=([0-9]+)&link_type=PUBMED})
