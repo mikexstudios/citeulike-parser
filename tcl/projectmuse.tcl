@@ -94,7 +94,10 @@ if {[regexp {<!--_title-->} $page]} {
             regsub -all {\s+} $author " " author
             set author [string trim $author]
             set author [string map {"  " " "} $author]
-            puts "author\t$author"
+	    regsub -all {\s+and\s+} $author "," author
+	    foreach a [split $author ","] {
+		puts "author\t$a"
+	    }
 	} else {
         	bail "Cannot parse author."
 	}
