@@ -99,27 +99,17 @@ unless ($ris =~ m{ER\s+-})
 #Generate linkouts and print RIS:
 print "begin_tsv\n";
 
-#Print Abstract if lucky
-#if ($source_abstract =~ m{>Summary(.*)</div>}) {
-#	print "abstract\t$1";
-#}
-
 # Springer seem to use DOIs exclusively
 #DOI linkout
 #if ($ris =~ m{doi:([0-9a-zA-Z_/.:-]*)}) {
 #if ($ris =~ m{doi:(\S*)}) {
-if ($ris =~ m{UR\s+-\s(.*)\s}) {
-       $ris =~ m{http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}; #only doi remains
+if ($ris =~ m{UR  - http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}) {
 	print "linkout\tDOI\t\t$1\t\t\n";
+} elsif ($ris =~ m{UR  - http://www.springerlink.com/content/([^/\n]+)}) {
+	print "linkout\tSLINK\t\t$1\t\t\n";
 } else {
-	print "status\terr\tThis document does not have a DOI, so cannot make a permanent link to it.\n" and exit;
+	print "status\terr\tThis document does not have a DOI or a Springer ID, so cannot make a permanent link to it.\n" and exit;
 }
-	
-#PubMed/HubMed linkout
-#if ($source_abstract =~ m{access_num=([0-9]+)&link_type=PUBMED})
-#	{
-#	print "linkout\tPMID\t$1\t\t\t\n";
-#	}
 
 print "end_tsv\n";
 print "begin_ris\n";

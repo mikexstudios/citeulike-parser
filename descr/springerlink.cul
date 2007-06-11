@@ -54,7 +54,9 @@ plugin {
 # Linkout formatting
 # Raw ingredients required to build the full text URL dynamically using the following variables
 # collected by the plugin: type ikey_1 ckey_1 ikey_2 ckey_2
-
+format_linkout SLINK {
+	return [list SpringerLink "http://www.springerlink.com/content/${ckey_1}"]
+}
 
 #Tests
 
