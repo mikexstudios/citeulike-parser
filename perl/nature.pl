@@ -51,6 +51,9 @@ print "begin_tsv\n";
 if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/]+)/([^/]+)(_[^._]+)?.(html|pdf|ris)})	 {
 # Old style
 	($journal,$vol,$num,$view_type,$article)=($1,$2,$3,$4,$5);
+} elsif ($url =~ m{www.nature.com/nphoton/journal/v([0-9]+)/n([0-9]+)/[^/]+/([^/_]+)\.(html|pdf|ris)}) {
+# Fix to get Nature photonics to parse
+	($journal,$vol,$num,$article)=("nphoton",$1,$2,$3);
 } elsif ($url =~ m{www.nature.com/([^/]+)/journal/v([0-9]+)/n([0-9]+)/[^/]+/([^/._]+)}) {
 	($journal,$vol,$num,$article)=($1,$2,$3,$4);
 } else {
@@ -58,6 +61,8 @@ if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/
 	exit;
 }
 print "linkout\tNATUR\t$vol\t$article\t$num\t$journal\n";
+
+#print "http://www.nature.com/${journal}/journal/v${vol}/n${num}/ris/${article}.ris\n" ;
 
 # Grab the RIS file
 

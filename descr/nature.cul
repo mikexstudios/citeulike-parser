@@ -140,6 +140,7 @@ test {http://www.nature.com/nature/journal/v433/n7024/abs/nature03261.html} {
 	type JOUR 
 	start_page 395
 	end_page 399 
+	day 27
 	issue 7024 
 	title {Strong polarization enhancement in asymmetric three-component ferroelectric superlattices} 
 	journal Nature
@@ -197,3 +198,30 @@ test {http://www.nature.com/nchembio/journal/v1/n2/pdf/nchembio0705-69.pdf} {
 	month 7
 	status ok
 }
+
+test {http://www.nature.com/nphoton/journal/v1/n2/full/nphoton.2007.2.html} {
+	linkout {NATUR 1 nphoton.2007.2 2 nphoton} 
+	linkout {DOI {} 10.1038/nphoton.2007.2 {} {}}
+	formatted_url {Nature http://dx.doi.org/10.1038/nphoton.2007.2}
+	formatted_url {DOI http://dx.doi.org/10.1038/nphoton.2007.2}
+	serial 1749-4885
+	volume 1
+	year 2007
+	type JOUR
+	start_page 123
+	url http://dx.doi.org/10.1038/nphoton.2007.2
+	end_page 128
+	doi 10.1038/nphoton.2007.2
+	issue 2
+	title {Morpho butterfly wing scales demonstrate highly selective vapour response}
+	journal {Nat Photon}
+	author {Potyrailo Radislav RA {Potyrailo, Radislav A.}}
+	author {Ghiradella Helen H {Ghiradella, Helen}}
+	author {Vertiatchikh Alexei A {Vertiatchikh, Alexei}}
+	author {Dovidenko Katharine K {Dovidenko, Katharine}}
+	author {Cournoyer James JR {Cournoyer, James R.}}
+	author {Olson Eric E {Olson, Eric}}
+	month 2
+	status ok
+}
+
