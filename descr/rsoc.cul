@@ -1,0 +1,144 @@
+#
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {Royal Society}
+
+	# The link the front page of this service
+	url {http://www.journals.royalsoc.ac.uk}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Daniel Scott}
+
+	# Your email address
+	email {danieljamesscott@yahoo.co.uk}
+
+	# Language you wrote the plugin in
+	language {perl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	#
+	regexp {http://[^/]*journals.royalsoc.ac.uk[^/]*/content}
+}
+
+
+#
+# Linkout formatting
+#
+
+# Royal Society uses DOIs exclusively, which are formatted by the DOI plugin
+
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://www.journals.royalsoc.ac.uk/content/lppjn7wqvrr7tx11/} {
+	formatted_url {DOI http://dx.doi.org/10.1098/rsif.2005.0045}
+	linkout {DOI {} 10.1098/rsif.2005.0045 {} {}}
+	type JOUR
+	title "Modelling biological complexity: a physical scientist's perspective"
+	journal "Journal of The Royal Society Interface"
+	volume "2"
+	issue "4"
+	start_page 267
+	end_page 280
+	year 2005
+	day 22
+	date_other ""
+	url {http://dx.doi.org/10.1098/rsif.2005.0045}
+	abstract {We discuss the modern approaches of complexity and self-organization to understanding dynamical systems and how these concepts can inform current interest in systems biology. From the perspective of a physical scientist, it is especially interesting to examine how the differing weights given to philosophies of science in the physical and biological sciences impact the application of the study of complexity. We briefly describe how the dynamics of the heart and circadian rhythms, canonical examples of systems biology, are modelled by sets of nonlinear coupled differential equations, which have to be solved numerically. A major difficulty with this approach is that all the parameters within these equations are not usually known. Coupled models that include biomolecular detail could help solve this problem. Coupling models across large ranges of length- and time-scales is central to describing complex systems and therefore to biology. Such coupling may be performed in at least two different ways, which we refer to as hierarchical and hybrid multiscale modelling. While limited progress has been made in the former case, the latter is only beginning to be addressed systematically. These modelling methods are expected to bring numerous benefits to biology, for example, the properties of a system could be studied over a wider range of length- and time-scales, a key aim of systems biology. Multiscale models couple behaviour at the molecular biological level to that at the cellular level, thereby providing a route for calculating many unknown parameters as well as investigating the effects at, for example, the cellular level, of small changes at the biomolecular level, such as a genetic mutation or the presence of a drug. The modelling and simulation of biomolecular systems is itself very computationally intensive; we describe a recently developed hybrid continuum-molecular model, HybridMD, and its associated molecular insertion algorithm, which point the way towards the integration of molecular and more coarse-grained representations of matter.The scope of such integrative approaches to complex systems research is circumscribed by the computational resources available. Computational grids should provide a step jump in the scale of these resources; we describe the tools that RealityGrid, a major UK e-Science project, has developed together with our experience of deploying complex models on nascent grids. We also discuss the prospects for mathematical approaches to reducing the dimensionality of complex networks in the search for universal systems-level properties, illustrating our approach with a description of the origin of life according to the RNA world view.}
+	author {Coveney Peter PV {Coveney, Peter V.}}
+	author {Fowler Philip PW {Fowler, Philip W.}}
+	doi 10.1098/rsif.2005.0045
+	status ok
+}
+
+test {http://www.journals.royalsoc.ac.uk/content/v125l44343734657/?p=b49316d24aea4710964e2f4bedd54871&pi=0} {
+	formatted_url {DOI http://dx.doi.org/10.1098/rspa.2007.1839}
+	linkout {DOI {} 10.1098/rspa.2007.1839 {} {}}
+	type JOUR
+	title "Germ of a synthesis: space-time is spinorial, extra dimensions are time-like"
+	journal "Proceedings of the Royal Society A: Mathematical, Physical and Engineering Sciences"
+	volume "463"
+	issue "2083"
+	start_page 1665
+	end_page 1679
+	year 2007
+	month 7
+	date_other ""
+	url {http://dx.doi.org/10.1098/rspa.2007.1839}
+	abstract {A pressing issue for modern physics is the possibility of extra dimensions of space-time. Here, a novel approach to this question is put forward, with three facets:First, an integral transform is introduced into Einstein's general relativity that is non-local and spinorial. For Minkowskian space-time, the transform intertwines three spaces of six dimensions, which a priori are on an equal footing, linked by the octavic triality of Cartan. Two of these spaces are interpreted as null twistor spaces; the third may be regarded as giving space-time two extra time-like dimensions, for which the ordinary space-time is an axis of symmetry.Second, it is suggested that the extra dimensions perdure for a general space-time: the overall structure is controlled by a generalized Fefferman tensor. Accordingly, it is posited that the additional time-like dimensions arise naturally and constitute an aspect of space-time reality that ultimately will be amenable to experimental investigation. Conceivably, devices such as the Large Hadron Collider will uncover this reality.Third, it is argued that the structure hints at a synthesis of ideas deriving from general relativity, string theory, condensed matter physics, category theory and non-commutative geometry.}
+	author {Sparling George GA {Sparling, George A.J.}}
+	doi 10.1098/rspa.2007.1839
+	status ok
+}
+
