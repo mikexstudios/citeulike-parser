@@ -75,7 +75,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {jstor.org[^/]*/(browse|view|cgi-bin/jstor/viewitem)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)}
+	regexp {(jstor.org[^/]*/(browse|view|cgi-bin/jstor/viewitem)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+))|(links.jstor.org/sici)}
 }
 
 
