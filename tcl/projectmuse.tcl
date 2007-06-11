@@ -99,9 +99,12 @@ if {[regexp {<!--_title-->} $page]} {
         	bail "Cannot parse author."
 	}
 
+
 	# JOURNAL NAME, VOLUME, ISSUE, YEAR, PAGE NUMBERS
 	if {[regexp {<a name="top"></a>\n<i>([^>]+)</i>\s+(\d+)\.(\d+)\s+\((\d+)\)\s+(\d+)-(\d+)} $page -> journal volume issue year start_page end_page]} {
 		puts "journal\t$journal\nvolume\t$volume\nissue\t$issue\nyear\t$year\nstart_page\t$start_page\nend_page\t$end_page"
+	} elseif {[regexp {<a name="top"></a>\n<i>([^>]+)</i>\s+(\d+)\s+\((\d+)\)\s+(\d+)-(\d+)} $page -> journal issue year start_page end_page]} {
+		puts "journal\t$journal\nissue\t$issue\nyear\t$year\nstart_page\t$start_page\nend_page\t$end_page"
 	} else {
        		bail "I can't read the journal's metadata."
 	}
