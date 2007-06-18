@@ -396,6 +396,7 @@ namespace eval driver {
 			tcl {set ext "tcl"}
 			perl {set ext "pl"}
 			python {set ext "py"}
+			ruby {set ext "rb"}
 			none {set ext ""}
 			default {error "Unsupported language: $language"}
 		}

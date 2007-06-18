@@ -1,0 +1,55 @@
+plugin {
+	version {1}
+	name {informaworld}
+	url {http://www.informaworld.com/}
+	blurb {}
+	author {Richard Apodaca}
+	email {rich_apodaca@yahoo.com}
+	language {ruby}
+	regexp {www.informaworld.com}
+}
+
+
+# No need to have our own linkout - the use DOIs exclusively.
+
+test {http://www.informaworld.com/smpp/content?content=10.1080/00397910701354392} {
+	formatted_url {DOI http://dx.doi.org/10.1080/00397910701354392}
+	linkout {DOI {} 10.1080/00397910701354392 {} {}}
+	doi {10.1080/00397910701354392}
+	serial 0039-7911
+	year 2007
+	start_page 1949
+	type JOUR
+	end_page 1956
+	issue 12
+	volume 37
+	title {Facile Synthesis of 4-Functionalized Cyclopentenones}
+	journal {Synthetic Communications}
+	publisher {Taylor &amp; Francis}
+	status ok
+	abstract {1-8-Diazabicyclo[5.4.0]undec-7-ene(DBU)-catalyzed Michael addition of nitroalkanes to dicyclopentadienone (<b>1</b>) followed by flash vacuum pyrolysis (FVP) provided a high-yielding synthesis of extremely pure 4-nitroalkyl cyclopentenones (<b>3</b>). The optimized Nef reaction of the nitro adducts (<b>2</b>) provided 4-ketoalkyl cyclopentenones (<b>5</b>) in the similar way.}
+	url {http://www.informaworld.com/10.1080/00397910701354392}
+	author {Ghorai Sujit SK {Ghorai, Sujit Kumar}}
+	author {Hazra Nirmal NK {Hazra, Nirmal Kumar}}
+	author {Mal Dipakranjan D {Mal, Dipakranjan}}
+}
+
+test {http://www.informaworld.com/smpp/content~content=a779515458~db=all~order=page} {
+	formatted_url {DOI http://dx.doi.org/10.1080/00397910701357296}
+	linkout {DOI {} 10.1080/00397910701357296 {} {}}
+	doi {10.1080/00397910701357296}
+	serial 0039-7911
+	year 2007
+	start_page 2079
+	type JOUR
+	end_page 2089
+	issue 12
+	volume 37
+	title {Nitration of Ethyl Carbamates of Phenylenediamines and Aniline}
+	journal {Synthetic Communications}
+	publisher {Taylor &amp; Francis}
+	status ok
+	abstract {The methyl and ethyl carbamates of aniline and the diethyl dicarbamates of 1,2-, 1,3-, and 1,4-phenylenediamine were prepared. Nitration of the carbamates gave ring mono-, di-, or trinitro-derivatives in good yield.}
+	url {http://www.informaworld.com/10.1080/00397910701357296}
+	author {Davis Matthew MC {Davis, Matthew C.}}
+}
