@@ -5,12 +5,14 @@ require 'mechanize'
 
 url = gets.strip
 agent =  WWW::Mechanize.new
+agent.read_timeout = 3
 
 rcount=0
 begin
   page = agent.get url
 rescue EOFError
   if rcount<3 then
+    rcount+=1
     retry
   else
     raise
@@ -24,7 +26,17 @@ unless form
   url.match /content=(\w*)\~/
   infoworld_id = $1
   url = "http://www.informaworld.com/smpp/content~db=all~content=#{infoworld_id}~tab=citation"
-  page = agent.get url
+  rcount = 0
+  begin
+    page = agent.get url
+  rescue EOFError
+    if rcount<3 then
+      rcount+=1
+      retry
+    else
+      raise
+    end
+  end
   form = page.form('citationform')
 end
 
@@ -41,6 +53,11 @@ ris_entry = agent.submit(form).body
 
 if ris_entry.match /TY  - JFULL/
   print "status\terr\tI can only bookmark individual articles. Please view a single article (not the whole issue of the journal) and try again.\n"
+  exit(0)
+end
+
+if ris_entry.match /TY  - BOOK/
+  print "status\terr\tPosting books from informaworld is not currently supported. You could try posting them from Amazon instead.\n"
   exit(0)
 end
 
