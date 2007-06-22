@@ -67,7 +67,7 @@ $url = <>;
 #  Published articles, determine journal,volume,number and page details. 
 #  Create URL that links to abstract.
 
-if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/((?:[a-z]{1,2})?[0-9]+[a-zA-Z]?|[i|v|x|l|c|d|m]+|[I|V|X|L|C|D|M]+)})
+if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9.]+)})
 	{
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
 	$url_abstract = "http://$journal_site/cgi/content/abstract/$volume/$number/$page";
@@ -94,7 +94,6 @@ else
 	print "status\terr\t (1) This does not appear to be a Highwire Press article. Try posting the article from the abstract page.\n" and exit;
 	}
 	
-
 
 # Get the link to the citebuilder url and formulate a link to the reference manager RIS file
 $source_abstract = get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
