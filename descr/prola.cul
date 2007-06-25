@@ -11,17 +11,17 @@ plugin {
 
 format_linkout PROLA {
 	return [list "PROLA (abstract)" \
-				"http://prola.aps.org/abstract/$ckey_1" \
+				"http://link.aps.org/abstract/$ckey_1" \
 				"PROLA (pdf)" \
-				"http://prola.aps.org/pdf/$ckey_1" \
+				"http://link.aps.org/pdf/$ckey_1" \
 			  ]
 }
 
 
 # Reviews of Modern Physics 
 test {http://prola.aps.org/abstract/RMP/v66/i3/p1105_1} {
-	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/RMP/v66/i3/p1105_1}
-	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/RMP/v66/i3/p1105_1}
+	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/RMP/v66/i3/p1105_1}
+	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/RMP/v66/i3/p1105_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/RevModPhys.66.1105}
 	linkout {PROLA {} RMP/v66/i3/p1105_1 {} {}}
 	linkout {DOI {} 10.1103/RevModPhys.66.1105 {} {}}
@@ -45,8 +45,8 @@ test {http://prola.aps.org/abstract/RMP/v66/i3/p1105_1} {
 
 # Physical Review (2nd Series)
 test {http://prola.aps.org/abstract/PR/v69/i1-2/p37_1} {
-	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/PR/v69/i1-2/p37_1}
-	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/PR/v69/i1-2/p37_1}
+	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/PR/v69/i1-2/p37_1}
+	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/PR/v69/i1-2/p37_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRev.69.37}
 	linkout {PROLA {} PR/v69/i1-2/p37_1 {} {}}
 	linkout {DOI {} 10.1103/PhysRev.69.37 {} {}}
@@ -72,8 +72,8 @@ test {http://prola.aps.org/abstract/PR/v69/i1-2/p37_1} {
 
 # Physical Review (Series I)
 test {http://prola.ridge.aps.org/abstract/PRI/v1/i1/p1_1} {
-	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/PRI/v1/i1/p1_1}
-	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/PRI/v1/i1/p1_1}
+	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/PRI/v1/i1/p1_1}
+	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/PRI/v1/i1/p1_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevSeriesI.1.1}
 	linkout {PROLA {} PRI/v1/i1/p1_1 {} {}}
 	linkout {DOI {} 10.1103/PhysRevSeriesI.1.1 {} {}}
@@ -96,8 +96,8 @@ test {http://prola.ridge.aps.org/abstract/PRI/v1/i1/p1_1} {
 
 # Physical Review Letters
 test {http://cornell.mirror.aps.org/abstract/PRL/v56/i10/p1043_1} {
-	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/PRL/v56/i10/p1043_1}
-	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/PRL/v56/i10/p1043_1}
+	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/PRL/v56/i10/p1043_1}
+	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/PRL/v56/i10/p1043_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevLett.56.1043}
 	linkout {PROLA {} PRL/v56/i10/p1043_1 {} {}}
 	linkout {DOI {} 10.1103/PhysRevLett.56.1043 {} {}}
@@ -115,7 +115,7 @@ test {http://cornell.mirror.aps.org/abstract/PRL/v56/i10/p1043_1} {
 	title {Precision Measurement of the Mass Difference m_{ pi^{-}}-m_{ pi^{0}}}
 	journal {Physical Review Letters}
 	status ok
-	abstract {Using the time-of-flight method to determine the velocity of the neutrons from the reaction π - + p →π 0 + n  at rest we have measured the mass difference  m π - m π 0  to be 4.5930 ± 0.0013 MeV/ c 2 . From the width of the time-of-flight distributions we conclude that the pionic hydrogen atoms have a mean kinetic energy  T ̅ π p < 12 eV (90% confidence limit) at the time of the charge exchange.}
+	abstract {Using the time-of-flight method to determine the velocity of the neutrons from the reaction π - + p →π 0 + n  at rest we have measured the mass difference  m π - m π 0  to be 4.5930 ± 0.0013 MeV/ c 2 . From the width of the time-of-flight distributions we conclude that the pionic hydrogen atoms have a mean kinetic energy  T ̅         π p < 12 eV (90% confidence limit) at the time of the charge exchange.}
 	month 3
 	author {Crawford {} JF {Crawford, J. F.}}
 	author {Daum {} M {Daum, M.}}
@@ -128,8 +128,8 @@ test {http://cornell.mirror.aps.org/abstract/PRL/v56/i10/p1043_1} {
 
 # Physical Review C
 test {http://prola.library.cornell.edu/abstract/PRC/v50/i2/pR571_1} {
-	formatted_url {{PROLA (abstract)} http://prola.aps.org/abstract/PRC/v50/i2/pR571_1}
-	formatted_url {{PROLA (pdf)} http://prola.aps.org/pdf/PRC/v50/i2/pR571_1}
+	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/PRC/v50/i2/pR571_1}
+	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/PRC/v50/i2/pR571_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevC.50.R571}
 	linkout {PROLA {} PRC/v50/i2/pR571_1 {} {}}
 	linkout {DOI {} 10.1103/PhysRevC.50.R571 {} {}}
