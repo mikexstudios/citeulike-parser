@@ -1,0 +1,129 @@
+##
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {Social Science Research Network}
+
+	# The link the front page of this service
+	url {http://www.ssrn.com}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Paul Dlug}
+
+	# Your email address
+	email {paul.dlug AT gmail DOT com}
+
+	# Language you wrote the plugin in
+	language {ruby}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+  regexp {^http://papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+$}
+}
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout SSRN {
+  return [list "SSRN (abstract)" \
+	   		"http://ssrn.com/abstract=$ikey_1" \
+			  "SSRN (pdf)" \
+			  "http://papers.ssrn.com/sol3/Delivery.cfm/$ckey_1.pdf?abstractid=$ikey_1&mirid=1" \
+		    ]
+}
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=161637} {
+    formatted_url {{SSRN (abstract)} http://ssrn.com/abstract=161637}
+    formatted_url {{SSRN (pdf)} http://papers.ssrn.com/sol3/Delivery.cfm/99042103.pdf?abstractid=161637&mirid=1}
+    author {Lott John JR {JOHN R.  LOTT Jr.}}
+    author {Landes William WM {WILLIAM M. LANDES}}
+    linkout {SSRN 161637 99042103 {} {}}
+    url {http://ssrn.com/abstract=161637}
+    journal {Social Science Research Network Working Paper Series}
+    doi {10.2139/ssrn.161637}
+    month {April}
+    year 1999
+    title {Multiple Victim Public Shootings, Bombings, and Right-to-Carry Concealed Handgun Laws: Contrasting Private and Public Law Enforcement}
+    abstract {Few events obtain the same instant worldwide news coverage as multiple victim public shootings. These crimes allow us to study the alternative methods used to kill a large number of people (e.g., shootings versus bombings), marginal deterrence and the severity of the crime, substitutability of penalties, private versus public methods of deterrence and incapacitation, and whether attacks produce copycats. Yet, economists have not studied this phenomenon. Our results are surprising and dramatic. While arrest or conviction rates and the death penalty reduce normal murder rates, our results find that the only policy factor to influence multiple victim public shootings is the passage of concealed handgun laws. We explain why public shootings are more sensitive than other violent crimes to concealed handguns, why the laws reduce both the number of shootings as well as their severity, and why other penalties like executions have differential deterrent effects depending upon the type of murder.}
+    type JOUR
+    status ok
+}
+
+test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=15108} {
+    formatted_url {{SSRN (abstract)} http://ssrn.com/abstract=15108}
+    formatted_url {{SSRN (pdf)} http://papers.ssrn.com/sol3/Delivery.cfm/9704241.pdf?abstractid=15108&mirid=1}
+    author {Fama Eugene EF {EUGENE F. FAMA}}
+    linkout {SSRN 15108 9704241 {} {}}
+    url {http://ssrn.com/abstract=15108}
+    journal {Social Science Research Network Working Paper Series}
+    doi {10.2139/ssrn.15108}
+    month {February}
+    year 1997
+    title {Market Efficiency, Long-Term Returns, and Behavioral Finance}
+    abstract {Market efficiency survives the challenge from the literature on long-term return anomalies. Consistent with the market efficiency hypothesis that the anomalies are chance results, apparent over-reaction to information is about as common as under-reaction. And post-event continuation of pre-event abnormal returns is about as frequent as post-event reversal. Consistent with the market efficiency prediction that apparent anomalies can also be due to methodology, the anomalies are sensitive to the techniques used to measure them, and many disappear with reasonable changes in technique.}
+    type JOUR
+    status ok
+}
+
+test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=642123} {
+	
+	linkout {SSRN 642123 SSRN_ID895021_code434400 {} {}}
+	year 2005	
+	url {http://ssrn.com/abstract=642123}
+	doi {10.2139/ssrn.642123}
+	day 1
+	formatted_url {{SSRN (abstract)} http://ssrn.com/abstract=642123}
+	formatted_url {{SSRN (pdf)} http://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID895021_code434400.pdf?abstractid=642123&mirid=1}
+	title {Marking the Software Patent Beast}
+	journal {Social Science Research Network Working Paper Series}
+	abstract {The literature of software patents has thus far tried to directly address whether software patents increase innovation. The wholesale reform papers have persuaded neither the courts nor Congress, perhaps due to the unfortunate dearth of economic data.  This paper starts from the proposition that software patents are, practically speaking, hidden away in the recesses of the patent office and practically impossible to find. It proceeds under the first economic principles of the patent system to argue that there can be no justification for patenting software when the public has no knowledge of the patents' scope or technical disclosure. It concludes by observing that patent law already provides a mechanism for disclosing patents to the public, the marking requirement, and proposes putting teeth into it so that holders of software patents would be required to play by the same rules as holders of other kinds of patents.}
+	month January
+	author {Lindholm Stephen SB {STEPHEN BRUCE LINDHOLM}}
+
+	type JOUR
+	status ok
+}
