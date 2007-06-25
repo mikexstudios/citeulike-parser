@@ -1,0 +1,115 @@
+##
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {National Bureau of Economic Research}
+
+	# The link the front page of this service
+	url {http://www.nber.org}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Paul Dlug}
+
+	# Your email address
+	email {paul.dlug AT gmail DOT com}
+
+	# Language you wrote the plugin in
+	language {ruby}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+  regexp {^http://(www|nber\d*)\.nber\.org/papers/[a-z0-9]+$}
+}
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout NBER {
+  return [list "NBER (abstract)" \
+	   		"http://www.nber.org/papers/$ckey_1" \
+			  "NBER (pdf)" \
+			  "http://www.nber.org/papers/$ckey_1.pdf" \
+		    ]
+}
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://nber15.nber.org/papers/w13096} {
+    formatted_url {{NBER (abstract)} http://www.nber.org/papers/w13096}
+    formatted_url {{NBER (pdf)} http://www.nber.org/papers/w13096.pdf}
+    author {Guvenen Fatih F Guvenen,Fatih}												
+    author {Kuruscu Burhanettin B Kuruscu,Burhanettin}
+    linkout {NBER {} w13096 {} {}}
+    url {http://www.nber.org/papers/w13096}
+    pdf_url {http://www.nber.org/papers/w13096.pdf}
+    journal {National Bureau of Economic Research Working Paper Series}
+    start_page 13096
+    month {May}
+    year 2007
+    title {Understanding the Evolution of the U.S. Wage Distribution: A Theoretical Analysis}
+    abstract {Author contact info: Fatih Guvenen Department of Economics, BRB 3.118 University of Texas 1 University Station, C3100 Austin, TX 78712 Tel: 512/475-8742 E-Mail: guvenen@eco.utexas.edu Burhanettin Kuruscu University of Texas at Austin Deparment of Economics Office BRB 3.122 Austin, Texas 78712 E-Mail: kuruscu@gmail.com In this paper we present an analytically tractable overlapping generations model of human capital accumulation, and study its implications for the evolution of the U.S. wage distribution from 1970 to 2000. The key feature of the model, and the only source of heterogeneity, is that individuals differ in their ability to accumulate human capital. Therefore, wage inequality results only from differences in human capital accumulation. We examine the response of this model to skill-biased technical change (SBTC) theoretically. We show that in response to SBTC, the model generates behavior consistent with several features of the U.S. data including (i) a rise in overall wage inequality both in the short run and long run, (ii) an initial fall in the education premium followed by a strong recovery, leading to a higher premium in the long run, (iii) the fact that most of this fall and rise takes place among younger workers, (iv) a rise in within-group inequality, (v) stagnation in median wage growth (and a slowdown in aggregate labor productivity), and (vi) a rise in consumption inequality that is much smaller than the rise in wage inequality. These results suggest that the heterogeneity in the ability to accumulate human capital is an important feature for understanding the effects of SBTC, and interpreting the transformation that the U.S. economy has gone through since the 1970's.}
+    type JOUR
+    status ok
+}
+
+test {http://www.nber.org/papers/w13164} {
+    formatted_url {{NBER (abstract)} http://www.nber.org/papers/w13164}
+    formatted_url {{NBER (pdf)} http://www.nber.org/papers/w13164.pdf}
+    author {Tella Rafael RD {Tella,Rafael Di}}
+    author {Macculloch Robert R MacCulloch,Robert}
+    linkout {NBER {} w13164 {} {}}
+    url {http://www.nber.org/papers/w13164}
+    pdf_url {http://www.nber.org/papers/w13164.pdf}
+    journal {National Bureau of Economic Research Working Paper Series}
+    start_page 13164
+    month {June}
+    year 2007
+    title {Why Doesn't Capitalism Flow to Poor Countries?}
+    abstract {Author contact info: Rafael Di Tella Harvard Business School Soldiers Field Rd Boston, MA 02163 Tel: 617/495-6000 E-Mail: rditella@hbs.edu Robert MacCulloch The Business School Imperial College London South Kensington Campus London SW7 2AZ United Kingdom Tel: +44 (0)20 7594157 Fax: +44 (0)20 7823 7685 E-Mail: r.macculloch@imperial.ac.uk We find anecdotal evidence suggesting that governments in poor countries have a more left wing rhetoric than those in OECD countries. Thus, it appears that capitalist rhetoric doesn't flow to poor countries. A possible explanation is that corruption, which is more widespread in poor countries, reduces more the electoral appeal of capitalism than that of socialism. The empirical pattern of beliefs within countries is consistent with this explanation: people who perceive corruption to be high in their country are also more likely to lean left ideologically (and to declare support for a more intrusive government in economic matters). Finally, we present a model explaining the corruption-left connection.  It exploits the fact that an act of corruption is more revealing about the fairness type of a rich capitalist than of a poor bureaucrat. After observing corruption, voters who care about fairness react by increasing taxes and moving left. There is a negative ideological externality since the existence of corrupt entrepreneurs hurts good entrepreneurs by reducing the electoral appeal of capitalism.}
+    type JOUR
+    status ok
+}
+
+
