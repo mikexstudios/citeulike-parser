@@ -69,6 +69,9 @@ my @ns_headers = (
 # lets remove any initial 'www.' : springerlink.com doesn't like it
 $url =~ s/www\.//; # remove www.	
 
+# Remove any instance of metapress in the URL
+$url =~ s/springerlink\.metapress\.com/springerlink.com/;
+
 $url_abstract = $url;
 
 # Get the link to the reference manager RIS file
