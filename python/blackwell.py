@@ -64,6 +64,9 @@ url = sys.stdin.readline()
 # get rid of the newline at the end
 url = url.strip()
 
+# 'unparse' url to remove %HH escapes which confuse the DOI parser below
+url = urllib2.unquote(url)
+
 # parse the DOI from the url and exit gracefully if not found
 doi_match  = re.search(DOI_REGEXP, url, DOI_REGEXP_FLAGS)
 if not doi_match:
