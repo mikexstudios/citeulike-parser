@@ -1,0 +1,25 @@
+plugin {
+	version {2}
+	name {IEEE Explore}
+	url {http://ieeexplore.ieee.org/}
+	blurb {}
+	author {Richard Cameron}
+	email {camster@citeulike.org}
+	language {python}
+	regexp {ieeexplore.ieee.org}
+}
+
+format_linkout IEEE {
+	return [list "IEEE Explore" "http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=${ikey_1}"]
+}
+
+test {http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?tp=&isnumber=987&arnumber=26487&punumber=2589} {
+	formatted_url {{IEEE Explore} http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=26487}
+	abstract {The VHSIC Hardware Description Language (VHDL) is a formal notation intended for use in all phases of the creation of electronic systems. Because it is both machine readable and human readable, it supports the development, verification, synthesis, and testing of hardware designs, the communication of hardware design data, and the maintenance, modification, and procurement of hardware. The form of a VHDL description is described by means of context-free syntax together with context-dependent syntactic and semantic requirements expressed by narrative rules. The context-free syntax of the language is described using a simple variant of Backus-Naur Form}
+	year 1988
+	linkout {IEEE 26487 {} {} {}}
+	title "IEEE standard VHDL language reference manual"
+	type STD
+	journal "IEEE Std 1076-1987"
+	status ok
+}
