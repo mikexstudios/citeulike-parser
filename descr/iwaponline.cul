@@ -1,0 +1,160 @@
+#
+# Copyright (c) 2007 Hamish Harvey
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#    Michael Miller <citeulike@michmill.com>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {IWA Publishing Online}
+
+	# The link the front page of this service
+	url {http://www.iwaponline.com}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {Experimental}
+
+	# Your name
+	author {Hamish Harvey}
+
+	# Your email address
+	email {citeulike@hamishharvey.com}
+
+	# Language you wrote the plugin in
+	language {python}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	regexp {iwaponline.com/([^/]+)/([0-9]{3,3})/\1\2[0-9]{4,4}\.htm}
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout IWAP {
+	return [list "IWA Publishing Online" \
+				"http://www.iwaponline.com/${ckey_1}/${ikey_1}/${ckey_1}${ikey_1}${ikey_2}.htm" ]
+}
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://www.iwaponline.com/jh/009/jh0090163.htm} {
+	formatted_url {{IWA Publishing Online} http://www.iwaponline.com/jh/009/jh0090163.htm}
+	formatted_url {DOI http://dx.doi.org/10.2166/hydro.2007.026}
+	keywords {calibration; catchment modelling; genetic algorithm; hydroinformatics; urban}
+	volume 9
+	linkout {IWAP 009 jh 0163 {}}
+	linkout {DOI {} 10.2166/hydro.2007.026 {} {}}
+	year 2007
+	type JOUR
+	url {http://www.iwaponline.com/jh/009/jh0090163.htm}
+	doi {10.2166/hydro.2007.026}
+	publisher {IWA Publishing}
+	issue 3
+	title {Evaluation of spatially variable control parameters in a complex catchment modelling system: a genetic algorithm application}
+	journal {Journal of Hydroinformatics}
+	abstract {Successful implementation of a catchment modelling system requires careful consideration of the system calibration which involves evaluation of many spatially and temporally variable control parameters. Evaluation of spatially variable control parameters has been an issue of increasing concern arising from an increased awareness of the inappropriateness of assuming catchment averaged values. Presented herein is the application of <bold>a</bold> real- value coding genetic algorithm (GA) for evaluation of spatially variable control parameters for implementation with the Storm Water Management Model (SWMM). It was found that a real-value coding GA using multiple storms calibration was a robust search technique that was capable of identifying the most promising range of values for spatially variable control parameters. As the selection of appropriate GA operators is an important aspect of the GA efficiency, a comprehensive investigation of the GA operators in a high-dimensional search space was conducted. It was found that a uniform crossover operation was superior to both one-point and two-point crossover operations over the whole range of crossover probabilities, and the optimal uniform crossover and mutation probabilities for the complex system considered were in the range of 0.75&#150;0.90 and 0.01&#150;0.1, respectively.}
+	start_page 163
+	end_page 173
+	author {Fang Tianjun T {Tianjun Fang}} 
+	author {Ball James JE {James E. Ball}} 
+	status ok
+}
+
+test {http://www.iwaponline.com/jwh/005/jwh0050187.htm} {
+	formatted_url {{IWA Publishing Online} http://www.iwaponline.com/jwh/005/jwh0050187.htm}
+	formatted_url {DOI http://dx.doi.org/10.2166/wh.2007.013}
+	keywords {catchment; <italic>Cryptosporidium</italic>; model; pathogen; watershed}
+	volume 5
+	linkout {IWAP 005 jwh 0187 {}}
+	linkout {DOI {} 10.2166/wh.2007.013 {} {}}
+	year 2007
+	type JOUR
+	url {http://www.iwaponline.com/jwh/005/jwh0050187.htm}
+	doi {10.2166/wh.2007.013}
+	publisher {IWA Publishing}
+	issue 2
+	title {Development of a process-based model to predict pathogen budgets for the Sydney drinking water catchment}
+	journal {Journal of Water and Health}
+	abstract {In drinking water catchments, reduction of pathogen loads delivered to reservoirs is an important priority for the management of raw source water quality. To assist with the evaluation of management options, a process-based mathematical model (pathogen catchment budgets - PCB) is developed to predict <italic>Cryptosporidium</italic>, <italic>Giardia</italic> and <italic>E. coli</italic> loads generated within and exported from drinking water catchments. The model quantifies the key processes affecting the generation and transport of microorganisms from humans and animals using land use and flow data, and catchment specific information including point sources such as sewage treatment plants and on-site systems. The resultant pathogen catchment budgets (PCB) can be used to prioritize the implementation of control measures for the reduction of pathogen risks to drinking water. The model is applied in the Wingecarribee catchment and used to rank those sub-catchments that would contribute the highest pathogen loads in dry weather, and in intermediate and large wet weather events. A sensitivity analysis of the model identifies that pathogen excretion rates from animals and humans, and manure mobilization rates are significant factors determining the output of the model and thus warrant further investigation.}
+	start_page 187
+	end_page 208
+	author {Ferguson Christobel CM {Christobel M. Ferguson}}
+	author {Croke Barry BFW {Barry F. W. Croke}}
+	author {Beatson Peter PJ {Peter J. Beatson}}
+	author {Ashbolt Nicholas NJ {Nicholas J. Ashbolt}}
+	author {Deere Daniel DA {Daniel A. Deere}}
+	status ok
+}
