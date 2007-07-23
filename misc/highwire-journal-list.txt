@@ -1,11 +1,9 @@
 aaasmember.sciencemag.org
 aacrmeetingabstracts.org
-aacrmeetingabstracts.org
 aapgrandrounds.aappublications.org
 aapnews.aappublications.org
 cme.aappublications.org
 www.aappublications.org
-aappolicy.aappublications.org
 aappolicy.aappublications.org
 aapgbull.geoscienceworld.org
 stroke.ahajournals.org
@@ -22,7 +20,6 @@ aeq.sagepub.com
 adr.iadrjournals.org
 adh.sagepub.com
 advan.physiology.org
-advan.physiology.org
 apt.rcpsych.org
 aff.sagepub.com
 afraf.oxfordjournals.org
@@ -36,7 +33,6 @@ www.aacnjournals.org
 aapg.geoscienceworld.org
 abs.sagepub.com
 www.diabetesjournals.org
-aer.sagepub.com
 aer.sagepub.com
 www.ahajournals.org
 aja.sagepub.com
@@ -94,7 +90,6 @@ anm.sagepub.com
 aob.oxfordjournals.org
 www.annclinlabsci.org
 www.annfammed.org
-www.annfammed.org
 www.annals.org
 cme.annals.org
 annhyg.oxfordjournals.org
@@ -110,7 +105,6 @@ aac.asm.org
 aem.asm.org
 applij.oxfordjournals.org
 amrx.oxfordjournals.org
-amrx.oxfordjournals.org
 apm.sagepub.com
 www.physiology.org
 govdocs.aquake.org
@@ -120,7 +114,6 @@ adc.bmj.com
 ep.bmj.com
 fn.bmj.com
 archfaci.ama-assn.org
-archfami.ama-assn.org
 archfami.ama-assn.org
 archpsyc.ama-assn.org
 archinte.ama-assn.org
@@ -133,13 +126,9 @@ afs.sagepub.com
 atvb.ahajournals.org
 ahh.sagepub.com
 abstracts.iovs.org
-abstracts.iovs.org
 meeting.jco.org
 abstracts.hematologylibrary.org
-abstracts.hematologylibrary.org
 asheducationbook.hematologylibrary.org
-asheducationbook.hematologylibrary.org
-ashimagebank.hematologylibrary.org
 ashimagebank.hematologylibrary.org
 apj.sagepub.com
 asianannals.ctsnetjournals.org
@@ -162,11 +151,8 @@ biostatistics.oxfordjournals.org
 bloodjournal.hematologylibrary.org
 www.bmj.com
 careerfocus.bmj.com
-careerfocus.bmj.com
-cpd.bmj.com
 journals.bmj.com
 bod.sagepub.com
-www.bonekey-ibms.org
 www.bonekey-ibms.org
 boundary2.dukejournals.org
 brain.oxfordjournals.org
@@ -198,21 +184,19 @@ bas.sagepub.com
 bcq.sagepub.com
 bir.sagepub.com
 caonline.amcancersoc.org
-caonline.amcancersoc.org
 cje.oxfordjournals.org
 camqtly.oxfordjournals.org
 cameraobscura.dukejournals.org
 www.cja-jca.org
 cjs.sagepub.com
 www.cmaj.ca
-www.cmaj.ca
+canmin.geoscienceworld.org
 cebp.aacrjournals.org
 cancerres.aacrjournals.org
 canreviews.aacrjournals.org
 cmlj.oxfordjournals.org
 carcin.oxfordjournals.org
 cardiacsurgery.ctsnetbooks.org
-www.lifescied.org
 www.lifescied.org
 cercor.oxfordjournals.org
 cesifo.oxfordjournals.org
@@ -226,11 +210,8 @@ cin.sagepub.com
 chr.sagepub.com
 chinesejil.oxfordjournals.org
 cjip.oxfordjournals.org
-cjip.oxfordjournals.org
-chi.sagepub.com
 chi.sagepub.com
 crd.sagepub.com
-circ.ahajournals.org
 circ.ahajournals.org
 circres.ahajournals.org
 claymin.geoscienceworld.org
@@ -243,11 +224,8 @@ ccs.sagepub.com
 www.clinchem.org
 ccp.sagepub.com
 clinical.diabetesjournals.org
-clinical.diabetesjournals.org
 cjasn.asnjournals.org
 clinmed.netprints.org
-clinmed.netprints.org
-www.clinmedres.org
 www.clinmedres.org
 cmr.asm.org
 cnr.sagepub.com
@@ -266,7 +244,6 @@ cbr.sagepub.com
 chp.sagepub.com
 comjnl.oxfordjournals.org
 cer.sagepub.com
-cep.oxfordjournals.org
 ceaccp.oxfordjournals.org
 cis.sagepub.com
 cpe.oxfordjournals.org
@@ -307,12 +284,10 @@ spectrum.diabetesjournals.org
 differences.dukejournals.org
 dio.sagepub.com
 www.dmphp.org
-www.dmphp.org
 dcm.sagepub.com
 das.sagepub.com
 dis.sagepub.com
 dnaresearch.oxfordjournals.org
-docnews.diabetesjournals.org
 docnews.diabetesjournals.org
 dmd.aspetjournals.org
 dukejournals.org
@@ -322,16 +297,13 @@ ecc.sagepub.com
 eid.sagepub.com
 edq.sagepub.com
 econgeol.geoscienceworld.org
-ei.oxfordjournals.org
 eus.sagepub.com
 esj.sagepub.com
 eaq.sagepub.com
 epm.sagepub.com
 epa.sagepub.com
-epa.sagepub.com
 ema.sagepub.com
 epx.sagepub.com
-edr.sagepub.com
 edr.sagepub.com
 ecl.dukejournals.org
 eltj.oxfordjournals.org
@@ -353,7 +325,6 @@ etn.sagepub.com
 eth.sagepub.com
 ethnohistory.dukejournals.org
 ec.asm.org
-eular.bmj.com
 eular.bmj.com
 europace.oxfordjournals.org
 eurheartj.oxfordjournals.org
@@ -377,7 +348,6 @@ ejw.sagepub.com
 epe.sagepub.com
 erj.ersjournals.com
 err.ersjournals.com
-err.ersjournals.com
 www.ersjournals.com
 erae.oxfordjournals.org
 esr.oxfordjournals.org
@@ -398,7 +368,6 @@ fcs.sagepub.com
 tfj.sagepub.com
 fampra.oxfordjournals.org
 www.fasebj.org
-content.febsjournal.org
 fap.sagepub.com
 fcx.sagepub.com
 fth.sagepub.com
@@ -423,7 +392,6 @@ www.genetics.org
 www.genome.org
 geea.geoscienceworld.org
 geolmag.geoscienceworld.org
-egsp.lyellcollection.org
 egsp.lyellcollection.org
 mem.lyellcollection.org
 sp.lyellcollection.org
@@ -478,7 +446,6 @@ humupd.oxfordjournals.org
 hrd.sagepub.com
 hrlr.oxfordjournals.org
 hyper.ahajournals.org
-hyper.ahajournals.org
 icesjms.oxfordjournals.org
 ietcom.oxfordjournals.org
 ietele.oxfordjournals.org
@@ -504,7 +471,6 @@ joc.journal.informs.org
 injuryprevention.bmj.com
 icb.oxfordjournals.org
 ict.sagepub.com
-icvts.ctsnetjournals.org
 icvts.ctsnetjournals.org
 interfaces.journal.informs.org
 iclq.oxfordjournals.org
@@ -535,9 +501,8 @@ ijs.sagepub.com
 ijs.sgmjournals.org
 ijtj.oxfordjournals.org
 imrn.oxfordjournals.org
-imrn.oxfordjournals.org
 imrp.oxfordjournals.org
-imrp.oxfordjournals.org
+imrs.oxfordjournals.org
 iab.sagepub.com
 ips.sagepub.com
 irx.sagepub.com
@@ -555,8 +520,7 @@ itnow.oxfordjournals.org
 jama.ama-assn.org
 cmejama-archives.ama-assn.org
 JAMACareerNet.ama-assn.org
-JAMACareerNet.ama-assn.org
-www.jaoa.org
+jamafr.ama-assn.org
 www.jaoa.org
 jjco.oxfordjournals.org
 jnci.oxfordjournals.org
@@ -586,11 +550,9 @@ jbr.sagepub.com
 jba.sagepub.com
 jbx.sagepub.com
 jbt.abrf.org
-jbt.abrf.org
 jbp.sagepub.com
 jbs.sagepub.com
 www.jbjs.org.uk
-proceedings.jbjs.org.uk
 proceedings.jbjs.org.uk
 journals.jbjs.org.uk
 www.ejbjs.org
@@ -610,7 +572,6 @@ chc.sagepub.com
 jcn.sagepub.com
 jcs.sagepub.com
 jcem.endojournals.org
-www.jci.org
 www.jci.org
 jcm.asm.org
 jco.ascopubs.org
@@ -642,12 +603,10 @@ ecl.sagepub.com
 ecr.sagepub.com
 joeg.oxfordjournals.org
 jeb.sagepub.com
-jeb.sagepub.com
 jep.sagepub.com
 jmicro.oxfordjournals.org
 emf.sagepub.com
 joe.endocrinology-journals.org
-ini.sagepub.com
 ini.sagepub.com
 eng.sagepub.com
 joe.sagepub.com
@@ -739,6 +698,7 @@ plankt.oxfordjournals.org
 jpe.sagepub.com
 jph.sagepub.com
 jpl.sagepub.com
+jpe.oxfordjournals.org
 jpf.sagepub.com
 jpa.sagepub.com
 jop.sagepub.com
@@ -769,10 +729,8 @@ jte.sagepub.com
 jam.sagepub.com
 www.jaaos.org
 www.jaapl.org
-www.jaapl.org
 jaar.oxfordjournals.org
 www.jaaha.org
-www.jabfm.org
 www.jabfm.org
 content.onlinejacc.org
 www.jacn.org
@@ -895,10 +853,8 @@ molinterv.aspetjournals.org
 mp.bmj.com
 molpharm.aspetjournals.org
 mplant.oxfordjournals.org
-mplant.oxfordjournals.org
 msa.geoscienceworld.org
 msgbi.geoscienceworld.org
-mmcts.ctsnetjournals.org
 mmcts.ctsnetjournals.org
 msj.sagepub.com
 ml.oxfordjournals.org
@@ -924,8 +880,6 @@ nms.sagepub.com
 nvs.sagepub.com
 nq.oxfordjournals.org
 nar.oxfordjournals.org
-nar.oxfordjournals.org
-nass.oxfordjournals.org
 nass.oxfordjournals.org
 nej.sagepub.com
 nsq.sagepub.com
@@ -934,7 +888,6 @@ onlinetog.org
 www.greenjournal.org
 oem.bmj.com
 occmed.oxfordjournals.org
-theoncologist.alphamedpress.org
 theoncologist.alphamedpress.org
 cme.alphamedpress.org
 oq.oxfordjournals.org
@@ -975,7 +928,6 @@ psc.sagepub.com
 pos.sagepub.com
 www.ptjournal.org
 www.physiciansfirstwatch.org
-www.physiciansfirstwatch.org
 physiolgenomics.physiology.org
 physrev.physiology.org
 journals.physoc.org
@@ -988,6 +940,7 @@ www.plantphysiol.org
 www.pnas.org
 poeticstoday.dukejournals.org
 pqx.sagepub.com
+policing.oxfordjournals.org
 ppn.sagepub.com
 pan.oxfordjournals.org
 prq.sagepub.com
@@ -1001,7 +954,6 @@ pn.bmj.com
 tpj.sagepub.com
 prb.sagepub.com
 pats.atsjournals.org
-pats.atsjournals.org
 plms.oxfordjournals.org
 pdj.sagepub.com
 phg.sagepub.com
@@ -1009,7 +961,6 @@ ppg.sagepub.com
 peds.oxfordjournals.org
 www.proteinscience.org
 pb.rcpsych.org
-pn.psychiatryonline.org
 pn.psychiatryonline.org
 psychservices.psychiatryonline.org
 cme.psychiatryonline.org
@@ -1043,7 +994,6 @@ www.radiologictechnology.org
 radiology.rsnajnls.org
 rss.sagepub.com
 rphr.endojournals.org
-rphr.endojournals.org
 aapredbook.aappublications.org
 rsq.oxfordjournals.org
 rel.sagepub.com
@@ -1052,9 +1002,7 @@ rsx.sagepub.com
 roa.sagepub.com
 rsw.sagepub.com
 rsm.sagepub.com
-rsm.sagepub.com
 rrn.sagepub.com
-rer.sagepub.com
 rer.sagepub.com
 res.oxfordjournals.org
 reep.oxfordjournals.org
@@ -1063,9 +1011,7 @@ rfs.oxfordjournals.org
 rop.sagepub.com
 rrp.sagepub.com
 rre.sagepub.com
-rre.sagepub.com
 rimg.geoscienceworld.org
-ror.reproduction-online.org
 ror.reproduction-online.org
 rheumatology.oxfordjournals.org
 www.rnajournal.org
@@ -1108,7 +1054,6 @@ socialtext.dukejournals.org
 www.endocrinology-journals.org
 www.sgmjournals.org
 jnumedmtg.snmjournals.org
-jnumedmtg.snmjournals.org
 ser.oxfordjournals.org
 smr.sagepub.com
 soc.sagepub.com
@@ -1128,7 +1073,6 @@ stroke.ahajournals.org
 shm.sagepub.com
 sce.sagepub.com
 sih.sagepub.com
-www.studiesinmycology.org
 www.studiesinmycology.org
 sri.sagepub.com
 teamat.oxfordjournals.org
