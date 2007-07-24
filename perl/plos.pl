@@ -85,6 +85,8 @@ unless ($ris =~ m{ER\s+-})
 	{
 	print "status\terr\tCouldn't extract the details from HighWire's 'export citation'\n" and exit;
 	}
+# Tweak DOI in RIS record slightly
+$ris =~ s!UR  - http://dx.doi.org/10.1371%2F!UR  - http://dx.doi.org/10.1371/!;
 
 #Generate linkouts and print output:
 #PLoS linkout
@@ -95,7 +97,7 @@ print "linkout\tDOI\t\t$doi\t\t\n";
 
 #PubMed/HubMed linkout
 $source_abstract = get("$url") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
-if ($source_abstract =~ m{=([0-9]+)&dopt=Citation">PubMed})
+if ($source_abstract =~ m{=([0-9]+)&dopt=Citation" class="ncbi" title="View PubMed Record})
 	{
 	print "linkout\tPMID\t$1\t\t\t\n";
 	}
