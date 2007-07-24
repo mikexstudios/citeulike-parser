@@ -112,7 +112,9 @@ test {http://www.ajhp.org/cgi/content/full/62/3/239} {
 
 test {http://sth.sagepub.com/cgi/content/refs/28/1/5} {
 	linkout			{HWIRE 28 sth.sagepub.com 1 5}
+	linkout         {DOI {} 10.1177/0162243902238803 {} {}}
 	formatted_url	{HighWire http://sth.sagepub.com/cgi/content/abstract/28/1/5}
+	formatted_url   {DOI http://dx.doi.org/10.1177/0162243902238803}
 	volume			{28}
 	issue			{1}
 	start_page		{5}
@@ -147,9 +149,11 @@ test {http://jhered.oxfordjournals.org/cgi/content/extract/95/5/II} {
 
 test {http://bioinformatics.oxfordjournals.org/cgi/screenpdf/18/4/529} {
 	status                  ok
-	linkout			{HWIRE 18 bioinformatics.oxfordjournals.org 4 529}
+	linkout                 {HWIRE 18 bioinformatics.oxfordjournals.org 4 529}
+	linkout                 {DOI {} 10.1093/bioinformatics/18.4.529 {} {}}
 	linkout                 {PMID 12016050 {} {} {}}
 	formatted_url           {HighWire http://bioinformatics.oxfordjournals.org/cgi/content/abstract/18/4/529}
+	formatted_url           {DOI http://dx.doi.org/10.1093/bioinformatics/18.4.529}
 	formatted_url           {Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=12016050}
 	formatted_url           {Hubmed http://www.hubmed.org/display.cgi?uids=12016050}
 	volume			{18}

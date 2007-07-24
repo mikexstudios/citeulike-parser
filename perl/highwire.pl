@@ -70,7 +70,7 @@ $url = <>;
 if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9.]+)})
 	{
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
-	$url_abstract = "http://$journal_site/cgi/content/abstract/$volume/$number/$page";
+	$url_abstract = "http://$journal_site/cgi/content/refs/$volume/$number/$page";
 #	print "Details:\t$journal_site\t$volume\t$number\t$page\n";
 #	print "URL:\t$url\n";	
 #	print "Abstract:\t$url_abstract\n";
@@ -84,7 +84,7 @@ elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|extract|full|refs|reprint
 		{
 		$volume = $1;
 		}
-	$url_abstract = "http://$journal_site/cgi/content/abstract/$volume";
+	$url_abstract = "http://$journal_site/cgi/content/refs/$volume";
 #	print "Details:\t$journal_site\t$volume\t$number\t$page\n";
 #	print "URL:\t$url\n";
 #	print "Abstract:\t$url_abstract\n";
