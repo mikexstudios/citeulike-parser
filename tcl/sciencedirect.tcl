@@ -61,7 +61,7 @@ set page [url_get [canon_url $url]]
 #
 # The workaround is to fetch the article again from its DOI record. Awful.
 #
-set re "FONT-SIZE: xx-small; font-family:Verdana;\"><a href=\"http://dx.doi.org/(\[^\"\]+)\" target=\"doilink\" onClick=\"var doiWin;"
+set re "<a href=\"http://dx.doi.org/(\[^\"\]+)\""
 if {[regexp $re $page match doi]} {
 
 	puts "linkout\tDOI\t\t$doi\t\t"
