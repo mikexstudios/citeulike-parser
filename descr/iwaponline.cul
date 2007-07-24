@@ -93,8 +93,11 @@ plugin {
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
 format_linkout IWAP {
-	return [list "IWA Publishing Online" \
-				"http://www.iwaponline.com/${ckey_1}/${ikey_1}/${ckey_1}${ikey_1}${ikey_2}.htm" ]
+        set journal $ckey_1
+        set volume [format "%03d" [scan $ikey_1 "%d"]]
+        set article [format "%04d" [scan $ikey_2 "%d"]]
+        return [list "IWA Publishing Online" \
+			"http://www.iwaponline.com/${journal}/${volume}/${journal}${volume}${article}.htm"]
 }
 
 #
@@ -115,7 +118,7 @@ test {http://www.iwaponline.com/jh/009/jh0090163.htm} {
 	formatted_url {DOI http://dx.doi.org/10.2166/hydro.2007.026}
 	keywords {calibration; catchment modelling; genetic algorithm; hydroinformatics; urban}
 	volume 9
-	linkout {IWAP 009 jh 0163 {}}
+	linkout {IWAP 9 jh 163 {}}
 	linkout {DOI {} 10.2166/hydro.2007.026 {} {}}
 	year 2007
 	type JOUR
@@ -138,7 +141,7 @@ test {http://www.iwaponline.com/jwh/005/jwh0050187.htm} {
 	formatted_url {DOI http://dx.doi.org/10.2166/wh.2007.013}
 	keywords {catchment; <italic>Cryptosporidium</italic>; model; pathogen; watershed}
 	volume 5
-	linkout {IWAP 005 jwh 0187 {}}
+	linkout {IWAP 5 jwh 187 {}}
 	linkout {DOI {} 10.2166/wh.2007.013 {} {}}
 	year 2007
 	type JOUR
