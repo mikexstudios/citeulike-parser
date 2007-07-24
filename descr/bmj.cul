@@ -147,7 +147,7 @@ test {http://bmj.bmjjournals.com/cgi/content/abstract/330/7499/1049} {
 	issue 7499 
 	title {Comparison of descriptions of allocation concealment in trial protocols and the published reports: cohort study} 
 	journal BMJ
-	url {http://bmj.bmjjournals.com/cgi/content/abstract/330/7499/1049}
+	url {http://www.bmj.com/cgi/content/abstract/330/7499/1049}
 	author {Pildal Julie J {Pildal, Julie}} 
 	author {Chan An-Wen A {Chan, An-Wen}} 
 	author {Hrobjartsson Asbjorn A {Hrobjartsson, Asbjorn}}
@@ -181,7 +181,7 @@ test {http://bmj.bmjjournals.com/cgi/content/abstract/330/7506/1457?ehom} {
 	journal       BMJ
 	author        {Edozien Leroy LC {Edozien, Leroy C}}
 	type          JOUR
-	url           http://bmj.bmjjournals.com
+	url           http://www.bmj.com
 	abstract      {10.1136/bmj.330.7506.1457}
 	status        ok
 }
@@ -203,7 +203,7 @@ test {http://bmj.bmjjournals.com/cgi/content/full/330/7506/0-g?ehom} {
 	title         {Performance matters}
 	author        {Godlee Fiona F {Godlee, Fiona}}
 	issue         7506
-	url           http://bmj.bmjjournals.com
+	url           http://www.bmj.com
 	abstract      {10.1136/bmj.330.7506.0-g}
 	status        ok
 }
@@ -220,7 +220,7 @@ test {http://bmj.bmjjournals.com/cgi/content/full/329/7475/1188-c/DC1?maxtoshow=
 	year          2004
 	type          JOUR
 	start_page    1188-c
-	url           http://bmj.bmjjournals.com
+	url           http://www.bmj.com
 	month         11
 	day           13
 	title         {Graham George Haigh}
@@ -251,7 +251,7 @@ test {http://bmj.bmjjournals.com/cgi/content/full/309/6970/1686?maxtoshow=&HITS=
 	type          JOUR
 	start_page    1686
 	end_page      1688
-	url           http://bmj.bmjjournals.com/cgi/content/abstract/309/6970/1686
+	url           http://www.bmj.com/cgi/content/abstract/309/6970/1686
 	author        {Campbell Moran MEJ {Campbell, E J Moran}}
 	author        {Campbell Diana DM {Campbell, Diana M E}} 
 	author        {Roberts Robin RS {Roberts, Robin S}}
@@ -276,7 +276,7 @@ test {http://bjsm.bmjjournals.com/cgi/content/abstract/39/4/223} {
 	issue 4 
 	title {A controlled study on batted ball speed and available pitcher reaction time in slowpitch softball} 
 	journal {Br J Sports Med}
-	url {http://bjsm.bmjjournals.com/cgi/content/abstract/39/4/223}
+	url {http://bjsm.bmj.com/cgi/content/abstract/39/4/223}
 	author {Mcdowell {} M {McDowell, M}} 
 	author {Ciocco {} MV {Ciocco, M V}}
 	month 4
@@ -295,7 +295,7 @@ test {http://ip.bmjjournals.com/cgi/content/full/7/2/166-a} {
 	year 2001
 	type JOUR
 	start_page 166-a
-	url http://ip.bmjjournals.com
+	url http://injuryprevention.bmj.com
 	day 1
 	formatted_url {{BMJ (PDF version)} http://ip.bmjjournals.com/cgi/content/reprint/7/2/166-a}
 	formatted_url {{BMJ (HTML version)} http://ip.bmjjournals.com/cgi/content/full/7/2/166-a}

@@ -83,8 +83,10 @@ $browser->cookie_jar( {} );
 # for the subsequent request.
 my $page = $browser->get("http://www.anthrosource.net/doi/abs/$doi") or oops "Couldn't fetch the abstract page from Anthrosource.net";
 
-if ($page->content =~ m{<div class="abstractSection"><p>(.*?)</p>}) {
-    print "abstract\t$1\n";
+if ($page->content =~ m{<meta name="dc\.Description" content="(.+?)"></meta>}) {
+	my $abstract = $1;
+	$abstract =~ s/&quot;/\"/g;
+	print "abstract\t$abstract\n";
 }
 
 # Get the RIS citation information

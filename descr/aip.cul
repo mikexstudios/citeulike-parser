@@ -123,14 +123,12 @@ format_linkout AIPP {
 test {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes} {
 	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes}
 	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e103508}
-	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e103508}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevD.71.103508}
 	keywords {cosmology; superstrings; membrane theory}
-	pages 103508
+	pages "103508+"
 	volume 71
 	linkout {AIP {} PRVDAQ000071000010103508000001 {} {}}
 	linkout {APS 71 PRD {} e103508}
-	linkout {}
 	linkout {DOI {} 10.1103/PhysRevD.71.103508 {} {}}
 	year 2005
 	type JOUR
@@ -152,14 +150,12 @@ test {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDA
 test {http://spiedl.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME5000014000002029901000001&idtype=cvips&gifs=Yes&ver=dl} {
 	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME5000014000002029901000001&idtype=cvips&gifs=yes}
 	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?JEI/14/029901}
-	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?JEI/14/029901}
 	formatted_url {DOI http://dx.doi.org/10.1117/1.1905634}
 	keywords  {vectors; mathematical operators; Fourier analysis; Fourier transforms; spectral analysis; wavelet transforms; group theory; image processing; diffraction; photons; stochastic processes; estimation theory; inverse problems; single photon emission computed tomography; speckle}
-	pages  029901
+	pages  "029901+"
 	volume  14
 	linkout {AIP {} JEIME5000014000002029901000001 {} {}}
 	linkout {AIPP 14 JEI {} 029901}
-	linkout {}
 	linkout {DOI {} 10.1117/1.1905634 {} {}}
 	year  2005
 	type  JOUR
@@ -181,12 +177,10 @@ test {http://spiedl.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME500
 test {http://spiedl.aip.org/vsearch/servlet/VerityServlet?KEY=SPIEDL&smode=strresults&sort=rel&maxdisp=25&threshold=0&pjournals=SPIEDL&possible1=network&possible1zone=article&SMODE=strsearch&OUTLOG=NO&deliveryType=spiedl&viewabs=PSISDG&key=DISPLAY&docID=1&page=0&chapter=0} {
 	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PSISDG004583000001000139000001&idtype=cvips&gifs=yes}
 	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?PSI/4583/139}
-	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?PSI/4583/139}
 	formatted_url {DOI http://dx.doi.org/10.1117/12.445121}
 	volume  4583
 	linkout {AIP {} PSISDG004583000001000139000001 {} {}}
 	linkout {AIPP 4583 PSI {} 139}
-	linkout {}
 	linkout {DOI {} 10.1117/12.445121 {} {}}
 	year  2001
 	start_page  139

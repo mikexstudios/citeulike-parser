@@ -349,14 +349,32 @@ namespace eval driver {
 				}
 				unset ret(editor)
 			}
-
+			
 			if {[info exists ret(linkout)]} {
 				foreach lo $ret(linkout) {
-					lappend ret(linkouts) [split $lo "\t"]
+					# The elements in the linkout have types: str, int, str, int, str
+					set lst [split $lo "\t"]
+					if {[llength $lst]!=5} {
+						error "Linkout contains [llength $lst] element. Should be 5: $lst"
+					}
+					foreach {type ikey_1 ckey_1 ikey_2 ckey_2} [split $lo "\t"] {}
+					if {![is_integer $ikey_1] && $ikey_1 != ""} {
+						error "Linkout ikey_1 component is not an integer: $ikey_1"
+					}
+					if {![is_integer $ikey_2] && $ikey_2 != ""} {
+						error "Linkout ikey_2 component is not an integer: $ikey_2"
+					}
+					if {$ikey_1!=""} {
+						set ikey_1 [atoi $ikey_1]
+					}
+					if {$ikey_2!=""} {
+						set ikey_2 [atoi $ikey_2]
+					}
+					lappend ret(linkouts) [list $type $ikey_1 $ckey_1 $ikey_2 $ckey_2]
 				}
 				unset ret(linkout)
 			}
-
+			
 			foreach {k v} [array get ret] {
 				if {$v==""} {
 					# If it's an empty string, we may as well not have it
@@ -436,6 +454,18 @@ namespace eval driver {
 				test_plugin $p
 			}
 		}
+	}
+
+	proc is_integer {str} {
+		# TCL does have a bit of a braindead implementation of "string is integer 09"
+		return [regexp {^[0-9]+$} $str]
+	}
+
+	proc atoi {str} {
+		if {[is_integer $str]} {
+			return [scan $str "%d"]
+		}
+		error "Not an integer: $str"
 	}
 
 	proc test_plugin {plugin} {
@@ -554,7 +584,6 @@ namespace eval driver {
 
 
 	if {[driver_from_command_line]} {
-
 		# On startup from command line do stuff. Otherwise leave
 		# the decision to the main application.
 		read_descr

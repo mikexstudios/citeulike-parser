@@ -143,7 +143,6 @@ if {[regexp {url = \{http://link\.(aps|aip)\.org/(.*)\}} $page -> domain toparse
 	}
 
 }
-puts "end_tsv"
 
 #Abstract is a lot more iffy--might not always come out clean, but that's OK
 
@@ -156,8 +155,6 @@ set url "${base}${id}${end}"
 
 
 set abpage [url_get $url]
-
-puts "begin_tsv"
 
 #set abpage [url_get $url]
 #puts $abpage
