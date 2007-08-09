@@ -5,7 +5,7 @@ require 'mechanize'
 
 url = gets.strip
 agent =  WWW::Mechanize.new
-agent.read_timeout = 3
+agent.read_timeout = 10
 
 rcount=0
 begin
