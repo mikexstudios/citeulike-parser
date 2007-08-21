@@ -72,6 +72,9 @@ $url =~ s/www\.//; # remove www.
 # Remove any instance of metapress in the URL
 $url =~ s/springerlink\.metapress\.com/springerlink.com/;
 
+# Remove any trailing proxy stuff on the end
+$url =~ s!springerlink\.com[^/]+/!springerlink.com/!;
+
 $url_abstract = $url;
 
 # Get the link to the reference manager RIS file
