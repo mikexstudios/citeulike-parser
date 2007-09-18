@@ -105,6 +105,10 @@ ris_entry = f.read()
 # get rid of the extra newline at the end
 ris_entry = ris_entry.strip()
 
+# Tidy up author name formatting to help our parser out
+auth_exp = re.compile(r'A1  - (.+?),(.+?)$', re.M)
+ris_entry = re.sub(auth_exp, r'A1  - \1, \2', ris_entry)
+
 
 # print the results
 print "begin_tsv"
