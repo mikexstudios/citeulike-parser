@@ -40,8 +40,8 @@
 
 import re, sys, urllib2
 
-BIBTEX_SERVER_ROOT = 'http://www.iop.org/EJ/sview/'
-BIBTEX_SERVER_POST_STR = 'submit=1&format=bibtex'
+RIS_SERVER_ROOT = 'http://www.iop.org/EJ/sview/'
+RIS_SERVER_POST_STR = 'submit=1&format=refmgr'
 
 # regexp to screen scrape the DOI and get the article info from it
 DOI_REGEXP = r"""doi:\s*	# strip whitespace at begining
@@ -58,7 +58,7 @@ ERR_STR_PREFIX = 'status\terr\t'
 ERR_STR_FETCH = 'Unable to fetch the page: '
 ERR_STR_TRY_AGAIN = 'The server may be down.  Please try later.'
 ERR_STR_NO_DOI = 'No valid document object identifier (DOI) found on the page: '
-ERR_STR_NO_BIBTEX = 'No BibTeX entry found for the DOI: '
+ERR_STR_NO_RIS = 'No RIS entry found for the DOI: '
 ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
 
 # read url from std input
@@ -92,18 +92,18 @@ linkout_issue = doi_match.group(4)
 linkout_article = doi_match.group(5)
 
 
-# fetch the BibTeX entry for the DOI and exit gracefully in case of trouble
-req = urllib2.Request(BIBTEX_SERVER_ROOT + doi_suffix)
-req.add_data(BIBTEX_SERVER_POST_STR)
+# fetch the RIS entry for the DOI and exit gracefully in case of trouble
+req = urllib2.Request(RIS_SERVER_ROOT + doi_suffix)
+req.add_data(RIS_SERVER_POST_STR)
 try:
 	f = urllib2.urlopen(req)
 except:
-	print ERR_STR_PREFIX + ERR_STR_NO_BIBTEX + doi + '.  ' + ERR_STR_REPORT
+	print ERR_STR_PREFIX + ERR_STR_NO_RIS + doi + '.  ' + ERR_STR_REPORT
 	sys.exit(1)
 
-bibtex_entry = f.read()
+ris_entry = f.read()
 # get rid of the extra newline at the end
-bibtex_entry = bibtex_entry.strip()
+ris_entry = ris_entry.strip()
 
 
 # print the results
@@ -114,7 +114,7 @@ print "linkout\tDOI\t\t%s\t\t" % (doi)
 print "type\tJOUR"
 print "doi\t" + doi
 print "end_tsv"
-print "begin_bibtex"
-print bibtex_entry
-print "end_bibtex"
+print "begin_ris"
+print ris_entry
+print "end_ris"
 print "status\tok"
