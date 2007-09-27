@@ -100,7 +100,7 @@ if {$epos==-1} {
 	set epos [string first "</BLOCKQUOTE>" $page]
 }
 if {$spos >-1 && $epos >-1} {
-	incr spos 43
+	incr spos 42
 	incr epos -2
 	set abstract [string range $page $spos $epos]
 }
