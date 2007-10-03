@@ -66,7 +66,7 @@ plugin {
 #
 format_linkout PMID {
 	lappend ret	"Pubmed"
-	lappend ret "http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=$ikey_1"
+	lappend ret "http://view.ncbi.nlm.nih.gov/pubmed/$ikey_1"
 	lappend ret "Hubmed"
 	lappend ret "http://www.hubmed.org/display.cgi?uids=$ikey_1"
 	
