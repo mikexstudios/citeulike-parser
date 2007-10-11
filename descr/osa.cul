@@ -1,0 +1,101 @@
+plugin {
+	version {1}
+	name {Optical Society of America}
+	url {http://www.opticsinfobase.org/}
+	blurb {}
+	author {Kristinn B. Gylfason}
+	email {citeulike@askur.org}
+	language {python}
+	regexp {(osa.org|opticsinfobase.org)/abstract.cfm}
+}
+
+format_linkout OSA {
+	return [list "Optical Society of America" \
+			"http://www.opticsinfobase.org/abstract.cfm?id=${ikey_1}"]
+}
+
+
+test {http://jlt.osa.org/abstract.cfm?id=141326} {
+	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=141326}
+	volume 25
+	linkout {OSA 141326 {} {} {}}
+	year 2007
+	start_page 1996
+	type JOUR
+	url {http://jlt.osa.org/abstract.cfm?URI=JLT-25-8-1996}
+	end_page 2001
+	day 1
+	issue 8
+	publisher {OSA}
+	title {Localized High Birefringence Induced in SMF-28 Fiber by Femtosecond IR Laser Exposure of the Cladding}
+	journal {J. Lightwave Technol.}
+	status ok
+	author {Grobnic Dan D {Grobnic, Dan}}
+	author {Mihailov Stephen SJ {Mihailov, Stephen J.}}
+	author {Smelser Christopher CW {Smelser, Christopher W.}}
+}
+
+test {http://www.opticsinfobase.org/abstract.cfm?id=98382} {
+	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=98382}
+	linkout {OSA 98382 {} {} {}}
+	year 2006
+	start_page {TuG7}
+	type CONF
+	url {http://www.opticsinfobase.org/abstract.cfm?URI=URI=BIO-2006-TuG7}
+	title_series {Technical Digest (CD)}
+	day 19
+	publisher {Optical Society of America}
+	title {Whole Body Animal Examination by Fluorescence Tomography}
+	journal {Biomedical Optics}
+	status ok
+	month 3
+	author {Koenig Anne A {Anne Koenig}}
+	author {Hervé Lionel L {Lionel Hervé}}
+	author {{Da Silva} Anabela A {Anabela Da Silva}}
+	author {Dinten Jean-Marc J {Jean-Marc Dinten}}
+	author {Boutet Jérôme J {Jérôme Boutet}}
+	author {Berger Michel M {Michel Berger}}
+	author {Texier Isabelle I {Isabelle Texier}}
+	author {Peltié Philippe P {Philippe Peltié}}
+	author {Rizo Philippe P {Philippe Rizo}}
+	author {Josserand Véronique V {Véronique Josserand}}
+	author {Coll Jean-Luc J {Jean-Luc Coll}}
+	author {{} {} {} {}}
+}
+
+test {http://www.opticsinfobase.org/abstract.cfm?URI=oe-1-3-60} {
+	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=63179}
+	volume 1
+	linkout {OSA 63179 {} {} {}}
+	year 1997
+	start_page 60
+	type JOUR
+	url {http://www.opticsexpress.org/abstract.cfm?URI=oe-1-3-60}
+	end_page 67
+	day 4
+	issue 3
+	publisher {OSA}
+	title {Modeling of heterodyne efficiency for coherent laser radar in the presence of aberrations}
+	journal {Opt. Express}
+	status ok
+	author {Chambers Diana D {Chambers, Diana}}
+}
+
+test {http://www.opticsinfobase.org/abstract.cfm?id=49264} {
+	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=49264}
+	volume 30
+	linkout {OSA 49264 {} {} {}}
+	year 1940
+	start_page 163
+	type JOUR
+	url {http://www.opticsinfobase.org/abstract.cfm?URI=josa-30-4-163}
+	day 1
+	issue 4
+	publisher {OSA}
+	title {The fluorescent mercury vapor lamp as a light source for a single point check on optical pyrometers}
+	journal {J. Opt. Soc. Am.}
+	status ok
+	month 4
+	author {Lucks {} CF {Lucks, C. F.}}
+	author {Russell {} HW {Russell, H. W.}}
+}
