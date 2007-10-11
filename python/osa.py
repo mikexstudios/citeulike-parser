@@ -37,7 +37,7 @@ def fetch(url, query=None):
     except:
 	print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' \
                 + ERR_STR_TRY_AGAIN
-	sys.exit(1)
+	raise
 
 
 # read url from std input an get rid of the newline at the end
@@ -77,10 +77,10 @@ query = urllib.urlencode(ris_server_post_data)
 ris_entry = fetch(RIS_SERVER_ROOT,query)
 
 # Grab the abstract from the HTML
-abstract_page = fetch("http://ol.osa.org/abstract.cfm?id=%d" % article_id)
-m = re.search( r'<p><strong>Abstract</strong><br/>(.*?)</p>', abstract_page, re.DOTALL)
+abstract_page = fetch("http://www.opticsinfobase.org/abstract.cfm?id=%d" % article_id)
+m = re.search( r'<p><strong>Abstract</strong><br/>\s+(<p><a.*?</p>)?(.*?)</p>', abstract_page, re.DOTALL)
 if m:
-    abstract = m.group(1).strip()
+    abstract = m.group(2).strip()
 else:
     abstract = None
 
