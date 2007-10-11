@@ -1,0 +1,136 @@
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {ACL Anthology}
+
+	# The link the front page of this service
+	url {http://www.aclweb.org/anthology/}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Karl-Michael Schneider}
+
+	# Your email address
+	email {karlmicha@gmail.com}
+
+	# Language you wrote the plugin in
+	language {python}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	regexp {^http://(?:(?:www\.)?aclweb\.org/anthology(?:-new)?|acl\.ldc\.upenn\.edu|ucrel\.lancs\.ac\.uk/acl|acl\.eldoc\.ub\.rug\.nl/mirror|www\.cs\.mu\.oz\.au/acl)/[A-Z]/[A-Z]\d{2}/[A-Z]\d{2}-\d+(?:\.bib|\.pdf)?$}
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout ACLANT {
+	return [list "ACL Anthology (BibTeX)" \
+		    "http://www.aclweb.org/anthology-new/${ckey_1}.bib" \
+		    "ACL Anthology (PDF)" \
+		    "http://www.aclweb.org/anthology-new/${ckey_1}.pdf" \
+	       ]
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://www.aclweb.org/anthology-new/P/P07/P07-1001.bib} {
+	formatted_url {{ACL Anthology (BibTeX)} http://www.aclweb.org/anthology-new/P/P07/P07-1001.bib}
+	formatted_url {{ACL Anthology (PDF)} http://www.aclweb.org/anthology-new/P/P07/P07-1001.pdf}
+	linkout {ACLANT {} P/P07/P07-1001 {} {}}
+	abstract {}
+	title {Guiding Statistical Word Alignment Models With Prior Knowledge}
+	title_secondary {Proceedings of the 45th Annual Meeting of the Association of Computational Linguistics}
+	author {Deng Yonggang Y {Yonggang Deng}}
+	author {Gao Yuqing Y {Yuqing Gao}}
+	start_page 1
+	end_page 8
+	address {Prague, Czech Republic}
+	publisher {Association for Computational Linguistics}
+	type INCONF
+	year 2007
+	month June
+	url http://www.aclweb.org/anthology/P/P07/P07-1001
+	status ok
+}
+
+test {http://www.aclweb.org/anthology/N/N06/N06-1012} {
+	formatted_url {{ACL Anthology (BibTeX)} http://www.aclweb.org/anthology-new/N/N06/N06-1012.bib}
+	formatted_url {{ACL Anthology (PDF)} http://www.aclweb.org/anthology-new/N/N06/N06-1012.pdf}
+	linkout {ACLANT {} N/N06/N06-1012 {} {}}
+	abstract {}
+	title {Reducing Weight Undertraining in Structured Discriminative Learning}
+	title_secondary {Proceedings of the Human Language Technology Conference of the NAACL, Main Conference}
+	author {Sutton Charles C {Charles Sutton}}
+	author {Sindelar Michael M {Michael Sindelar}}
+	author {Mccallum Andrew A {Andrew McCallum}}
+	start_page 89
+	end_page 95
+	address {New York City, USA}
+	publisher {Association for Computational Linguistics}
+	type INCONF
+	year 2006
+	month June
+	url http://www.aclweb.org/anthology/N/N06/N06-1012
+	status ok
+}
+
+test {http://www.aclweb.org/anthology-new/W/W04/W04-0110.pdf} {
+	formatted_url {{ACL Anthology (BibTeX)} http://www.aclweb.org/anthology-new/W/W04/W04-0110.bib}
+	formatted_url {{ACL Anthology (PDF)} http://www.aclweb.org/anthology-new/W/W04/W04-0110.pdf}
+	linkout {ACLANT {} W/W04/W04-0110 {} {}}
+	abstract {}
+	title {Segment Predictability as a Cue in Word Segmentation: Application to Modern Greek}
+	title_secondary {Proceedings of the Seventh Meeting of the ACL Special Interest Group in Computational Phonology}
+	author {Rytting Anton AC {C. Anton Rytting}}
+	start_page 78
+	end_page 85
+	address {Barcelona, Spain}
+	publisher {Association for Computational Linguistics}
+	type INCONF
+	year 2004
+	month July
+	status ok
+}
