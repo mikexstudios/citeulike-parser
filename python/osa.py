@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2007 Kristinn B. Gylfason <citeulike@askur.org>
+# Copyright (c) 2007 Kristinn B. Gylfason <citeulike@askur.org>, 
+#                    Richard Cameron <richard@citeulike.org>
 
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,7 +15,7 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys, urllib, urllib2, urlparse, cgi, re
+import sys, urllib, urllib2, urlparse, cgi, re, mechanize 
 
 RIS_SERVER_ROOT = \
         'http://www.opticsinfobase.org/custom_tags/IB_Download_Citations.cfm'
@@ -46,22 +47,22 @@ url = sys.stdin.readline().strip()
 # parse the article details from the url 
 src_query = cgi.parse_qs(urlparse.urlparse(url)[QUERY])
 
+# fetch the page the user is looking at
+br = mechanize.Browser()
+br.set_handle_robots(False)
+try:
+    br.open(url)
+except:
+    print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' + ERR_STR_TRY_AGAIN
+    sys.exit(1)
+
 # if the user came from a page with an article id in the url we use
 # that directly in the RIS query
 if src_query.has_key('id'):
     article_id = int(src_query['id'][0])
     ris_server_post_data['articles'] = article_id
-else:
 # otherwize we need to get the id from the page the user is looking at
-    from mechanize import Browser
-    br = Browser()
-    br.set_handle_robots(False)
-    try:
-        br.open(url)
-    except:
-        print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' + ERR_STR_TRY_AGAIN
-        sys.exit(1)
-
+else:
     try:
         # find the article id in the export form
         br.select_form(predicate=lambda form: \
@@ -76,18 +77,28 @@ else:
 query = urllib.urlencode(ris_server_post_data)
 ris_entry = fetch(RIS_SERVER_ROOT,query)
 
-# Grab the abstract from the HTML
-abstract_page = fetch("http://www.opticsinfobase.org/abstract.cfm?id=%d" % article_id)
-m = re.search( r'<p><strong>Abstract</strong><br/>\s+(<p><a.*?</p>)?(.*?)</p>', abstract_page, re.DOTALL)
+# Grab the abstract from the HTML in the page the user is looking at
+m = re.search( r'<p><strong>Abstract</strong><br/>\s+(<p><a.*?</p>)?(.*?)</p>',
+        br.response().read(), re.DOTALL)
 if m:
-    abstract = m.group(2).strip()
+    # strip the HTML from the abstract
+    from sgmllib import SGMLParser
+    class XMLJustText (SGMLParser):
+            just_text = ''
+            def handle_data (self,data):
+                    self.just_text = self.just_text + ' ' + data
+
+    parser = XMLJustText()
+    parser.feed(m.group(2).strip())
+    # clean out whitespace and newlines
+    abstract = ' '.join([s.strip() for s in parser.just_text.split('\n')])
 else:
     abstract = None
 
 # print the results
 print "begin_tsv"
 print "linkout\tOSA\t%d\t\t\t" % article_id
-if abstract is not None:
+if abstract:
     print "abstract\t%s" % abstract
 #print "linkout\tDOI\t\t%s\t\t" % (doi)
 #print "doi\t" + doi
