@@ -38,10 +38,9 @@
 #
 
 
-import re, sys, urllib2, cookielib 
+import re, sys, urllib, urllib2, cookielib 
 
-RIS_SERVER_ROOT = 'http://www.blackwell-synergy.com/action/downloadCitation'
-RIS_SERVER_POST_STR = '?doi=%s&include=abs&format=refman'
+CITATION_SERVER_ROOT = 'http://www.blackwell-synergy.com/action/downloadCitation'
 DOI_URL_SEP ='%2F'
 DOI_SEP ='/'
 
@@ -71,33 +70,37 @@ url = urllib2.unquote(url)
 doi_match  = re.search(DOI_REGEXP, url, DOI_REGEXP_FLAGS)
 if not doi_match:
 	print ERR_STR_PREFIX + ERR_STR_NO_DOI + url + '.  ' + ERR_STR_REPORT
-	sys.exit(1)
+	raise
 
 doi_prefix = doi_match.group(1)
 doi_suffix = doi_match.group(2)
 url_doi = doi_prefix + DOI_URL_SEP + doi_suffix
 doi = doi_prefix + DOI_SEP + doi_suffix
 
-# fetch the RIS entry for the DOI and exit gracefully in case of trouble
-ris_url = RIS_SERVER_ROOT + RIS_SERVER_POST_STR % url_doi
+# fetch the BibTeX entry for the DOI and exit gracefully in case of trouble
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+post_data = urllib.urlencode( { "doi" : doi,
+				"include" : "abs",
+				"format" : "bibtex",
+				"direct" : "on",
+				"submit" : "Download references"} )
 try:
-	f = opener.open(ris_url)
+	# Cookie me...
+	opener.open("http://www.blackwell-synergy.com/action/showCitFormats?doi=%s" % url_doi)
+	# ... and fetch the bibtex record
+	f = opener.open(CITATION_SERVER_ROOT, post_data)
 except:
-	print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' + ERR_STR_TRY_AGAIN
-	sys.exit(1)
+	print ERR_STR_PREFIX + ERR_STR_FETCH + CITATION_SERVER_ROOT + '.  ' + ERR_STR_TRY_AGAIN
+	raise
 
-ris_entry = f.read()
+bibtex_entry = f.read().strip()
 
-# get rid of the extra newline at the end
-ris_entry = ris_entry.strip()
 # get rid of the session id in the url 
 url_pat = re.compile(r';jsessionid.*$',re.MULTILINE)
-ris_entry = re.sub(url_pat,'',ris_entry)
-# get rid of the term "Abstract:" in the abstract
-abs_pat = re.compile(r'^N2  - Abstract: ',re.MULTILINE)
-ris_entry = re.sub(abs_pat,'N2  - ',ris_entry)
+bibtex_entry = re.sub(url_pat,'',bibtex_entry)
+# Give the article a proper ID
+bibtex_entry = re.sub( r'(@.*?){,', r'\1{blackwell_import,', bibtex_entry)
 
 # print the results
 print "begin_tsv"
@@ -106,7 +109,7 @@ print "linkout\tDOI\t\t%s\t\t" % (doi)
 print "type\tJOUR"
 print "doi\t" + doi
 print "end_tsv"
-print "begin_ris"
-print ris_entry
-print "end_ris"
+print "begin_bibtex"
+print bibtex_entry
+print "end_bibtex"
 print "status\tok"
