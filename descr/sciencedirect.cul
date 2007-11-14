@@ -40,7 +40,7 @@
 plugin {
 	# Integer version number for the plugin code. When this number is incremented,
 	# CiteULike may reparse all existing articles with the new code.
-	version {1}
+	version {2}
 
 	# The name of the plugin, as displayed on the "CiteULike supports..." page
 	name {ScienceDirect}
@@ -59,7 +59,7 @@ plugin {
 	email {camster@citeulike.org}
 
 	# Language you wrote the plugin in
-	language {tcl}
+	language {python}
 
 	# Regular expression to match URLs that the plugin is
 	# *potentially* interested in. Any URL matching this regexp
