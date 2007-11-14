@@ -1,0 +1,188 @@
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {Journal of Machine Learning Research}
+
+	# The link the front page of this service
+	url {http://www.jmlr.org/}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Karl-Michael Schneider}
+
+	# Your email address
+	email {karlmicha@gmail.com}
+
+	# Language you wrote the plugin in
+	language {python}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	regexp {^http://jmlr\.csail\.mit\.edu/papers/v\d+/\w+\.(?:html|pdf|ps|ps\.gz)$}
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout JMLR {
+	return [list "JMLR (PDF)" \
+		    "http://www.jmlr.org/papers/volume${ikey_1}/${ckey_1}/${ckey_1}.pdf" \
+	       ]
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://jmlr.csail.mit.edu/papers/v8/teboulle07a.html} {
+	formatted_url {{JMLR (PDF)} http://www.jmlr.org/papers/volume8/teboulle07a/teboulle07a.pdf}
+	linkout {JMLR 8 teboulle07a {} {}}
+	abstract {Center-based partitioning clustering algorithms rely on minimizing an appropriately formulated objective function, and different formulations suggest different possible algorithms. In this paper, we start with the standard nonconvex and nonsmooth formulation of the partitioning clustering problem. We demonstrate that within this elementary formulation, convex analysis tools and optimization theory provide a unifying language and framework to design, analyze and extend hard and soft center-based clustering algorithms, through a generic algorithm which retains the computational simplicity of the popular k-means scheme. We show that several well known and more recent center-based clustering algorithms, which have been derived either heuristically, or/and have emerged from intuitive analogies in physics, statistical techniques and information theoretic perspectives can be recovered as special cases of the proposed analysis and we streamline their relationships.}
+	title {A Unified Continuous Optimization Framework for Center-Based Clustering Methods}
+	author {Teboulle Marc M {Marc Teboulle}}
+	start_page 65
+	end_page 102
+	type JOUR
+	year 2007
+	month 1
+	volume 8
+	journal {Journal of Machine Learning Research}
+	url http://jmlr.csail.mit.edu/papers/v8/teboulle07a.html
+	status ok
+}
+
+test {http://jmlr.csail.mit.edu/papers/v5/lanckriet04a.html} {
+	formatted_url {{JMLR (PDF)} http://www.jmlr.org/papers/volume5/lanckriet04a/lanckriet04a.pdf}
+	linkout {JMLR 5 lanckriet04a {} {}}
+	abstract {Kernel-based learning algorithms work by embedding the data into a Euclidean space, and then searching for linear relations among the embedded data points. The embedding is performed implicitly, by specifying the inner products between each pair of points in the embedding space. This information is contained in the so-called kernel matrix, a symmetric and positive semidefinite matrix that encodes the relative positions of all points. Specifying this matrix amounts to specifying the geometry of the embedding space and inducing a notion of similarity in the input space---classical model selection problems in machine learning. In this paper we show how the kernel matrix can be learned from data via semidefinite programming (SDP) techniques. When applied to a kernel matrix associated with both training and test data this gives a powerful transductive algorithm---using the labeled part of the data one can learn an embedding also for the unlabeled part. The similarity between test points is inferred from training points and their labels. Importantly, these learning problems are convex, so we obtain a method for learning both the model class and the function without local minima. Furthermore, this approach leads directly to a convex method for learning the 2-norm soft margin parameter in support vector machines, solving an important open problem.}
+	title {Learning the Kernel Matrix with Semidefinite Programming}
+	author {Lanckriet Gert GRG {Gert R.G. Lanckriet}}
+	author {Cristianini Nello N {Nello Cristianini}}
+	author {Bartlett Peter P {Peter Bartlett}}
+	author {Ghaoui Laurent LE {Laurent El Ghaoui}}
+	author {Jordan Michael MI {Michael I. Jordan}}
+	start_page 27
+	end_page 72
+	type JOUR
+	year 2004
+	month 1
+	volume 5
+	journal {Journal of Machine Learning Research}
+	url http://jmlr.csail.mit.edu/papers/v5/lanckriet04a.html
+	status ok
+}
+
+test {http://jmlr.csail.mit.edu/papers/v3/bekkerman03a.html} {
+	formatted_url {{JMLR (PDF)} http://www.jmlr.org/papers/volume3/bekkerman03a/bekkerman03a.pdf}
+	linkout {JMLR 3 bekkerman03a {} {}}
+	abstract {We study an approach to text categorization that combines distributional clustering of words and a Support Vector Machine (SVM) classifier. This word-cluster representation is computed using the recently introduced Information Bottleneck method, which generates a compact and efficient representation of documents. When combined with the classification power of the SVM, this method yields high performance in text categorization. This novel combination of SVM with word-cluster representation is compared with SVM-based categorization using the simpler bag-of-words (BOW) representation. The comparison is performed over three known datasets. On one of these datasets (the 20 Newsgroups) the method based on word clusters significantly outperforms the word-based representation in terms of categorization accuracy or representation efficiency. On the two other sets (Reuters-21578 and WebKB) the word-based representation slightly outperforms the word-cluster representation. We investigate the potential reasons for this behavior and relate it to structural differences between the datasets.}
+	title {Distributional Word Clusters vs. Words for Text Categorization}
+	author {Bekkerman Ron R {Ron Bekkerman}}
+	author {El-Yaniv Ran R {Ran El-Yaniv}}
+	author {Tishby Naftali N {Naftali Tishby}}
+	author {Winter Yoad Y {Yoad Winter}}
+	start_page 1183
+	end_page 1208
+	type JOUR
+	year 2003
+	month 3
+	volume 3
+	journal {Journal of Machine Learning Research}
+	url http://jmlr.csail.mit.edu/papers/v3/bekkerman03a.html
+	status ok
+}
+
+test {http://jmlr.csail.mit.edu/papers/v3/zelenko03a.html} {
+	formatted_url {{JMLR (PDF)} http://www.jmlr.org/papers/volume3/zelenko03a/zelenko03a.pdf}
+	linkout {JMLR 3 zelenko03a {} {}}
+	abstract {We present an application of kernel methods to extracting relations from unstructured natural language sources. We introduce kernels defined over shallow parse representations of text, and design efficient algorithms for computing the kernels. We use the devised kernels in conjunction with Support Vector Machine and Voted Perceptron learning algorithms for the task of extracting person-affiliation and organization-location relations from text. We experimentally evaluate the proposed methods and compare them with feature-based learning algorithms, with promising results.}
+	title {Kernel Methods for Relation Extraction}
+	author {Zelenko Dmitry D {Dmitry Zelenko}}
+	author {Aone Chinatsu C {Chinatsu Aone}}
+	author {Richardella Anthony A {Anthony Richardella}}
+	start_page 1083
+	end_page 1106
+	type JOUR
+	year 2003
+	month 2
+	volume 3
+	journal {Journal of Machine Learning Research}
+	url http://jmlr.csail.mit.edu/papers/v3/zelenko03a.html
+	status ok
+}
+
+test {http://jmlr.csail.mit.edu/papers/v2/tong01a.html} {
+	formatted_url {{JMLR (PDF)} http://www.jmlr.org/papers/volume2/tong01a/tong01a.pdf}
+	linkout {JMLR 2 tong01a {} {}}
+	abstract {Support vector machines have met with significant success in numerous real-world learning tasks. However, like most machine learning algorithms, they are generally applied using a randomly selected training set classified in advance. In many settings, we also have the option of using pool-based active learning. Instead of using a randomly selected training set, the learner has access to a pool of unlabeled instances and can request the labels for some number of them. We introduce a new algorithm for performing active learning with support vector machines, i.e., an algorithm for choosing which instances to request next. We provide a theoretical motivation for the algorithm using the notion of a version space. We present experimental results showing that employing our active learning method can significantly reduce the need for labeled training instances in both the standard inductive and transductive settings.}
+	title {Support Vector Machine Active Learning with Applications to Text Classification}
+	author {Tong Simon S {Simon Tong}}
+	author {Koller Daphne D {Daphne Koller}}
+	start_page 45
+	end_page 66
+	type JOUR
+	year 2001
+	month 11
+	volume 2
+	journal {Journal of Machine Learning Research}
+	url http://jmlr.csail.mit.edu/papers/v2/tong01a.html
+	status ok
+}
+
+test {http://jmlr.csail.mit.edu/papers/v1/meila00a.html} {
+	formatted_url {{JMLR (PDF)} http://www.jmlr.org/papers/volume1/meila00a/meila00a.pdf}
+	linkout {JMLR 1 meila00a {} {}}
+	abstract {This paper describes the mixtures-of-trees model, a probabilistic model for discrete multidimensional domains. Mixtures-of-trees generalize the probabilistic trees of Chow and Liu (1968) in a different and complementary direction to that of Bayesian networks. We present efficient algorithms for learning mixtures-of-trees models in maximum likelihood and Bayesian frameworks. We also discuss additional efficiencies that can be obtained when data are "sparse," and we present data structures and algorithms that exploit such sparseness. Experimental results demonstrate the performance of the model for both density estimation and classification. We also discuss the sense in which tree-based classifiers perform an implicit form of feature selection, and demonstrate a resulting insensitivity to irrelevant attributes.}
+	title {Learning with Mixtures of Trees}
+	author {Meila Marina M {Marina Meila}}
+	author {Jordan Michael MI {Michael I. Jordan}}
+	start_page 1
+	end_page 48
+	type JOUR
+	year 2000
+	month 10
+	volume 1
+	journal {Journal of Machine Learning Research}
+	url http://jmlr.csail.mit.edu/papers/v1/meila00a.html
+	status ok
+}
