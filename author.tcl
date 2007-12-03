@@ -70,7 +70,7 @@ namespace eval author {
 			set x(first_name) [capitalize_name $x(first_name)]
 		}
 
-		if {[info exists x(last_name)]} {
+		if {[info exists x(last_name)] && ![info exists x(verbatim)]} {
 			set x(last_name) [capitalize_name $x(last_name)]
 		}
 
@@ -105,13 +105,18 @@ namespace eval author {
 		variable PREFIX
 		variable SURNAME
 
+		# "verbatim name"
+		if {[regexp {"([^"]+)"} $raw -> ret(last_name)]} {
+			set ret(verbatim) 1
+			return [array get ret]
+		}
+
 		# Cameron, Richard D
 		if {[regexp\
 				 [subst {^($SURNAME), ?($NAME_2)( \[A-Z\]+)?}]\
 				 $raw -> ret(last_name) ret(first_name) ret(initials)]} { 
 			return [array get ret]
 		}
-		
 
 		# R.D. Cameron
 		if {[regexp\
@@ -192,6 +197,7 @@ namespace eval author {
 		append work " "
 		
 		set common [common_formats $work]
+
 		if {[llength $common]>0} {
 			lappend common $raw
 			return $common
