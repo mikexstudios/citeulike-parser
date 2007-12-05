@@ -59,7 +59,7 @@ if {[info exists env(http_proxy_port)] && $::env(http_proxy_port)!=""} {
 # This isn't a problem here, as we exec() a new process each
 # time, and we're generally only sending requests to one
 # publishers's site. One to keep an eye on though.
-proc url_get {url} {
+proc url_get {url {once_only 0}} {
 
 	set url [string trim $url]
 	set url [string map [list " " "%20"] $url]
@@ -99,6 +99,10 @@ proc url_get {url} {
 		if {$code==302 || $code==301} {
 			array set meta $state(meta)
 			set url $meta(Location)
+
+			if {$once_only} {
+				return $url
+			}
 		} else {
 			set getting 0
 		}

@@ -42,6 +42,13 @@ source "util.tcl"
 
 set url [gets stdin]
 
+#
+# If the URL is of the form http://link.aip.org/link..., then it's a redirect to a proper URL
+#
+if {[regexp {^http://link.aip.org/link} $url]} {
+	set url [url_get $url 1]
+}
+
 
 # Could come in a couple of ways--lets figure out which ones are ok to parse and which ones we should bail on:
 #This is the format that we'll probably get our URLs in; notably it has an ID, which is subject to change, but can get us the BibTex reference
