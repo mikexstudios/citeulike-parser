@@ -111,17 +111,21 @@ namespace eval author {
 			return [array get ret]
 		}
 
+		# Cameron(,?) R.D.
+		if {[regexp\
+				 [subst {^($SURNAME),? ?($INITIALS_4)$}]\
+				 $raw -> ret(last_name) ret(initials)]} { return [array get ret] }
+
 		# Cameron, Richard D
 		if {[regexp\
 				 [subst {^($SURNAME), ?($NAME_2)( \[A-Z\]+)?}]\
-				 $raw -> ret(last_name) ret(first_name) ret(initials)]} { 
-			return [array get ret]
+				 $raw -> ret(last_name) ret(first_name) ret(initials)]} { return [array get ret]
 		}
 
 		# R.D. Cameron
 		if {[regexp\
 				 [subst {^($INITIALS_4)($SURNAME) $}]\
-				 $raw -> ret(initials) ret(last_name)]} {return [array get ret]}
+				 $raw -> ret(initials) ret(last_name)]} { return [array get ret]}
 		
 		# Richard D. Cameron
 		# Richard Cameron
@@ -129,11 +133,6 @@ namespace eval author {
 				 [subst {^($NAME_2) ($INITIALS_4)?($SURNAME) $}]\
 				 $raw -> ret(first_name) ret(initials) ret(last_name)]} { return [array get ret] }
 		
-		# Cameron(,?) R.D.
-		if {[regexp\
-				 [subst {^($SURNAME),? ?($INITIALS_4)$}]\
-				 $raw -> ret(last_name) ret(initials)]} { return [array get ret] }
-
 		# R.D.Cameron
 		if {[regexp\
 				 [subst -nocommands {^((?:[A-Z]\\\.){1,3})($SURNAME) $}]\
