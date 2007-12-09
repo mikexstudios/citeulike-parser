@@ -1,0 +1,141 @@
+#
+# Copyright (C) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {Cambridge University Press}
+
+	# The link the front page of this service
+	url {http://journals.cambridge.org}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Chris Hall}
+
+	# Your email address
+	email {chris@citeulike.org}
+
+	# Language you wrote the plugin in
+	language {tcl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	#
+	# Nature have two styles of URLs for their articles.. they seem to be slowly
+	# moving to the second.
+	regexp {http://([^/]+)?journals.cambridge.org/}
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout CUP {
+	return [list "Cambridge University Press"  "http://journals.cambridge.org/action/displayAbstract?fromPage=online&aid=${ikey_1}"]
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://www.journals.cambridge.org/action/displayAbstract?fromPage=online&aid=1378656} {
+	formatted_url {DOI http://dx.doi.org/10.1017/S0950268807008515}
+	formatted_url {{Cambridge University Press} http://journals.cambridge.org/action/displayAbstract?fromPage=online&aid=1378656}
+	linkout {DOI {} 10.1017/S0950268807008515 {} {}}
+	linkout {CUP 1378656 {} {} {}}
+	volume 135
+	year 2007
+	type JOUR
+	start_page 1248
+	end_page 1255
+	plugin_version 1
+	day 20
+	issue 08
+	title {Necrotizing fasciitis in captive juvenile <italic>Crocodylus porosus</italic> caused by <italic>Streptococcus agalactiae</italic>: an outbreak and review of the animal and human literature}
+	journal {Epidemiology and Infection}
+	abstract {We observed an outbreak of necrotizing fasciitis associated with <em>Streptococcus agalactiae</em> infection in a group of juvenile saltwater crocodiles (<em>Crocodylus porosus</em>). We undertook screening of crocodiles and the environment to clarify the source of the outbreak and evaluated the isolates cultured from post-mortem specimens with molecular methods to assess clonality and the presence of known group B streptococcal virulence determinants. The isolates were indistinguishable by pulsed-field gel electrophoresis. They were a typical serotype Ia strain with the C&#945;-like protein gene, epsilon (or <em>alp1</em>), the mobile genetic elements IS<em>381</em> IS<em>Sag1</em> and IS<em>Sag2</em>, and belonged to multi-locus sequence type (ST) 23. All of these characteristics suggest they were probably of human origin. We review the medical and veterinary literature relating to <em>S. agalactiae</em> necrotizing fasciitis, epidemiology and virulence determinants.}
+	author {Bishop {} {} BISHOP,E.?J.}
+author {Shilton {} C SHILTON,C.}
+	author {Benedict {} S BENEDICT,S.}
+	author {Kong {} F KONG,F.}
+	author {Gilbert {} {} GILBERT,G.?L.}
+	author {Gal {} D GAL,D.}
+	author {Godoy {} D GODOY,D.}
+	author {Spratt {} {} SPRATT,B.?G.}
+	author {Currie {} {} CURRIE,B.?J.}
+	status ok
+}
