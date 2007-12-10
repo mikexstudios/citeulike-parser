@@ -49,7 +49,7 @@ set page [url_get $url]
 # we get an article id in the URL. What a mess.
 #
 if {![regexp {>doi:(10\.1017/[^<]+)</} $page -> doi]} {
-	bail "Cannot find a DOI in the page"
+	bail "Cannot find a 10.1017/... DOI in the page"
 }
 
 #
@@ -59,12 +59,12 @@ set redirect http://dx.doi.org/$doi
 set count    0
 
 while {1} {
-	set redirect [url_get $redirect]
+	set redirect [url_get $redirect 1]
 	if {[regexp {http://[^/]*journals\.cambridge\.org/.*aid=(\d+)} $redirect -> aid]} {
 		break
 	}
 	if {[incr count] > 5} {
-		bail "Possibly looping in redirects for CUP DOI $doi"
+		bail "Cannot resolve DOI $doi (too many redirects)"
 	}
 }
 
