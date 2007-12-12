@@ -26,8 +26,11 @@ for author in (doc/"//td[@width='80%']/center//a.textlink")
   puts "author\t" + author.inner_text.strip
 end
 
-doi = (doc/"//tr/td/font/blockquote/font/a").first.inner_text
-puts "doi\t#{doi}"
+doicell = (doc/"//tr/td/font/blockquote/font/a").first
+if doicell
+	doi = doicell.inner_text
+	puts "doi\t#{doi}"
+end
 
 puts "journal\tSocial Science Research Network Working Paper Series"
 
