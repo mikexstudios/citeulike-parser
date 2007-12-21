@@ -44,14 +44,9 @@ RIS_SERVER_ROOT = 'http://www.iop.org/EJ/sview/'
 RIS_SERVER_POST_STR = 'submit=1&format=refmgr'
 
 # regexp to screen scrape the DOI and get the article info from it
-DOI_REGEXP = r"""doi:\s*	# strip whitespace at begining
-		(10\.\S*?)/	# valid DOI prefixes start with '10.'
-		(\w*?-\w*?)/	# journal key
-		(\w*?)/		# volume key
-		(\w*?)/		# issue key
-		(\w*?)          # article key
-		\s*<"""		# terminate at next tag open (strip witesp.)
-DOI_REGEXP_FLAGS = re.IGNORECASE | re.VERBOSE
+
+DOI_REGEXP = r'<meta name="citation_doi" content="([^"]+)" />'
+DOI_REGEXP_FLAGS = re.IGNORECASE 
 
 # error messages
 ERR_STR_PREFIX = 'status\terr\t'
@@ -81,19 +76,14 @@ if not doi_match:
 	print ERR_STR_PREFIX + ERR_STR_NO_DOI + url + '.  ' + ERR_STR_REPORT
 	sys.exit(1)
 
-doi_prefix = doi_match.group(1)
-doi_suffix = '/'.join([doi_match.group(ind) for ind in range(2,6)])
-doi = doi_prefix + '/' + doi_suffix
+doi = doi_match.group(1)
 
-# grab the keys for the linkout formater from the DOI
-linkout_journal = doi_match.group(2)
-linkout_volume = doi_match.group(3)
-linkout_issue = doi_match.group(4)
-linkout_article = doi_match.group(5)
+url_match = re.search(r'<meta name="citation_abstract_html_url" content="http://www.iop.org/EJ/abstract/([^"]+)" />', content, DOI_REGEXP_FLAGS)
+url_suffix = url_match.group(1)
 
 
 # fetch the RIS entry for the DOI and exit gracefully in case of trouble
-req = urllib2.Request(RIS_SERVER_ROOT + doi_suffix)
+req = urllib2.Request(RIS_SERVER_ROOT + url_suffix)
 req.add_data(RIS_SERVER_POST_STR)
 try:
 	f = urllib2.urlopen(req)
@@ -112,8 +102,6 @@ ris_entry = re.sub(auth_exp, r'A1  - \1, \2', ris_entry)
 
 # print the results
 print "begin_tsv"
-print "linkout\tIOPDOI\t%s\t%s\t%s\t%s" % \
-	(linkout_volume, linkout_journal, linkout_issue, linkout_article)
 print "linkout\tDOI\t\t%s\t\t" % (doi)
 print "type\tJOUR"
 print "doi\t" + doi
