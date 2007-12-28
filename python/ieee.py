@@ -61,7 +61,9 @@ opener = urllib2.build_opener(handler)
 urllib2.install_opener(opener)
 
 # Fetch the original page to get the session cookie
-urlopen("http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=%d" % ar_number)
+original = urlopen("http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=%d" % ar_number).read()
+
+doi = re.findall(".*Digital Object Identifier\:.(10\...../[^<]+)<", original)
 
 # Post to get the RIS document
 data = urlencode( { 'dlSelect' : 'cite_abs',
@@ -73,11 +75,16 @@ ris =  urlopen("http://ieeexplore.ieee.org/xpls/citationAct", data).read()
 if not re.search("TY  -", ris):
 	bail("Can't fetch RIS record")
 
-print """begin_tsv
-linkout\tIEEE\t%d\t\t\t
-end_tsv
-begin_ris
-%s
-end_ris
-status\tok""" % (ar_number, ris)
+
+print "begin_tsv"
+
+if doi:
+	print "linkout\tDOI\t\t%s\t\t" % (doi[0])
+
+print "linkout\tIEEE\t%d\t\t\t" % (ar_number)
+print "end_tsv"
+print "begin_ris"
+print "%s" % (ris)
+print "end_ris"
+print "status\tok"
 

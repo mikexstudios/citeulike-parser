@@ -1,5 +1,5 @@
 plugin {
-	version {2}
+	version {3}
 	name {IEEE Explore}
 	url {http://ieeexplore.ieee.org/}
 	blurb {}
@@ -22,4 +22,27 @@ test {http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?tp=&isnumber=987&arnumber=2
 	type STD
 	journal "IEEE Std 1076-1987"
 	status ok
+}
+
+# Test with DOI
+test {http://ieeexplore.ieee.org/xpls/freeabs_all.jsp?arnumber=1350729} {
+	formatted_url {DOI http://dx.doi.org/10.1109/MC.2004.172}
+	formatted_url {{IEEE Explore} http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=1350729}
+	volume	37
+	serial	"0018-9162"
+	linkout	{DOI {} 10.1109/MC.2004.172 {} {}}
+	linkout	{IEEE 1350729 {} {} {}}
+	year	2004
+	type	JOUR
+	start_page	64
+	end_page	72
+	title_secondary	"Computer"
+	issue	10
+	title	"Meaningful modeling: what's the semantics of \"semantics\"?"
+	journal	"Computer"
+	abstract	"The Unified Modeling Language (UML) is a complex collection of mostly diagrammatic notations for software modeling, and its standardization has prompted an animated discussion about UML's semantics and how to represent it. We have thus set out to clarify some of the notions involved in defining modeling languages, with an eye toward the particular difficulties arising in defining UML. We are primarily interested in distinguishing a language's notation, or syntax, from its meaning, or semantics, as well as recognizing the differences between variants of syntax and semantics in their nature, purpose, style, and use."
+	status	ok
+	author	{Harel {} D {Harel, D.}}
+	author	{Rumpe {} B {Rumpe, B.}}
+	plugin	ieee
 }
