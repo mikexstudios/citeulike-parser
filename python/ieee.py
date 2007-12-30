@@ -1,4 +1,4 @@
-#!/usr/bin/python2.4
+#!/usr/bin/env python2.4
 
 # Copyright (c) 2007 Richard Cameron <citeulike@askur.org>
 # All rights reserved.
