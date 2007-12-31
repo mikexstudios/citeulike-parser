@@ -76,7 +76,7 @@ plugin {
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
 	#
-	regexp {http://[^/]*journals.royalsoc.ac.uk[^/]*/content}
+	regexp {http://[^/]*journals.royalsoc.ac.uk[^/]*/content|http://journals.royalsociety.org/content}
 }
 
 
