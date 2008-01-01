@@ -97,7 +97,14 @@ proc parse_ris {rec} {
 				}
 
 				{(T1|TI|CT)} {
-					append ret(title) "$v "
+					if {![info exists ret(title)]} {
+						set ret(title) "$v "
+					} else {
+						set t [string trim $v]
+						if {($t ne "") && ([string first $t $ret(title)] < 0)} {
+							append ret(title) "$v "
+						}
+					}
 				}
 				{BT} {
 					if {$ret(ris_type) == "UNPB" || $ret(ris_type) == "BOOK"} {
