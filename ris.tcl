@@ -116,7 +116,7 @@ proc parse_ris {rec} {
 				}
 
 
-				{A1|AU|A2|ED|A3} {
+				{A[1-9]|AU|ED} {
 					lappend ret(authors) $v
 				}
 
