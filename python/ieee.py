@@ -75,6 +75,12 @@ ris =  urlopen("http://ieeexplore.ieee.org/xpls/citationAct", data).read()
 if not re.search("TY  -", ris):
 	bail("Can't fetch RIS record")
 
+# We're seeing authors duplicated like this:
+#  AU  - Dahele, J.
+#  A1  - Dahele, J.
+# Strip
+ris_p = re.compile('^AU  - .*\n', re.M)
+ris = re.sub(ris_p, "", ris, re.M)
 
 print "begin_tsv"
 
