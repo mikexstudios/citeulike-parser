@@ -1,6 +1,8 @@
 #!/usr/bin/env python2.4
 
 # Copyright (c) 2006 Kristinn B. Gylfason <citeulike@askur.org>
+# Copyright (c) 2007 Dr. Nathan Edwards
+#
 # All rights reserved.
 #
 # This code is derived from software contributed to CiteULike.org
