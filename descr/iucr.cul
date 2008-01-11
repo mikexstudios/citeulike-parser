@@ -1,0 +1,396 @@
+#
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# Copyright (c) 2008 Aidan Heerdegen, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#    Will Wade <willwade@gmail.com>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {IUCr}
+
+	# The link the front page of this service
+	url {http://journals.iucr.org}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Aidan Heerdegen}
+
+	# Your email address
+	email {aidan.heerdegen@gmail.com}
+
+	# Language you wrote the plugin in
+	language {perl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	#
+	# We'll accept URLs from iucr and DOIs from 10.1107
+	regexp {(scripts.iucr.org/cgi-bin/paper?([0-9a-zA-Z]+))|(dx.doi.org/10.1107/[0-9a-zA-Z]+)}
+}
+
+# http://scripts.iucr.org/cgi-bin/paper?S002188980302209X
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout IUCR {
+	# Need to turn the following (example) fields into a URL:
+	#type=IUCR
+	#ikey_1=
+	#ckey_1=S002188980302209X
+	#ikey_2=
+	#ckey_2=
+	return [list "IUCR" "http://scripts.iucr.org/cgi-bin/paper?${ckey_1}" ] \
+}
+
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+# Test Journal of Applied Crystallography
+
+test {http://scripts.iucr.org/cgi-bin/paper?S002188980302209X} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S002188980302209X}
+    formatted_url {DOI http://dx.doi.org/10.1107/S002188980302209X}
+    linkout {IUCR {} S002188980302209X {} {}} 
+    linkout {DOI {} 10.1107/S002188980302209X {} {}}
+    volume 36
+    year 2003
+    type JOUR 
+    start_page 1440
+    end_page 1447
+    issue 6 
+    title {Diffuse neutron scattering in benzil, C${\sb 14$D${\sb 10}$O${\sb 2}$, using the time-of-flight Laue technique}}
+    journal {Journal of Applied Crystallography}
+    url http://dx.doi.org/10.1107/S002188980302209X
+    doi 10.1107/S002188980302209X
+    journal {Journal of Applied Crystallography}
+    cite {Welberry:he5274}
+    author {Welberry {} TR {T. R. Welberry}}
+    author {Goossens {} DJ {D. J. Goossens}} 
+    author {David {} WIF {W. I. F. David}} 
+    author {Gutmann {} MJ {M. J. Gutmann}} 
+    author {Bull {} MJ {M. J. Bull}} 
+    author {Heerdegen {} AP {A. P. Heerdegen}}
+    month Dec
+    status ok
+}
+
+# Same test but we'll use the doi URL
+
+test {http://dx.doi.org/10.1107/S002188980302209X} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S002188980302209X}
+    formatted_url {DOI http://dx.doi.org/10.1107/S002188980302209X}
+    linkout {IUCR {} S002188980302209X {} {}} 
+    linkout {DOI {} 10.1107/S002188980302209X {} {}}
+    volume 36
+    year 2003
+    type JOUR 
+    start_page 1440
+    end_page 1447
+    issue 6 
+    title {Diffuse neutron scattering in benzil, C${\sb 14$D${\sb 10}$O${\sb 2}$, using the time-of-flight Laue technique}}
+    journal {Journal of Applied Crystallography}
+    url http://dx.doi.org/10.1107/S002188980302209X
+    doi 10.1107/S002188980302209X
+    journal {Journal of Applied Crystallography}
+    cite {Welberry:he5274}
+    author {Welberry {} TR {T. R. Welberry}}
+    author {Goossens {} DJ {D. J. Goossens}} 
+    author {David {} WIF {W. I. F. David}} 
+    author {Gutmann {} MJ {M. J. Gutmann}} 
+    author {Bull {} MJ {M. J. Bull}} 
+    author {Heerdegen {} AP {A. P. Heerdegen}}
+    month Dec
+    status ok
+}
+
+# Test Acta Crystallographica Section A Foundations of Crystallography
+
+test {http://scripts.iucr.org/cgi-bin/paper?S0108767306030091} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S0108767306030091}
+    formatted_url {DOI http://dx.doi.org/10.1107/S0108767306030091}
+    volume 62
+    linkout {IUCR {} S0108767306030091 {} {}}
+    linkout {DOI {} 10.1107/S0108767306030091 {} {}}
+    year 2006
+    start_page 419
+    type JOUR
+    end_page 433
+    url http://dx.doi.org/10.1107/S0108767306030091
+    plugin_version 1
+    doi 10.1107/S0108767306030091
+    issue 6
+    title {Discrete tomography of planar model sets}
+    journal {Acta Crystallographica Section A}
+    cite Baake:sh5047
+    author {Baake Michael M {Michael Baake}}
+    author {Gritzmann Peter P {Peter Gritzmann}}
+    author {Huck Christian C {Christian Huck}}
+    author {Langfeld Barbara B {Barbara Langfeld}}
+    author {Lord Katja K {Katja Lord}}
+    month Nov
+    status ok
+}
+
+# Testing Acta Crystallographica Section B Structural Crystallography and Crystal Chemistry
+
+test {http://scripts.iucr.org/cgi-bin/paper?S0567740868001718} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S0567740868001718}
+    formatted_url {DOI http://dx.doi.org/10.1107/S0567740868001718}
+    volume 24
+    linkout {IUCR {} S0567740868001718 {} {}}
+    linkout {DOI {} 10.1107/S0567740868001718 {} {}}
+    year  1968
+    start_page  63
+    type  JOUR
+    end_page  76
+    doi  10.1107/S0567740868001718
+    issue  1
+    title  {On the rigid-body motion of molecules in crystals}
+    url http://dx.doi.org/10.1107/S0567740868001718
+    journal  {Acta Crystallographica Section B}
+    cite  Schomaker:a06012
+    author {Schomaker {} V {V. Schomaker}}
+    author {Trueblood {} KN {K. N. Trueblood}}
+    month  Jan
+    status ok
+}
+
+# Testing very old article, when it was only Acta Crystallographica
+
+test {http://scripts.iucr.org/cgi-bin/paper?S0365110X48000296} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S0365110X48000296}
+    formatted_url {DOI http://dx.doi.org/10.1107/S0365110X48000296}
+    volume 1
+    linkout {IUCR {} S0365110X48000296 {} {}}
+    linkout {DOI {} 10.1107/S0365110X48000296 {} {}}
+    year 1948
+    start_page 101
+    type JOUR
+    end_page 109
+    url http://dx.doi.org/10.1107/S0365110X48000296
+    doi 10.1107/S0365110X48000296
+    issue 3
+    title {Bond-length variations in aromatic systems}
+    journal {Acta Crystallographica}
+    cite Robertson:a00029
+    author {Robertson {} JM {J. M. Robertson}}
+    month Jul
+    status ok
+}
+
+# Test Acta Crystallographica Section D Biological Crystallography
+
+test {http://scripts.iucr.org/cgi-bin/paper?S090744490705024X} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S090744490705024X}
+    formatted_url {DOI http://dx.doi.org/10.1107/S090744490705024X}
+    volume 64
+    linkout {IUCR {} S090744490705024X {} {}}
+    linkout {DOI {} 10.1107/S090744490705024X {} {}}
+    year 2008
+    start_page 61
+    type JOUR
+    end_page 69
+    url http://dx.doi.org/10.1107/S090744490705024X
+    plugin_version 1
+    doi 10.1107/S090744490705024X
+    issue 1
+    title {Iterative model building, structure refinement and density modification with the {\it PHENIX AutoBuild wizard}}
+    journal {Acta Crystallographica Section D}
+    cite Terwilliger:ba5109
+    author {Terwilliger Thomas TC {Thomas C. Terwilliger}}
+    author {Ralf {} {} {Ralf W. Grosse Kunstleve}}
+    author {Afonine Pavel PV {Pavel V. Afonine}}
+    author {Moriarty Nigel NW {Nigel W. Moriarty}}
+    author {Zwart Peter PH {Peter H. Zwart}}
+    author {Hung Li LW {Li Wei Hung}}
+    author {Read Randy RJ {Randy J. Read}}
+    author {Adams Paul PD {Paul D. Adams}}
+    month Jan
+    status ok
+}
+
+# Testing Acta Crystallographica Section E Structure Reports Online
+
+test {http://scripts.iucr.org/cgi-bin/paper?S1600536801007346} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S1600536801007346}
+    formatted_url {DOI http://dx.doi.org/10.1107/S1600536801007346}
+    volume 57
+    linkout {IUCR {} S1600536801007346 {} {}}
+    linkout {DOI {} 10.1107/S1600536801007346 {} {}}
+    year 2001
+    start_page i60
+    type JOUR
+    end_page i61
+    url http://dx.doi.org/10.1107/S1600536801007346
+    plugin_version 1
+    doi 10.1107/S1600536801007346
+    issue 7
+    title {A powder diffraction study of Sr${\sb 3$Al${\sb 10}$SiO${\sb 20}$}}
+    journal {Acta Crystallographica Section E}
+    cite Kubota:br6017
+    author {Kubota Shunichi S {Shunichi Kubota}}
+    author {Yamane Hisanori H {Hisanori Yamane}}
+    author {Shimada Masahiko M {Masahiko Shimada}}
+    month Jul
+    status ok
+}
+
+# Testing Acta Crystallographica Section F Structural Biology and Crystallization Communications
+
+test {http://scripts.iucr.org/cgi-bin/paper?S1744309105017690} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S1744309105017690}
+    formatted_url {DOI http://dx.doi.org/10.1107/S1744309105017690}
+    volume 61
+    linkout {IUCR {} S1744309105017690 {} {}} 
+    linkout {DOI {} 10.1107/S1744309105017690 {} {}}
+    year 2005
+    start_page 630
+    type JOUR
+    end_page 635
+    url http://dx.doi.org/10.1107/S1744309105017690
+    doi 10.1107/S1744309105017690
+   issue 7
+    title {The structure at 1.7 {\AA{} resolution of the protein product of the At2g17340 gene from {\it Arabidopsis thaliana}}}
+    journal {Acta Crystallographica Section F}
+    cite Bitto:gx5063
+    author {Bitto Eduard E {Eduard Bitto}}
+    author {Bingman Craig CA {Craig A. Bingman}}
+    author {Allard Simon STM {Simon T. M. Allard}}
+    author {Wesenberg Gary GE {Gary E. Wesenberg}}
+    author {Phillips George GN {George N. Phillips, Jr}}
+    month Jul
+    status ok
+}
+
+# Testing Journal of Synchrotron Radiation
+
+test {http://scripts.iucr.org/cgi-bin/paper?S0909049595009769} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S0909049595009769}
+    formatted_url {DOI http://dx.doi.org/10.1107/S0909049595009769}
+    volume 2
+    linkout {IUCR {} S0909049595009769 {} {}}
+    linkout {DOI {} 10.1107/S0909049595009769 {} {}}
+    year 1995
+    start_page 308
+    type JOUR
+    end_page 312
+    url http://dx.doi.org/10.1107/S0909049595009769
+    doi 10.1107/S0909049595009769
+    issue 6
+    title {Microfocus X-ray Diffraction of Spherulites of Poly-3-hydroxybutyrate}
+    journal {Journal of Synchrotron Radiation}
+    cite Mahendrasingam:hi0025
+    author {Mahendrasingam {} A {A. Mahendrasingam}}
+    author {Martin {} C {C. Martin}}
+    author {Fuller {} W {W. Fuller}}
+    author {Blundell {} DJ {D. J. Blundell}}
+    author {Mackerron {} D {D. MacKerron}}
+    author {Rule {} RJ {R. J. Rule}}
+    author {Oldman {} RJ {R. J. Oldman}}
+    author {Liggat {} J {J. Liggat}} 
+    author {Riekel {} C {C. Riekel}} 
+    author {{Engstr\"om} {} P {P. Engstr\"om}}
+    month Nov
+    status ok
+}
+
+# Testing Acta Crystallographica Section C Crystal Structure Communications
+
+test {http://scripts.iucr.org/cgi-bin/paper?S0108270107018471} {
+    formatted_url {IUCR http://scripts.iucr.org/cgi-bin/paper?S0108270107018471}
+    formatted_url {DOI http://dx.doi.org/10.1107/S0108270107018471}
+    volume 63
+    linkout {IUCR {} S0108270107018471 {} {}} 
+    linkout {DOI {} 10.1107/S0108270107018471 {} {}}
+    year 2007
+    start_page m238
+    type JOUR
+    end_page m239
+    url http://dx.doi.org/10.1107/S0108270107018471
+    doi 10.1107/S0108270107018471
+    issue 6
+    title {{\it trans-Dichloridotetra\-kis(3,5-dimethyl\-pyridine)copper(II)}}
+    journal {Acta Crystallographica Section C}
+    cite Martone:gz3084
+    author {Martone Daniel DP {Daniel P. Martone}} 
+    author {Maverick Andrew AW {Andrew W. Maverick}} 
+    author {Fronczek Frank FR {Frank R. Fronczek}}
+    month Jun
+    status ok
+}
