@@ -85,7 +85,7 @@ foreach authorlink [split $hauthors "\n"] {
 }
 
 # TITLE		
-regexp {dc:title="(.*?)"} $page match title
+regexp {dc:title="(.*?)"\s*trackback:ping} $page match title
 set title [string trim $title]
 # CRs not significant in HTML
 set title [string map [list "\n" ""] $title]
