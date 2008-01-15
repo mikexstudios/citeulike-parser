@@ -177,9 +177,17 @@ namespace eval author {
 		variable TITLE_JUNK
 		variable TRAILING_JUNK
 
+		# trim whitespace
+		set raw_trim [string trim $raw]
+
+		# If we have a braced string, turn it into a quoted string
+		if {([string index $raw_trim 0] eq "\{") && ([string index $raw_trim end] eq "\}")} {
+			set raw \"[string range $raw_trim 1 end-1]\"
+		}
+
 		# Remove leading, trailing, double spacing,
 		# and other unwanted bits and pieces.
-		set work [string trim $raw]
+		set work $raw_trim
 		set work [regsub {\s{2,}} $work " "]
 		set work [regsub {,{2,}} $work ","]
 		set work [regsub {\s+\.+$} $work ""]
@@ -191,7 +199,7 @@ namespace eval author {
 		#  this stuff can be added in retrospectively if required)
 		set work [regsub "^$TITLE_JUNK" $work ""]
 		set work [regsub "${TRAILING_JUNK}\$" $work ""]
-		
+
 		# The way we've phrased the REs, we need a trailing space
 		append work " "
 		
@@ -230,6 +238,7 @@ namespace eval author {
 	}
 		
  	proc parse_test_cases {} {
+		# last_name first_name initials raw
  		return [list \
  					{"Edozien" "Leroy" "LC" "Edozien, Leroy C"}\
  					{"Chaitin" "" "GJ" "G. J. Chaitin"} \
@@ -264,6 +273,8 @@ namespace eval author {
  					{"" "" "" ""}\
  					{"Cameron" "" "" "Cameron"}\
 					{"Chaitin" "Gregory" "GJ" "GREGORY J CHAITIN"}\
+					{"A Company Name" "" "" "\"A Company Name\""}\
+					{"A Company Name" "" "" "{A Company Name}"}\
  				   ]
 
 		# To fix at some point:
@@ -283,7 +294,7 @@ namespace eval author {
 				error "Failed to parse $case"
 			}
 
-			foreach expected $case actual $result {
+			foreach expected [lrange $case 0 2] actual [lrange $result 0 2] {
 				if {$expected != $actual} {
 					error "Failed parse: Expected $case but got $result"
 				}
