@@ -187,7 +187,7 @@ namespace eval author {
 
 		# Remove leading, trailing, double spacing,
 		# and other unwanted bits and pieces.
-		set work $raw_trim
+		set work [string trim $raw]
 		set work [regsub {\s{2,}} $work " "]
 		set work [regsub {,{2,}} $work ","]
 		set work [regsub {\s+\.+$} $work ""]
@@ -296,7 +296,7 @@ namespace eval author {
 
 			foreach expected [lrange $case 0 2] actual [lrange $result 0 2] {
 				if {$expected != $actual} {
-					error "Failed parse: Expected $case but got $result"
+					puts stderr "Failed parse: Expected $case but got $result"
 				}
 			}
 
