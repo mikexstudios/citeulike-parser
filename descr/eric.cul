@@ -1,0 +1,136 @@
+#
+# Copyright (C) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {Education Resources Information Center}
+
+	# The link the front page of this service
+	url {http://www.eric.ed.gov}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Chris Hall}
+
+	# Your email address
+	email {chris@citeulike.org}
+
+	# Language you wrote the plugin in
+	language {tcl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	#
+	# Nature have two styles of URLs for their articles.. they seem to be slowly
+	# moving to the second.
+	regexp {http://www.eric.ed.gov/}
+}
+
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout ERIC {
+	return [list "ERIC" "http://www.eric.ed.gov/ERICWebPortal/detail?accno=${ckey_1}"]
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://www.eric.ed.gov/ERICWebPortal/detail?accno=EJ781141} {
+	formatted_url {ERIC http://www.eric.ed.gov/ERICWebPortal/detail?accno=EJ781141}
+	linkout {ERIC {} EJ781141 {} {}}
+	volume 40
+	year 2008
+	type JOUR
+	start_page 151
+	end_page 166
+	plugin_version 1
+	plugin eric
+	day 0
+	month 0
+	issue 2
+	serial {ISSN-0013-1245}
+	id EJ781141
+	publisher {SAGE Publications. 2455 Teller Road, Thousand Oaks, CA 91320. Tel: 800-818-7243; Tel: 805-499-9774; Fax: 800-583-2665; e-mail: journals@sagepub.com; Web site: http://sagepub.com}
+	title {A Meta-Analysis of the Relationship between Phonics Instruction and Minority Elementary School Student Academic Achievement}
+	journal {Education and Urban Society}
+	abstract {This meta-analysis of 22 studies examines the relationship between phonics and the academic achievement of urban minority elementary school children. Further analyses distinguish between those studies that are of higher quality than the others and those studies that examine all minority students and mostly minority students. Results indicate a significant relationship between phonics instruction and higher academic achievement. Phonics instruction, as a whole, is associated with academic variables by about 0.23 to 0.33 of a standard deviation unit. This relationship holds for studies that examine all minority students and those that include mostly minority students. The results also hold for higher quality studies. The significance of these results is discussed. (Contains 4 tables.)}
+	author {Jeynes William WH {Jeynes, William H.}}
+	status ok
+}
