@@ -106,7 +106,7 @@ namespace eval author {
 		variable SURNAME
 
 		# "verbatim name"
-		if {[regexp {"([^"]+)"} $raw -> ret(last_name)]} {
+		if {[regexp {^\s*"([^"]+)"\s*$} $raw -> ret(last_name)]} {
 			set ret(verbatim) 1
 			return [array get ret]
 		}
