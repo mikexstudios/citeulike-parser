@@ -43,35 +43,24 @@ set url [gets stdin]
 set page [url_get $url]
 
 #
-# Look for a DOI in the page - we need this, because the article id (aid) in the URL doesn't point to the
-# correct article when the next/previous citation links are used. The person who thought this was a good
-# idea should be shot. We'll get the DOI from the page and fetch redirects starting at dx.doi.org until
-# we get an article id in the URL. What a mess.
+# Look for an article id in the page's meta tags
 #
-if {![regexp {>doi:(10\.1017/[^<]+)</} $page -> doi]} {
-	bail "Cannot find a 10.1017/... DOI in the page"
+if {![regexp {\<meta name="rft_id" content="http\://journals.cambridge.org/action/displayAbstract\?aid=(\d+)"/\>} $page -> aid]} {
+	bail "Cannot find an article_id in the page"
 }
 
 #
-# Now, start following redirects until the URL contains ...aid=nnnnn...
+# Look for a DOI in the page
 #
-set redirect http://dx.doi.org/$doi
-set count    0
-
-while {1} {
-	set redirect [url_get $redirect 1]
-	if {[regexp {http://[^/]*journals\.cambridge\.org/.*aid=(\d+)} $redirect -> aid]} {
-		break
-	}
-	if {[incr count] > 5} {
-		bail "Cannot resolve DOI $doi (too many redirects)"
-	}
-}
+regexp {\<meta name="rft_id" content="info:doi/([^"]+)"/\>} $page -> doi
 
 puts "begin_tsv"
 
-puts "linkout\tDOI\t\t$doi\t\t"
+if {$doi ne ""} {
+	puts "linkout\tDOI\t\t$doi\t\t"
+}
 puts "linkout\tCUP\t$aid\t\t\t"
+
 
 #
 # Abstract doesn't seem to be in the RIS file, so hack it out from the page direct
