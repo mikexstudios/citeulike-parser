@@ -52,7 +52,9 @@ if {![regexp {\<meta name="rft_id" content="http\://journals.cambridge.org/actio
 #
 # Look for a DOI in the page
 #
-regexp {\<meta name="rft_id" content="info:doi/([^"]+)"/\>} $page -> doi
+if {![regexp {\<meta name="rft_id" content="info:doi/([^"]+)"/\>} $page -> doi]} {
+	set doi ""
+}
 
 puts "begin_tsv"
 
