@@ -40,6 +40,8 @@
 
 package require http
 
+http::config
+
 # These serve as a hack to let me develop from home
 # using a SQUID proxy with access to the articles
 if {[info exists env(http_proxy_host)] && $::env(http_proxy_host)!=""} {
