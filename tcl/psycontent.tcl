@@ -35,6 +35,11 @@
 #
 source util.tcl
 
+#
+# Set this to force interpretation of the RIS record in UTF-8 (there's no appropriate header sent)
+#
+set http::defaultCharset utf-8
+
 set url [gets stdin]
 
 #
