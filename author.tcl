@@ -61,27 +61,30 @@ namespace eval author {
 		array set x [_common_formats $raw]
 		
 
-		# Post-process results of RE
-		if {[info exists x(initials)]} {
-			set x(initials) [string toupper [string map {"." "" "-" "" " " ""} $x(initials)]]
-		}
+		# Post-process results of RE, unless verbatim flag is set
 
-		if {[info exists x(first_name)]} {
-			set x(first_name) [capitalize_name $x(first_name)]
-		}
+		if {![info exists x(verbatim)]} {
 
-		if {[info exists x(last_name)] && ![info exists x(verbatim)]} {
-			set x(last_name) [capitalize_name $x(last_name)]
-		}
-
-		if {[info exists x(first_name)]} {
-			set initials [string range $x(first_name) 0 0]
 			if {[info exists x(initials)]} {
-				append initials $x(initials)
+				set x(initials) [string toupper [string map {"." "" "-" "" " " ""} $x(initials)]]
 			}
-			set x(initials) $initials
-		}
 
+			if {[info exists x(first_name)]} {
+				set x(first_name) [capitalize_name $x(first_name)]
+			}
+
+			if {[info exists x(last_name)]} {
+				set x(last_name) [capitalize_name $x(last_name)]
+			}
+
+			if {[info exists x(first_name)]} {
+				set initials [string range $x(first_name) 0 0]
+				if {[info exists x(initials)]} {
+					append initials $x(initials)
+				}
+				set x(initials) $initials
+			}
+		}
 
 		set non_empty 0
 		foreach k {last_name first_name initials} {
@@ -107,6 +110,12 @@ namespace eval author {
 
 		# "verbatim name"
 		if {[regexp {^\s*"([^"]+)"\s*$} $raw -> ret(last_name)]} {
+			set ret(verbatim) 1
+			return [array get ret]
+		}
+
+		# Manually specified
+		if {[regexp {^\s*=/([^/]*)/([^/]*)/([^/]*)/=\s*$} $raw -> ret(first_name) ret(initials) ret(last_name)]} {
 			set ret(verbatim) 1
 			return [array get ret]
 		}
