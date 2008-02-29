@@ -201,7 +201,9 @@ proc parse_ris {rec} {
 
 				{UR} {
 					set ret(url) $v
-					regexp {^http://dx.doi.org/(.*)$} $v -> ret(doi)
+					if {[regexp {^http://dx.doi.org/(.*)$} $v -> ret(doi)]} {
+						set ret(doi) [::cul::url::decode $ret(doi)]
+					}
 				}
 
 				{L2} {

@@ -1,9 +1,12 @@
+#!/usr/bin/env perl
+
+use LWP::Simple;
+use LWP::UserAgent;
+use URI::Escape;
+
 #
-# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# Copyright (c) 2005 Dan Hodson, d.l.r.hodson@reading.ac.uk
 # All rights reserved.
-#
-# This code is derived from software contributed to CiteULike.org
-# by
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -33,37 +36,52 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-
-
-# Minimal descrption file for DOIs.
-# DOIs are sort of strang because they don't scrape anything,
-# merely format linkouts. If you're looking for an example to
-# base your scraper on, this file is not a good choice.
-plugin {
-	version {1}
-	author {Richard Cameron}
-	email {camster@citeulike.org}
-
-	# Special bodge to tell it that this plugin has no code
-	language {none}
-
-	# Never match
-	regexp {$ ^}
-}
-
 #
-# Linkout formatting
-#
-#
-# The variables following variables are defined for your use
-# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
-#
-format_linkout DOI {
-	set enc_doi [::cul::url::encode $ckey_1]
-	set r [list "DOI" "http://dx.doi.org/$enc_doi"]
-	if {[string first "10.1021/" $ckey_1]==0} {
-		lappend r {American Chem. Soc. Publications}
-		lappend r "http://pubs3.acs.org/acs/journals/doilookup?in_doi=$enc_doi"
+
+
+# Extract Abstract data for American Meteorological Society Journals.
+
+$url = <>;
+
+#convert abstract URL to citation request URL
+$url =~ s/get-abstract|get-document/download-citation/;
+$url="$url&site=amsonline&t=procite";
+
+#retrieve the RIS data 
+$flag=1;
+while($flag==1){
+	# Get the RIS file
+	$ris = get "$url" || die(print "status\terr\tCouldn't fetch the citation details from the AMetS web site.\n");
+
+	$flag=0;
+	#if document has moved - keep following the links to the final RIS file.
+	if ($ris =~ m/document has moved \<a href=\"(.+?)\"/){
+		$url=$1;
+		$url =~ s/\&amp\;/\&/g;
+		$flag=1;
 	}
-	return $r
 }
+#extract doi from URL parameter, unescape it, and stuff it back into RIS record
+if ($ris =~ m{UR  - http://dx.doi.org/(.*)}) {
+	$DOI = uri_unescape($1);
+}else{
+	print "status\terr\tCouldn't extract the details from AMetS's 'export citation' link.\n";
+	exit;
+}
+
+
+#TSV output
+print "begin_tsv\n";
+print "linkout\tDOI\t\t$DOI\t\t\n";
+print "date_other\t\n";
+print "end_tsv\n";
+#RIS output
+print "begin_ris\n";
+print $ris;
+print "\nend_ris\n";
+if ($ris =~ m{ER  -}) {
+	print "status\tok\n";
+} else {
+	print "status\terr\tCouldn't extract the details from AMetS's 'export citation' link.\n";
+}
+exit;

@@ -1,0 +1,429 @@
+#
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# Copyright (c) 2005 Dan Hodson, d.l.r.hodson@reading.ac.uk
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {American Meteorological Society Journals}
+
+	# The link the front page of this service
+	url {http://www.ametsoc.org}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {Experimental Support}
+
+	# Your name
+	author {Dan Hodson}
+
+	# Your email address
+	email {d.l.r.hodson@reading.ac.uk}
+
+	# Language you wrote the plugin in
+	language {perl}
+
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	#
+
+	regexp {(ams.allenpress.com/perlserv/\?request=(get-document|get-abstract))}
+}
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+ 
+
+#Tests for the 12 journals of the American Meterological Society 
+#1) Journal of Applied Meteorology and Climatology
+#2) Meteorological Monographs
+#3) Journal of the Atmospheric Sciences
+#4) Journal of Applied Meteorology
+#5) Earth Interactions
+#6) Bulletin of the American Meteorological Society
+#7) Journal of Hydrometeorology
+#8) Weather and Forecasting
+#9) Journal of Atmospheric and Oceanic Technology
+#10)Monthly Weather Review
+#11)Journal of Physical Oceanography
+#12)Journal of Climate
+
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2F2006JAMC1305.1} {
+	volume {46}
+	linkouts {{DOI {} 10.1175/2006JAMC1305.1 {} {}}}
+	year {2007}
+	type {JOUR}
+	start_page {2019}
+	url {http://dx.doi.org/10.1175%2F2006JAMC1305.1}
+	end_page {2037}
+	plugin_version {1}
+	doi {10.1175/2006JAMC1305.1}
+	day {1}
+	issue {12}
+	title {Vertical Tracer Concentration Profiles Measured during the Joint Urban 2003 Dispersion Study}
+	journal {Journal of Applied Meteorology and Climatology}
+	abstract {An atmospheric tracer dispersion study known as Joint Urban 2003 was conducted in Oklahoma City, Oklahoma, during July of 2003. As part of this field program, vertical concentration profiles were measured at approximately 1 km from the downtown ground-level tracer gas release locations. These profiles showed that the urban landscape was very effective in mixing the plume vertically. In general, the lowest concentration measured along the profile was within 50&#37; of the highest concentration in any given 5-min measurement period. The general slope of the concentration profiles was bounded by a Gaussian distribution with Briggs&#8217;s urban equations (stability classes D and E/F) for vertical dispersion. However, measured concentration maxima occurred at levels above the surface, which would not be predicted by Gaussian formulations. Variations in tracer concentration observed in the time series between different release periods were related to changes in wind direction as opposed to changes in turbulence. This was demonstrated using data from mobile analyzers that captured the width of the plume by traveling east to west along nearby streets. These mobile-van-analyzer data were also used to compute plume widths. Plume widths increased for wind directions at larger angles to the street grid, and a simple model comprising adjusted open-country dispersion coefficients and a street channeling component, were used to describe the measured widths. This dispersion dataset is a valuable asset not only for developing advanced tools for emergency-response situations in the event of a toxic release but also for refining air-quality models.}
+	status {ok}
+	month {12}
+	author {Flaherty Julia JE {Flaherty, Julia E.}}
+	author {Lamb Brian B {Lamb, Brian}} 
+	author {Allwine Jerry JK {Allwine, K. Jerry}} 
+	author {Allwine Eugene E {Allwine, Eugene}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F2006JAMC1305.1}
+}
+
+
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2F0065-9401%282003%29030%3C0007%3AMSOECO%3E2.0.CO%3B2} {
+	volume {30}
+	linkouts {{DOI {} {10.1175/0065-9401(2003)030<0007:MSOECO>2.0.CO;2} {} {}}}
+	year {2003}
+	type {JOUR}
+	start_page {7}
+	url {http://dx.doi.org/10.1175%2F0065-9401%282003%29030%3C0007%3AMSOECO%3E2.0.CO%3B2}
+	end_page {7}
+	plugin_version {1}
+	doi {10.1175/0065-9401(2003)030<0007:MSOECO>2.0.CO;2}
+	day {1}
+	issue {52}
+	title {Mesoscale Substructure of Extratropical Cyclones Observed by Radar}
+	journal {Meteorological Monographs}
+	abstract {Extratropical cyclones are responsible for significant weather in the form of heavy precipitation and strong winds. The capability of numerical weather prediction models to predict the synoptic-scale structure of such cyclones has improved greatly over recent years but much of the significant weather itself is associated with small and mesoscale processes not properly represented even in today&#39;s relatively high-resolution models. As a result, the detailed prediction of significant weather, even for the period 1&#8211;12 h ahead, still falls far short of requirements. In order to find out what improvements are needed by way of increased model resolution, better parameterizations, and/or improved observations/assimilation, it is first necessary to learn more about the structure, mechanism, and interaction of the small-scale and mesoscale processes. This is the subject of this review. The review focuses on the structure and organization of slantwise and upright convection within extratropical cyclones, particularly cold-season maritime cyclones. These subsynoptic-scale features are set within a broader context using the conveyor-belt and frontal-fracture paradigms. It is shown that there is a common tendency for slantwise convection to occur in the form of vertically stacked multiple circulations, sometimes associated with lines of upright convection that are themselves broken into chains of line elements. The review also examines the nature and significance of evaporation/sublimation and shearing instability within frontal zones. These processes play opposing roles in, respectively, sharpening and diffusing the individual slantwise convective circulations. Although shearing instability occurs mostly at very small scales, individual events can lead to breakdown of laminar flow over layers as much as 1 km deep. Such events may be attributed to potential shearing instability, which, like its counterpart in convective instability, can suddenly be released where a layer of air is lifted to saturation. The studies of the above processes described in this review make extensive use of observations from many different types of radar. Although it is generally necessary to interpret radar observations within the context of other information, the pivotal role of radar in these studies is clear. The writer owes a debt of gratitude of Dave Atlas who from an early stage inspired him to attempt to use the full potential of radar.}
+	status {ok}
+	month {8}
+	author {Browning Keith KA {Browning, Keith A.}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F0065-9401%282003%29030%3C0007%3AMSOECO%3E2.0.CO%3B2}
+}
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2F2007JAS2328.1} {
+	volume {65}
+	linkouts {{DOI {} 10.1175/2007JAS2328.1 {} {}}}
+	year {2008}
+	type {JOUR}
+	start_page {3}
+	url {http://dx.doi.org/10.1175%2F2007JAS2328.1}
+	end_page {20}
+	plugin_version {1}
+	doi {10.1175/2007JAS2328.1}
+	day {1}
+	issue {1}
+	title {Retrieval of Urban Boundary Layer Structures from Doppler Lidar Data. Part I: Accuracy Assessment}
+	journal {Journal of the Atmospheric Sciences}
+	abstract {Two coherent Doppler lidars from the U.S. Army Research Laboratory (ARL) and Arizona State University (ASU) were deployed in the Joint Urban 2003 atmospheric dispersion field experiment (JU2003) held in Oklahoma City, Oklahoma. The dual-lidar data were used to evaluate the accuracy of a four-dimensional variational data assimilation (4DVAR) method and to identify the coherent flow structures in the urban boundary layer. The objectives of the study are threefold. The first objective is to examine the effect of eddy viscosity models on the quality of retrieved velocity data. The second objective is to determine the fidelity of single-lidar 4DVAR and evaluate the difference between single- and dual-lidar retrievals. The third objective is to inspect flow structures above some geospatial features on the land surface. It is found that the approach of treating eddy viscosity as part of the control variables yields better results than the approach of prescribing viscosity. The ARL single-lidar 4DVAR is able to retrieve radial velocity fields with an accuracy of 98&#37; in the along-beam direction and 80&#37;&#8211;90&#37; in the cross-beam direction. For the dual-lidar 4DVAR, the accuracy of retrieved radial velocity in the ARL cross-beam direction improves to 90&#37;&#8211;94&#37; of the ASU radial velocity data. By using the dual-lidar-retrieved data as a reference, the single-lidar 4DVAR is able to recover fluctuating velocity fields with 70&#37;&#8211;80&#37; accuracy in the along-beam direction and 60&#37;&#8211;70&#37; accuracy in the cross-beam direction. Large-scale convective roll structures are found in the vicinity of the downtown airport and parks. Vortical structures are identified near the business district. Strong up- and downdrafts are also found above a cluster of restaurants.}
+	status {ok}
+	month {1}
+	author {Xia Quanxin Q {Xia, Quanxin}}
+	author {Lin Ching-Long C {Lin, Ching-Long}}
+	author {Calhoun Ronald R {Calhoun, Ronald}}
+	author {Newsom Rob RK {Newsom, Rob K.}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F2007JAS2328.1}
+}
+
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2FJAM2298.1} {
+	volume {44}
+	linkouts {{DOI {} 10.1175/JAM2298.1 {} {}}}
+	year {2005}
+	type {JOUR}
+	start_page {1777}
+	url {http://dx.doi.org/10.1175%2FJAM2298.1}
+	end_page {1787}
+	plugin_version {1}
+	doi {10.1175/JAM2298.1}
+	day {1}
+	issue {12}
+	title {Interannual Variability of Water Demand and Summer Climate in Albuquerque, New Mexico}
+	journal {Journal of Applied Meteorology}
+	abstract {The effects of interannual climate variability on water demand in Albuquerque, New Mexico, are assessed. This city provides an ideal setting for examining the effects of climate on urban water demand, because at present the municipal water supply is derived entirely from groundwater, making supply insensitive to short-term climate variability. There is little correlation between interannual variability of climate and total water demand&#8212;a result that is consistent with several previous studies. However, summertime residential demand, which composes about one-quarter of total annual demand in Albuquerque, is significantly correlated with summer-season precipitation and average daily maximum temperature. Furthermore, regressions derived from year-to-year changes in these variables are shown to isolate the climatic modulation of residential water demand effectively. Over 60&#37; of the variance of year-to-year changes in summer residential demand is accounted for by interannual temperature and precipitation changes when using a straightforward linear regression model, with precipitation being the primary correlate. Long-term trends in water demand follow population growth closely until 1994, after which time a major water conservation effort led to absolute decreases in demand in subsequent years. The effectiveness of the conservation efforts can be quantified by applying the regression model, thus removing the year-to-year variations associated with short-term climate fluctuations estimated from the preconservation period. The preconservation regression provides a good fit to interannual summer residential demand in subsequent years, demonstrating that the regression model has successfully isolated the climatic component of water demand. The quality of this fit during a period of sharply reduced demand suggests that the conservation program has effectively targeted the nonclimatically sensitive component of water demand and has sharpened the climatically sensitive component of demand to a level closer to the consumption that is &#8220;climatically needed.&#8221;}
+	status {ok}
+	month {12}
+	author {Gutzler David DS {Gutzler, David S.}}
+	author {Nims Joshua JS {Nims, Joshua S.}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2FJAM2298.1}
+}
+
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2FEI188.1} {
+	volume {11}
+	linkouts {{DOI {} 10.1175/EI188.1 {} {}}}
+	year {2007}
+	type {JOUR}
+	start_page {1}
+	url {http://dx.doi.org/10.1175%2FEI188.1}
+	end_page {33}
+	plugin_version {1}
+	doi {10.1175/EI188.1}
+	day {1}
+	issue {2}
+	title {The Tension between Fire Risk and Carbon Storage: Evaluating U.S. Carbon and Fire Management Strategies through Ecosystem Models}
+	journal {Earth Interactions}
+	abstract {Fire risk and carbon storage are related environmental issues because fire reduction results in carbon storage through the buildup of woody vegetation, and stored carbon is a fuel for fires. The sustainability of the U.S. carbon sink and the extent of fire activity in the next 100 yr depend in part on the type and effectiveness of fire reduction employed. Previous studies have bracketed the range of dynamics from continued fire reduction to the complete failure of fire reduction activities. To improve these estimates, it is necessary to explicitly account for fire reduction in terrestrial models. A new fire reduction submodel that estimates the spatiotemporal pattern of reduction across the United States was developed using gridded data on biomass, climate, land-use, population, and economic factors. To the authors&#8217; knowledge, it is the first large-scale, gridded fire model that explicitly accounts for fire reduction. The model was calibrated to 1&#176; &#215; 1&#176; burned area statistics &#91;Global Burnt Area 2000 Project (GBA-2000)&#93; and compared favorably to three important diagnostics. The model was then implemented in a spatially explicit ecosystem model and used to analyze 1620 scenarios of future fire risk and fire reduction strategies. Under scenarios of climate change and urbanization, burned area and carbon emissions both increased in scenarios where fire reduction efforts were not adjusted to match new patterns of fire risk. Fuel reducing management strategies reduced burned area and fire risk, but also limited carbon storage. These results suggest that to promote carbon storage and minimize fire risk in the future, fire reduction efforts will need to be increased and spatially adjusted and will need to employ a mixture of fuel-reducing and non-fuel-reducing strategies.}
+	status {ok}
+	month {1}
+	author {Girod {} CM {Girod, C. M.}}
+	author {Hurtt {} GC {Hurtt, G. C.}} 
+	author {Frolking {} S {Frolking, S.}} 
+	author {Aber {} JD {Aber, J. D.}} 
+	author {King {} AW {King, A. W.}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2FEI188.1}
+}
+
+
+
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2FBAMS-89-1-39} {
+	volume {89}
+	linkouts {{DOI {} 10.1175/BAMS-89-1-39 {} {}}}
+	year {2008}
+	type {JOUR}
+	start_page {39}
+	url {http://dx.doi.org/10.1175%2FBAMS-89-1-39}
+	end_page {43}
+	plugin_version {1}
+	doi {10.1175/BAMS-89-1-39}
+	day {1}
+	issue {1}
+	title {Doppler Radar Data Assimilation in KMA&#39;s Operational Forecasting}
+	journal {Bulletin of the American Meteorological Society}
+	abstract {No Abstract available.}
+	status {ok}
+	month {1}
+	author {Xiao Qingnong Q {Xiao, Qingnong}}
+	author {Lim Eunha E {Lim, Eunha}} 
+	author {Won Duk-Jin D {Won, Duk-Jin}} 
+	author {Sun Juanzhen J {Sun, Juanzhen}} 
+	author {Lee Wen-Chau W {Lee, Wen-Chau}} 
+	author {Lee Mi-Seon M {Lee, Mi-Seon}} 
+	author {Lee Woo-Jin W {Lee, Woo-Jin}} 
+	author {Cho Joo-Young J {Cho, Joo-Young}} 
+	author {Kuo Ying-Hwa Y {Kuo, Ying-Hwa}} 
+	author {Barker Dale DM {Barker, Dale M.}} 
+	author {Lee Dong-Kyou D {Lee, Dong-Kyou}} 
+	author {Lee Hee-Sang H {Lee, Hee-Sang}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2FBAMS-89-1-39}
+}
+
+test {http://ams.allenpress.com/perlserv/?request=get-document&doi=10.1175%2F2007JHM859.1} {
+	volume {8}
+	linkouts {{DOI {} 10.1175/2007JHM859.1 {} {}}}
+	year {2007}
+	type {JOUR}
+	start_page {1165}
+	url {http://dx.doi.org/10.1175%2F2007JHM859.1}
+	end_page {1183}
+	plugin_version {1}
+	doi {10.1175/2007JHM859.1}
+	day {1}
+	issue {6}
+	title {Multitemporal Analysis of TRMM-Based Satellite Precipitation Products for Land Data Assimilation Applications}
+	journal {Journal of Hydrometeorology}
+	abstract {In this study, the recent work of Gottschalck et al. and Ebert et al. is extended by assessing the suitability of two Tropical Rainfall Measuring Mission (TRMM)-based precipitation products for hydrological land data assimilation applications. The two products are NASA&#8217;s gauge-corrected TRMM 3B42 Version 6 (3B42), and the satellite-only NOAA Climate Prediction Center (CPC) morphing technique (CMORPH). The two products were evaluated against ground-based rain gauge&#8211;only and gauge-corrected Doppler radar measurements. The analyses were performed at multiple time scales, ranging from annual to diurnal, for the period March 2003 through February 2006. The analyses show that at annual or seasonal time scales, TRMM 3B42 has much lower biases and RMS errors than CMORPH. CMORPH shows season-dependent biases, with overestimation in summer and underestimation in winter. This leads to 50&#37; higher RMS errors in CMORPH&#8217;s area-averaged daily precipitation than TRMM 3B42. At shorter time scales (5 days or less), CMORPH has slightly less uncertainty, and about 10&#37;&#8211;20&#37; higher probability of detection of rain events than TRMM 3B42. In addition, the satellite estimates detect more high-intensity events, causing a remarkable shift in precipitation spectrum. Summertime diurnal cycles in the United States are well captured by both products, although the 8-km CMORPH seems to capture more diurnal features than the 0.25&#176; CMORPH or 3B42 products. CMORPH tends to overestimate the amplitude of the diurnal cycles, particularly in the central United States. Possible causes for the discrepancies between these products are discussed.}
+	status {ok}
+	month {12}
+	author {Tian Yudong Y {Tian, Yudong}}
+	author {Peters-Lidard Christa CD {Peters-Lidard, Christa D.}}
+	author {Choudhury Bhaskar BJ {Choudhury, Bhaskar J.}} 
+	author {Garcia Matthew M {Garcia, Matthew}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F2007JHM859.1}
+}
+
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2F2007WAF2006062.1} {
+	volume {22}
+	linkouts {{DOI {} 10.1175/2007WAF2006062.1 {} {}}}
+	year {2007}
+	type {JOUR}
+	start_page {1157}
+	url {http://dx.doi.org/10.1175%2F2007WAF2006062.1}
+	end_page {1176}
+	plugin_version {1}
+	doi {10.1175/2007WAF2006062.1}
+	day {1}
+	issue {6}
+	title {The Impact of Dropwindsonde Data on Typhoon Track Forecasts in DOTSTAR}
+	journal {Weather and Forecasting}
+	abstract {Starting from 2003, a new typhoon surveillance program, Dropwindsonde Observations for Typhoon Surveillance near the Taiwan Region (DOTSTAR), was launched. During 2004, 10 missions for eight typhoons were conducted successfully with 155 dropwindsondes deployed. In this study, the impact of these dropwindsonde data on tropical cyclone track forecasts has been evaluated with five models (four operational and one research models). All models, except the Geophysical Fluid Dynamics Laboratory (GFDL) hurricane model, show the positive impact that the dropwindsonde data have on tropical cyclone track forecasts. During the first 72 h, the mean track error reductions in the National Centers for Environmental Prediction&#8217;s (NCEP) Global Forecast System (GFS), the Navy Operational Global Atmospheric Prediction System (NOGAPS) of the Fleet Numerical Meteorology and Oceanography Center (FNMOC), and the Japanese Meteorological Agency (JMA) Global Spectral Model (GSM) are 14&#37;, 14&#37;, and 19&#37;, respectively. The track error reduction in the Weather Research and Forecasting (WRF) model, in which the initial conditions are directly interpolated from the operational GFS forecast, is 16&#37;. However, the mean track improvement in the GFDL model is a statistically insignificant 3&#37;. The 72-h-average track error reduction from the ensemble mean of the above three global models is 22&#37;, which is consistent with the track forecast improvement in Atlantic tropical cyclones from surveillance missions. In all, despite the fact that the impact of the dropwindsonde data is not statistically significant due to the limited number of DOTSTAR cases in 2004, the overall added value of the dropwindsonde data in improving typhoon track forecasts over the western North Pacific is encouraging. Further progress in the targeted observations of the dropwindsonde surveillances and satellite data, and in the modeling and data assimilation system, is expected to lead to even greater improvement in tropical cyclone track forecasts.}
+	status {ok}
+	month {12}
+	author {Wu Chun-Chieh C {Wu, Chun-Chieh}}
+	author {Chou Kun-Hsuan K {Chou, Kun-Hsuan}} 
+	author {Lin Po-Hsiung P {Lin, Po-Hsiung}} 
+	author {Aberson Sim SD {Aberson, Sim D.}} 
+	author {Peng Melinda MS {Peng, Melinda S.}} 
+	author {Nakazawa Tetsuo T {Nakazawa, Tetsuo}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F2007WAF2006062.1}
+}
+
+
+test {http://ams.allenpress.com/perlserv/?request=get-document&doi=10.1175%2F2007JTECHA959.1} {
+	volume {25}
+	linkouts {{DOI {} 10.1175/2007JTECHA959.1 {} {}}}
+	year {2008}
+	type {JOUR}
+	start_page {3}
+	url {http://dx.doi.org/10.1175%2F2007JTECHA959.1}
+	end_page {14}
+	plugin_version {1}
+	doi {10.1175/2007JTECHA959.1}
+	day {1}
+	issue {1}
+	title {Feature Extraction from Whole-Sky Ground-Based Images for Cloud-Type Recognition}
+	journal {Journal of Atmospheric and Oceanic Technology}
+	abstract {Several features that can be extracted from digital images of the sky and that can be useful for cloud-type classification of such images are presented. Some features are statistical measurements of image texture, some are based on the Fourier transform of the image and, finally, others are computed from the image where cloudy pixels are distinguished from clear-sky pixels. The use of the most suitable features in an automatic classification algorithm is also shown and discussed. Both the features and the classifier are developed over images taken by two different camera devices, namely, a total sky imager (TSI) and a whole sky imager (WSC), which are placed in two different areas of the world (Toowoomba, Australia; and Girona, Spain, respectively). The performance of the classifier is assessed by comparing its image classification with an a priori classification carried out by visual inspection of more than 200 images from each camera. The index of agreement is 76&#37; when five different sky conditions are considered: clear, low cumuliform clouds, stratiform clouds (overcast), cirriform clouds, and mottled clouds (altocumulus, cirrocumulus). Discussion on the future directions of this research is also presented, regarding both the use of other features and the use of other classification techniques.}
+	status {ok}
+	month {1}
+	author {{Calb&#243;} Josep J {Calb&#243;, Josep}}
+	author {Sabburg Jeff J {Sabburg, Jeff}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F2007JTECHA959.1}
+}
+
+
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2F2007MWR1999.1} {
+	volume {136}
+	linkouts {{DOI {} 10.1175/2007MWR1999.1 {} {}}}
+	year {2008}
+	type {JOUR}
+	start_page {7}
+	url {http://dx.doi.org/10.1175%2F2007MWR1999.1}
+	end_page {26}
+	plugin_version {1}
+	doi {10.1175/2007MWR1999.1}
+	day {1}
+	issue {1}
+	title {A Dynamical Investigation of the May 2004 McMurdo Antarctica Severe Wind Event Using AMPS&#42;}
+	journal {Monthly Weather Review}
+	abstract {On 15&#8211;16 May 2004 a severe windstorm struck McMurdo, Antarctica. The Antarctic Mesoscale Prediction System (AMPS) is used, along with available observations, to analyze the storm. A synoptic-scale cyclone weakens as it propagates across the Ross Ice Shelf toward McMurdo. Flow associated with the cyclone initiates a barrier jet along the Transantarctic Mountains. Forcing terms from the horizontal equations of motion are computed in the barrier wind to show that the local time tendency and momentum advection terms are key components of the force balance. The barrier jet interacts with a preexisting near-surface radiation inversion over the Ross Ice Shelf to set up conditions favorable for the development of large-amplitude mountain waves, leading to a downslope windstorm in the Ross Island area. Hydraulic theory can explain the structure of the downslope windstorms, with amplification of the mountain waves possibly caused by wave-breaking events. The underestimation of AMPS wind speed at McMurdo is caused by the misplacement of a hydraulic jump downstream of the downslope windstorms. The dynamics associated with the cyclone, barrier jet, and downslope windstorms are analyzed to determine the role of each in development of the severe winds.}
+	status {ok}
+	month {1}
+	author {Steinhoff Daniel DF {Steinhoff, Daniel F.}}
+	author {Bromwich David DH {Bromwich, David H.}}
+	author {Lambertson Michelle M {Lambertson, Michelle}}
+	author {Knuth Shelley SL {Knuth, Shelley L.}} 
+	author {Lazzara Matthew MA {Lazzara, Matthew A.}}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F2007MWR1999.1}
+}
+
+
+test {http://ams.allenpress.com/perlserv/?request=get-abstract&doi=10.1175%2F1520-0485%281971%29001%3C0001%3AOSMIAU%3E2.0.CO%3B2} {
+	volume {1}
+	linkouts {{DOI {} {10.1175/1520-0485(1971)001<0001:OSMIAU>2.0.CO;2} {} {}}}
+	year {1971}
+	type {JOUR}
+	start_page {1}
+	url {http://dx.doi.org/10.1175%2F1520-0485%281971%29001%3C0001%3AOSMIAU%3E2.0.CO%3B2}
+	end_page {6}
+	plugin_version {1}
+	doi {10.1175/1520-0485(1971)001<0001:OSMIAU>2.0.CO;2}
+	day {1}
+	issue {1}
+	title {On Spectra Measured in an Undulating Layered Medium}
+	journal {Journal of Physical Oceanography}
+	abstract {Evidence has recently accumulated that stably stratified regions of the ocean and atmosphere often consist of a series of layers of nearly uniform density separated by steps in which the gradient is large. It is shown that the motion of this structure relative to a measuring instrument results in a spectral density proportional to (frequency)&#8722;2, over a range which is not limited by the overall value of the stability frequency N. Similarly, the spectra obtained by transversing such a structure is found to be proportional to (wavenumber) &#8722;2. Spectral forms of this type cannot necessarily be associated with spectral densities of either internal gravity waves or turbulent eddies.}
+	status {ok}
+	month {1}
+	plugin {amets}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F1520-0485%281971%29001%3C0001%3AOSMIAU%3E2.0.CO%3B2}
+	author {Phillips {} OM {Phillips, O.M.}}
+}
+
+
+
+test {http://ams.allenpress.com/perlserv/?request=get-document&doi=10.1175%2F2007JCLI1630.1} {
+	linkout {DOI {} 10.1175/2007JCLI1630.1 {} {}}
+	volume 21
+	status ok
+	year 2008
+	type JOUR 
+	start_page 413
+	end_page 431
+	day 1
+	doi 10.1175/2007JCLI1630.1
+	url {http://dx.doi.org/10.1175%2F2007JCLI1630.1}
+	formatted_url {DOI http://dx.doi.org/10.1175%2F2007JCLI1630.1}
+	title {Evaluation of the Simulated Interannual and Subseasonal Variability in an AMIP-Style Simulation Using the CSU Multiscale Modeling Framework} 
+	issue 3
+	journal {Journal of Climate}
+	month 2
+	author {Khairoutdinov Marat M {Khairoutdinov, Marat}} 
+	author {Demott Charlotte C {DeMott, Charlotte}} 
+	author {Randall David D {Randall, David}}
+	abstract {The Colorado State University (CSU) Multiscale Modeling Framework (MMF) is a new type of general circulation model (GCM) that replaces the conventional parameterizations of convection, clouds, and boundary layer with a cloud-resolving model (CRM) embedded into each grid column. The MMF has been used to perform a 19-yr-long Atmospheric Model Intercomparison Project&#8211;style simulation using the 1985&#8211;2004 sea surface temperature (SST) and sea ice distributions as prescribed boundary conditions. Particular focus has been given to the simulation of the interannual and subseasonal variability.The annual mean climatology is generally well simulated. Prominent biases include excessive precipitation associated with the Indian and Asian monsoon seasons, precipitation deficits west of the Maritime Continent and over Amazonia, shortwave cloud effect biases west of the subtropical continents due to insufficient stratocumulus clouds, and longwave cloud effect biases due to overestimation of high cloud amounts, especially in the tropics. The geographical pattern of the seasonal cycle of precipitation is well reproduced, although the seasonal variance is considerably overestimated mostly because of the excessive monsoon precipitation mentioned above. The MMF does a good job of reproducing the interannual variability in terms of the spatial structure and magnitude of major anomalies associated with El Ni&#241;o&#8211;Southern Oscillation (ENSO).The subseasonal variability of tropical climate associated with the Madden&#8211;Julian oscillation (MJO) and equatorially trapped waves are particular strengths of the simulation. The wavenumber&#8211;frequency power spectra of the simulated outgoing longwave radiation (OLR), precipitation rate, and zonal wind at 200 and 850 mb for time scales in the range of 2&#8211;96 days compare very well to the spectra derived from observations, and show a robust MJO and Kelvin and Rossby waves with phase speeds similar to those observed. The geographical patterns of the MJO and Kelvin wave&#8211;filtered OLR variance for summer and winter seasons are well simulated; however, the variances tend to be overestimated by as much as 50&#37;. The observed seasonal and interannual variations of the strength of the MJO are also well reproduced.The physical realism of the simulated marine stratocumulus clouds is demonstrated by an analysis of the composite diurnal cycle of cloud water content, longwave (IR) cooling, vertical velocity variance, rainfall, and subcloud vertical velocity skewness. The relationships between vertical velocity variance, IR cooling, and negative skewness all suggest that, despite the coarse numerical grid of the CRM, the simulated clouds behave in a manner consistent with the understanding of the stratocumulus dynamics. In the stratocumulus-to-cumulus transition zone, the diurnal cycle of the inversion layer as simulated by the MMF also bears a remarkable resemblance to in situ observations. It is demonstrated that in spite of the coarse spacing of the CRM grid used in the current version of MMF, the bulk of vertical transport of water in the MMF is carried out by the circulations explicitly represented on the CRM grid rather than by the CRM&#8217;s subgrid-scale parameterization.}
+}
+
