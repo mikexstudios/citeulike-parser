@@ -84,6 +84,7 @@ def handle(url):
 		"_acct",
 		"_userid",
 		"_docType",
+		"_ArticleListID",
 		"_uoikey",
 		"count",
 		"md5",
