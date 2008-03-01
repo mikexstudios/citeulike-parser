@@ -93,7 +93,8 @@ def handle(url):
 		"citation-type",
 		"Export",
 		"RETURN_URL"]:
-		oparams.append( (k, params[k]) )
+		if k in params:
+			oparams.append( (k, params[k]) )
 	
 
 	# needs a cookie set in javascript. Clone one of the existing ones
