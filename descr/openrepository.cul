@@ -1,0 +1,113 @@
+#
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# Copyright (c) 2008 Graham Triggs
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#        CiteULike <http://www.citeulike.org> and its
+#        contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {Open Repository}
+
+	# The link the front page of this service
+	url {http://www.openrepository.com}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {Experimental support}
+
+	# Your name
+	author {Graham Triggs}
+
+	# Your email address
+	email {graham@biomedcentral.com}
+
+	# Language you wrote the plugin in
+	language {perl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+
+	# RDC: build up the second part of this regexp with this one-liner:
+
+	# curl 'http://www.biomedcentral.com/browse/journals/' | grep 'A class=hiddenlink' |grep http | sed 's/..*http:..\(.*\)\/*">/\1/' |sed 's/\/*$//' |sed ':start N; s/\n/|/; b start'
+
+	regexp {^(http://([A-Za-z0-9]+\.openrepository.com/[A-Za-z0-9]+)/handle)|(http://(www.e-space.mmu.ac.uk/e-space|www.hirsla.lsh.is/lsh|arrts.gtcni.org.uk/gtcni)/handle)}
+}
+
+format_linkout OPNREP {
+    return [list "Open Repository"  "http://hdl.handle.net/${ikey_1}/${ikey_2}"]
+}
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redesign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+#
+test {http://www.hirsla.lsh.is/lsh/handle/2336/15442} {
+	formatted_url {DOI http://dx.doi.org/10.1046%2Fj.1365-2133.2003.05318.x}
+	formatted_url {{Open Repository} http://hdl.handle.net/2336/15442}
+	linkout {DOI {} 10.1046/j.1365-2133.2003.05318.x {} {}}
+	linkout {OPNREP 2336 {} 15442 {}}
+	type JOUR
+	year 2003
+	volume 148
+	serial 0007-0963
+	title {The effects of ultraviolet B treatment on the expression of adhesion molecules by circulating T lymphocytes in psoriasis}
+	url {http://hdl.handle.net/2336/15442}
+	start_page 996
+	end_page 1000
+	journal Br
+	abstract {BACKGROUND: T lymphocytes are believed to play a role in the pathogenesis of psoriasis; > 80% of T lymphocytes that infiltrate psoriatic lesions express the surface glycoprotein cutaneous lymphocyte-associated antigen (CLA), compared with < 20% in the blood. Exposure to ultraviolet (UV) B is an effective treatment for psoriasis. OBJECTIVES: To compare the effects of UVB treatment of psoriasis on the expression of CLA and several other surface markers expressed by circulating T lymphocytes. METHODS: Peripheral blood mononuclear cells from psoriatic patients were stained for adhesion molecules and stimulated with streptococcal antigens before and once weekly during 3 weeks of UVB treatment. RESULTS: A marked and progressive decrease was observed during the treatment in expression of the CLA and the very late antigen-4alpha by T cells; this decrease correlated closely with clinical improvement (Psoriasis Area and Severity Index). T-cell expression of intercellular adhesion molecule-1 was not significantly affected during the treatment and no change was observed in the activation markers CD25 and CD69 or lymphocyte proliferation after stimulation with streptococcal antigens or superantigens. CONCLUSIONS: UVB treatment is associated with a marked reduction in the expression of skin-homing molecules by circulating T cells. This may be relevant to the therapeutic effect of UVB in psoriasis.}
+	author {Sigmundsdottir {} H {Sigmundsdottir, H}}
+	author {Gudjonsson {} JE {Gudjonsson, J E}}
+	author {Valdimarsson {} H {Valdimarsson, H}}
+	plugin openrepository
+	status ok
+}
+

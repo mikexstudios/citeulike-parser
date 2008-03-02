@@ -51,6 +51,7 @@ if {[driver_from_command_line]} {
 	source [file join $path author.tcl]
 	source [file join $path bibtex.tcl]
 	source [file join $path ris.tcl]
+	source [file join $path url.tcl]
 }
 
 # First thing to do is load the plugin description files and get some idea of what we're dealing with.
