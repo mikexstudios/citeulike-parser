@@ -48,7 +48,15 @@ url = sys.stdin.readline().strip()
 # Some IEEE urls are malformed and have ? characters instead of & to separate
 # key-value pairs in the url.
 s = url.split("?")
-url = s[0] + "?" + "&".join(s[1:])
+
+url_head = s[0]
+url_tail = "&".join(s[1:])
+
+# Some IEEE URLs look like ./a/b?&param=value - we need to sort this out
+if url_tail[0] == '&':
+	url_tail = url_tail[1:]
+
+url = url_head + "?" + url_tail
 
 try:
 	ar_number = int(urlparams(url)["arnumber"])
