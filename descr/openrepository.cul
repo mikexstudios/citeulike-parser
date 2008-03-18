@@ -69,7 +69,7 @@ plugin {
 
 	# curl 'http://www.biomedcentral.com/browse/journals/' | grep 'A class=hiddenlink' |grep http | sed 's/..*http:..\(.*\)\/*">/\1/' |sed 's/\/*$//' |sed ':start N; s/\n/|/; b start'
 
-	regexp {^(http://([A-Za-z0-9]+\.openrepository.com/[A-Za-z0-9]+)/handle)|(http://(www.e-space.mmu.ac.uk/e-space|www.hirsla.lsh.is/lsh|arrts.gtcni.org.uk/gtcni)/handle)}
+	regexp {^(http://([A-Za-z0-9]+\.openrepository.com/[A-Za-z0-9]+)/handle)|(http://(www.e-space.mmu.ac.uk/e-space|www.hirsla.lsh.is/lsh|arrts.gtcni.org.uk/gtcni|eric.exeter.ac.uk/exeter)/handle)}
 }
 
 format_linkout OPNREP {
