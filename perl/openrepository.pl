@@ -21,6 +21,9 @@ if ($url =~ m{([A-Za-z0-9]+.openrepository.com/[^/]+)/handle/([0-9]+/[0-9]+)})	 
 } elsif ($url =~ m{(arrts.gtcni.org.uk/gtcni)/handle/([0-9]+/[0-9]+)}) {
 # Special case for GTCNI
 	($repobase,$handle)=($1,$2);
+} elsif ($url =~ m{(eric.exeter.ac.uk/exeter)/handle/([0-9]+/[0-9]+)}) {
+# Special case for ERIC
+	($repobase,$handle)=($1,$2);
 } else {
 	print "status\terr\tThis page does not appear to be an Open Repository entry\n";
 	exit;
