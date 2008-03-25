@@ -40,8 +40,11 @@
 source util.tcl
 set url [gets stdin]
 
-# I'm only permitted to scrape the UK mirror (according to an old email from them)
-# so I need to extract the ID. I'll need to do this anyway for the linkout
+#
+# arXiv are very sensitive about scrapers and robots. By agreement, we can use their main
+# page at http://arxiv.org if we set the following useragent string:
+#
+::http::config -useragent "CiteULike Plugin - contact plugins@citeulike.org"
 
 proc arxiv_id {url} {
 	set mirrors [list arxiv.org xxx.soton.ac.uk xxx.lanl.gov]
@@ -67,8 +70,8 @@ puts "begin_tsv"
 
 puts [join [list linkout ARXIV {} $id {} {}] "\t"]
 
-set uk_url "http://uk.arxiv.org/abs/$id"
-set page [url_get $uk_url]
+set arxiv_url "http://arxiv.org/abs/$id"
+set page [url_get $arxiv_url]
 
 # Again. An almighty mess. The alternative is to parse the
 # BibTeX record on the ucdavis "front" to arxiv, but this code is
