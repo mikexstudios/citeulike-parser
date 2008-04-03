@@ -80,8 +80,17 @@ set ris_url [subst {http://journals.cambridge.org/action/exportCitation?format=R
 
 set ris [url_get $ris_url]
 
+#
+# CUP seem to have decided to ignore the RIS specification, so their tokens now look like 'XX - content'
+# rather then 'XX  - content'
+#
+set fixed_ris [list]
+foreach ris_line [split $ris \n] {
+	lappend fixed_ris [regsub {^([A-Z0-9]{2}) - } $ris_line {\1  - }]
+}
+
 puts "begin_ris"
-puts $ris
+puts [join $fixed_ris \n]
 puts "end_ris"
 
 puts "status\tok"
