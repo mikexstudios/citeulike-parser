@@ -45,7 +45,7 @@ set page [url_get $url]
 #
 # Look for an article id in the page's meta tags
 #
-if {![regexp {\<meta name="rft_id" content="http\://journals.cambridge.org/action/displayAbstract\?aid=(\d+)"/\>} $page -> aid]} {
+if {![regexp {\<meta name="rft[_.]id" content="http\://journals.cambridge.org/action/displayAbstract\?aid=(\d+)"/\>} $page -> aid]} {
 	bail "Cannot find an article_id in the page"
 }
 
