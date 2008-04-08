@@ -78,7 +78,9 @@ put_tsv title [get_meta $page "DC.title"]
 # DOI
 #
 set id [get_meta $page "DC.identifier"]
-if {[regexp {^doi:([^/]+/[^/]+$)} $id -> do]} {
+if {[regexp {^doi:([^/]+/[^/]+$)} $id -> doi]} {
+	put_linkout DOI "" $doi "" ""
+} elseif {[regexp {^info:doi/([^/]+/[^/]+$)} $id -> doi]} {
 	put_linkout DOI "" $doi "" ""
 }
 
@@ -111,7 +113,7 @@ if {[regexp {^(\d+)?\s?(January|February|March|April|May|June|July|August|Septem
 # Get start/end pages
 #
 set cite [get_meta $page "DCTERMS.bibliographicCitation"]
-if {[regexp {^(.*), (\d+), (\d+), ([0-9-]+)\((\d+)\)$} $cite -> journal volume issue pages]} {
+if {[regexp {^(.*), (\d+), (\d+(?:-\d+)?), ([0-9-]+)\((\d+)\)$} $cite -> journal volume issue pages]} {
 	if {$journal ne ""} {
 		put_tsv journal $journal
 	}
@@ -122,6 +124,13 @@ if {[regexp {^(.*), (\d+), (\d+), ([0-9-]+)\((\d+)\)$} $cite -> journal volume i
 	if {[info exists last] && $last!=""} {
 		put_tsv end_page $last
 	}
+}
+
+#
+# Try for a publisher
+#
+if {[set publisher [get_meta $page "DC.publisher"]] ne ""} {
+	put_tsv publisher $publisher
 }
 
 #
