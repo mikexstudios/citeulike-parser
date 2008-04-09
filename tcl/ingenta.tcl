@@ -79,9 +79,9 @@ put_tsv title [get_meta $page "DC.title"]
 #
 set id [get_meta $page "DC.identifier"]
 if {[regexp {^doi:([^/]+/[^/]+$)} $id -> doi]} {
-	put_linkout DOI "" $doi "" ""
+	put_linkout DOI "" [string trim $doi] "" ""
 } elseif {[regexp {^info:doi/([^/]+/[^/]+$)} $id -> doi]} {
-	put_linkout DOI "" $doi "" ""
+	put_linkout DOI "" [string trim $doi] "" ""
 }
 
 #
