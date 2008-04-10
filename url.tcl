@@ -47,9 +47,20 @@ namespace eval cul::url {
 			if {![string match {[-._~a-zA-Z0-9]} $c]} {
 				set cmap($c) %[format %2X $i]
 			}
+			if {![string match {[-_.!~*'()A-Za-z0-9;,/?:@&=+$]} $c]} {
+				set curimap($c) %[format %2X $i]
+			}
+			if {![string match {[-_.!~*'()A-Za-z0-9]} $c]} {
+				set curicompmap($c) %[format %2X $i]
+			}
 		}
-		set cmap(\n) %0D%0A
-		variable charmap [array get cmap]
+		set cmap(\n)       %0D%0A
+		set curimap(\n)     %0D%0A
+		set curicompmap(\n) %0D%0A
+
+		variable charmap    [array get cmap]
+		variable urimap     [array get curimap]
+		variable uricompmap [array get curicompmap]
 	}
 	_init
 
@@ -64,4 +75,13 @@ namespace eval cul::url {
 		return [subst -novar -nocommand $urlcomponent]
 	}
 
+	proc encodeURI {uri} {
+		variable urimap
+		return [string map $urimap $uri]
+	}
+
+	proc encodeURIComponent {uricomp} {
+		variable uricompmap
+		return [string map $uricompmap $uricomp]
+	}
 }
