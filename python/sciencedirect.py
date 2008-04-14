@@ -47,7 +47,7 @@ def handle(url):
 				page = urlopen( m.group(1).replace("&amp;", "&") ).read()
 
 	# Look for an export citation link
-	m = re.search("<a href=\"([^\"]+)\" onmouseover=\"document.images.'export'.", page)
+	m = re.search("<a href=\"([^\"]+)\" style=\"[^\"]+\" onmouseover=\"document.images.'export'.", page)
 	if not m:
 		raise ParseException, "Are you looking at the full text or the summary of the article you're trying to add? Is it possible you tried to post a page containing a list of search results? I can't recognise your page as a ScienceDirect article. Try again when you're looking at the full-text page. It's the one with the full details of the article and a link on the right hand side saying 'Export Citation'"
 
