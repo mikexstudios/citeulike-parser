@@ -54,13 +54,16 @@ if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/
 } elsif ($url =~ m{www.nature.com/nphoton/journal/v([0-9]+)/n([0-9]+)/[^/]+/([^/_]+)\.(html|pdf|ris)}) {
 # Fix to get Nature photonics to parse
 	($journal,$vol,$num,$article)=("nphoton",$1,$2,$3);
-} elsif ($url =~ m{www.nature.com/([^/]+)/journal/v([0-9]+)/n([0-9]+s?)/[^/]+/([^/]+)(_[^._]+)?\.(html|pdf|ris)$}) {
+} elsif ($url =~ m{www.nature.com/([^/]+)/journal/v([0-9]+)/n([0-9]+s?)/[^/]+/([^/]+)(_[^._]+)?\.(html|pdf|ris)}) {
 	($journal,$vol,$num,$article)=($1,$2,$3,$4);
 } else {
 	print "status\terr\tThis page does not appear to be a Nature article\n";
 	exit;
 }
-print "linkout\tNATUR\t$vol\t$article\t$num\t$journal\n";
+
+if ($num !~ m{s}) {
+	print "linkout\tNATUR\t$vol\t$article\t$num\t$journal\n";
+}
 
 #print "http://www.nature.com/${journal}/journal/v${vol}/n${num}/ris/${article}.ris\n" ;
 
