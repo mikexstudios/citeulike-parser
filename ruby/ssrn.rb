@@ -34,16 +34,19 @@ end
 
 puts "journal\tSocial Science Research Network Working Paper Series"
 
-date = (doc/"//tr/td[@width='80%']/center/font[@size='2']")[1].inner_text
-if date =~ /^(January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{1,2}), ([0-9]{4}$)/
-	puts "month\t" + $1
-	puts "day\t" + $2
-	puts "year\t" + $3
-elsif date =~/^(January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4}$)/
-	puts "month\t" + $1
-	puts "year\t" + $2
-elsif date =~/^([0-9]{4})$/
-	puts "year\t" + $1
+date = (doc/"//tr/td[@width='80%']/center/font[@size='2']")[1]
+if date_el
+  date = date_el.inner_text
+  if date =~ /^(January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{1,2}), ([0-9]{4}$)/
+    puts "month\t" + $1
+    puts "day\t" + $2
+    puts "year\t" + $3
+  elsif date =~/^(January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4}$)/
+    puts "month\t" + $1
+    puts "year\t" + $2
+  elsif date =~/^([0-9]{4})$/
+    puts "year\t" + $1
+  end
 end
 
 abs = (doc/"//tr/td/font")[5].inner_text.strip
