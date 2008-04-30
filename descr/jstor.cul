@@ -40,7 +40,7 @@
 plugin {
 	# Integer version number for the plugin code. When this number is incremented,
 	# CiteULike may reparse all existing articles with the new code.
-	version {2}
+	version {3}
 
 	# The name of the plugin, as displayed on the "CiteULike supports..." page
 	name {JSTOR}
@@ -56,10 +56,10 @@ plugin {
 	author {Richard Cameron}
 
 	# Your email address
-	email {camster@citeulike.org}
+	email {richard@citeulike.org}
 
 	# Language you wrote the plugin in
-	language {tcl}
+	language {python}
 
 	# Regular expression to match URLs that the plugin is
 	# *potentially* interested in. Any URL matching this regexp
@@ -75,7 +75,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {(jstor.org[^/]*/(browse|view|cgi-bin/jstor/viewitem)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)/([a-zA-Z0-9]+))|(links.jstor.org/sici)}
+	regexp {^https?:.*jstor.org.*}
 }
 
 
@@ -91,12 +91,6 @@ plugin {
 # The variables following variables are defined for your use
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
-#format_linkout JSTOR {
-#	return [list "JSTOR (old style)" \
-#				"http://links.jstor.org/sici?sici=$ckey_1"
-#				]
-#}
-
 format_linkout JSTR2 {
 	return [list "JSTOR" \
 		"http://www.jstor.org/stable/$ikey_1" ]
@@ -116,9 +110,11 @@ format_linkout JSTR2 {
 # If you ever fix a bug in the parser, it is highly recommended that
 # you add the offending page as a test case.
 
-test {http://www.jstor.org/view/00376752/ap010113/01a00130/0} {
-	formatted_url {JSTOR http://links.jstor.org/sici?sici=0037-6752%28198424%291%3A28%3A4%3C533%3AANOMEG%3E2.0.CO%3B2-3}
-	linkout {JSTOR {} 0037-6752%28198424%291%3A28%3A4%3C533%3AANOMEG%3E2.0.CO%3B2-3 {} {}}
+test {http://www.jstor.org/action/showArticle?doi=10.2307/307641&Search=yes&term=bulgakov%27s&term=moon&term=may&term=eve&term=full&term=good&term=margarita&term=friday&term=master&term=note&item=1&returnArticleService=showArticle&ttl=5&searchUri=%2Faction%2FdoBasicSearch%3FQuery%3DA%2BNote%2Bon%2BMay%2BEve%252C%2BGood%2BFriday%252C%2Band%2Bthe%2BFull%2BMoon%2Bin%2BBulgakov%2527s%2BThe%2BMaster%2Band%2BMargarita%26dc%3DAll%2BDisciplines} {
+	formatted_url {JSTOR http://www.jstor.org/stable/307641}
+	formatted_url {DOI http://dx.doi.org/10.2307/307641}
+	linkout {JSTR2 307641 {} {} {}}
+	linkout {DOI {} 10.2307/307641 {} {}}
 	volume 28
 	year 1984
 	issue 4
@@ -128,14 +124,18 @@ test {http://www.jstor.org/view/00376752/ap010113/01a00130/0} {
 	end_page 537
 	journal {The Slavic and East European Journal}
 	type JOUR
+	url {http://www.jstor.org/stable/307641}
+	publisher {American Association of Teachers of Slavic and East European Languages}
 	status ok
 }
 
 
 
-test {http://www.jstor.org/view/01605682/di011126/01p0003s/0?searchID=cc993341.11009940110&frame=noframe&currentResult=01605682%2bdi011126%2b01p0003s%2b0%2c01%2b19800600%2b9995%2b80199399&userID=82586042@man.ac.uk/01cc99333c00501699080&dpi=3&sortOrder=SCORE&config=jstor&viewContent=Article} {
-	formatted_url {JSTOR http://links.jstor.org/sici?sici=0160-5682%28198006%2931%3A6%3C467%3ADSATF%3E2.0.CO%3B2-Q}
-	linkout {JSTOR {} 0160-5682%28198006%2931%3A6%3C467%3ADSATF%3E2.0.CO%3B2-Q {} {}}
+test {http://www.jstor.org/stable/view/2580820?seq=1} {
+	formatted_url {JSTOR http://www.jstor.org/stable/2580820}
+	formatted_url {DOI http://dx.doi.org/10.2307/2580820}
+	linkout {JSTR2 2580820 {} {} {}}
+	linkout {DOI {} 10.2307/2580820 {} {}}
 	volume 31
 	year 1980
 	issue 6
@@ -146,68 +146,46 @@ test {http://www.jstor.org/view/01605682/di011126/01p0003s/0?searchID=cc993341.1
 	journal {The Journal of the Operational Research Society}
 	type JOUR
 	abstract {This paper is concerned with the need for more interdisciplinary, systems oriented, research directed towards major problems encountered by decision makers in industry and government; a need which is more difficult to meet in the face of traditional methods of organising knowledge and research. It emphasises the need to acknowledge the true complexity of the problems and the interactive nature of any effective research procedure. As an illustration, both of the need and the problems involved in meeting it, the development of a new program of research into problems of Management and Technology at the International Institute of Applied Systems Analysis, which is supported by seventeen nations of all political complexions, is analysed. The implication is that we can do something about the future, but we must be prepared to do.}
+	url {http://www.jstor.org/stable/2580820}
+	publisher {Palgrave Macmillan Journals on behalf of the Operational Research Society}
 	status ok
 }
 
-test {http://www.jstor.org/browse/00318248/ap010202/01a00150/0?frame=noframe&userID=82586042@man.ac.uk/01cc99333c00501699080&backcontext=page&backurl=/cgi-bin/jstor/viewitem/00318248/ap010202/01a00150/0%3fframe%3dnoframe%26dpi%3d3%26userID%3d82586042@man.ac.uk/01cc99333c00501699080%26config%3djstor%26PAGE%3d0&config=jstor} {
-	formatted_url {JSTOR http://links.jstor.org/sici?sici=0031-8248%28198312%2950%3A4%3C660%3ASKCEAC%3E2.0.CO%3B2-R}
-	linkout {JSTOR {} 0031-8248%28198312%2950%3A4%3C660%3ASKCEAC%3E2.0.CO%3B2-R {} {}}
+test {http://www.jstor.org/action/showArticle?doi=10.2307/187568} {
+	formatted_url {JSTOR http://www.jstor.org/stable/187568}
+	formatted_url {DOI http://dx.doi.org/10.2307/187568}
+	linkout {JSTR2 187568 {} {} {}}
+	linkout {DOI {} 10.2307/187568 {} {}}
 	volume 50 
 	year 1983 
 	issue 4 
 	author {Shrader Douglas D {Douglas Shrader}}
-	title {[Scientific Knowledge: Causation, Explanation, and Corroboration (James H. Fetzer)]}
+	title {Review: [Scientific Knowledge: Causation, Explanation, and Corroboration]}
 	start_page 660
 	end_page 662
 	journal {Philosophy of Science} 
 	type JOUR
+	url {http://www.jstor.org/stable/187568}
+	publisher {The University of Chicago Press on behalf of the Philosophy of Science Association}
 	status ok
 }
 
-test {http://www.jstor.org/browse/10477039/di013145/01p0085t/0?frame=noframe&userID=82586042@man.ac.uk/01cce440350050163c4b8&backcontext=page&backurl=/cgi-bin/jstor/viewitem/10477039/di013145/01p0085t/0?frame=noframe&dpi=3&userID=82586042@man.ac.uk/01cce440350050163c4b8&config=&PAGE=0&config=jstor} {
-	formatted_url {JSTOR http://links.jstor.org/sici?sici=1047-7039%28199208%293%3A3%3C321%3ADADPON%3E2.0.CO%3B2-G}
-	linkout {JSTOR {} 1047-7039%28199208%293%3A3%3C321%3ADADPON%3E2.0.CO%3B2-G {} {}}
-	volume 3 
-	year 1992 
-	start_page 321 
-	type JOUR 
-	end_page 341 
-	issue 3 
-	title {Demography and Design: Predictors of New Product Team Performance} 
-	journal {Organization Science} 
-	abstract {The increasing reliance on teams in organizations raises the question of how these teams should be formed. Should they be formed completely of engineers or should they include a range of specialists? Should they be made up to people who have long tenure in the organization, or those with a wide range of experience? As teams increasingly get called upon to do more complex tasks and to cross functional boundaries within the organization, conventional wisdom has suggested that teams be composed of more diverse members. This study suggests that the answer may not be so simple. Using 409 individuals from 45 new product teams in five high-technology companies, this study investigates the impact of diversity on team performance. We found that functional and tenure diversity each has its own distinct effects. The greater the functional diversity, the more team members communicated outside the team's boundaries. This communication was with a variety of groups such as marketing, manufacturing, and top management. The more the external communication, the higher the managerial ratings of innovation. Tenure diversity had its impact on internal group dynamics rather than external communications. Tenure diversity is associated with improved task work such as clarifying group goals and setting priorities. In turn, this clarity is associated with high team ratings of overall performance. Yet diversity is not solely positive. While it does produce internal processes and external communications that facilitate performance, it also directly impedes performance. That is, overall the effect of diversity on performance is negative, even though some aspects of group work are enhanced. It may be that for these teams diversity brings more creativity to problem solving and product development, but it impedes implementation because there is less capability for teamwork than there is for homogeneous teams. These research findings suggest that simply changing the structure of teams (i.e. combining representatives of diverse function and tenure) will not improve performance. The team must find a way to garner the positive process effects of diversity and to reduce the negative direct effects. At the team level, greater negotiation and conflict resolution skills may be necessary. At the organization level, the team may need to be protected from external political pressures and rewarded for team, rather than functional, outcomes.}
-	author {Ancona Deborah DG {Deborah Gladstein Ancona}}
-	author {Caldwell David DF {David F. Caldwell}}
-	status ok
-}
 
-test {http://www.jstor.org/view/00487511/dm980079/98p01516/0} {
-	formatted_url {JSTOR http://links.jstor.org/sici?sici=0048-7511%28199209%2920%3A3%3C291%3AYMRT%3E2.0.CO%3B2-I}
-	linkout {JSTOR {} 0048-7511%28199209%2920%3A3%3C291%3AYMRT%3E2.0.CO%3B2-I {} {}}
+test {http://www.jstor.org/action/showArticle?doi=10.2307/2703147} {
+	formatted_url {JSTOR http://www.jstor.org/stable/2703147}
+	formatted_url {DOI http://dx.doi.org/10.2307/2703147}
+	linkout {JSTR2 2703147 {} {} {}}
+	linkout {DOI {} 10.2307/2703147 {} {}}
 	volume 20 
 	year 1992 
 	issue 3
 	type JOUR
 	author {Masur Louis LP {Louis P. Masur}}
 	start_page 291
-	title {You Must Remember this [Mystic Chords of Memory: The Transformation of Tradition in American Culture. (Michael Kammen)]}
+	title {Review: You Must Remember this}
 	end_page 296
 	journal {Reviews in American History}
-	status ok
-}
-
-test {http://www.jstor.org/view/03050270/dm995486/99p0003r/0} {
-	formatted_url {JSTOR http://links.jstor.org/sici?sici=0305-0270%28198407%2911%3A4%3C289%3ATPCOVM%3E2.0.CO%3B2-T}
-	linkout {JSTOR {} 0305-0270%28198407%2911%3A4%3C289%3ATPCOVM%3E2.0.CO%3B2-T {} {}}
-	volume 11
-	year 1984
-	issue 4
-	type JOUR
-	author {Atkinson Tony T {Tony Atkinson}}
-	title {The Plant Communities of Valley Mires in the New Forest, Hampshire}
-	start_page {289}
-	end_page {317}
-	journal {Journal of Biogeography}
-	abstract {The New Forest has a long history of semi-protective management. It retains an unparalleled concentration of lowland valley mires set in extensive tracts of lowland heathland and in a few cases wooded or afforested catchments. The variability of plant communities in these valley mires is analysed in 845 quadrats recorded along transects from twenty-seven mire systems in the New Forest. Twenty-four noda are distinguished and are described by objective indices of fidelity and constancy of their species assemblages. The noda fall into six natural groups: mire-surround, wet-heath, seepage-terrace, mire-expanse, carr and grazed mire. Continuing conservation concern is required to safeguard the full range of variation present in the valley mires of the New Forest.}
+	url {http://www.jstor.org/stable/2703147}
+	publisher {The Johns Hopkins University Press}
 	status ok
 }
