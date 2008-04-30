@@ -189,7 +189,7 @@ namespace eval driver {
 			error "Too much recursion. Last url was $url"
 		}
 		
-		puts "regexp time: [time {set candidates [interested_plugins $url]}]"
+		set candidates [interested_plugins $url]
 		
 		foreach plugin $candidates {
 			# For now, we'll just exec() a process. This is
@@ -478,7 +478,6 @@ namespace eval driver {
 			puts "Testing $plugin $count/[llength [set TESTS_$plugin]]"
 			incr count
 
-if 0 {
 			set expected [lindex $test 1]
 
 			set c [catch {
@@ -489,8 +488,7 @@ if 0 {
 				test_error Error $plugin $url "" "parse_url failed: $msg"
 				continue
 			}
-}
-				set actual [parse_url $url]
+			set actual [parse_url $url]
 
 			if {[llength $actual]==0} {
 				test_error Error $plugin $url "" "Failed to parse $url"
