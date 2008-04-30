@@ -91,10 +91,15 @@ plugin {
 # The variables following variables are defined for your use
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
-format_linkout JSTOR {
+#format_linkout JSTOR {
+#	return [list "JSTOR (old style)" \
+#				"http://links.jstor.org/sici?sici=$ckey_1"
+#				]
+#}
+
+format_linkout JSTR2 {
 	return [list "JSTOR" \
-				"http://links.jstor.org/sici?sici=$ckey_1"
-				]
+		"http://www.jstor.org/stable/$ikey_1" ]
 }
 
 
