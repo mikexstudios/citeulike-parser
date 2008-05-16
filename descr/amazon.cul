@@ -1,0 +1,161 @@
+# Copyright (c) 2008 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+#	Richard Cameron <richard@citeulike.org>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+#
+# Plugin description
+#
+
+plugin {
+	version {3}
+	name {Amazon}
+	url {http://www.amazon.co.uk/}
+	blurb {}
+	author {Richard Cameron}
+	email {richard@citeulike.org}
+	language {python}
+	regexp {https?://[^/]*amazon\.(co.uk|com|jp|de|ca|fr)/}
+}
+
+# Linkout formatting
+# Raw ingredients required to build the full text URL dynamically using the following variables
+# collected by the plugin: type ikey_1 ckey_1 ikey_2 ckey_2
+
+# There's an element of commercialism in here. CiteULike gets a small
+# amount of money every time someone clicks on a link here.
+# Clearly you'll want to remove this if you're using this code for other
+# purposes
+format_linkout AZ-UK {
+	return [list "Amazon.co.uk" \
+			"http://www.amazon.co.uk/exec/obidos/ASIN/${ckey_1}/citeulike00-21"]
+}
+format_linkout AZ-US {
+	return [list "Amazon.com" \
+			"http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20&path=ASIN/${ckey_1}"]
+}
+format_linkout AZ-CA {
+	return [list "Amazon.ca" \
+			"http://www.amazon.ca/exec/obidos/redirect?tag=citeulike09-20&amp;path=ASIN/${ckey_1}"]
+}
+format_linkout AZ-DE {
+	return [list "Amazon.de" \
+			"http://www.amazon.de/exec/obidos/redirect?tag=citeulike01-21&amp;path=ASIN/${ckey_1}"]
+}
+format_linkout AZ-FR {
+	return [list "Amazon.fr" \
+			"http://www.amazon.fr/exec/obidos/redirect?tag=citeulike06-21&amp;path=ASIN/${ckey_1}"]
+}
+format_linkout AZ-JP {
+	return [list "Amazon.jp" \
+			"http://www.amazon.jp/exec/obidos/ASIN/${ckey_1}"]
+}
+
+format_linkout ISBN {
+	return [list "WorldCat" \
+			"http://www.worldcat.org/isbn/${ckey_1}"]
+}
+
+format_linkout IMGS {}
+format_linkout IMGM {}
+format_linkout IMGL {}
+
+#Tests
+
+test {http://www.amazon.co.uk/Leviathan-Air-Pump-Hobbes-Boyle-Experimental/dp/0691024324/ref=sr_1_1?ie=UTF8&s=books&qid=1210959584&sr=1-1} {
+
+	formatted_url {WorldCat http://www.worldcat.org/isbn/0691024324}
+	formatted_url {Amazon.co.uk http://www.amazon.co.uk/exec/obidos/ASIN/0691024324/citeulike00-21}
+	formatted_url {Amazon.com http://www.amazon.com/exec/obidos/redirect?tag=citeulike07-20&path=ASIN/0691024324}
+	formatted_url {Amazon.de {http://www.amazon.de/exec/obidos/redirect?tag=citeulike01-21&amp;path=ASIN/0691024324}}
+	formatted_url {Amazon.jp http://www.amazon.jp/exec/obidos/ASIN/0691024324}
+	formatted_url {Amazon.fr {http://www.amazon.fr/exec/obidos/redirect?tag=citeulike06-21&amp;path=ASIN/0691024324}}
+	formatted_url {Amazon.ca {http://www.amazon.ca/exec/obidos/redirect?tag=citeulike09-20&amp;path=ASIN/0691024324}}
+			
+
+
+	linkout {IMGS {} http://ecx.images-amazon.com/images/I/51lY6tyZFBL._SL75_.jpg {} {}}
+	linkout {IMGM {} http://ecx.images-amazon.com/images/I/51lY6tyZFBL._SL160_.jpg {} {}}
+	linkout {IMGL {} http://ecx.images-amazon.com/images/I/51lY6tyZFBL._SL500_.jpg {} {}}
+	linkout {ISBN {} 0691024324 {} {}}
+	linkout {AZ-UK {} 0691024324 {} {}}
+	linkout {AZ-US {} 0691024324 {} {}}
+	linkout {AZ-DE {} 0691024324 {} {}}
+	linkout {AZ-JP {} 0691024324 {} {}}
+	linkout {AZ-FR {} 0691024324 {} {}}
+	linkout {AZ-CA {} 0691024324 {} {}}
+
+	year 1989
+	month 10
+	day "01"
+	
+	isbn 0691024324
+	edition Reprint
+	how_published Paperback
+	publisher "Princeton University Press"
+
+	title {Leviathan and the Air-Pump: Hobbes, Boyle, and the Experimental Life: Hobbes, Boyle and the Experimental Life}
+	author {Shapin Steven S {Steven Shapin}}
+	author {Schaffer Simon S {Simon Schaffer}}
+
+	abstract {In the aftermath of the English Civil War, as people were groping for new
+forms of political order, Robert Boyle built an air-pump to do exper­iments.
+Does the story of Roundheads and Restoration have something to do with the
+origins of experimental sci­ence? Schaffer and Shapin believed it does.
+
+Focusing on the debates between Boyle and his archcritic Thomas Hobbes over
+the air-pump, the authors proposed that "solutions to the problem of knowledge
+are solutions to the problem of social order." Both Boyle and Hobbes were
+looking for ways of establishing knowledge that did not decay into ad hominem
+attacks and political division. Boyle proposed the experiment as cure. He
+argued that facts should be manufactured by machines like the air-pump so that
+gentlemen could witness the experiments and produce knowledge that everyone
+agreed on. Hobbes, by contrast, looked for natural law and viewed experiments
+as the artificial, unreliable products of an exclusive guild.
+
+The new approaches taken in _Leviathan and the Air-Pump_ have been enormously
+influential on historical studies of science. Shapin and Schaffer found a
+moment of scientific revolution and showed how key scientific givens--facts,
+interpretations, experiment, truth--were fundamental to a new political order.
+Shapin and Schaffer were also innovative in their ethnographic approach.
+Attempting to understand the work habits, rituals, and social structures of a
+remote, unfamiliar group, they argued that politics were tied up in what
+scientists did, rather than what they said.}
+
+	type BOOK
+
+	status 			ok
+}
