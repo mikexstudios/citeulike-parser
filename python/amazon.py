@@ -7,8 +7,11 @@ from html2text import html2text
 class BadUrl(Exception):
 	pass
 
+# Bear with me. I'm on an ancient version of Python here.
 class UserException(Exception):
-	pass
+	def __init__(self, message):
+		Exception.__init__(self)
+		self.message=message
 
 def parse_url(url):
 	"""Try to get the amazon product ID (ASIN) out of the url.
@@ -73,9 +76,9 @@ def fetch(domain, asin):
 	try:
 		pages = ecs.ItemLookup(asin, ResponseGroup="Medium")
 	except ecs.InvalidParameterValue, e:
-		raise UserException, e.message
+		raise UserException, str(e)
 	if len(pages)>1:
-		raise UserException, "The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>"
+		raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>")
 	if len(pages)==0:
 		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
 	if len(pages)==0:
@@ -228,6 +231,10 @@ def main():
 
 
 if __name__=="__main__":
+
+	# Don't use proxies for Amazon, go direct.
+	# This is a rather nasty hack - RDC
+	os.environ['http_proxy'] = ''
 
 	try:
 		main()
