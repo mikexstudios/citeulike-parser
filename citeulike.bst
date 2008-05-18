@@ -58,6 +58,9 @@ ENTRY
     url
     volume
     year
+    mrnumber
+	priority
+	citeulike-article-id
   }
   {}                                    % no integer entry variables
   { label extra.label sort.label }      % label entry variables
@@ -117,7 +120,7 @@ FUNCTION {handle.maybe.empty}
 }
 
 
-FUNCTION {doprint}
+FUNCTION {doprint1}
 {
   abstract "abstract" handle.maybe.empty
   address "address" handle.maybe.empty
@@ -150,6 +153,12 @@ FUNCTION {doprint}
   url "url" handle.maybe.empty
   volume "volume" handle.maybe.empty
   year "year" handle.maybe.empty
+  mrnumber "mrnumber" handle.maybe.empty
+}
+FUNCTION {doprint2}
+{
+  priority "priority" handle.maybe.empty
+  citeulike-article-id "citeulike-article-id" handle.maybe.empty
 }
 FUNCTION {translate}
 {
@@ -168,7 +177,8 @@ FUNCTION {translate}
     { editor "editor" handle.names }
   if$
 
-  doprint
+  doprint1
+  doprint2
 
   "~citeulike-magic-level-0-separator~" write$ newline$
 }
