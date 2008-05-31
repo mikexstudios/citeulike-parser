@@ -109,13 +109,14 @@ bibtex_entry = re.sub( r'(@.*?){,', r'\1{liebert_import,', bibtex_entry)
 ###### Wrap hyphenated non-surnames in { and }.
 ######
 m = re.search(r'author\s*=\s*{\s*(.*)\s*}\s*,$',bibtex_entry,re.M)
-auths = m.group(1).split(' and ')
-for a in auths:
-	l,rest = map(lambda s: s.strip(),a.split(','))
-	fs = map(lambda s: s.strip(),rest.split())
-	for f in fs:
-		if re.search(r'-',f):
-			bibtex_entry = re.sub( r'%s'%re.escape(f), r'{%s}'%f, bibtex_entry)	
+if m:
+	auths = m.group(1).split(' and ')
+	for a in auths:
+		l,rest = map(lambda s: s.strip(),a.split(','))
+		fs = map(lambda s: s.strip(),rest.split())
+		for f in fs:
+			if re.search(r'-',f):
+				bibtex_entry = re.sub( r'%s'%re.escape(f), r'{%s}'%f, bibtex_entry)	
 
 # print the results
 print "begin_tsv"
