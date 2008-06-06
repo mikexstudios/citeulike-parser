@@ -4,7 +4,7 @@
 # This code is derived from software contributed to CiteULike.org
 # by
 #
-#	Stevan Springer <stevan.springer@gmail.com>
+#   Stevan Springer <stevan.springer@gmail.com>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -17,8 +17,8 @@
 # 3. All advertising materials mentioning features or use of this software
 #    must display the following acknowledgement:
 #        This product includes software developed by
-#		 CiteULike <http://www.citeulike.org> and its
-#		 contributors.
+#        CiteULike <http://www.citeulike.org> and its
+#        contributors.
 # 4. Neither the name of CiteULike nor the names of its
 #    contributors may be used to endorse or promote products derived
 #    from this software without specific prior written permission.
@@ -41,14 +41,15 @@
 #
 
 plugin {
-	version {1}
-	name {PLoS}
-	url {http://www.plos.org/}
-	blurb {}
-	author {Stevan Springer}
-	email {stevan.springer@gmail.com}
-	language {perl}
-	regexp {(http://[a-z]+.plosjournals.org/perlserv.{0,5}request=get-document.doi=\S+)}
+    version {2}
+    name {plos}
+    url {http://www.plos.org/}
+    blurb {}
+    author {Christophe Ladroue}
+    email {c.ladroue@gmail.com}
+    language {python}
+    # Plos is too wide, insist on the DOI
+    regexp {http://[^/]*plos[^.]*.org/.*10\.1371}
 }
 
 # Linkout formatting
@@ -57,99 +58,120 @@ plugin {
 
 
 #Tests
+test {http://www.ploscompbiol.org/article/info%3Adoi%2F10.1371%2Fjournal.pcbi.1000087} {
+    volume      {4}
+    publisher   {Public Library of Science}
+    issue       {5}
+    start_page  {e1000087}
+    year        {2008}
+    month       {5}
+	day         {30}
+    title       {Uncovering Interactions in the Frequency Domain}
+    journal     {PLoS Comput Biol}
+    author      {Guo Shuixia S {Guo, Shuixia}}   
+    author      {Wu Jianhua J {Wu, Jianhua}}
+    author      {Ding Mingzhou M {Ding, Mingzhou}}
+    author      {Feng Jianfeng J {Feng, Jianfeng}}
+    type        {JOUR}
+    url         {http://dx.doi.org/10.1371/journal.pcbi.1000087}
+    doi         {10.1371/journal.pcbi.1000087}
+    linkout     {DOI {} 10.1371/journal.pcbi.1000087 {} {}}
+    formatted_url   {DOI http://dx.doi.org/10.1371/journal.pcbi.1000087}
+    abstract    {Oscillatory activity plays a critical role in regulating biological processes at levels ranging from subcellular, cellular, and network to the whole organism, and often involves a large number of interacting elements. We shed light on this issue by introducing a novel approach called partial Granger causality to reliably reveal interaction patterns in multivariate data with exogenous inputs and latent variables in the frequency domain. The method is extensively tested with toy models, and successfully applied to experimental datasets, including (1) gene microarray data of HeLa cell cycle; (2) in vivo multi-electrode array (MEA) local field potentials (LFPs) recorded from the inferotemporal cortex of a sheep; and (3) in vivo LFPs recorded from distributed sites in the right hemisphere of a macaque monkey.}
+    status      ok
+}
 
 test {http://biology.plosjournals.org/perlserv/?request=get-document&doi=10.1371/journal.pbio.0040072} {
-	linkout			{DOI {} 10.1371/journal.pbio.0040072 {} {}}
-	linkout			{PMID 16494531 {} {} {}}
-	formatted_url	{DOI http://dx.doi.org/10.1371/journal.pbio.0040072}
-	formatted_url	{Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=16494531}
-	formatted_url	{Hubmed http://www.hubmed.org/display.cgi?uids=16494531}
-	volume			{4}
-	issue			{3}
-	start_page		{e72}
-	end_page		{}
-	year			{2006}
-	month			{3}
-	day				{1}
-	title			{A Map of Recent Positive Selection in the Human Genome}
-	journal			{PLoS Biology}
-	author			{Voight Benjamin BF {Voight, Benjamin F.}}   
-	author			{Kudaravalli Sridhar S {Kudaravalli, Sridhar}}
-	author			{Wen Xiaoquan X {Wen, Xiaoquan}}
-	author			{Pritchard Jonathan JK {Pritchard, Jonathan K.}}
-	type			{JOUR}
-	url				{http://dx.doi.org/10.1371/journal.pbio.0040072}
-	doi				{10.1371/journal.pbio.0040072}
-	status 			ok
-	abstract		{The identification of signals of very recent positive selection provides information about the adaptation of modern humans to local conditions. We report here on a genome-wide scan for signals of very recent positive selection in favor of variants that have not yet reached fixation. We describe a new analytical method for scanning single nucleotide polymorphism (SNP) data for signals of recent selection, and apply this to data from the International HapMap Project. In all three continental groups we find widespread signals of recent positive selection. Most signals are region-specific, though a significant excess are shared across groups. Contrary to some earlier low resolution studies that suggested a paucity of recent selection in sub-Saharan Africans, we find that by some measures our strongest signals of selection are from the Yoruba population. Finally, since these signals indicate the existence of genetic variants that have substantially different fitnesses, they must indicate loci that are the source of significant phenotypic variation. Though the relevant phenotypes are generally not known, such loci should be of particular interest in mapping studies of complex traits. For this purpose we have developed a set of SNPs that can be used to tag the strongest &#8764;250 signals of recent selection in each population.}
+    linkout         {DOI {} 10.1371/journal.pbio.0040072 {} {}}
+    linkout         {PMID 16494531 {} {} {}}
+    formatted_url   {DOI http://dx.doi.org/10.1371/journal.pbio.0040072}
+    formatted_url   {Pubmed http://view.ncbi.nlm.nih.gov/pubmed/16494531}
+    formatted_url   {Hubmed http://www.hubmed.org/display.cgi?uids=16494531}
+    volume          {4}
+    issue           {3}
+    start_page      {e72}
+    end_page        {}
+    year            {2006}
+    month           {3}
+    day             {1}
+    title           {A Map of Recent Positive Selection in the Human Genome}
+    journal         {PLoS Biology}
+    author          {Voight Benjamin BF {Voight, Benjamin F.}}   
+    author          {Kudaravalli Sridhar S {Kudaravalli, Sridhar}}
+    author          {Wen Xiaoquan X {Wen, Xiaoquan}}
+    author          {Pritchard Jonathan JK {Pritchard, Jonathan K.}}
+    type            {JOUR}
+    url             {http://dx.doi.org/10.1371/journal.pbio.0040072}
+    doi             {10.1371/journal.pbio.0040072}
+    status          ok
+    abstract        {The identification of signals of very recent positive selection provides information about the adaptation of modern humans to local conditions. We report here on a genome-wide scan for signals of very recent positive selection in favor of variants that have not yet reached fixation. We describe a new analytical method for scanning single nucleotide polymorphism (SNP) data for signals of recent selection, and apply this to data from the International HapMap Project. In all three continental groups we find widespread signals of recent positive selection. Most signals are region-specific, though a significant excess are shared across groups. Contrary to some earlier low resolution studies that suggested a paucity of recent selection in sub-Saharan Africans, we find that by some measures our strongest signals of selection are from the Yoruba population. Finally, since these signals indicate the existence of genetic variants that have substantially different fitnesses, they must indicate loci that are the source of significant phenotypic variation. Though the relevant phenotypes are generally not known, such loci should be of particular interest in mapping studies of complex traits. For this purpose we have developed a set of SNPs that can be used to tag the strongest ∼250 signals of recent selection in each population.}
 }
 
 test {http://medicine.plosjournals.org/perlserv/?request=get-document&doi=10.1371/journal.pmed.0020168} {
-	linkout			{DOI {} 10.1371/journal.pmed.0020168 {} {}}
-	linkout			{PMID 15971944 {} {} {}}
-	formatted_url	{DOI http://dx.doi.org/10.1371/journal.pmed.0020168}
-	formatted_url	{Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=15971944}
-	formatted_url	{Hubmed http://www.hubmed.org/display.cgi?uids=15971944}
-	volume			{2}
-	issue			{6}
-	start_page		{e168}
-	end_page		{}
-	year			{2005}
-	month			{6}
-	day				{1}
-	title			{Vitamin C for Preventing and Treating the Common Cold}
-	journal			{PLoS Medicine}
-	author			{Douglas Robert RM {Douglas, Robert M.}}   
-	author			{{Hemil&#228;} Harri H {Hemil&#228;, Harri}}
-	type			{JOUR}
-	url				{http://dx.doi.org/10.1371/journal.pmed.0020168}
-	doi				{10.1371/journal.pmed.0020168}
-	status 			ok
-	abstract		{}
+    linkout         {DOI {} 10.1371/journal.pmed.0020168 {} {}}
+    linkout         {PMID 15971944 {} {} {}}
+    formatted_url   {DOI http://dx.doi.org/10.1371/journal.pmed.0020168}
+    formatted_url   {Pubmed http://view.ncbi.nlm.nih.gov/pubmed/15971944}
+    formatted_url   {Hubmed http://www.hubmed.org/display.cgi?uids=15971944}
+    volume          {2}
+    issue           {6}
+    start_page      {e168}
+    end_page        {}
+    year            {2005}
+    month           {6}
+    day             {1}
+    title           {Vitamin C for Preventing and Treating the Common Cold}
+    journal         {PLoS Medicine}
+    author          {Douglas Robert RM {Douglas, Robert M.}}   
+    author          {Hemilä Harri H {Hemilä, Harri}}
+    type            {JOUR}
+    url             {http://dx.doi.org/10.1371/journal.pmed.0020168}
+    doi             {10.1371/journal.pmed.0020168}
+    status          ok
+    abstract        {}
 }
 
-test {http://genetics.plosjournals.org/perlserv/?request=get-document&doi=10.1371/journal.pgen.0010005} {
-	linkout			{DOI {} 10.1371/journal.pgen.0010005 {} {}}
-	formatted_url	{DOI http://dx.doi.org/10.1371/journal.pgen.0010005}
-	volume			{1}
-	issue			{1}
-	start_page		{e5}
-	end_page		{}
-	year			{2005}
-	month			{7}
-	day				{1}
-	title			{Evidence for Domesticated and Wild Populations of Saccharomyces cerevisiae}
-	journal			{PLoS Genetics}
-	author			{Fay Justin JC {Fay, Justin C.}}  
-	author			{Benavides Joseph JA {Benavides, Joseph A.}}
-	type			{JOUR}
-	url				{http://dx.doi.org/10.1371/journal.pgen.0010005}
-	doi				{10.1371/journal.pgen.0010005}
-	status 			ok
-	abstract		{Saccharomyces cerevisiae is predominantly found in association with human activities, particularly the production of alcoholic beverages. S. paradoxus, the closest known relative of S. cerevisiae, is commonly found on exudates and bark of deciduous trees and in associated soils. This has lead to the idea that S. cerevisiae is a domesticated species, specialized for the fermentation of alcoholic beverages, and isolates of S. cerevisiae from other sources simply represent migrants from these fermentations. We have surveyed DNA sequence diversity at five loci in 81 strains of S. cerevisiae that were isolated from a variety of human and natural fermentations as well as sources unrelated to alcoholic beverage production, such as tree exudates and immunocompromised patients. Diversity within vineyard strains and within sak&#233; strains is low, consistent with their status as domesticated stocks. The oldest lineages and the majority of variation are found in strains from sources unrelated to wine production. We propose a model whereby two specialized breeds of S. cerevisiae have been created, one for the production of grape wine and one for the production of sak&#233; wine. We estimate that these two breeds have remained isolated from one another for thousands of years, consistent with the earliest archeological evidence for winemaking. We conclude that although there are clearly strains of S. cerevisiae specialized for the production of alcoholic beverages, these have been derived from natural populations unassociated with alcoholic beverage production, rather than the opposite.}
+test {http://www.plosgenetics.org/article/info:doi/10.1371/journal.pgen.0010005} {
+    linkout         {DOI {} 10.1371/journal.pgen.0010005 {} {}}
+    formatted_url   {DOI http://dx.doi.org/10.1371/journal.pgen.0010005}
+    volume          {1}
+    issue           {1}
+    start_page      {e5}
+    end_page        {}
+    year            {2005}
+    month           {7}
+    day             {25}
+    title           {Evidence for Domesticated and Wild Populations of Saccharomyces cerevisiae}
+    journal         {PLoS Gen}
+    author          {Fay Justin JC {Fay, Justin C}}
+    author          {Benavides Joseph JA {Benavides, Joseph A}}
+    type            {JOUR}
+    url             {http://dx.doi.org/10.1371/journal.pgen.0010005}
+    doi             {10.1371/journal.pgen.0010005}
+	publisher       {Public Library of Science}
+    status          ok
+    abstract        {Saccharomyces cerevisiae is predominantly found in association with human activities, particularly the production of alcoholic beverages. S. paradoxus, the closest known relative of S. cerevisiae, is commonly found on exudates and bark of deciduous trees and in associated soils. This has lead to the idea that S. cerevisiae is a domesticated species, specialized for the fermentation of alcoholic beverages, and isolates of S. cerevisiae from other sources simply represent migrants from these fermentations. We have surveyed DNA sequence diversity at five loci in 81 strains of S. cerevisiae that were isolated from a variety of human and natural fermentations as well as sources unrelated to alcoholic beverage production, such as tree exudates and immunocompromised patients. Diversity within vineyard strains and within saké strains is low, consistent with their status as domesticated stocks. The oldest lineages and the majority of variation are found in strains from sources unrelated to wine production. We propose a model whereby two specialized breeds of S. cerevisiae have been created, one for the production of grape wine and one for the production of saké wine. We estimate that these two breeds have remained isolated from one another for thousands of years, consistent with the earliest archeological evidence for winemaking. We conclude that although there are clearly strains of S. cerevisiae specialized for the production of alcoholic beverages, these have been derived from natural populations unassociated with alcoholic beverage production, rather than the opposite.}
 }
 
-test {http://compbiol.plosjournals.org/perlserv/?request=get-document&doi=10.1371/journal.pcbi.0010061} {
-	linkout			{DOI {} 10.1371/journal.pcbi.0010061 {} {}}
-	linkout			{PMID 16322763 {} {} {}}
-	formatted_url	{DOI http://dx.doi.org/10.1371/journal.pcbi.0010061}
-	formatted_url	{Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=16322763}
-	formatted_url	{Hubmed http://www.hubmed.org/display.cgi?uids=16322763}
-	volume			{1}
-	issue			{6}
-	start_page		{e61}
-	end_page		{}
-	year			{2005}
-	month			{11}
-	day				{1}
-	title			{Quasispecies Made Simple}
-	journal			{PLoS Computational Biology}
-	author			{Bull {} JJ {Bull, J. J.}}  
-	author			{Meyers Lauren LA {Meyers, Lauren Ancel}}
-	author			{Lachmann Michael M {Lachmann, Michael}}
-	type			{JOUR}
-	url				{http://dx.doi.org/10.1371/journal.pcbi.0010061}
-	doi				{10.1371/journal.pcbi.0010061}
-	status 			ok
-	abstract		{Quasispecies are clouds of genotypes that appear in a population at mutation&#8211;selection balance. This concept has recently attracted the attention of virologists, because many RNA viruses appear to generate high levels of genetic variation that may enhance the evolution of drug resistance and immune escape. The literature on these important evolutionary processes is, however, quite challenging. Here we use simple models to link mutation&#8211;selection balance theory to the most novel property of quasispecies: the error threshold&#8212;a mutation rate below which populations equilibrate in a traditional mutation&#8211;selection balance and above which the population experiences an error catastrophe, that is, the loss of the favored genotype through frequent deleterious mutations. These models show that a single fitness landscape may contain multiple, hierarchically organized error thresholds and that an error threshold is affected by the extent of back mutation and redundancy in the genotype-to-phenotype map. Importantly, an error threshold is distinct from an extinction threshold, which is the complete loss of the population through lethal mutations. Based on this framework, we argue that the lethal mutagenesis of a viral infection by mutation-inducing drugs is not a true error catastophe, but is an extinction catastrophe.}
+test {http://www.ploscompbiol.org/article/info:doi/10.1371/journal.pcbi.0010061} {
+    linkout         {DOI {} 10.1371/journal.pcbi.0010061 {} {}}
+    formatted_url   {DOI http://dx.doi.org/10.1371/journal.pcbi.0010061}
+    volume          {1}
+    issue           {6}
+    start_page      {e61}
+    end_page        {}
+    year            {2005}
+    month           {11}
+    day             {25}
+    title           {Quasispecies Made Simple}
+    journal         {PLoS Comput Biol}
+    author          {Bull {} {} {Bull, J. J}}  
+    author          {Meyers Lauren LA {Meyers, Lauren Ancel}}
+    author          {Lachmann Michael M {Lachmann, Michael}}
+    type            {JOUR}
+    url             {http://dx.doi.org/10.1371/journal.pcbi.0010061}
+    doi             {10.1371/journal.pcbi.0010061}
+	publisher       {Public Library of Science}
+    status          ok
+    abstract        {Quasispecies are clouds of genotypes that appear in a population at mutation–selection balance. This concept has recently attracted the attention of virologists, because many RNA viruses appear to generate high levels of genetic variation that may enhance the evolution of drug resistance and immune escape. The literature on these important evolutionary processes is, however, quite challenging. Here we use simple models to link mutation–selection balance theory to the most novel property of quasispecies: the error threshold—a mutation rate below which populations equilibrate in a traditional mutation–selection balance and above which the population experiences an error catastrophe, that is, the loss of the favored genotype through frequent deleterious mutations. These models show that a single fitness landscape may contain multiple, hierarchically organized error thresholds and that an error threshold is affected by the extent of back mutation and redundancy in the genotype-to-phenotype map. Importantly, an error threshold is distinct from an extinction threshold, which is the complete loss of the population through lethal mutations. Based on this framework, we argue that the lethal mutagenesis of a viral infection by mutation-inducing drugs is not a true error catastophe, but is an extinction catastrophe.}
 }
