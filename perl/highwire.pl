@@ -77,7 +77,7 @@ if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs
 	} 
 #  Unpublished articles, determine journal and AOP id number.
 #  Create URL that links to abstract (some AOP links need minor modification)
-elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|extract|full|refs|reprint|screenpdf|summary)/(.*)})
+elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|extract|full|refs|reprint|screenpdf|summary)/(.*)})
 	{
 	($journal_site,$volume,$number,$page) = ($1,$4,"","");
 	if ($volume =~ m{(.*)/(.*)})
