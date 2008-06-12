@@ -48,7 +48,7 @@ plugin {
 	author {Richard Cameron}
 	email {richard@citeulike.org}
 	language {python}
-	regexp {https?://[^/]*amazon\.(co.uk|com|jp|de|ca|fr)/}
+	regexp {https?://[^/]*amazon\.(co.uk|com|co.jp|de|ca|fr)/}
 }
 
 # Linkout formatting
