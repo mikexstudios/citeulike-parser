@@ -47,10 +47,16 @@ RIS = '2' # there is a hidden option to get the data in RIS format, but the synt
 UNIX_EOL = '3' # get UNIX style end-of-lines (i.e. '\n')
 
 # regexp to match the article id from the url
-ID_REGEXP = r"""abstract/	# begin at abstract/
+ID_REGEXP_FLAGS = re.VERBOSE
+
+ID1_REGEXP = r"""abstract/	# begin at abstract/
 		(\d*)		# valid article ids contain only digits
 		/ABSTRACT"""	# terminate at /ABSTRACT
-ID_REGEXP_FLAGS = re.VERBOSE
+
+ID2_REGEXP = r"""[^/]+/         # a word/
+                (\d+)           # a string of digits
+                /abstract"""    # followed by /abstract
+
 
 # error messages
 ERR_STR_PREFIX = 'status\terr\t'
@@ -89,7 +95,11 @@ STR = -1; # location, in the token tuple, of the data string
 url = sys.stdin.readline().strip()
 
 # parse the article id from the url and exit gracefully if not found
-id_match  = re.search(ID_REGEXP, url, ID_REGEXP_FLAGS)
+id_match  = re.search(ID1_REGEXP, url, ID_REGEXP_FLAGS)
+
+if not id_match:
+	id_match = re.search(ID2_REGEXP, url, ID_REGEXP_FLAGS)
+
 if not id_match:
 	print ERR_STR_PREFIX + ERR_STR_NO_ID + url + '.  ' + ERR_STR_REPORT
 	sys.exit(1)
