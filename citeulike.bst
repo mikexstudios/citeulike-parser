@@ -59,6 +59,7 @@ ENTRY
     volume
     year
     mrnumber
+	location
 	priority
 	citeulike-article-id
   }
@@ -157,6 +158,7 @@ FUNCTION {doprint1}
 }
 FUNCTION {doprint2}
 {
+  location "location" handle.maybe.empty
   priority "priority" handle.maybe.empty
   citeulike-article-id "citeulike-article-id" handle.maybe.empty
 }
