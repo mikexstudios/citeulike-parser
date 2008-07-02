@@ -19,7 +19,7 @@ def parse_url(url):
 	
 	regexps = [r'amazon\.(?P<domain>[a-z.]+)/(?:gp|exec|o)/.*/?(?:ASIN|-|product)/(?P<asin>[^?/]+)',
 			   r'amazon.(?P<domain>[a-z.]+)/[^/]+/(gp|dp)/(?P<asin>[0-9X]+)',
-			   r'amazon.(?P<domain>[a-z.]+)/dp/(?P<asin>[^/]+)'
+			   r'amazon.(?P<domain>[a-z.]+)/([^/]+/)?dp/(?P<asin>[^/]+)'
 			   ]
 	
 	for r in regexps:
