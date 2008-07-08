@@ -1,0 +1,117 @@
+# Copyright (c) 2008 Kristinn B. Gylfason
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+#   Richard Cameron <richard@citeulike.org>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#        CiteULike <http://www.citeulike.org> and its
+#        contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+plugin {
+	version {1}
+	name {Royal Society of Chemistry}
+	url {http://www.rsc.org}
+	blurb {}
+	author {Kristinn B. Gylfason}
+	email {citeulike@askur.org}
+	language {python}
+	regexp {rsc.org}
+}
+
+format_linkout RSC {
+	return [list "Royal Society of Chemistry" \
+			"http://www.rsc.org/Publishing/Journals/article.asp?doi=${ckey_1}"]
+}
+
+test {http://www.rsc.org/Publishing/Journals/CP/article.asp?doi=b804675c} {
+	formatted_url {{Royal Society of Chemistry} http://www.rsc.org/Publishing/Journals/article.asp?doi=b804675c}
+	linkout {RSC {} b804675c {} {}}
+	year 2008
+	type JOUR
+	url {http://dx.doi.org/10.1039/b804675c}
+	doi {10.1039/b804675c}
+	publisher {The Royal Society of Chemistry}
+	title {Unfolding and melting of DNA (RNA) hairpins: the concept of structure-specific 2D dynamic landscapes}
+	journal {Phys. Chem. Chem. Phys.}
+	status ok
+	abstract {A 2D free-energy landscape model is presented to describe the (un)folding transition of DNA/RNA hairpins, together with molecular dynamics simulations and experimental findings. The dependence of the (un)folding transition on the stem sequence and the loop length is shown in the enthalpic and entropic contributions to the free energy. Intermediate structures are well defined by the two coordinates of the landscape during (un)zipping. Both the free-energy landscape model and the extensive molecular dynamics simulations totaling over 10 [small mu]s predict the existence of temperature-dependent kinetic intermediate states during hairpin (un)zipping and provide the theoretical description of recent ultrafast temperature-jump studies which indicate that hairpin (un)zipping is, in general, not a two-state process. The model allows for lucid prediction of the collapsed state(s) in simple 2D space and we term it the kinetic intermediate structure (KIS) model.}
+	author {Lin Milo MM {Lin, Milo M.}}
+	author {Meinhold Lars L {Meinhold, Lars}}
+	author {Shorokhov Dmitry D {Shorokhov, Dmitry}}
+	author {Zewail Ahmed AH {Zewail, Ahmed H.}}
+}
+
+test {http://www.rsc.org/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode=LC&Year=2008&ManuscriptID=b800297e&Iss=7} {
+	formatted_url {{Royal Society of Chemistry} http://www.rsc.org/Publishing/Journals/article.asp?doi=b800297e}
+	linkout {RSC {} b800297e {} {}}
+	year 2008
+	volume 8
+	issue 7
+	start_page 1191
+	end_page 1197
+	type JOUR
+	url {http://dx.doi.org/10.1039/b800297e}
+	doi {10.1039/b800297e}
+	publisher {The Royal Society of Chemistry}
+	title {Silane-dextran chemistry on lateral flow polymer chips for immunoassays}
+	journal {Lab Chip}
+	status ok
+	abstract {The prognosis for patients suffering from cardiovascular and many other diseases can be substantially improved if diagnosed at an early stage. High performance diagnostic testing using disposable microfluidic chips can provide a platform for realizing this vision. Amic AB (Uppsala, Sweden) has developed a new microfluidic test chip for sandwich immunoassays fabricated by injection molding of the cycloolefin-copolymer Zeonor[trade mark sign]. A highly ordered array of micropillars within the fluidic chip distributes the sample solution by capillary action. Since wetting of the pillar array surface is the only driving force for liquid distribution precise control of the surface chemistry is crucial. In this work we demonstrate a novel protocol for surface hydrophilization and antibody immobilization on cycloolefin-copolymer test chips, based on direct silanisation of the thermoplastic substrate. Dextran is subsequently covalently coupled to amino groups, thus providing a coating with a low contact angle suitable for antibody immobilization. The contact angle of dextran coated chips is stable for at least two months, which enables production of large batches that can be stored for extended periods of time. We demonstrate the utility of the presented platform and surface chemistry in a C-reactive protein assay with a detection limit of 2.6 ng ml-1, a dynamic range of 102 and a coefficient of variance of 15%.}
+	author {Jonsson Christina C {Jonsson, Christina}}
+	author {Aronsson Magnus M {Aronsson, Magnus}}
+	author {Rundstrom Gerd G {Rundstrom, Gerd}}
+	author {Pettersson Christer C {Pettersson, Christer}}
+	author {Mendel-Hartvig Ib I {Mendel-Hartvig, Ib}}
+	author {Bakker Jimmy J {Bakker, Jimmy}}
+	author {Martinsson Erik E {Martinsson, Erik}}
+	author {Liedberg Bo B {Liedberg, Bo}}
+	author {Maccraith Brian B {MacCraith, Brian}}
+	author {Ohman Ove O {Ohman, Ove}}
+	author {Melin Jonas J {Melin, Jonas}}
+}
+
+test {http://www.rsc.org/Publishing/Journals/AN/article.asp?doi=AN8810600143} {
+	formatted_url {{Royal Society of Chemistry} http://www.rsc.org/Publishing/Journals/article.asp?doi=AN8810600143}
+	linkout {RSC {} AN8810600143 {} {}}
+	year 1881
+	type JOUR
+	volume 6
+	issue August
+	start_page 143
+	end_page 145
+	url {http://dx.doi.org/10.1039/AN8810600143}
+	doi {10.1039/AN8810600143}
+	publisher {The Royal Society of Chemistry}
+	title {On the Swedish laws for the sale of poisons}
+	journal {Analyst}
+	status ok
+	author {Heischf {} {} {F.I.C., C. HeischF.C.S.,}}
+}
