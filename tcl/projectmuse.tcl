@@ -49,6 +49,7 @@ set url [gets stdin]
 # Output the data in tab separated mode. Simple keyvalue pairs.
 puts "begin_tsv"
 
+
 #build the linkout
 if {[regexp {muse.jhu.edu[^/]*/journals/([^/]+)/v([0-9]+)/([0-9]+).([^.]+).html} $url -> l_journal l_volumelong l_volumeshort l_name]} {
 	puts "linkout\tMUSE\t\t[join [list $l_volumelong $l_journal] :]\t\t[join [list $l_volumeshort $l_name] :]"
@@ -56,8 +57,11 @@ if {[regexp {muse.jhu.edu[^/]*/journals/([^/]+)/v([0-9]+)/([0-9]+).([^.]+).html}
 	bail "This doesn't look like a valid link from Project Muse"
 }
 
+# reform URL to get rid of ezproxy, etc
+set url2 "http://muse.jhu.edu/journals/${l_journal}/v${l_volumelong}/${l_volumeshort}.${l_name}.html"
+
 #fetch the page
-set page [url_get $url]
+set page [url_get $url2]
 
 # SYTLE ONE
 if {[regexp {<!--_title-->} $page]} {
