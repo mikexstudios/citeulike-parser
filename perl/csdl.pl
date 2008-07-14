@@ -1,4 +1,4 @@
-#!/usr/bin/env perl -wT
+#!/usr/bin/env perl
 
 #
 # Copyright (c) 2008 Robert Blake  
