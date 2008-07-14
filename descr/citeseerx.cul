@@ -1,0 +1,149 @@
+#
+# Copyright (c) 2008 Robert Blake
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+
+
+#
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {CiteSeerX Alpha}
+
+	# The link the front page of this service
+	url {http://citeseerx.ist.psu.edu/}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {Experimental support}
+
+	# Your name
+	author {Robert Blake}
+
+	# Your email address
+	email {rblake@rblake.net}
+
+	# Language you wrote the plugin in
+	language {perl}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	#
+	# RB note: fixing the URL string so it can handle things like 
+	# http://blah.com.proxy.uni.edu/whatever.  We'll clean away the proxy info 
+	# on the script side.
+	regexp {^http://citeseerx.ist.psu.edu(.[^/]+)?/viewdoc/[^/]+doi=[^/]+$}
+}
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build the dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout CITESX {
+    return [list "CiteSeerX Alpha" \
+		    "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=${ckey_1}"]
+}
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+test {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.103.1502} {
+    formatted_url {{CiteSeerX Alpha} http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.103.1502}
+    volume 52
+    linkout {CITESX {} 10.1.1.103.1502 {} {}}
+    year 2001
+    start_page 226
+    type JOUR
+    end_page 234
+    issue 52
+    title {Searching the Web: the public and their queries}
+    journal {Journal of the American Society for Information Science and Technology}
+    status ok
+    abstract {In studying actual Web searching by the public at large, we analyzed over one million Web queries by users of the Excite search engine. We found that most people use few search terms, few modified queries, view few Web pages, and rarely use advanced search features. A small number of search terms are used with high frequency, and a great many terms are unique; the language of Web queries is distinctive. Queries about recreation and entertainment rank highest. Findings are compared to data from two other large studies of Web queries. This study provides an insight into the public practices and choices in Web searching.}
+    author {Spink Amanda A {Amanda Spink}} 
+    author {Building Rider RI {Rider I Building}} 
+    author {Wolfram Dietmar D {Dietmar Wolfram}} 
+    author {Saracevic Tefko T {Tefko Saracevic}}
+}
+
+test {http://citeseerx.ist.psu.edu/viewdoc/versions?doi=10.1.1.30.5842} {
+    formatted_url {{CiteSeerX Alpha} http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.30.5842}
+    year 1993
+    linkout {CITESX {} 10.1.1.30.5842 {} {}}
+    start_page 12
+    type INCONF
+    end_page 21
+    title_secondary {in Proceedings of Supercomputing Conference}
+    title {A parallel hashed oct-tree N-body algorithm}
+    status ok
+    abstract {We report on an efficient adaptive N-body method which we have recently designed and implemented. The algorithm computes the forces on an arbitrary distribution of bodies in a time which scales as N log N with the particle number. The accuracy of the force calculations is analytically bounded, and can be adjusted via a user defined parameter between a few percent relative accuracy, down to machine arithmetic accuracy. Instead of using pointers to indicate the topology of the tree, we identify each possible cell with a key. The mapping of keys into memory locations is achieved via a hash table. This allows the program to access data in an efficient manner across multiple processors. Performance of the parallel program is measured on the 512 processor Intel Touchstone Delta system. We also comment on a number of wide-ranging applications which can benefit from application of this type of algorithm. 1}
+    author {Warren Michael MS {Michael S. Warren}} 
+    author {Salmon John JK {John K. Salmon}}
+}
