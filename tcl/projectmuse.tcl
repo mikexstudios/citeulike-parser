@@ -44,122 +44,48 @@
 
 source "util.tcl"
 
+#
+# Set this to force interpretation of the RIS record in UTF-8 (there's no appropriate header sent)
+# I stole this from the psycontent.tcl file, shamelessly...
+#
+set http::defaultCharset utf-8
+
 set url [gets stdin]
+
 
 # Output the data in tab separated mode. Simple keyvalue pairs.
 puts "begin_tsv"
 
-
 #build the linkout
-if {[regexp {muse.jhu.edu[^/]*/journals/([^/]+)/v([0-9]+)/([0-9]+).([^.]+).html} $url -> l_journal l_volumelong l_volumeshort l_name]} {
-	puts "linkout\tMUSE\t\t[join [list $l_volumelong $l_journal] :]\t\t[join [list $l_volumeshort $l_name] :]"
+if {[regexp {muse.(?:jhu.edu|uq.edu.au)[^/]*(/journals/[^/]+/v[0-9]+/[0-9]+.+.(html|pdf))} $url -> l_url]} {
+	puts "linkout\tMUSE\t\t$l_url\t\t"
 } else {
 	bail "This doesn't look like a valid link from Project Muse"
 }
 
-# reform URL to get rid of ezproxy, etc
-set url2 "http://muse.jhu.edu/journals/${l_journal}/v${l_volumelong}/${l_volumeshort}.${l_name}.html"
+# Now, fetch the export URL
+set sgml_url http://muse.jhu.edu/metadata/sgml${l_url}
 
-#fetch the page
-set page [url_get $url2]
-
-# SYTLE ONE
-if {[regexp {<!--_title-->} $page]} {
-	# TITLE
-	if {[regexp {<!--_title-->\n(.+)\n<!--_/title-->} $page -> title]} {
-            if {[regexp {<!--_subtitle-->\n(.+)\n<!--_/subtitle-->} $page -> subtitle]} {
-                set title [concat $title $subtitle]
-            }
-            regsub -all {<[^>]*>} $title "" title
-            regsub -all "\n" $title " " title
-            regsub -all {\s+} $title " " title
-            regsub -all {&quot;} $title "\"" title
-            puts "title\t$title"
-	} else {
-		bail "This article doesn't seem to have a title."
-	}
-
-	# AUTHOR
-	if {[regexp {<!--_authorname-->(.+)<!--_/authorname-->} $page -> authors]} {
-            regsub -all {<!--_affiliation-->.+?<!--_/affiliation-->} $authors "" authors
-            regsub -all {<[^>]*>} $authors "" authors
-            regsub -all {\s*and\s*} $authors "" authors
-            regsub -all "\n" $authors " " authors
-            regsub -all {\s+} $authors " " authors
-            regsub -all {&amp;} $authors "," authors
-            foreach author [split $authors ","] {
-                set author [string trim $author]
-                set author [string map {"  " " "} $author]
-                puts "author\t$author"
-            }
-	} elseif {[regexp {<!--_byline-->\n(.+)\n<!--_/byline-->} $page -> author]} {
-            regsub -all {<[^>]*>} $author "" author
-            regsub -all "\n" $author " " author
-            regsub -all {\s+} $author " " author
-            set author [string trim $author]
-            set author [string map {"  " " "} $author]
-	    regsub -all {\s+and\s+} $author "," author
-	    foreach a [split $author ","] {
-		puts "author\t$a"
-	    }
-	} else {
-        	bail "Cannot parse author."
-	}
-
-
-	# JOURNAL NAME, VOLUME, ISSUE, YEAR, PAGE NUMBERS
-	if {[regexp {<a name="top"></a>\n<i>([^>]+)</i>\s+(\d+)\.(\d+)\s+\((\d+)\)\s+(\d+)-(\d+)} $page -> journal volume issue year start_page end_page]} {
-		puts "journal\t$journal\nvolume\t$volume\nissue\t$issue\nyear\t$year\nstart_page\t$start_page\nend_page\t$end_page"
-	} elseif {[regexp {<a name="top"></a>\n<i>([^>]+)</i>\s+(\d+)\s+\((\d+)\)\s+(\d+)-(\d+)} $page -> journal issue year start_page end_page]} {
-		puts "journal\t$journal\nissue\t$issue\nyear\t$year\nstart_page\t$start_page\nend_page\t$end_page"
-	} else {
-       		bail "I can't read the journal's metadata."
-	}
-	# ABSTRACT
-	#if {[regexp {<abstract>\n([^\n]*)\n</abstract>} $page -> abstract]} {
-	#	puts "abstract\t$abstract"
-	#}
-} elseif {[regexp {<div\s+id="article-title">} $page]} {
-        # TITLE
-        if {[regexp {<div\s+id="article-title">(.+?)</div>\s*<!--CLOSE article-title-->} $page -> title]} {
-	        regsub -all {<[^>]*>} $title "" title
-                regsub -all "\n" $title " " title
-                regsub -all {\s+} $title " " title
-                regsub -all {^\s+} $title "" title
-                regsub -all {\s+$} $title "" title
-                puts "title\t$title"
-        } else {
-            bail "This article doesn't seem to have a title."
-        }
-
-        # AUTHOR
-        if {[regexp {<div\s+id="contrib">\n(.+?)\n</div>\s*<!--CLOSE contrib-->} $page -> author]} {
-            regsub -all {<div\s+class="aff".+?<!--CLOSE aff-->} $author "" author
-            regsub -all {<div.+} $author "" author
-            regsub -all {<[^>]*>} $author "" author
-            regsub -all "\n" $author " " author
-            regsub -all {\s+} $author " " author
-            set author [string trim $author]
-            set author [string map {"  " " "} $author]
-            puts "author\t$author"
-        } else {
-            bail "Cannot parse author."
-        }
-
-        # JOURNAL NAME, VOLUME, ISSUE, YEAR, PAGE NUMBERS
-        if {[regexp {<i>([^>]+)</i>\s+(\d+)\.(\d+)\s+\((\d+)\)\s+(\d+)-(\d+)\n<hr />} $page -> journal volume issue year start_page end_page]} {
-            puts "journal\t$journal\nvolume\t$volume\nissue\t$issue\nyear\t$year\nstart_page\t$start_page\nend_page\t$end_page"
-        } else {
-            bail "I can't read the journal's metadata."
-        }
-        # ABSTRACT
-        #if {[regexp {<abstract>\n([^\n]*)\n</abstract>} $page -> abstract]} {
-        #       puts "abstract\t$abstract"
-        #}
-
-} else {
-	bail "Unsupported article markup."
+set sgml [url_get $sgml_url]
+if {[regexp {<doi>(.+)</doi>} $sgml -> doi]} {
+	puts "doi\t$doi"
 }
-puts "type\tJOUR"
+
 puts "end_tsv"
+
+# Now, fetch the export URL
+set ris_url http://muse.jhu.edu/metadata/ris${l_url}
+
+set ris [url_get $ris_url]
+
+# Strip out N1 field.  MUSE uses this for the issue designation, CUL wants to read it as abstract.
+set ris [regsub {N1\s+-.+} $ris {}]
+
+
+# Put out RIS metadata
+puts "begin_ris"
+puts $ris
+puts "end_ris"
+
 puts "status\tok"
+

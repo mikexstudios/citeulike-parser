@@ -41,7 +41,7 @@
 plugin {
 	# Integer version number for the plugin code. When this number is incremented,
 	# CiteULike may reparse all existing articles with the new code.
-	version {2}
+	version {3}
 
 	# The name of the plugin, as displayed on the "CiteULike supports..." page
 	name {Project MUSE}
@@ -76,7 +76,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {http://muse.jhu.edu[^/]*/journals/([^/]+)/v([0-9]+)/([0-9]+).([0-9]+)([^.]+).html}
+	regexp {http://muse.(?:jhu.edu|uq.edu.au)[^/]*/journals/([^/]+)/v([0-9]+)/([0-9]+).([0-9]+).?([^.]+).(html|pdf)}
 }
 
 
@@ -93,9 +93,7 @@ plugin {
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
 format_linkout MUSE {
-	foreach {a b} [split $ckey_1 :] {}
-	foreach {c d} [split $ckey_2 :] {}
-	return [list "MUSE" "http://muse.jhu.edu/journals/$b/v$a/${c}.${d}.html" ]
+	return [list "MUSE" "http://muse.jhu.edu${ckey_1}" ]
 }
 
 
@@ -114,79 +112,198 @@ format_linkout MUSE {
 
 test {http://muse.jhu.edu/journals/sign_language_studies/v002/2.4lucas.html} {
 	formatted_url {MUSE http://muse.jhu.edu/journals/sign_language_studies/v002/2.4lucas.html}
-	linkout {MUSE {} 002:sign_language_studies {} 2:4lucas}
+	linkout {MUSE {} /journals/sign_language_studies/v002/2.4lucas.html {} {}}
 	volume 2
 	year 2002
 	issue 4
-	author {Lucas Ceil C {Ceil Lucas}} 
-	author {Bayley Robert R {Robert Bayley}} 
-	author {Rose Mary M {Mary Rose}} 
-	author {Wulf Alyssa A {Alyssa Wulf}}
+	author {Lucas Ceil C {Lucas, Ceil.}} 
+	author {Bayley Robert R {Bayley, Robert, 1943-}} 
+	author {Rose Mary M {Rose, Mary.}} 
+	author {Wulf Alyssa A {Wulf, Alyssa.}}
 	title {Location Variation in American Sign Language}
 	start_page 407
 	end_page 440
 	journal {Sign Language Studies}
+	serial {1533-6263}
+	publisher {Gallaudet University Press}
+	url {http://muse.jhu.edu/journals/sign_language_studies/v002/2.4lucas.html}
 	type JOUR
 	status ok
 }
 
 test {http://muse.jhu.edu/journals/anthropological_quarterly/v075/75.2owens.html} {
 	formatted_url {MUSE http://muse.jhu.edu/journals/anthropological_quarterly/v075/75.2owens.html}
-	linkout {MUSE {} 075:anthropological_quarterly {} 75:2owens}
+	linkout {MUSE {} /journals/anthropological_quarterly/v075/75.2owens.html {} {}}
 	volume 75
 	year 2002
 	issue 2
-	author {Owens Bruce BM {Bruce McCoy Owens}}
+	author {Owens Bruce BM {Owens, Bruce McCoy.}}
 	title {Monumentality, Identity, and the State: Local Practice, World Heritage, and Heterotopia at Swayambhu, Nepal}
 	start_page 269
 	end_page 316
 	journal {Anthropological Quarterly}
+	serial {1534-1518}
+	url {http://muse.jhu.edu/journals/anthropological_quarterly/v075/75.2owens.html}
+	publisher {George Washington University Institute for Ethnographic Research}
 	type JOUR
 	status ok
 }
 
 test {http://muse.jhu.edu/journals/journal_of_the_history_of_ideas/v067/67.1popper.html} {
 	formatted_url {MUSE http://muse.jhu.edu/journals/journal_of_the_history_of_ideas/v067/67.1popper.html}
-	linkout {MUSE {} 067:journal_of_the_history_of_ideas {} 67:1popper}
+	linkout {MUSE {} /journals/journal_of_the_history_of_ideas/v067/67.1popper.html {} {}}
 	volume 67
 	year 2006
 	issue 1
-	author {Popper Nicholas N {Nicholas Popper}}
+	author {Popper Nicholas N {Popper, Nicholas.}}
 	title {"Abraham, Planter of Mathematics": Histories of Mathematics and Astrology in Early Modern Europe}
 	start_page 87
 	end_page 106
 	journal {Journal of the History of Ideas}
+	serial {1086-3222}
+	url {http://muse.jhu.edu/journals/journal_of_the_history_of_ideas/v067/67.1popper.html}
+	publisher {The Johns Hopkins University Press}
 	type JOUR
 	status ok
 }
 
 test {http://muse.jhu.edu/journals/american_imago/v059/59.3hirsch.html} {
 	formatted_url {MUSE http://muse.jhu.edu/journals/american_imago/v059/59.3hirsch.html}
-	linkout {MUSE {} 059:american_imago {} 59:3hirsch}
+	linkout {MUSE {} /journals/american_imago/v059/59.3hirsch.html {} {}}
 	volume 59
 	year 2002
 	issue 3
-	author {Hirsch Marianne M {Marianne Hirsch}} 
-        author {Spitzer Leo L {Leo Spitzer}}
+	author {Hirsch Marianne M {Hirsch, Marianne.}} 
+        author {Spitzer Leo L {Spitzer, Leo, 1939-}}
 	title {"We Would Not Have Come Without You": Generations of Nostalgia}
 	start_page 253
 	end_page 276
 	journal {American Imago}
+	serial {1085-7931}
+	url {http://muse.jhu.edu/journals/american_imago/v059/59.3hirsch.html}
+	publisher {The Johns Hopkins University Press}
 	type JOUR
 	status ok
 }
 
 test {http://muse.jhu.edu/journals/american_imago/v063/63.3hanly.html} {
 	formatted_url {MUSE http://muse.jhu.edu/journals/american_imago/v063/63.3hanly.html}
-	linkout {MUSE {} 063:american_imago {} 63:3hanly}
+	linkout {MUSE {} /journals/american_imago/v063/63.3hanly.html {} {}}
 	volume 63
 	year 2006
 	issue 3
-	author {Hanly Charles C {Charles Hanly}}
+	author {Hanly Charles C {Hanly, Charles, 1930-}}
 	title {Pragmatism, Tradition, and Truth in Psychoanalysis}
 	start_page 261
 	end_page 282
 	journal {American Imago}
+	serial {1085-7931}
+	url {http://muse.jhu.edu/journals/american_imago/v063/63.3hanly.html}
+	publisher {The Johns Hopkins University Press}
 	type JOUR
 	status ok
+}
+
+test {http://muse.jhu.edu/journals/africa_today/v046/46.1clark.html} {
+	formatted_url {MUSE http://muse.jhu.edu/journals/africa_today/v046/46.1clark.html}
+	linkout {MUSE {} /journals/africa_today/v046/46.1clark.html {} {}}
+        volume 46
+	year 1999
+	issue 1
+	author {Clark Andrew AF {Clark, Andrew Francis.}}
+	title {Willing Migrants: Soninke Labor Diasporas, 1848-1960 (review)}
+	start_page 139
+	end_page 142
+	journal {Africa Today}
+	serial {1527-1978}
+	url {http://muse.jhu.edu/journals/africa_today/v046/46.1clark.html}
+	publisher {Indiana University Press}
+	type JOUR
+	status ok
+}
+
+test {http://muse.jhu.edu/journals/african_studies_review/v049/49.2aubrey.html} {
+       formatted_url {MUSE http://muse.jhu.edu/journals/african_studies_review/v049/49.2aubrey.html}
+       linkout {MUSE {} /journals/african_studies_review/v049/49.2aubrey.html {} {}}
+       volume 49
+       year 2006
+       issue 2
+       author {Aubrey Lisa LM {Aubrey, Lisa Marie, 1961-}}
+       title {Zero Tolerance: Public Sector Corruption in Ghana (review)}
+       start_page 216
+       end_page 217
+       journal {African Studies Review}
+       serial {1555-2462}
+       url {http://muse.jhu.edu/journals/african_studies_review/v049/49.2aubrey.html}
+       publisher {African Studies Association}
+       type JOUR
+       status ok
+}
+
+test {http://muse.jhu.edu/journals/journal_of_asian_american_studies/v009/9.2roripaugh.html} {
+	formatted_url {MUSE http://muse.jhu.edu/journals/journal_of_asian_american_studies/v009/9.2roripaugh.html}
+	linkout {MUSE {} /journals/journal_of_asian_american_studies/v009/9.2roripaugh.html {} {}}
+	volume 9
+	year 2006
+	issue 2
+	author {Palumbo-Liu David D {Palumbo-Liu, David.}}
+	title {Prose and Poetry}
+	start_page 206
+	end_page 207
+	journal {Journal of Asian American Studies}
+	serial {1096-8598}
+	url {http://muse.jhu.edu/journals/journal_of_asian_american_studies/v009/9.2roripaugh.html}
+	publisher {The Johns Hopkins University Press} 
+	type JOUR 
+	status ok
+}
+
+test {http://muse.jhu.edu/journals/american_jewish_history/v087/87.1contributors.html} {
+        formatted_url {MUSE http://muse.jhu.edu/journals/american_jewish_history/v087/87.1contributors.html}
+        linkout {MUSE {} /journals/american_jewish_history/v087/87.1contributors.html {} {}}
+        volume 87
+        year 1999
+        issue 1
+        title {Contributors}
+        start_page iv
+        end_page iv
+        journal {American Jewish History}
+	serial {1086-3141}
+	url {http://muse.jhu.edu/journals/american_jewish_history/v087/87.1contributors.html}
+	publisher {The Johns Hopkins University Press}
+        type JOUR
+        status ok
+}
+
+test {http://muse.jhu.edu/journals/american_jewish_history/v087/87.1contributors.pdf} {
+        formatted_url {MUSE http://muse.jhu.edu/journals/american_jewish_history/v087/87.1contributors.pdf}
+        linkout {MUSE {} /journals/american_jewish_history/v087/87.1contributors.pdf {} {}}
+        volume 87
+        year 1999
+        issue 1
+        title {Contributors}
+        start_page iv
+        end_page iv
+        journal {American Jewish History}
+	serial {1086-3141}
+	publisher {The Johns Hopkins University Press}
+	url {http://muse.jhu.edu/journals/american_jewish_history/v087/87.1contributors.html}
+        type JOUR
+        status ok
+}
+
+test {http://muse.jhu.edu/journals/theory_and_event/v011/11.2.kaufman-osborn.html} {
+        formatted_url {MUSE http://muse.jhu.edu/journals/theory_and_event/v011/11.2.kaufman-osborn.html}
+        linkout {MUSE {} /journals/theory_and_event/v011/11.2.kaufman-osborn.html {} {}}
+        volume 11
+        year 2008
+        issue 2
+	author {Kaufman-Osborn Timothy TV {Timothy V. Kaufman-Osborn}}
+        title {"We are all torturers now": Accountability After Abu Ghraib}
+        journal {Theory & Event}
+        type JOUR
+	serial {1092-311X}
+	url {http://muse.jhu.edu/journals/theory_and_event/v011/11.2.kaufman-osborn.html}
+	publisher {The Johns Hopkins University Press}
+        status ok
 }
