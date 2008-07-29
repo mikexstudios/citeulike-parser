@@ -37,7 +37,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-import re, sys, urllib2, cookielib 
+import re, sys, urllib2, cookielib, urlparse
 
 SERVER_ROOT = 'http://www3.interscience.wiley.com/tools/citex'
 GET_COOKIE_STR = '?clienttype=1&subtype=1&mode=1&version=1&id=%s'
@@ -93,6 +93,13 @@ STR = -1; # location, in the token tuple, of the data string
 
 # read url from std input and get rid of the newline at the end
 url = sys.stdin.readline().strip()
+
+# If there's a whiff of 'ezproxy' in the url then get rid of it
+if 'www3.interscience' in url and 'ezproxy' in url:
+	parts = list(urlparse.urlparse(url))
+	parts[1] = "www3.interscience.wiley.com"
+	url = urlparse.urlunparse(parts)
+	
 
 # parse the article id from the url and exit gracefully if not found
 id_match  = re.search(ID1_REGEXP, url, ID_REGEXP_FLAGS)

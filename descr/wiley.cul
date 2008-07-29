@@ -6,7 +6,7 @@ plugin {
 	author {Kristinn B. Gylfason}
 	email {citeulike@askur.org}
 	language {python}
-	regexp {interscience.wiley.com/cgi-bin/abstract/[0-9]*/ABSTRACT|interscience.wiley.com/[^/]+/[0-9]+/abstract}
+	regexp {interscience.wiley.com[^/]*/cgi-bin/abstract/[0-9]*/ABSTRACT|interscience.wiley.com[^/]*/[^/]+/[0-9]+/abstract}
 }
 
 format_linkout WILEY {
