@@ -122,7 +122,7 @@ if {[info exists year]} {
 }
 
 
-puts "type\tELEC"
+puts "type\tJOUR"
 
 puts "end_tsv"
 
