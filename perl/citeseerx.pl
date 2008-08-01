@@ -108,6 +108,9 @@ if ($venue and $venue_type) {
     print "journal\t$venue\n";
     print "type\tJOUR\n";
   }
+} else {
+    # Type is a required field, so we'll say ELEC if we don't know.
+    print "type\tELEC\n";
 }
 
 print "end_tsv\n";
