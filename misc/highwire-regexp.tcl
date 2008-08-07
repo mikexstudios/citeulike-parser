@@ -9,4 +9,4 @@ foreach line $r_lines {
 }
 set body [join $n_lines "|"]
 set body [regsub -all {\.} $body {\\.}]
-puts "http://(www\\.)?($body)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)\[A-Za-z0-9.-/;\]+"
+puts "http://(www\\.)?($body)"

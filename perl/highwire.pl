@@ -63,42 +63,90 @@ $url = <>;
 #$url = "http://bmj.bmjjournals.com/cgi/content/full/329/7475/1188-c/DC1?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&author1=cameron&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120043717953_4754&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4";
 #$url = "http://bmj.bmjjournals.com/cgi/content/full/309/6970/1686?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120044557327_5038&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4";
 
-# Parser for Highwire Web Addresses:
-#  Published articles, determine journal,volume,number and page details. 
-#  Create URL that links to abstract.
+# see if URL matches one of the patterns we are looking for
 
-if ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9.]+)})
-	{
+$ok = 0;
+
+if ($url =~ m{http://[^/]+/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)[A-Za-z0-9.-/;]+}) {
+	$ok = 1;
+} elsif ($url =~ m{http://([^/]+)/content/[^/]+/[^/]+/[^/]+\.[a-z]+}) {
+	$ok = 1;
+}
+
+$ok || (print "status\tnot_interested\n" and exit);
+
+#  set url_abstract to URL that links to abstract.
+
+#
+# New (2008) Highwire URL format
+#
+if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9]+)\.[a-z]+}) {
+	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
+	$url_abstract = "http://$journal_site/content/$volume/$number/${page}.abstract";
+}
+
+#
+#  Published articles: determine journal,volume,number and page details. 
+#
+elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9.]+)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
 	$url_abstract = "http://$journal_site/cgi/content/refs/$volume/$number/$page";
-#	print "Details:\t$journal_site\t$volume\t$number\t$page\n";
-#	print "URL:\t$url\n";	
-#	print "Abstract:\t$url_abstract\n";
-	} 
+} 
+
+#
 #  Unpublished articles, determine journal and AOP id number.
 #  Create URL that links to abstract (some AOP links need minor modification)
-elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|extract|full|refs|reprint|screenpdf|summary)/(.*)})
-	{
+#
+elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|extract|full|refs|reprint|screenpdf|summary)/(.*)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,"","");
-	if ($volume =~ m{(.*)/(.*)})
-		{
+	if ($volume =~ m{(.*)/(.*)}) {
 		$volume = $1;
-		}
+	}
 	$url_abstract = "http://$journal_site/cgi/content/refs/$volume";
-#	print "Details:\t$journal_site\t$volume\t$number\t$page\n";
-#	print "URL:\t$url\n";
-#	print "Abstract:\t$url_abstract\n";
-	}
-else 
-	{
-	print "status\terr\t (1) This does not appear to be a Highwire Press article. Try posting the article from the abstract page.\n" and exit;
-	}
-	
+}
+
+else {
+	print "status\terr\t (1) This ($url) does not appear to be a Highwire Press article. Try posting the article from the abstract page.\n" and exit;
+}
+
 
 # Get the link to the citebuilder url and formulate a link to the reference manager RIS file
-$source_abstract = get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
-if ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation [M|m]anager)|(Download Citation))}) {
+$ok = 0;
+
+if ($source_abstract = get("$url_abstract")) {
+	$ok = 1;
+} else {
+	$url_abstract =~ s!/refs/!/abstract/!;
+	if ($source_abstract = get($url_abstract)) {
+		$ok = 1;
+	}
+}
+
+$ok || (print "status\terr\t (2 $url_abstract) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+
+if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_doi"\s*/>}) {
+	$doi = $1;
+} elsif ($source_abstract =~ m!<meta name="citation_doi" content="([^"]+)">!) {
+	$doi = $1;
+}
+
+if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_pmid"\s*/>}) {
+	$pmid = $1;
+} elsif ($source_abstract =~ m{access_num=([0-9]+)&link_type=PUBMED}) {
+	$pmid = $1;
+}
+
+if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/>}) {
+	$mjid = $1;
+	$mjid =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+	$link_refman = "http://"."$journal_site"."/citmgr?type=refman&gca=".$mjid;
+
+	# Make up new hiwire linkout here
+	$hiwire = "$journal_site/content/$volume/$number/$page";
+}
+
+elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation [M|m]anager)|(Download Citation))}) {
 	$link_citmgr = $1;
 	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
 
@@ -108,42 +156,34 @@ if ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation [M
 	} else {
 		print "status\terr\t (3) Could not find the citation details on this page. Try posting the article from the abstract page.\n" and exit;
 	}
-    } else {
+} else {
 	print "status\terr\t (4) Could not find the citation details on this page. Try posting the article from the abstract page.\n" and exit;
-    }
+}
 
 #Get the reference manager RIS file and check retrieved file
 $refman = $ua->get("$link_refman") || (print "status\terr\t (4)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
 $ris = $refman->content;
 
-unless ($ris =~ m{ER\s+-})
-	{
+unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from HighWire's 'export citation'\n" and exit;
-	}
+}
 
-#Generate linkouts and print output:
-#HighWire linkout
 print "begin_tsv\n";
-if ($volume =~ m/^[0-9]+$/) {
+
+# Two styles of highwire linkouts...
+if ($hiwire) {
+	print "linkout\tHIWIRE\t\t$hiwire\t\t\n";
+} elsif ($volume =~ m/^[0-9]+$/) {
 	print "linkout\tHWIRE\t$volume\t$journal_site\t$number\t$page\n";
 }
 
-#DOI linkout
-if ($source_abstract =~ m!<meta name="citation_doi" content="([^"]+)">!) {
-	$doi = $1;
+if ($doi) {
 	print "linkout\tDOI\t\t$doi\t\t\n";
-}    
-# if ($source_abstract =~ m{[DOI|doi|Doi]\s*:\s*([0-9]+.[0-9]+/([A-Za-z0-9.-/]+))})
-# 	{
-# 	$doi = $1;
-# 	print "linkout\tDOI\t\t$doi\t\t\n";
-# 	}
+}
 
-#PubMed/HubMed linkout
-if ($source_abstract =~ m{access_num=([0-9]+)&link_type=PUBMED})
-	{
-	print "linkout\tPMID\t$1\t\t\t\n";
-	}
+if ($pmid) {
+	print "linkout\tPMID\t$pmid\t\t\t\n";
+}
 
 print "end_tsv\n";
 print "begin_ris\n";
