@@ -161,6 +161,8 @@ FUNCTION {doprint2}
   location "location" handle.maybe.empty
   priority "priority" handle.maybe.empty
   citeulike-article-id "citeulike-article-id" handle.maybe.empty
+  issn "issn" handle.maybe.empty
+  isbn "isbn" handle.maybe.empty
 }
 FUNCTION {translate}
 {
