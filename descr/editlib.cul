@@ -76,7 +76,7 @@ plugin {
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
 	#
-	regexp {http://www.editlib.org/}
+	regexp {http://.*editlib.org/}
 }
 
 
@@ -130,6 +130,30 @@ test {http://www.editlib.org/index.cfm?fuseaction=Reader.ViewAbstract&paper_id=1
 	author {Kalman Howard H {Howard Kalman}}
 	author {Ellis Maureen M {Maureen Ellis}}
 	address {Chesapeake, VA}
+	plugin editlib
+	plugin_version 1
+	status ok
+}
+
+test {http://go.editlib.org/p/24218} {
+	formatted_url {EdIT http://go.editlib.org/p/24218}
+	linkout {EdIT 24218 {} {} {}}
+	volume 7
+	year 2007
+	month December
+	start_page 245
+	type JOUR
+	end_page 255
+	url {http://go.editlib.org/p/24218}
+	publisher AACE
+	issue 4
+	title {Pre-Service English Teachers and Technology: A Consideration of Weblogs for the English Classroom}
+	journal {Contemporary Issues in Technology and Teacher Education}
+	status ok
+	abstract {Teaching with technology is a complex issue, at best, bound by issues of access, funding, support and time for both students and teachers (Young & Bush, 2004). When English teachers effectively integrate technology into their classrooms, however, they have the opportunity to positively engage students in the learning process. Considering the specific technology of weblogs, this article will explore the need for preservice teachers to construct a working pedagogy that includes the use of technology within the content area for teaching and learning.}
+	cite Shof2007q
+	issn  1528-5804
+	author {Shoffner Melanie M {Melanie Shoffner}}
 	plugin editlib
 	plugin_version 1
 	status ok

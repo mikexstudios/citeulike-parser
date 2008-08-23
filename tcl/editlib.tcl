@@ -51,6 +51,11 @@ if {$paper_id eq ""} {
 	regexp {paper_id=(\d+)} $url -> paper_id
 }
 
+
+if {$paper_id eq ""} {
+	regexp {go\.editlib\.org\/p\/(\d+)} $url -> paper_id
+}
+
 if {$paper_id eq ""} {
 	bail "Cannot find a paper id in the URL"
 }
@@ -66,7 +71,9 @@ set page [url_get $url]
 set    bibtex_url http://www.editlib.org/index.cfm/files/citation_${paper_id}.bib
 append bibtex_url ?fuseaction=Reader.ExportAbstract&paper_id=$paper_id&format=BibTex
 
+
 set bibtex [url_get $bibtex_url]
+
 
 puts "begin_tsv"
 
@@ -96,5 +103,6 @@ puts "end_tsv"
 puts "begin_bibtex"
 puts $bibtex
 puts "end_bibtex"
+
 
 puts "status\tok"
