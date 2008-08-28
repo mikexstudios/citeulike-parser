@@ -1,0 +1,40 @@
+plugin {
+	version {1}
+	name {Association for Computing Machinery (ACM) portal}
+	url {http://portal.acm.org}
+	blurb {}
+	author {Chris Hall}
+	email {plugins@citeulike.org}
+	language {python}
+	regexp {http://[^/]*portal.acm.org[^/]*/citation}
+}
+
+format_linkout ACM {
+	return [list "ACM" "http://portal.acm.org/citation.cfm?id=${ikey_1}"]
+}
+
+test {http://portal.acm.org/citation.cfm?id=503278} {
+	formatted_url {ACM http://portal.acm.org/citation.cfm?id=503278}
+	formatted_url {DOI http://dx.doi.org/10.1145/565816.503278}
+	linkout {ACM 503278 {} {} {}}
+	linkout {DOI {} 10.1145/565816.503278 {} {}}
+	volume 37
+	year 2002
+	start_page 45
+	type JOUR
+	end_page 57
+	plugin_version 1
+	doi {http://doi.acm.org/10.1145/565816.503278}
+	publisher ACM
+	issue 1
+	title {Types as models: model checking message-passing programs}
+	journal {SIGPLAN Not.}
+	status ok
+	abstract {Abstraction and composition are the fundamental issues in making model checking viable for software. This paper proposes new techniques for automating abstraction and decomposition using source level type information provided by the programmer. Our system includes two novel components to achieve this end: (1) a behavioral type-and-effect system for the &pi;-calculus, which extracts sound models as types, and (2) an assume-guarantee proof rule for carrying out compositional model checking on the types. Open simulation between CCS processes is used as both the subtyping relation in the type system and the abstraction relation for compositional model checking.We have implemented these ideas in a tool---P IPER . P IPER  exploits type signatures provided by the programmer to partition the model checking problem, and emit model checking obligations that are discharged using the S PIN  model checker. We present the details on applying P IPER  on two examples: (1) the SIS standard for managing trouble tickets across multiple organizations and (2) a file reader from the pipelined implementation of a web server.}
+	cite {503278}
+	author {Chaki Sagar S {Sagar Chaki}}
+	author {Rajamani Sriram SK {Sriram K. Rajamani}}
+	author {Rehof Jakob J {Jakob Rehof}}
+	address {New York, NY, USA}
+	plugin acm
+}
