@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 # Copyright (c) 2006 Kristinn B. Gylfason <citeulike@askur.org>
 # All rights reserved.
@@ -95,9 +95,9 @@ STR = -1; # location, in the token tuple, of the data string
 url = sys.stdin.readline().strip()
 
 # If there's a whiff of 'ezproxy' in the url then get rid of it
-if 'www3.interscience' in url and 'ezproxy' in url:
+if 'ezproxy' in url.lower():
 	parts = list(urlparse.urlparse(url))
-	parts[1] = "www3.interscience.wiley.com"
+	parts[1] = re.sub( r'(.+)\.ezproxy.+', r'\1', parts[1] )
 	url = urlparse.urlunparse(parts)
 	
 

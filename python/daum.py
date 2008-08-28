@@ -73,6 +73,7 @@ def main(url):
     enw = grab_enw(docid)
 
     print 'begin_tsv'
+    print 'type\tJOUR'
     print 'linkout\tDAUM\t%d\t\t\t' % docid
     for field, value in parse_enw(enw):
         value = value.encode('utf-8')

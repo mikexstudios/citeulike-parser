@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python
 
 # Copyright (c) 2007 Richard Cameron <citeulike@askur.org>
 # All rights reserved.
@@ -86,9 +86,11 @@ if not re.search("TY  -", ris):
 # We're seeing authors duplicated like this:
 #  AU  - Dahele, J.
 #  A1  - Dahele, J.
-# Strip
-ris_p = re.compile('^AU  - .*\n', re.M)
-ris = re.sub(ris_p, "", ris, re.M)
+# Strip AU if both AU, A1 present. Should probably check that both sets of authors
+# are identical if we are going to remove one...
+if re.search("AU  -", ris) and re.search("A1  -", ris):
+	ris_p = re.compile('^AU  - .*\n', re.M)
+	ris = re.sub(ris_p, "", ris, re.M)
 
 print "begin_tsv"
 
