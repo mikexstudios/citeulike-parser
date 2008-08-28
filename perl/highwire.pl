@@ -88,7 +88,7 @@ if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-
 #
 #  Published articles: determine journal,volume,number and page details. 
 #
-elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9.]+)}) {
+elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[A-Za-z0-9-.]+)/([0-9]+)/([A-Za-z0-9.]+)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
 	$url_abstract = "http://$journal_site/cgi/content/refs/$volume/$number/$page";
 } 
