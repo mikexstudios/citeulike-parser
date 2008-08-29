@@ -1,0 +1,31 @@
+plugin {
+	version {1}
+	name {WorldCat}
+	url {http://www.worldcat.org}
+	blurb {}
+	author {Chris Hall}
+	email {plugins@citeulike.org}
+	language {python}
+	regexp {http://www.worldcat.org.*/oclc/.+}
+}
+
+format_linkout WCAT {
+	return [list "WCAT" "http://www.worldcat.org/oclc/${ckey_1}"]
+}
+
+test {http://www.worldcat.org/oclc/52821313} {
+	formatted_url {WCAT http://www.worldcat.org/oclc/52821313}
+	linkout {WCAT {} 52821313 {} {}}
+	serial {3540404600  9783540404606}
+	city {Berlin; New York}
+	year 2004
+	type BOOK
+	plugin_version 1
+	id 52821313
+	publisher Springer
+	title {Proofs from the book}
+	status ok
+	author {Aigner Martin M {Aigner, Martin,}}
+	author {Ziegler Günter GM {Ziegler, Günter M.}}
+	plugin worldcat
+}
