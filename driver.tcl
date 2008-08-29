@@ -359,6 +359,7 @@ namespace eval driver {
 						error "Linkout contains [llength $lst] element. Should be 5: $lst"
 					}
 					foreach {type ikey_1 ckey_1 ikey_2 ckey_2} [split $lo "\t"] {}
+if 0 {
 					if {![is_integer $ikey_1] && $ikey_1 != ""} {
 						error "Linkout ikey_1 component is not an integer: $ikey_1"
 					}
@@ -371,6 +372,7 @@ namespace eval driver {
 					if {$ikey_2!=""} {
 						set ikey_2 [atoi $ikey_2]
 					}
+}
 					lappend ret(linkouts) [list $type $ikey_1 $ckey_1 $ikey_2 $ckey_2]
 				}
 				unset ret(linkout)
