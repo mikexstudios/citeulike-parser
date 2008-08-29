@@ -36,8 +36,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-
-
 import re, sys, urllib, urllib2, cookielib 
 
 CITATION_SERVER_ROOT = 'http://www.blackwell-synergy.com/action/downloadCitation'
