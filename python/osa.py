@@ -15,12 +15,11 @@
 # You should have received a copy of the GNU General Public License along with
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys, urllib, urllib2, urlparse, cgi, re, mechanize 
+import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs
+from BeautifulSoup import BeautifulSoup
 
 RIS_SERVER_ROOT = \
         'http://www.opticsinfobase.org/custom_tags/IB_Download_Citations.cfm'
-#OSA_DOI_PREFIX = '10.1364'
-#IEEE_DOI_PREFIX = '10.1109'
 ris_server_post_data = {'articles':'', 'ArticleAction':'save_endnote2'}
 QUERY=4;
 
@@ -30,15 +29,6 @@ ERR_STR_FETCH = 'Unable to fetch the bibliographic data: '
 ERR_STR_TRY_AGAIN = 'The server may be down.  Please try later.'
 ERR_STR_NO_KEYS = 'Could not extract atricle details from the URL: '
 ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
-
-def fetch(url, query=None):
-    try:
-        params = [x for x in [url, query] if x is not None]
-        return urllib2.urlopen(*params).read().strip()
-    except:
-	print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' \
-                + ERR_STR_TRY_AGAIN
-	raise
 
 
 # read url from std input an get rid of the newline at the end
@@ -75,33 +65,44 @@ else:
 
 # fetch the RIS entry for the article and exit gracefully in case of trouble
 query = urllib.urlencode(ris_server_post_data)
-ris_entry = fetch(RIS_SERVER_ROOT,query)
+try:
+    ris_entry = urllib2.urlopen(RIS_SERVER_ROOT,query).read().strip()
+except:
+    print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' \
+            + ERR_STR_TRY_AGAIN
+    raise
 
-# Grab the abstract from the HTML in the page the user is looking at
-m = re.search( r'<p><strong>Abstract</strong><br/>\s+(<p><a.*?</p>)?(.*?)</p>',
-        br.response().read(), re.DOTALL)
-if m:
-    # strip the HTML from the abstract
-    from sgmllib import SGMLParser
-    class XMLJustText (SGMLParser):
-            just_text = ''
-            def handle_data (self,data):
-                    self.just_text = self.just_text + ' ' + data
+# get page
+page = br.response().read()
 
-    parser = XMLJustText()
-    parser.feed(m.group(2).strip())
+# parse the HTML
+soup = BeautifulSoup(page)
+
+# look for an abstract in the Dublin Core metadata in the HTML head
+abstract_metadata = soup.findAll(name='meta', attrs={'name':'dc.description'})
+if len(abstract_metadata):
+    abstract = abstract_metadata[0]['content']
     # clean out whitespace and newlines
-    abstract = ' '.join([s.strip() for s in parser.just_text.split('\n')])
+    abstract = ' '.join([s.strip() for s in abstract.split('\n')]).strip()
 else:
     abstract = None
+
+# look for a DOI in the Dublin Core metadata in the HTML head
+doi = ''
+doi_metadata = soup.findAll('meta', attrs={'name':'dc.identifier'})
+if len(doi_metadata):
+    doi_match  = re.search(r'doi:(10\.[^/]+/.+)', doi_metadata[0]['content'], re.IGNORECASE)
+    if doi_match:
+        doi = doi_match.group(1).strip()
 
 # print the results
 print "begin_tsv"
 print "linkout\tOSA\t%d\t\t\t" % article_id
+if doi:
+    print "linkout\tDOI\t\t%s\t\t" % (doi)
+    print "doi\t" + doi
 if abstract:
     print "abstract\t%s" % abstract
-#print "linkout\tDOI\t\t%s\t\t" % (doi)
-#print "doi\t" + doi
 print "end_tsv"
 print "begin_ris"
 print ris_entry

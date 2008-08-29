@@ -30,40 +30,40 @@ test {http://jlt.osa.org/abstract.cfm?id=141326} {
 	title {Localized High Birefringence Induced in SMF-28 Fiber by Femtosecond IR Laser Exposure of the Cladding}
 	journal {J. Lightwave Technol.}
 	status ok
-	abstract {A process for creating a local high fiber birefringence and large variation in refractive-index modulation with a polarization in fiber Bragg gratings using postwriting exposures with femtosecond pulses is presented. A birefringence as high as ~8×10 -4  was obtained in the core of SMF-28 fiber by exposing the cladding of the fiber in close proximity to the core/cladding interface with a modulated multibeam interference field created by a phase mask. The birefringence is likely due to the induced stress rather than the direct asymmetric refractive index modification.}
+        abstract {A process for creating a local high fiber birefringence and large variation in refractive-index modulation with a polarization in fiber Bragg gratings using postwriting exposures with femtosecond pulses is presented. A birefringence as high as ~8ÃƒÂ—10-4 was obtained in the core of SMF-28 fiber by exposing the cladding of the fiber in close proximity to the core/cladding interface with a modulated multibeam interference field created by a phase mask. The birefringence is likely due to the induced stress rather than the direct asymmetric refractive index modification.}
 	author {Grobnic Dan D {Grobnic, Dan}}
 	author {Mihailov Stephen SJ {Mihailov, Stephen J.}}
 	author {Smelser Christopher CW {Smelser, Christopher W.}}
 }
 
-test {http://www.opticsinfobase.org/abstract.cfm?id=98382} {
-	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=98382}
-	linkout {OSA 98382 {} {} {}}
-	year 2006
-	start_page {TuG7}
-	type CONF
-	url {http://www.opticsinfobase.org/abstract.cfm?URI=URI=BIO-2006-TuG7}
-	title_series {Technical Digest (CD)}
-	day 19
-	publisher {Optical Society of America}
-	title {Whole Body Animal Examination by Fluorescence Tomography}
-	journal {Biomedical Optics}
-	status ok
-	month 3
-	abstract {A fluorescent diffuse optical tomography instrument has been developed in our laboratory. Taking into account in-homogeneities, it allows whole body examination. Experimental results obtained with this system on mice deep lung tumours examination are presented.}
-	author {Koenig Anne A {Anne Koenig}}
-	author {Herv? Lionel L {Lionel Herv?}}
-	author {{Da Silva} Anabela A {Anabela Da Silva}}
-	author {Dinten Jean-Marc J {Jean-Marc Dinten}}
-	author {Boutet J?r?me J {J?r?me Boutet}}
-	author {Berger Michel M {Michel Berger}}
-	author {Texier Isabelle I {Isabelle Texier}}
-	author {Pelti? Philippe P {Philippe Pelti?}}
-	author {Rizo Philippe P {Philippe Rizo}}
-	author {Josserand V?ronique V {V?ronique Josserand}}
-	author {Coll Jean-Luc J {Jean-Luc Coll}}
-	author {{} {} {} {}}
-}
+#test {http://www.opticsinfobase.org/abstract.cfm?id=98382} {
+#	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=98382}
+#	linkout {OSA 98382 {} {} {}}
+#	year 2006
+#	start_page {TuG7}
+#	type CONF
+#	url {http://www.opticsinfobase.org/abstract.cfm?URI=URI=BIO-2006-TuG7}
+#	title_series {Technical Digest (CD)}
+#	day 19
+#	publisher {Optical Society of America}
+#	title {Whole Body Animal Examination by Fluorescence Tomography}
+#	journal {Biomedical Optics}
+#	status ok
+#	month 3
+#	abstract {A fluorescent diffuse optical tomography instrument has been developed in our laboratory. Taking into account in-homogeneities, it allows whole body examination. Experimental results obtained with this system on mice deep lung tumours examination are presented.}
+#	author {Koenig Anne A {Anne Koenig}}
+#	author {Herv? Lionel L {Lionel Herv?}}
+#	author {{Da Silva} Anabela A {Anabela Da Silva}}
+#	author {Dinten Jean-Marc J {Jean-Marc Dinten}}
+#	author {Boutet J?r?me J {J?r?me Boutet}}
+#	author {Berger Michel M {Michel Berger}}
+#	author {Texier Isabelle I {Isabelle Texier}}
+#	author {Pelti? Philippe P {Philippe Pelti?}}
+#	author {Rizo Philippe P {Philippe Rizo}}
+#	author {Josserand V?ronique V {V?ronique Josserand}}
+#	author {Coll Jean-Luc J {Jean-Luc Coll}}
+#	author {{} {} {} {}}
+#}
 
 test {http://www.opticsinfobase.org/abstract.cfm?URI=oe-1-3-60} {
 	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=63179}
@@ -92,15 +92,16 @@ test {http://www.opticsinfobase.org/abstract.cfm?id=49264} {
 	start_page 163
 	type JOUR
 	url {http://www.opticsinfobase.org/abstract.cfm?URI=josa-30-4-163}
+        end_page 167
 	day 1
 	issue 4
 	publisher {OSA}
-	title {The fluorescent mercury vapor lamp as a light source for a single point check on optical pyrometers}
+	title {The Fluorescent Mercury-Vapor Lamp as a Light Source for a Single-Point Check on Optical Pyrometers}
 	journal {J. Opt. Soc. Am.}
 	status ok
 	month 4
-	author {Lucks {} CF {Lucks, C. F.}}
-	author {Russell {} HW {Russell, H. W.}}
+	author {Lucks {} CF {LUCKS, C. F.}}
+	author {Russell {} HW {RUSSELL, H. W.}}
 }
 
 test {http://www.opticsexpress.org/abstract.cfm?id=63361} {
@@ -112,9 +113,10 @@ test {http://www.opticsexpress.org/abstract.cfm?id=63361} {
 	start_page 113
 	url {http://www.opticsexpress.org/abstract.cfm?URI=oe-4-2-113}
 	end_page 120
+        plugin_version 1
+	publisher {OSA}
 	day 18
 	issue 2
-	publisher {OSA}
 	title {Coherent writing and reading of information using frequency-chirped short bichromatic laser pulses}
 	journal {Opt. Express}
 	month 1
@@ -123,5 +125,63 @@ test {http://www.opticsexpress.org/abstract.cfm?id=63361} {
 	author {Djotyan {} G {Djotyan, G.}}
 	author {Bakos {} JS {Bakos, J. S.}}
 	author {Sorlei Zs Z {Sorlei, Zs.}}
+}
+
+
+test {http://www.opticsinfobase.org/abstract.cfm?URI=josab-23-4-684} {
+	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=89076}
+	formatted_url {DOI http://dx.doi.org/10.1364/JOSAB.23.000684}
+        volume 23
+        linkout {OSA 89076 {} {} {}}
+	linkout {DOI {} 10.1364/JOSAB.23.000684 {} {}}
+        year 2006
+        type JOUR
+        start_page 684
+        url http://josab.osa.org/abstract.cfm?URI=josab-23-4-684
+        end_page 691
+        plugin_version 1
+        doi 10.1364/JOSAB.23.000684
+        day 1
+        publisher OSA
+        issue 4
+        title {All-optical logic gates based on nonlinear slot-waveguide couplers}
+        journal {J. Opt. Soc. Am. B}
+        status ok
+        abstract {A novel design of all-optical logic gates based on nonlinear slot-waveguide couplers is proposed. NOT, OR, and AND logic gates can be realized by a simple single optical-directional coupler configuration. Strong polarization dependencies of slot waveguides are effectively utilized for realizing polarization-independent optical-directional couplers in the linear regime and polarization-dependent all-optical switches in the nonlinear regime. All the simulations performed in this paper were performed for three-dimensional nonlinear channel waveguide structures by using rigorous numerical schemes based on the full-vector finite-element method specially formulated for nonlinear optical waveguides.}
+        month 4
+        author {Fujisawa Takeshi T {Fujisawa, Takeshi}}
+        author {Koshiba Masanori M {Koshiba, Masanori}}
+        plugin osa
+}
+
+test {http://www.opticsinfobase.org/abstract.cfm?URI=oe-15-11-6846} {
+	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=134979}
+	formatted_url {DOI http://dx.doi.org/10.1364/OE.15.006846}
+        volume 15
+        linkout {OSA 134979 {} {} {}}
+	linkout {DOI {} 10.1364/OE.15.006846 {} {}}
+        year 2007
+        type JOUR
+        start_page 6846
+        url http://www.opticsexpress.org/abstract.cfm?URI=oe-15-11-6846
+        end_page 6856
+        plugin_version 1
+        doi  10.1364/OE.15.006846
+        day 28
+        publisher OSA
+        issue 11
+        title {Demonstration of slot-waveguide structures on silicon nitride / silicon oxide platform}
+        journal {Opt. Express}
+        status ok
+        abstract {We report on the first demonstration of guiding light in vertical slot-waveguides on silicon nitride/silicon oxide material system. Integrated ring resonators and Fabry-Perot cavities have been fabricated and characterized in order to determine optical features of the slot-waveguides. Group index behavior evidences guiding and confinement in the low-index slot region at O-band (1260-1370nm) telecommunication wavelengths. Propagation losses of &lt;20 dB/cm have been measured for the transverse-electric mode of the slot-waveguides.}
+        month 5
+        author {Barrios {} CA {Barrios, C. A.}}
+	author {Sánchez {} B {Sánchez, B.}}
+	author {Gylfason {} KB {Gylfason, K. B.}}
+	author {Griol {} A {Griol, A.}}
+	author {Sohlström {} H {Sohlström, H.}}
+	author {Holgado {} M {Holgado, M.}}
+	author {Casquel {} R {Casquel, R.}}
+        plugin osa
 }
 
