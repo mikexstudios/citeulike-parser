@@ -1,4 +1,3 @@
-#!/sw/bin/python2.4
 #!/usr/bin/env python
 
 import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs
