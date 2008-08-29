@@ -1,0 +1,36 @@
+plugin {
+	version {1}
+	name {Pion}
+	url {http://www.pion.co.uk}
+	blurb {}
+	author {Chris Hall}
+	email {plugins@citeulike.org}
+	language {python}
+	regexp {http://www\.(envplan|perceptionweb)\.com/}
+}
+
+format_linkout PION {
+	return [list "PION" "http://${ckey_1}/abstract.cgi?id=${ckey_2}"]
+}
+
+test {http://www.envplan.com/abstract.cgi?id=c68m} {
+	formatted_url {DOI http://dx.doi.org/10.1068/c68m}
+	formatted_url {PION http://www.envplan.com/abstract.cgi?id=c68m}
+	linkout {DOI {} 10.1068/c68m {} {}}
+	linkout {PION {} www.envplan.com {} c68m}
+	volume 26
+	year 2008
+	type JOUR
+	start_page 728
+	end_page 751
+	url http://www.envplan.com/abstract.cgi?id=c68m
+	plugin_version 1
+	publisher {Pion Ltd}
+	title {Transportation: the bottleneck of regional competitiveness in Toronto}
+	journal {Environment and Planning C: Government and Policy}
+	abstract {The reconciliation of global trade interests, regional transportation necessities, and urban everyday life and politics is at the centre of the emergence of new infrastructures in general, and new transportation networks in particular. In Toronto recent rescaling and restructuring of regional government provide a potential opportunity for new modes of regional governance. Will transportation in the Toronto region remain bifurcated into a premium network of transport infrastructure systems, on the one hand, and underserved community-based systems, on the other hand? We argue that the existing transportation situation has become a bottleneck for the continued globalization of the region, because global and local circuits of mobility are not well coordinated and various scales of decision making do not visibly interact for the regional good. At this point we ask whether there is an emerging collective actor (or collective actors) to remedy the situation, or whether we can instead expect the anarchic governance model of the recent past, with its biases towards suburban road building, to continue. We are particularly interested in casting light on the institutions that have been created (or dismantled) to deal with comprehensive transportation planning in the region. We posit that, in the context of recent institutional reforms, transportation agencies had to adjust, and we pose a series of research questions as a means of exploring and understanding those adjustments.}
+	status ok
+	author {Keil {} R {Keil, R}}
+	author {Young {} D {Young, D}}
+	plugin pion
+}
