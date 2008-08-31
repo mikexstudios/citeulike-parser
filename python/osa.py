@@ -102,7 +102,7 @@ if doi:
     print "linkout\tDOI\t\t%s\t\t" % (doi)
     print "doi\t" + doi
 if abstract:
-    print "abstract\t%s" % abstract
+    print "abstract\t%s" % abstract.encode("utf-8")
 print "end_tsv"
 print "begin_ris"
 print ris_entry
