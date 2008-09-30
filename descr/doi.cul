@@ -59,6 +59,13 @@ plugin {
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
 format_linkout DOI {
+
+#	if {[string first "10.1007/" $ckey_1]==0} {
+#		# Special case for Springer
+#		set r [list "Springer (DOI)" "http://dx.doi.org/[::cul::url::encodeURI $ckey_1]"]
+#		return $r
+#	}
+
 	set r [list "DOI" "http://dx.doi.org/[::cul::url::encodeURI $ckey_1]"]
 	if {[string first "10.1021/" $ckey_1]==0} {
 		lappend r {American Chem. Soc. Publications}
