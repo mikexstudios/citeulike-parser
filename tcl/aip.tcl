@@ -127,6 +127,17 @@ if {[regexp {<html} $page]} {
 
 set page [regsub {\npages = {([0-9]+)}} $page { pages = {\1+}}]
 
+#
+# Key seems to come through with crly brace and backslash escapes whch foxes bibtex -- strip 'em out
+#
+if {[regexp {^(\s*@[a-zA-Z_-]+\{)([^,]+)(.+)} $page -> l1 key l2]} {
+	set key [regsub -all {[^A-Za-z0-9:_-]} $key ""]
+	if {$key eq ""} {
+		set key none
+	}
+	set page ${l1}${key}${l2}
+}
+
 puts "begin_bibtex"
 puts $page 
 puts "end_bibtex"
@@ -161,7 +172,11 @@ set url "${base}${id}${end}"
 
 
 
-set abpage [url_get $url]
+if {[catch {
+	set abpage [url_get $url]
+}]} {
+	set abpage ""
+}
 
 #set abpage [url_get $url]
 #puts $abpage
