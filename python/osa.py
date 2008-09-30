@@ -72,8 +72,8 @@ except:
             + ERR_STR_TRY_AGAIN
     raise
 
-# get page
-page = br.response().read()
+# get page (the meta tag lies about the encoding)
+page = unicode(br.response().read(), encoding="utf-8").replace("iso-8859-1", "utf-8")
 
 # parse the HTML
 soup = BeautifulSoup(page)
