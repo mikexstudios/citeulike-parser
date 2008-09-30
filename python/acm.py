@@ -46,7 +46,7 @@ url = sys.stdin.readline().strip()
 
 url_query = urlparse.urlparse(url)[4]
 
-acm_id_match = re.search('id=(\d+([.]\d+)?)', url_query, re.IGNORECASE)
+acm_id_match = re.search('id=(\d+([.]\d+)?|[A-Za-z0-9_-]+)', url_query, re.IGNORECASE)
 
 if not acm_id_match:
 	print ERR_STR_PREFIX + "Could not find id in URL (" + url + ")"
@@ -78,10 +78,12 @@ page = re.sub('<p class="abstract">\s+<p>', '<p class="abstract">', page)
 
 soup = BeautifulSoup(page)
 
-abstract = soup.find("p", "abstract").findAll(text=True)
-
-abstract = u' '.join(abstract)
-abstract = re.sub('\n+', ' ', abstract).strip()
+try:
+	abstract = soup.find("p", "abstract").findAll(text=True)
+	abstract = u' '.join(abstract)
+	abstract = re.sub('\n+', ' ', abstract).strip()
+except:
+	abstract = ''
 
 
 #
@@ -107,7 +109,7 @@ except:
 #
 # UGH - BibTeX record comes back as part of an HTML page...
 #
-bib_match = re.search('<pre id="[\d.]+">(.+?)</pre>', bibtex_page, re.IGNORECASE | re.DOTALL)
+bib_match = re.search('<pre id="[^"]+">(.+?)</pre>', bibtex_page, re.IGNORECASE | re.DOTALL)
 
 if not bib_match:
 	print ERR_STR_PREFIX + "Could not find BibTeX in page"
