@@ -91,8 +91,6 @@ def handle(url):
 
 	yield "begin_tsv"
 
-	abstract = scrape_abstract(page)
-
 	try:
 		abstract = scrape_abstract(page)
 	except:
