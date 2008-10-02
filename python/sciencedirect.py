@@ -1,4 +1,3 @@
-#!/sw/bin/python2.4
 #!/usr/bin/env python
 
 import os, sys, re, urllib2, cookielib, string
