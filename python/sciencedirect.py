@@ -1,125 +1,108 @@
+#!/sw/bin/python2.4
 #!/usr/bin/env python
 
-import sys, re, urllib2, cookielib
+import os, sys, re, urllib2, cookielib, string
 from urllib import urlencode
 from urllib2 import urlopen
 from copy import copy
+import BeautifulSoup
 
 
 class ParseException(Exception):
 	pass
 
+
+#
 # Strip off any institutional proxies we find
+#
 def canon_url(url):
 	m = re.match(r'http://[^/]*sciencedirect.com[^/]*/(science(\?_ob|/article).*$)', url)
 	if not m:
 		raise ParseException, "bad source url"
 	return "http://www.sciencedirect.com/" + m.group(1)
 
+
+#
+# Make up crossref metadata URL (just need the DOI)
+#
+def crossref_xml_url(doi):
+
+	f = open(os.environ.get("HOME") + "/.crossref-key");
+	key = f.read().strip()
+	f.close()
+
+	url = "http://www.crossref.org/openurl/?id=doi:" + doi
+	url += "&noredirect=true"
+	url += "&pid=" + key
+	url += "&format=unixref"
+
+	return url
+
+
+#
+# Try, by foul trickery, to get an abstract
+# We're looking for HTML like this:
+#   <div class="articleText" style="display: inline;">
+#       <h3 class="h3">Abstract</h3>
+#       <p>An instrumented indentation technique...
+#
+def scrape_abstract(page):
+
+	abs = []
+
+	soup = BeautifulSoup.BeautifulSoup(page)
+
+	for div in soup.findAll('div',attrs={'class':'articleText'}):
+		h3 = div.find('h3',{'class':'h3'})
+		if h3:
+			if string.lower(h3.string) in ('abstract'):
+				for p in h3.findNextSiblings('p'):
+					if p.string:
+						abs.append(p.string)
+				break
+
+	abstract = ' '.join(abs);
+
+	return re.sub('\n+',' ',abstract)
+
+
+#
+# Just try to fetch the metadata from crossref
+#
 def handle(url):
-	yield "begin_tsv"
  
-	page = urlopen( canon_url(url) ).read()
+	page = urlopen(canon_url(url)).read()
 	
-	# Talk about going round the bloody houses. There's an issue with the sciencedirect
-	# website where if you bookmark a URL and then come back to it later and attempt
-	# to follow the link to export a citation, it'll ultimately fail with a good old
-	# "internal error" when you ask for the RIS file.
-	#
-	# The workaround is to fetch the article again from its DOI record. Awful.
-
 	m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
-	if m is not None:
-		doi = m.group(1)
-		yield "\t".join([ "linkout", "DOI", "", doi, "", ""])
-		
-		if doi.startswith("10.1016/"):
-			# Fetch a fresh copy of the page
-			doi_page = urlopen("http://dx.doi.org/"+doi).read()
 
-			if "cannot be found in the Handle System" not in doi_page:
-				page = doi_page
-			
-			# And now there's an even more rediculous hop, which is sometimes SD asks us whether
-			# we want to get the article at sciencedirect or some other site. We'll need to follow that link too
-			m = re.search(r'<a HREF="([^"]+)">\s+?Article via\s+ScienceDirect</a>', page)
-			if m:
-				page = urlopen( m.group(1).replace("&amp;", "&") ).read()
-
-	# Look for an export citation link
-	m = re.search("<a href=\"([^\"]+)\" style=\"[^\"]+\" onmouseover=\"document.images.'export'.", page)
 	if not m:
-		raise ParseException, "Are you looking at the full text or the summary of the article you're trying to add? Is it possible you tried to post a page containing a list of search results? I can't recognise your page as a ScienceDirect article. Try again when you're looking at the full-text page. It's the one with the full details of the article and a link on the right hand side saying 'Export Citation'"
+		raise ParseException, "Cannot find DOI in page"
 
-	# That gives us something like
-	# /science?_ob=DownloadURL&_method=confirm&_ArticleListID=221049524&_rdoc=1&_docType=FLA&_acct=C000010021&_version=1&_userid=121749&md5=5cc6c9b143ed2d9b07b54f9f463f027c
-	# Follow it
-	export_page = urlopen("http://www.sciencedirect.com"+m.group(1)).read()
-	
-	params = { "_ob" : "DownloadURL",
-			   "_method" : "finish",
-			   "format" : "cite-abs",
-			   "citation-type" : "RIS",
-			   "JAVASCRIPT_ON" : "Y",
-			   "count" : "1",
-			   "RETURN_URL" : "http://www.sciencedirect.com/science/home",
-			   "Export" : "Export" }
+	doi = m.group(1)
 
-	# Pick out all the hidden form elements we need to fetch the citation
-	form = re.search(r'<form name="exportCite"(.*?)</form>', export_page, re.DOTALL).group(1)
-	for (name, value) in re.findall(r'<input type=hidden name=(.*?) value=(.*?)>',
-									form):
-		if name not in params:
-			params[name] = value
+	if not doi.startswith("10.1016/"):
+		raise ParseException, "Cannot find an Elsevier DOI (10.1016/...) DOI"
 
-	# This is basically the point where I lose faith in the IT industry.
-	# They seem to rely on the values being URL encoded in a particular order.
-	# What the browser needs to do here is clearly not defined in the spec,
-	# so it's just massive fluke that this works in the wild at all.
-	# I wonder what sort of software they're using to unpack the data at the other end!
-	oparams = []
-	for k in [
-		"_ob",
-		"_method",
-		"_acct",
-		"_userid",
-		"_docType",
-		"_ArticleListID",
-		"_uoikey",
-		"count",
-		"md5",
-		"JAVASCRIPT_ON",
-		"format",
-		"citation-type",
-		"Export",
-		"RETURN_URL"]:
-		if k in params:
-			oparams.append( (k, params[k]) )
-	
+	xml_url  = crossref_xml_url(doi)
+	xml_page = urlopen(xml_url).read()
 
-	# needs a cookie set in javascript. Clone one of the existing ones
-#	for cookie in cookie_jar:
-#		cookie = copy(cookie)
-#		cookie.name="BROWSER_SUPPORTS_COOKIES"
-#		cookie.value="1"
-#		cookie_jar.set_cookie(cookie)
-#		break
+	yield "begin_crossref"
+	yield xml_page
+	yield "end_crossref"
 
-	request = urllib2.Request(url = "http://www.sciencedirect.com/science",
-							  data = urlencode(oparams)
-							  )
-	ris = urlopen(request).read()
+	yield "begin_tsv"
 
+	abstract = scrape_abstract(page)
 
-	# From the RIS we can get the sciencedirect linkout
-	linkout = re.search(r'UR  - http://www.sciencedirect.com[^/]*?/science/article/(.+?)\n', ris).group(1)
-	yield "\t".join([ "linkout", "SD", "", linkout.strip(), "", ""])
+	try:
+		abstract = scrape_abstract(page)
+	except:
+		abstract = ''
+
+	if abstract:
+		print "abstract\t%s" % (abstract)
 
 	yield "end_tsv"
-
-	yield "begin_ris"
-	yield ris
-	yield "end_ris"
 
 	yield "status\tok"
 

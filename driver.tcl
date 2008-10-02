@@ -51,6 +51,7 @@ if {[driver_from_command_line]} {
 	source [file join $path author.tcl]
 	source [file join $path bibtex.tcl]
 	source [file join $path ris.tcl]
+	source [file join $path crossref.tcl]
 	source [file join $path url.tcl]
 }
 
@@ -258,14 +259,14 @@ namespace eval driver {
 			foreach line [lrange $lines 0 end-1] {
 
 				# Toy state machine to keep track of which block we should be parsing
-				if {[regexp {^begin_(tsv|ris|bibtex)$} $line -> new_state]} {
+				if {[regexp {^begin_(tsv|ris|bibtex|crossref)$} $line -> new_state]} {
 					if {$state!=""} {
 						error "$lineno: Nested begin blocks in output from $parser $url"
 					}
 					set state $new_state
 					
 					continue
-				} elseif {[regexp {^end_(tsv|ris|bibtex)$} $line -> old_state]} {
+				} elseif {[regexp {^end_(tsv|ris|bibtex|crossref)$} $line -> old_state]} {
 					if {$state!=$old_state} {
 						error "$lineno: Found end_$old_state block, but was in $state block"
 					}
@@ -306,6 +307,8 @@ namespace eval driver {
 					lappend ris_lines $line
 				} elseif {$state=="bibtex"} {
 					lappend bibtex_lines $line
+				} elseif {$state=="crossref"} {
+					lappend crossref_lines $line
 				}
 			}
 			if {$state!=""} {
@@ -333,7 +336,17 @@ namespace eval driver {
 					}
 				}
 			}
-			
+
+			if {[info exists crossref_lines]} {
+				set crossref_xml [join $crossref_lines "\n"]
+
+				# Merge in. TSV data takes priority.
+				foreach {k v} [CROSSREF::parse_xml $crossref_xml] {
+					if {![info exists ret($k)]} {
+						set ret($k) $v
+					}
+				}
+			}
 
 			# Post-process what we've got from the plugin.
 			if {[info exists ret(author)]} {
@@ -343,7 +356,6 @@ namespace eval driver {
 				unset ret(author)
 			}
 
-
 			if {[info exists ret(editor)]} {
 				foreach editor $ret(editor) {
 					lappend ret(editors) [::author::parse_author $editor]
@@ -352,35 +364,29 @@ namespace eval driver {
 			}
 			
 			if {[info exists ret(linkout)]} {
+
 				foreach lo $ret(linkout) {
+					#
 					# The elements in the linkout have types: str, int, str, int, str
+					#
 					set lst [split $lo "\t"]
-					if {[llength $lst]!=5} {
+
+					if {[llength $lst] != 5} {
 						error "Linkout contains [llength $lst] element. Should be 5: $lst"
 					}
-					foreach {type ikey_1 ckey_1 ikey_2 ckey_2} [split $lo "\t"] {}
-if 0 {
-					if {![is_integer $ikey_1] && $ikey_1 != ""} {
-						error "Linkout ikey_1 component is not an integer: $ikey_1"
-					}
-					if {![is_integer $ikey_2] && $ikey_2 != ""} {
-						error "Linkout ikey_2 component is not an integer: $ikey_2"
-					}
-					if {$ikey_1!=""} {
-						set ikey_1 [atoi $ikey_1]
-					}
-					if {$ikey_2!=""} {
-						set ikey_2 [atoi $ikey_2]
-					}
-}
+
+					foreach {type ikey_1 ckey_1 ikey_2 ckey_2} [split $lo "\t"] { break }
+
 					lappend ret(linkouts) [list $type $ikey_1 $ckey_1 $ikey_2 $ckey_2]
 				}
 				unset ret(linkout)
 			}
 			
+			#
+			# If it's an empty string, we may as well not have it
+			#
 			foreach {k v} [array get ret] {
-				if {$v==""} {
-					# If it's an empty string, we may as well not have it
+				if {$v eq ""} {
 					unset ret($k)
 				}
 			}
