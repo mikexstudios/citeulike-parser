@@ -39,15 +39,23 @@ use strict;
 
 my $unclean_url = <>;
 
+chomp($unclean_url);
+
 my $clean_url;
 my $doi;
-if ($unclean_url !~ m,^https?://csdl\d*\.computer\.org(\.[^/]+)?/persagen/.*DOI=([0-9.a-zA-Z/]+),) { 
+
+if ($unclean_url =~ m,^https?://csdl\d*\.computer\.org(\.[^/]+)?/persagen/.*DOI=([0-9.a-zA-Z/]+),) { 
+	$doi = $2;
+} elsif ($unclean_url =~ m,^https?://[^/]+\.computer\.org/portal/web/csdl/doi/(\d{2}[.]\d{4}/[^/?&]+),) {
+	$doi = $1
+}
+
+if (not $doi) {
   print "status\tnot_interested\n";
   exit;
-} else {
-  $doi = $2;
-  $clean_url = "http://doi.ieeecomputersociety.org/$doi";
 }
+
+$clean_url = "http://www2.computer.org/plugins/dl/doi/$doi";
 
 my $data = "";
 $data = get $clean_url;
@@ -57,14 +65,17 @@ if (not $data) {
 }
 
 # Get the bibtex info:
-if ($data =~ m`Popup.document.write\('(.*)'\);Popup.document.close\(\);">BibTex</A>`) {
+if ($data =~ m{<div id="bibText-content">(.*?)</div>}s) {
+
   my $bibtex = $1;
+
   $bibtex =~ s,&nbsp;, ,gs;
   $bibtex =~ s,<br/>,\n,gs;
   $bibtex =~ s,<[^>]+>,,gs;
   $bibtex =~ s,%\d+,,gs; #I have no idea why this is needed.
   $bibtex =~ s,\\',',gs;
   $bibtex =~ s,\\",",gs;
+
   print "begin_bibtex\n";
   print "$bibtex\n";
   print "end_bibtex\n";
@@ -72,14 +83,20 @@ if ($data =~ m`Popup.document.write\('(.*)'\);Popup.document.close\(\);">BibTex<
   print "begin_tsv\n";
   print "linkout\tCSDL\t\t$doi\t\t\n";
   print "linkout\tDOI\t\t$doi\t\t\n";
+
   # Get the abstract from the page.
-  if ($data =~ m,<ABSTRACTL[^>]*>(.*)</ABSTRACTL>,) {
+  if ($data =~ m{<div class="abs-articlesummary">(.*?)</div>}s) {
     print "abstract\t$1\n";
   }
   print "end_tsv\n";
+
   print "status\tok\n";
+
 } else {
+
   print "status\terr\tCouldn't extract bibtex entry from HTML on page $clean_url\n";
+
 }
+
 exit;
 
