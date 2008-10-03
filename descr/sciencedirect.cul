@@ -98,7 +98,7 @@ format_linkout SD {
 	return [list ScienceDirect "http://www.sciencedirect.com/science/article/$ckey_1"]
 }
 format_linkout EVPII {
-	return [list ElsevierPII "http://http://linkinghub.elsevier.com/retrieve/pii/$ckey_1"]
+	return [list ElsevierPII "http://linkinghub.elsevier.com/retrieve/pii/$ckey_1"]
 }
 
 
