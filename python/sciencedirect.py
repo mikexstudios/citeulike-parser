@@ -79,8 +79,8 @@ def handle(url):
 
 	doi = m.group(1)
 
-	if not doi.startswith("10.1016/"):
-		raise ParseException, "Cannot find an Elsevier DOI (10.1016/...) DOI"
+	if not re.search(r'^10[.](1016|1006)/',doi):
+		raise ParseException, "Cannot find an Elsevier DOI (10.1016, 10.1006) DOI"
 
 	xml_url  = crossref_xml_url(doi)
 	xml_page = urlopen(xml_url).read()
