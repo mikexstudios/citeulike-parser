@@ -69,7 +69,7 @@ $ok = 0;
 
 if ($url =~ m{http://[^/]+/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)[A-Za-z0-9.-/;]+}) {
 	$ok = 1;
-} elsif ($url =~ m{http://([^/]+)/content/[^/]+/[^/]+/[^/]+\.[a-z]+}) {
+} elsif ($url =~ m{http://([^/]+)/content/[^/]+/[^/]+/[^/]+(\.[a-z]+)?}) {
 	$ok = 1;
 }
 
@@ -80,7 +80,7 @@ $ok || (print "status\tnot_interested\n" and exit);
 #
 # New (2008) Highwire URL format
 #
-if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9]+)\.[a-z]+}) {
+if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9]+(?:\.[a-z]+)?)}) {
 	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
 	$url_abstract = "http://$journal_site/content/$volume/$number/${page}.abstract";
 }
