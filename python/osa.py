@@ -60,8 +60,16 @@ else:
         article_id = int(br['articles'])
         ris_server_post_data['articles'] = article_id
     except:
-        print ERR_STR_PREFIX + ERR_STR_NO_KEYS + url + '.  ' + ERR_STR_REPORT
-        sys.exit(1)
+        # The above should have worked. Sometimes it seems not to. Resort to a good ol' regexp
+        # to get the article_id
+        try:
+            page = urllib2.urlopen(url).read().strip()
+            m = re.search('<\s*input\s+type="hidden"\s+name="articles"\s+value="(\d+)"\s*>',page,re.IGNORECASE)
+            article_id = int(m.group(1))
+            ris_server_post_data['articles'] = article_id
+        except:
+            print ERR_STR_PREFIX + ERR_STR_NO_KEYS + url + '.  ' + ERR_STR_REPORT
+            sys.exit(1)
 
 # fetch the RIS entry for the article and exit gracefully in case of trouble
 query = urllib.urlencode(ris_server_post_data)
