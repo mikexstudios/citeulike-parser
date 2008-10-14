@@ -74,6 +74,16 @@ append bibtex_url ?fuseaction=Reader.ExportAbstract&paper_id=$paper_id&format=Bi
 
 set bibtex [url_get $bibtex_url]
 
+#
+# Key seems to come through with bad characters which foxes BibTeX -- strip 'em out
+#
+if {[regexp {^(\s*@[a-zA-Z_-]+\{)([^,]+)(.+)} $bibtex -> l1 key l2]} {
+	set key [regsub -all {[^A-Za-z0-9:_-]} $key ""]
+	if {$key eq ""} {
+		set key none
+	}
+	set bibtex ${l1}${key}${l2}
+}
 
 puts "begin_tsv"
 
