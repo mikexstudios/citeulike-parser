@@ -76,7 +76,7 @@ plugin {
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
 	#
-	regexp {http://.*editlib.org/}
+	regexp {http://.*editlib.org/(p/\d+|.*paper_id=\d+)}
 }
 
 
