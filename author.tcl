@@ -54,6 +54,7 @@ namespace eval author {
 	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
 	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
 	set SURNAME [subst {(?:$PREFIX)?(?:$NAME_2)}]
+	set EMAIL {(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)}
 	
 
 	# Try to pick out a few common formats with regexps first.
@@ -185,6 +186,7 @@ namespace eval author {
 	proc parse_author {raw} {
 		variable TITLE_JUNK
 		variable TRAILING_JUNK
+		variable EMAIL
 
 		# trim whitespace
 		set raw_trim [string trim $raw]
@@ -197,12 +199,17 @@ namespace eval author {
 		# Remove leading, trailing, double spacing,
 		# and other unwanted bits and pieces.
 		set work [string trim $raw]
-		set work [regsub {\s{2,}} $work " "]
-		set work [regsub {,{2,}} $work ","]
-		set work [regsub {\s+\.+$} $work ""]
-		set work [regsub {,+$} $work ""]
-		set work [regsub {&nbsp;} $work " "]
+		set work [regsub -all {\s{2,}} $work " "]
+		set work [regsub -all {,{2,}} $work ","]
+		set work [regsub -all {\s+\.+$} $work ""]
+		set work [regsub -all {,+$} $work ""]
+		set work [regsub -all {&nbsp;} $work " "]
 
+		set work [regsub -all {[()]} $work ""]
+		set work [regsub -all "$EMAIL" $work ""]
+		
+		# puts "$work"
+		
 		# Honorific and strange conventions just need to get binned immediately
 		# (I don't support this for now, but because I keep the raw names
 		#  this stuff can be added in retrospectively if required)
@@ -284,6 +291,9 @@ namespace eval author {
 					{"Chaitin" "Gregory" "GJ" "GREGORY J CHAITIN"}\
 					{"A Company Name" "" "" "\"A Company Name\""}\
 					{"A Company Name" "" "" "{A Company Name}"}\
+ 					{"Cameron" "" "" "rcameron@citeulike.org (Cameron et al)"}\
+ 					{"Cameron" "Richard" "RD" "Richard D Cameron"}\
+ 					{"Cameron" "Richard" "RD" "Richard  D  Cameron"}\
  				   ]
 
 		# To fix at some point:
