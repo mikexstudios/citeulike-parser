@@ -294,6 +294,7 @@ namespace eval author {
  					{"Cameron" "" "" "rcameron@citeulike.org (Cameron et al)"}\
  					{"Cameron" "Richard" "RD" "Richard D Cameron"}\
  					{"Cameron" "Richard" "RD" "Richard  D  Cameron"}\
+ 					{"Steves" "" "BA" "Steves B.A."}\
  				   ]
 
 		# To fix at some point:
