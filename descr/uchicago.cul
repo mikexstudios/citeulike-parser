@@ -1,0 +1,69 @@
+plugin {
+	version {1}
+	name {Chicago Journals}
+	url {http://www.journals.uchicago.edu/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {journals.uchicago.edu}
+}
+
+format_linkout UCHIC {
+	return [list "Chicago Journals" \
+			"http://www.journals.uchicago.edu/doi/abs/${ckey_1}"]
+}
+
+test {http://www.journals.uchicago.edu/doi/abs/10.1086/589955} {
+	formatted_url {{Chicago Journals} http://www.journals.uchicago.edu/doi/abs/10.1086/589955}
+	formatted_url {DOI http://dx.doi.org/10.1086/589955}
+	volume 687
+linkouts ->  
+	linkout {UCHIC {} 10.1086/589955 {} {}}
+	linkout {DOI {} 10.1086/589955 {} {}}
+	year 2008
+	month 11
+	day 1
+	start_page 22
+	type JOUR
+	url {http://www.journals.uchicago.edu/doi/abs/10.1086/589955}
+	end_page 38
+	doi {10.1086/589955}
+	issue 1
+	title {The Impact of Baryonic Cooling on Giant Arc Abundances}
+	journal {The Astrophysical Journal}
+	author {Rozo Eduardo E {Rozo, Eduardo}}
+	author {Nagai Daisuke D {Nagai, Daisuke}}
+	author {Keeton Charles C {Keeton, Charles}}
+	author {Kravtsov Andrey A {Kravtsov, Andrey}}
+	abstract {doi: 10.1086/589955 ABSTRACT Using ray tracing for simple analytic profiles, we demonstrate that the lensing cross section for producing giant arcs has distinct contributions due to arcs formed through image distortion only, and arcs form from the merging of two or three images. We investigate the dependence of each of these contributions on halo ellipticity and on the slope of the density profile, and demonstrate that at fixed Einstein radius, the lensing cross section increases as the halo profile becomes steeper. We then compare simulations with and without baryonic cooling of the same cluster for a sample of six clusters, and demonstrate that cooling can increase the overall abundance of giant arcs by factors of a few. The net boost to the lensing probability for individual clusters is mass dependent, and can lower the effective low-mass limit of lensing clusters. This last effect can potentially increase the number of lensing clusters by an extra 50%. While the magnitude of these effects may be overestimated due to the well-known overcooling problem in simulations, it is evident that baryonic cooling has a nonnegligible impact on the expected abundance of giant arcs, and hence cosmological constraints from giant arc abundances may be subject to large systematic errors.}
+	status ok
+}
+
+
+test {http://www.journals.uchicago.edu/doi/abs/10.1086/592572} {
+	formatted_url {{Chicago Journals} http://www.journals.uchicago.edu/doi/abs/10.1086/592572}
+	formatted_url {DOI http://dx.doi.org/10.1086/592572}
+	volume 47
+linkouts ->  
+	linkout {UCHIC {} 10.1086/592572 {} {}}
+	linkout {DOI {} 10.1086/592572 {} {}}
+	year 2008
+	month 11
+	day 15
+	start_page 1277
+	type JOUR
+	url {http://www.journals.uchicago.edu/doi/abs/10.1086/592572}
+	end_page 1283
+	doi {10.1086/592572}
+	issue 10
+	title {Differences in Clinical Presentation among Persons with Pulmonary Tuberculosis: A Comparison of Documented and Undocumented Foreign-Born versus US-Born Persons}
+	journal {Clinical Infectious Diseases}
+	author {Achkar Jacqueline JM {Achkar, Jacqueline M.}}
+	author {Sherpa Tsering T {Sherpa, Tsering}}
+	author {Cohen Hillel HW {Cohen, Hillel W.}}
+	author {Holzman Robert RS {Holzman, Robert S.}}	 
+	abstract {doi: 10.1086/592572 PMID: 18834320 Background. Most cases of tuberculosis (TB) in the United States are diagnosed in foreign-born persons, and undocumented foreign-born persons may face particular barriers to timely access to health care services. This study investigates whether differences in clinical presentations among persons with pulmonary TB are associated with foreign birth or documentation status. Methods. In this cross-sectional study, we reviewed the medical records of patients who had received a diagnosis of microbiologically proven pulmonary TB at a New York City public hospital during the period April 1999 through March 2005. Three groups of patients with pulmonary TB (US-born persons, foreign-born persons with documents, and undocumented, foreign-born persons) were defined and compared at presentation. Odds ratios (ORs) for a symptom duration 8 weeks before hospital admission for each group were estimated using logistic regression. Results. Among 194 subjects with newly diagnosed pulmonary TB, 61 (31%) were US born, 62 (32%) were documented foreign-born persons, and 71 (37%) were undocumented foreign-born persons. Undocumented foreign-born persons presented with significantly higher frequencies of cough ( $P=.020$ ) and hemoptysis ( $P=.012$ ) and had a significantly longer median duration of symptoms, compared with US-born persons (8 vs. 4 weeks; $P=.023$ ). No statistically significant differences between documented foreign-born and US-born persons were observed. Multivariate analysis revealed that undocumented status (compared with being US born; adjusted OR, 4.1; 95% confidence interval, 1.7-10.2; $P=.002$ ) and being unemployed (adjusted OR, 2.2; 95% CI, 1.1-4.5; $P=.023$ ) were independently associated with a prolonged symptom duration (i.e., 8 weeks). Conclusions. Undocumented status was associated with an increased frequency of cough and hemoptysis and a longer duration of symptoms before medical evaluation for pulmonary TB. Whether reducing barriers to health services for undocumented foreign-born persons could enhance TB control deserves additional study.}
+	status ok
+}
+
