@@ -496,7 +496,7 @@ namespace eval driver {
 				test_error Error $plugin $url "" "parse_url failed: $msg"
 				continue
 			}
-			set actual [parse_url $url]
+			# set actual [parse_url $url]
 
 			if {[llength $actual]==0} {
 				test_error Error $plugin $url "" "Failed to parse $url"
