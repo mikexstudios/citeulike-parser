@@ -47,7 +47,7 @@ plugin {
 	name {Annual Reviews}
 
 	# The link the front page of this service
-	url {http://http://www.annualreviews.org/}
+	url {http://www.annualreviews.org/}
 
 	# Any additional information which needs to be displayed to the user.
 	# E.g. "Experimental support"
