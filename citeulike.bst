@@ -59,9 +59,11 @@ ENTRY
     volume
     year
     mrnumber
-	location
-	priority
-	citeulike-article-id
+    location
+    priority
+    citeulike-article-id
+    issn
+    isbn
   }
   {}                                    % no integer entry variables
   { label extra.label sort.label }      % label entry variables
