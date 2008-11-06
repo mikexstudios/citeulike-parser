@@ -15,6 +15,10 @@ use LWP 5.64;
 # by
 #	 Stevan Springer <stevan.springer@gmail.com>
 #
+# with modifications by
+# 	Fergus Gallagher <fergus.gallagher@citeulike.org>
+# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
@@ -49,6 +53,7 @@ my $browser = LWP::UserAgent->new;
 $browser->cookie_jar({}); #springerlink.com expects we store cookies
 
 $url = <>;
+chomp($url);
 
 #let's emulate better some browser headers
 my @ns_headers = (
@@ -64,10 +69,11 @@ my @ns_headers = (
 
 
 # Parser for Springerlink Web Addresses:
-#ADD a parser to link from other forms of the article to the abstract later.
+# ADD a parser to link from other forms of the article to the abstract later.
 
 # lets remove any initial 'www.' : springerlink.com doesn't like it
-$url =~ s/www\.//; # remove www.	
+
+$url =~ s/www\.//;
 
 # Remove any instance of metapress in the URL
 $url =~ s/springerlink\.metapress\.com/springerlink.com/;
@@ -77,19 +83,33 @@ $url =~ s!springerlink\.com[^/]+/!springerlink.com/!;
 
 $url_abstract = $url;
 
-# Get the link to the reference manager RIS file
-$response = $browser->get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+# extract the UID from the end of the line.
+$url =~ m{/content/([^/?]+)};
 
-$source_abstract = $response->content;
-if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
-	$link_ris = "http://springerlink.com/$1";
-	$link_ris =~ s/&amp;/&/; # replace &amp; for &
-	$link_ris =~ s/\.\.\/*//; # remove any ../ 
-	$link_ris =~ s/\.\.\/*//; # remove any ../ again
-}
-else{ 
+my $slink = $1 || "";
 
-	print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
+# print "OUCH $url $slink\n";
+
+# If we have a UID from the source URL, then we can jump direct to the RIS
+if ($slink) {
+	# this annoying, need to get a page first - probably a cookie thing.  
+	# At least the HTTP HEAD works and so speeds things up.
+	$browser->head("$url_abstract");
+	$link_ris = "http://springerlink.com/export.mpx?code=$slink&mode=ris";
+} else {
+	# Get the link to the reference manager RIS file
+	$response = $browser->get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+
+	$source_abstract = $response->content;
+	if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
+		$link_ris = "http://springerlink.com/$1";
+		$link_ris =~ s/&amp;/&/; # replace &amp; for &
+		$link_ris =~ s/\.\.\/*//; # remove any ../ 
+		$link_ris =~ s/\.\.\/*//; # remove any ../ again
+	}
+	else{ 
+		print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
+	}
 }
 
 #Get the reference manager RIS file and check retrieved file
@@ -97,10 +117,12 @@ $response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) 
 
 $ris = $response->content;
 
-unless ($ris =~ m{ER\s+-})
-	{
+print "$ris\n";
+print "$link_ris\n";
+
+unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
-	}
+}
 
 #Generate linkouts and print RIS:
 print "begin_tsv\n";
@@ -109,11 +131,21 @@ print "begin_tsv\n";
 #DOI linkout
 #if ($ris =~ m{doi:([0-9a-zA-Z_/.:-]*)}) {
 #if ($ris =~ m{doi:(\S*)}) {
+
+my $have_linkouts = 0;
 if ($ris =~ m{UR  - http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}) {
 	print "linkout\tDOI\t\t$1\t\t\n";
-} elsif ($ris =~ m{UR  - http://www.springerlink.com/content/([^/\n]+)}) {
+	$have_linkouts = 1;
+} 
+if ($ris =~ m{UR  - http://www.springerlink.com/content/([^/\n]+)}) {
 	print "linkout\tSLINK\t\t$1\t\t\n";
-} else {
+	$have_linkouts = 1;
+} elsif ($slink) {
+	print "linkout\tSLINK\t\t$slink\t\t\n";
+	$have_linkouts = 1;
+} 
+
+if (!$have_linkouts) {
 	print "status\terr\tThis document does not have a DOI or a Springer ID, so cannot make a permanent link to it.\n" and exit;
 }
 
