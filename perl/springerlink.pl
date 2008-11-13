@@ -117,9 +117,6 @@ $response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) 
 
 $ris = $response->content;
 
-print "$ris\n";
-print "$link_ris\n";
-
 unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
 }
