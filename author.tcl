@@ -295,6 +295,7 @@ namespace eval author {
  					{"Cameron" "Richard" "RD" "Richard D Cameron"}\
  					{"Cameron" "Richard" "RD" "Richard  D  Cameron"}\
  					{"Steves" "" "BA" "Steves B.A."}\
+ 					{"Florek" "" "HJ" "Florek, H.-J."}\
  				   ]
 
 		# To fix at some point:
