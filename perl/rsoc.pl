@@ -1,11 +1,23 @@
 #!/usr/bin/env perl
 
 use warnings;
+#use LWP::Simple;
 use LWP 5.64;
 
 #
 # Copyright (c) 2005 Richard Cameron, CiteULike.org
 # All rights reserved.
+#
+# 05/oct/2006 Marcus Granado <mrc.gran(@)gmail.com>
+#   - added support for cookies,required by new springerlink.com portal
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#	 Stevan Springer <stevan.springer@gmail.com>
+#
+# with modifications by
+# 	Fergus Gallagher <fergus.gallagher@citeulike.org>
+# 
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -41,8 +53,9 @@ my $browser = LWP::UserAgent->new;
 $browser->cookie_jar({});
 
 $url = <>;
+chomp($url);
 
-#let's emulate better some browser headers
+#let's better emulate some browser headers
 my @ns_headers = (
    'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
    'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, 
@@ -51,18 +64,34 @@ my @ns_headers = (
    'Accept-Language' => 'en-US',
   );
 
-# Get the link to the reference manager RIS file
-$response = $browser->get("$url") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
-$source_abstract = $response->content;
-if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
-	$link_ris = "http://www.journals.royalsoc.ac.uk/$1";
-	$link_ris =~ s/&amp;/&/; # replace &amp; for &
-	$link_ris =~ s/\.\.\/*//; # remove any ../ 
-	$link_ris =~ s/\.\.\/*//; # remove any ../ again
-}
-else{ 
-	print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
+$url_abstract = $url;
+
+# extract the UID from the end of the line.
+$url =~ m{/content/([^/?]+)};
+
+my $slink = $1 || "";
+
+# If we have a UID from the source URL, then we can jump direct to the RIS
+if ($slink) {
+	# this annoying, need to get a page first - probably a cookie thing.  
+	# At least the HTTP HEAD works and so speeds things up.
+	$browser->head("$url_abstract");
+	$link_ris = "http://journals.royalsociety.org/export.mpx?code=$slink&mode=ris";
+} else {
+	# Get the link to the reference manager RIS file
+	$response = $browser->get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+
+	$source_abstract = $response->content;
+	if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
+		$link_ris = "http://journals.royalsociety.org/$1";
+		$link_ris =~ s/&amp;/&/; # replace &amp; for &
+		$link_ris =~ s/\.\.\/*//; # remove any ../ 
+		$link_ris =~ s/\.\.\/*//; # remove any ../ again
+	}
+	else{ 
+		print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
+	}
 }
 
 #Get the reference manager RIS file and check retrieved file
@@ -70,23 +99,28 @@ $response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) 
 
 $ris = $response->content;
 
-unless ($ris =~ m{ER\s+-})
-	{
-	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
-	}
-
-$ris =~ s/–/-/g;
+unless ($ris =~ m{ER\s+-}) {
+	print "status\terr\tCouldn't extract the details from Royal Society's 'export citation'\n" and exit;
+}
 
 #Generate linkouts and print RIS:
 print "begin_tsv\n";
 
-# Royal Society seem to use DOIs exclusively
-#DOI linkout
-if ($ris =~ m{UR\s+-\s(.*)\s}) {
-       $ris =~ m{http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}; #only doi remains
+my $have_linkouts = 0;
+if ($ris =~ m{UR  - http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}) {
 	print "linkout\tDOI\t\t$1\t\t\n";
-} else {
-	print "status\terr\tThis document does not have a DOI, so cannot make a permanent link to it.\n" and exit;
+	$have_linkouts = 1;
+} 
+if ($ris =~ m{UR  - http://journals.royalsociety.org/content/([^/\n]+)}) {
+	print "linkout\tROYSOC\t\t$1\t\t\n";
+	$have_linkouts = 1;
+} elsif ($slink) {
+	print "linkout\tROYSOC\t\t$slink\t\t\n";
+	$have_linkouts = 1;
+} 
+
+if (!$have_linkouts) {
+	print "status\terr\tThis document does not have a DOI or a Royal Society ID, so cannot make a permanent link to it.\n" and exit;
 }
 
 print "end_tsv\n";
