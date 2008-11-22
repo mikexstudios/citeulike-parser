@@ -81,23 +81,26 @@ $url =~ s/springerlink\.metapress\.com/springerlink.com/;
 # Remove any trailing proxy stuff on the end
 $url =~ s!springerlink\.com[^/]+/!springerlink.com/!;
 
-$url_abstract = $url;
 
 # extract the UID from the end of the line.
 $url =~ m{/content/([^/?]+)};
 
 my $slink = $1 || "";
 
-# print "OUCH $url $slink\n";
+
+# TODO copy changes for url_abstract into other metapress plugin "roysoc"
+# Assuming it works
 
 # If we have a UID from the source URL, then we can jump direct to the RIS
 if ($slink) {
+	$url_abstract = "http://springerlink.com/content/$slink";
 	# this annoying, need to get a page first - probably a cookie thing.  
 	# At least the HTTP HEAD works and so speeds things up.
 	$browser->head("$url_abstract");
 	$link_ris = "http://springerlink.com/export.mpx?code=$slink&mode=ris";
 } else {
 	# Get the link to the reference manager RIS file
+	$url_abstract = $url;
 	$response = $browser->get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 	$source_abstract = $response->content;
@@ -111,6 +114,7 @@ if ($slink) {
 		print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
 	}
 }
+
 
 #Get the reference manager RIS file and check retrieved file
 $response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
@@ -151,7 +155,5 @@ print "begin_ris\n";
 print "$ris\n";
 print "end_ris\n";
 print "status\tok\n";
-
-
 
 

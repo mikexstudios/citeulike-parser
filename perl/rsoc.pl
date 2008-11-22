@@ -65,8 +65,6 @@ my @ns_headers = (
   );
 
 
-$url_abstract = $url;
-
 # extract the UID from the end of the line.
 $url =~ m{/content/([^/?]+)};
 
@@ -74,12 +72,14 @@ my $slink = $1 || "";
 
 # If we have a UID from the source URL, then we can jump direct to the RIS
 if ($slink) {
+	$url_abstract = "http://journals.royalsociety.org/content/$slink";
 	# this annoying, need to get a page first - probably a cookie thing.  
 	# At least the HTTP HEAD works and so speeds things up.
 	$browser->head("$url_abstract");
 	$link_ris = "http://journals.royalsociety.org/export.mpx?code=$slink&mode=ris";
 } else {
 	# Get the link to the reference manager RIS file
+	$url_abstract = $url;
 	$response = $browser->get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 	$source_abstract = $response->content;
