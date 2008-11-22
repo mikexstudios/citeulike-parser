@@ -37,57 +37,56 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-
 import re, sys, urllib, urllib2
-from urllib import quote
 
-RIS_SERVER_ROOT = 'http://pubs.acs.org/servlet/citation/CitationServlet'
-ACS_DOI_PREFIX = '10.1021'
-DOI_SEP ='/'
-ris_server_post_data = {'format':'refmgr', 'submit':'1'}
+ACS_URL = 'http://pubs.acs.org'
 
-# regexp to grab article keys from the abstract url
-KEYS_REGEXP = r"""abstract.cgi/	# begin at slash after 'abstract.cgi' string
-		(\w*?)/		# 'coden' key is the alphanumeric string following the slash
-		.*		# discard anything upto the 'abs' string
-		/abs/(.*?).html$"""	# 'jid' key is terminated at '.html'
-KEYS_REGEXP_FLAGS = re.IGNORECASE | re.VERBOSE
+CITATION_FORMATS_URL  = ACS_URL + '/action/showCitFormats'
+CITATION_DOWNLOAD_URL = ACS_URL + '/action/downloadCitation'
+
+# DOI is in the URL - this is what we need to get citation information
+URL_DOI_REGEXP       = '(10[.]\d+/[^/?&]+)'
+URL_DOI_REGEXP_FLAGS = re.IGNORECASE | re.VERBOSE
 
 # error messages
-ERR_STR_PREFIX = 'status\terr\t'
-ERR_STR_FETCH = 'Unable to fetch the bibliographic data: '
+ERR_STR_PREFIX    = 'status\terr\t'
+ERR_STR_FETCH     = 'Unable to fetch the bibliographic data: '
 ERR_STR_TRY_AGAIN = 'The server may be down.  Please try later.'
-ERR_STR_NO_KEYS = 'Could not extract atricle details from the URL: '
-ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
+ERR_STR_NO_DOI    = 'Could not extract DOI from the URL: '
+ERR_STR_REPORT    = 'Please report the error to plugins@citeulike.org.'
 
 # read url from std input
-url = sys.stdin.readline()
-
-# get rid of the newline at the end
-url = url.strip()
+url = sys.stdin.readline().strip()
 
 # parse the article details from the url and exit gracefully if not found
-key_match  = re.search(KEYS_REGEXP, url, KEYS_REGEXP_FLAGS)
-if not key_match:
-	print ERR_STR_PREFIX + ERR_STR_NO_KEYS + url + '.  ' + ERR_STR_REPORT
+doi_match  = re.search(URL_DOI_REGEXP, url, URL_DOI_REGEXP_FLAGS)
+if not doi_match:
+	print ERR_STR_PREFIX + ERR_STR_NO_DOI + url + '.  ' + ERR_STR_REPORT
 	sys.exit(1)
 
-jid = key_match.group(2)
-doi = ACS_DOI_PREFIX + DOI_SEP + jid
+doi = doi_match.group(1)
 
+# Fetch the citation export page - shouldn't need to (we don't require anything from the page),
+# but this is one of those sites that just insists on using cookies session tracking
 
-from mechanize import Browser
-br = Browser()
-br.open("http://pubs.acs.org/wls/journals/citation2/Citation?jid="+quote(jid))
+cookiejar = urllib2.HTTPCookieProcessor()
+opener    = urllib2.build_opener(cookiejar)
 
-br.select_form(nr=0)
-br["includeAbstract"]=["citation-abstract"]
-br["format"]=["plainRIS"]
-response = br.submit()
-ris = response.read()
+urllib2.install_opener(opener)
 
-# get rid of the extra newline at the end
-ris_entry = ris.strip()
+cit_url = CITATION_FORMATS_URL + '?' + urllib.urlencode({ 'doi' : doi})
+
+cit_page = urllib2.urlopen(cit_url).read()
+
+citation_post_data = {
+	'doi'              : doi,
+	'downloadFileName' : 'ref',
+        'include'          : 'abs',
+        'format'           : 'refman',
+        'submit'           : 'Download article citation data'
+}
+
+ris_data = urllib2.urlopen(CITATION_DOWNLOAD_URL, urllib.urlencode(citation_post_data)).read().strip()
 
 # print the results
 print "begin_tsv"
@@ -96,6 +95,6 @@ print "type\tJOUR"
 print "doi\t" + doi
 print "end_tsv"
 print "begin_ris"
-print ris_entry
+print ris_data
 print "end_ris"
 print "status\tok"

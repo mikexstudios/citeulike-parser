@@ -6,7 +6,7 @@ plugin {
 	author {Kristinn B. Gylfason}
 	email {citeulike@askur.org}
 	language {python}
-	regexp {pubs.acs.org/cgi-bin/abstract.cgi}
+	regexp {pubs.acs.org/}
 }
 
 # format_linkout is defined in doi.cul
