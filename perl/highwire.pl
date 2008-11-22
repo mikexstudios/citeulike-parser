@@ -83,6 +83,7 @@ $ok || (print "status\tnot_interested\n" and exit);
 #
 if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9]+(?:\.[a-z]+)?)}) {
 	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
+	$journal_site = gobble_proxy($journal_site);
 	$url_abstract = "http://$journal_site/content/$volume/$number/${page}.abstract";
 }
 
@@ -92,6 +93,7 @@ if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-
 #elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[A-Za-z0-9-.]+)/([0-9]+)/([A-Za-z0-9.]+)}) {
 elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[^/]+)/([^/]+)/([^/]+)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
+	$journal_site = gobble_proxy($journal_site);
 	$url_abstract = "http://$journal_site/cgi/content/refs/$volume/$number/$page";
 } 
 
@@ -101,6 +103,7 @@ elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|r
 #
 elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|extract|full|refs|reprint|screenpdf|summary)/(.*)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,"","");
+	$journal_site = gobble_proxy($journal_site);
 	if ($volume =~ m{(.*)/(.*)}) {
 		$volume = $1;
 	}
@@ -192,4 +195,14 @@ print "begin_ris\n";
 print $ris;
 print "end_ris\n";
 print "status\tok\n";
+
+#
+# Strip any part of the url (host part) after any word containing "proxy".
+# None of the valid highwire URLs have "proxy" in them or this wouldn't work!
+# 
+sub gobble_proxy {
+	local $url = shift;
+	$url =~ s/\.[a-z]*proxy.*//i;
+	return $url;
+}
 
