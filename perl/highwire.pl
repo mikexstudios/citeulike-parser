@@ -203,6 +203,8 @@ print "status\tok\n";
 sub gobble_proxy {
 	local $url = shift;
 	$url =~ s/\.[a-z]*proxy.*//i;
+	# OK, that was easy, now for some case-specifics
+	$url =~ s/\.ezp-prod.*//i;
 	return $url;
 }
 
