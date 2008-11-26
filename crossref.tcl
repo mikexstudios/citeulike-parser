@@ -13,6 +13,8 @@ proc CROSSREF::parse_xml {xml {hints {}}} {
 
 	set prefix /doi_records/doi_record/crossref/journal
 
+	set ret(type) JOUR
+
 	catch {
 		set ret(journal) [[$doc selectNodes ${prefix}//full_title] text]
 	} 
