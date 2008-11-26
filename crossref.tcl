@@ -15,9 +15,12 @@ proc CROSSREF::parse_xml {xml {hints {}}} {
 
 	catch {
 		set ret(journal) [[$doc selectNodes ${prefix}//full_title] text]
-	}
+	} 
+	
+	# there can be multiple issn e.g., media_type="print"|"electronic"
+	# Which one?  Just choose first one for now.
 	catch {
-		set ret(issn) [[$doc selectNodes ${prefix}//issn] text]
+		set ret(issn) [[$doc selectNodes ${prefix}//issn\[1\]] text]
 	}
 
 	catch {
