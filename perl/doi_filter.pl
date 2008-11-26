@@ -19,7 +19,7 @@ if (! $url =~ m{^http://dx\.doi\.org/|doi:}i ) {
 	exit 0;
 }
 
-if ($url =~ m{^doi:\s+(.*)}i) {
+if ($url =~ m{^doi:\s*(.*)}i) {
 	$url = "http://dx.doi.org/$1";
 }
 
