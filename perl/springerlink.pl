@@ -101,7 +101,7 @@ if ($slink) {
 } else {
 	# Get the link to the reference manager RIS file
 	$url_abstract = $url;
-	$response = $browser->get("$url_abstract") || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+	$response = $browser->get("$url_abstract") or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 	$source_abstract = $response->content;
 	if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
