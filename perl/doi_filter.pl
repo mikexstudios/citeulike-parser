@@ -14,12 +14,12 @@ chomp($url);
 # This should never happen as it should be already checked in 
 # the calling proc go_posturl_doi_rewrite (post.tcl)
 #
-if (! $url =~ m{^http://dx\.doi\.org/|doi:}) {
+if (! $url =~ m{^http://dx\.doi\.org/|doi:}i ) {
 	print "OK\t$url\tNOT_CHANGED\tNO_MATCH\tEOL1\n";
 	exit 0;
 }
 
-if ($url =~ m{^doi:(.*)}) {
+if ($url =~ m{^doi:\s+(.*)}i) {
 	$url = "http://dx.doi.org/$1";
 }
 
