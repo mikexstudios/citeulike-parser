@@ -26,13 +26,22 @@ if ($url =~ m{^doi:\s*(.*)}i) {
 my $browser = LWP::UserAgent->new;
 $browser->cookie_jar({}); # need this for, e.g., Springer
 
+my @ns_headers = (
+   'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
+   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, 
+        image/pjpeg, image/png, */*',
+   'Accept-Charset' => 'iso-8859-1,*,utf-8',
+   'Accept-Language' => 'en-US',
+  );
+
+
 # Hmm, this doesn't seem to work as expected, e.g.,
 # http://dx.doi.org/10.1234/xay (just a "random" url) hangs "forever"
 # (I wonder if 10.1234 is a spam trap? - Most other dud url redirect to
 # a sensible page, albeit with the same URL)
 $browser->timeout(10); # secs
 
-my $resp = $browser->head("$url") or do {
+my $resp = $browser->head("$url", @ns_headers) or do {
 	print "OK\t$url\tNOT_CHANGED\tERROR\tEOL2\n";
 	exit 0;
 };
@@ -49,9 +58,11 @@ if ($code == 200 ) {
 	# URL of the last redirect
 	my $req = $resp->request();
 	my $uri = $req->uri;
+
 	print "OK\t$uri\tCHANGED\t$url\tEOL3\n";
 	exit 0;
 }
 
 print "OK\t$url\tNOT_CHANGED\tCODE=$code\tEOL4\n";
+
 
