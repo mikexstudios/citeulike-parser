@@ -7,16 +7,17 @@ use warnings;
 my $url = <>;
 chomp($url);
 
-$url =~ s/^\s+//;
-$url =~ s/\s+$//;
-
 # Only the first 2 fields "OK <URL>" are actually used, the others
 # just for debugging
 
 #
-# This should never happen as it should be already checked in 
-# the calling proc go_posturl_doi_rewrite (post.tcl)
+# These next bits should be needed as already done in 
+# the pre-filter go_posturl_doi_rewrite (post.tcl).
+# However, still useful for command line testing
 #
+$url =~ s/^\s+//;
+$url =~ s/\s+$//;
+
 if (! $url =~ m{^(http://dx\.doi\.org/|doi:|10\.)}i ) {
 	print "OK\t$url\tNOT_CHANGED\tNO_MATCH\tEOL1\n";
 	exit 0;
@@ -32,8 +33,9 @@ elsif ($url =~ m{^(10\..*)}) {
 
 
 my $browser = LWP::UserAgent->new;
-$browser->cookie_jar({}); # need this for, e.g., Springer
+$browser->cookie_jar({}); # just in case someone needs it
 
+# some sites give a HTTP 400 to unknown headers
 my @ns_headers = (
    'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
    'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, 
