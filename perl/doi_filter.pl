@@ -7,6 +7,9 @@ use warnings;
 my $url = <>;
 chomp($url);
 
+$url =~ s/^\s+//;
+$url =~ s/\s+$//;
+
 # Only the first 2 fields "OK <URL>" are actually used, the others
 # just for debugging
 
@@ -14,14 +17,19 @@ chomp($url);
 # This should never happen as it should be already checked in 
 # the calling proc go_posturl_doi_rewrite (post.tcl)
 #
-if (! $url =~ m{^http://dx\.doi\.org/|doi:}i ) {
+if (! $url =~ m{^(http://dx\.doi\.org/|doi:|10\.)}i ) {
 	print "OK\t$url\tNOT_CHANGED\tNO_MATCH\tEOL1\n";
 	exit 0;
 }
 
 if ($url =~ m{^doi:\s*(.*)}i) {
 	$url = "http://dx.doi.org/$1";
+} 
+elsif ($url =~ m{^(10\..*)}) {
+	$url = "http://dx.doi.org/$1";
 }
+
+
 
 my $browser = LWP::UserAgent->new;
 $browser->cookie_jar({}); # need this for, e.g., Springer
