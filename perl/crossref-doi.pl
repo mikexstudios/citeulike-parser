@@ -45,6 +45,7 @@ binmode STDOUT, ":utf8";
 
 my $browser = LWP::UserAgent->new;
 $browser->cookie_jar({}); #in case we need cookies
+$browser->timeout(10); # secs
 
 $in_url = <>;
 chomp($in_url);
