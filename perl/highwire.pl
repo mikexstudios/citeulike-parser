@@ -78,6 +78,9 @@ $ok || (print "status\tnot_interested\n" and exit);
 
 #  set url_abstract to URL that links to abstract.
 
+$abstract_part = "abstract";
+#$abstract_part = "refs";
+
 #
 # New (2008) Highwire URL format
 #
@@ -94,7 +97,7 @@ if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-
 elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[^/]+)/([^/]+)/([^/]+)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
 	$journal_site = gobble_proxy($journal_site);
-	$url_abstract = "http://$journal_site/cgi/content/refs/$volume/$number/$page";
+	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
 } 
 
 #
@@ -107,7 +110,7 @@ elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|extract|full|refs|re
 	if ($volume =~ m{(.*)/(.*)}) {
 		$volume = $1;
 	}
-	$url_abstract = "http://$journal_site/cgi/content/refs/$volume";
+	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume";
 }
 
 else {
@@ -149,9 +152,7 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/>}
 
 	# Make up new hiwire linkout here
 	$hiwire = "$journal_site/content/$volume/$number/$page";
-}
-
-elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation [M|m]anager)|(Download Citation))}) {
+} elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation [M|m]anager)|(Download Citation))}) {
 	$link_citmgr = $1;
 	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
 
@@ -166,7 +167,8 @@ elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation
 }
 
 #Get the reference manager RIS file and check retrieved file
-$refman = $ua->get("$link_refman") || (print "status\terr\t (4)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
+
+$refman = $ua->get("$link_refman") || (print "status\terr\t (5)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
 $ris = $refman->content;
 
 unless ($ris =~ m{ER\s+-}) {

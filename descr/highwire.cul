@@ -73,7 +73,7 @@ test {http://www.genetics.org/cgi/content/abstract/171/1/35} {
 	linkout			{PMID 16183906 {} {} {}}
 	formatted_url	{HighWire http://www.genetics.org/cgi/content/abstract/171/1/35}
 	formatted_url	{DOI http://dx.doi.org/10.1534/genetics.105.040634}
-	formatted_url	{Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=16183906}
+	formatted_url	{Pubmed http://view.ncbi.nlm.nih.gov/pubmed/16183906}
 	formatted_url	{Hubmed http://www.hubmed.org/display.cgi?uids=16183906}
 	volume			{171}
 	issue			{1}
@@ -96,7 +96,7 @@ test {http://www.ajhp.org/cgi/content/full/62/3/239} {
 	linkout			{HWIRE 62 www.ajhp.org 3 239}
 	linkout			{PMID 15719576 {} {} {}}
 	formatted_url	{HighWire http://www.ajhp.org/cgi/content/abstract/62/3/239}
-	formatted_url	{Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=15719576}
+	formatted_url	{Pubmed http://view.ncbi.nlm.nih.gov/pubmed/15719576}
 	formatted_url	{Hubmed http://www.hubmed.org/display.cgi?uids=15719576}
 	volume			{62}
 	issue			{3}
@@ -157,7 +157,7 @@ test {http://bioinformatics.oxfordjournals.org/cgi/screenpdf/18/4/529} {
 	linkout                 {PMID 12016050 {} {} {}}
 	formatted_url           {HighWire http://bioinformatics.oxfordjournals.org/cgi/content/abstract/18/4/529}
 	formatted_url           {DOI http://dx.doi.org/10.1093/bioinformatics/18.4.529}
-	formatted_url           {Pubmed http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=Retrieve&db=pubmed&dopt=Abstract&list_uids=12016050}
+	formatted_url           {Pubmed http://view.ncbi.nlm.nih.gov/pubmed/12016050}
 	formatted_url           {Hubmed http://www.hubmed.org/display.cgi?uids=12016050}
 	volume			{18}
 	issue			{4}
@@ -199,3 +199,29 @@ test {http://bioinformatics.oxfordjournals.org/cgi/screenpdf/18/4/529} {
 #	abstract		{Eukaryotic sialyltransferases (SiaTs) comprise a superfamily of enzymes catalyzing the transfer of sialic acid from a common donor substrate to various acceptor substrates in different linkages. These enzymes have been classified as ST3Gal, ST6Gal, ST6GalNAc and ST8Sia families based on linkage- and acceptor monosaccharide-specificities and sequence similarities. It was recognized early on that SiaTs contain certain well-conserved motifs and these were denoted as L (large)-, S (small)-, and VS (very small)-motifs; recently, a fourth motif, denoted as motif III, was identified recently. These four motifs are common to all the SiaTs, irrespective of the linkage- and acceptor saccharide-specificities. In the present study, the sequences of the various families have been analyzed and sequence motifs that are unique to the various families have been identified. These unique motifs are expected to contribute to the characteristic linkage- and acceptor saccharide-specificities of the family members. One of the linkage specific motifs is contiguous to L-motif. Members of ST3Gal and ST8Sia families share significant sequence similarities; in contrast, the ST6Gal family is distinct from the ST6GalNAc family. The latter consists of two subfamilies, one comprising ST6GalNAc I, ST6GalNAc II and the other comprising ST6GalNAc III, ST6GalNAc IV, ST6GalNAc V and ST6GalNAc VI. Each of these sub-families has characteristic sequence motifs, not present in the other subfamily.}
 #	status			ok
 #}
+
+test {http://www.sciencemag.org/cgi/content/short/sci;218/4570/348} {
+	status                  ok
+	linkout                 {DOI {} 10.1126/science.6289436 {} {}}
+	linkout                 {PMID 6289436 {} {} {}}
+	formatted_url           {DOI http://dx.doi.org/10.1126/science.6289436}
+	formatted_url           {Pubmed http://view.ncbi.nlm.nih.gov/pubmed/6289436}
+	formatted_url           {Hubmed http://www.hubmed.org/display.cgi?uids=6289436}
+	volume			{218}
+	issue			{4570}
+	start_page		{348}
+	end_page		{353}
+	year			{1982}
+	month			{10}
+	day			{22}
+	title			{Genetic transformation of Drosophila with transposable element vectors}
+	journal			{Science}
+	author			{Rubin {} GM {Rubin, GM}} 
+	author			{Spradling {} AC {Spradling, AC}}
+	type			{JOUR}
+	url			http://www.sciencemag.org/cgi/content/abstract/218/4570/348
+	abstract		{Exogenous DNA sequences were introduced into the Drosophila germ line. A rosy transposon (ry1), constructed by inserting a chromosomal DNA fragment containing the wild-type rosy gene into a P transposable element, transformed germ line cells in 20 to 50 percent of the injected rosy mutant embryos. Transformants contained one or two copies of chromosomally integrated, intact ry1 that were stably inherited in subsequent generations. These transformed flies had wild-type eye color indicating that the visible genetic defect in the host strain could be fully and permanently corrected by the transferred gene. To demonstrate the generality of this approach, a DNA segment that does not confer a recognizable phenotype on recipients was also transferred into germ line chromosomes. 10.1126/science.6289436}
+}
+
+
+
