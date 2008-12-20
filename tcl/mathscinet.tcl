@@ -37,6 +37,14 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
+
+##################################################################
+# This is mostly broken as we would need to be an "allowed" IP
+# to have access (which CiteULike used to have).  Only the first 
+# error message is useful anymore.
+##################################################################
+
+
 source util.tcl
 set url [gets stdin]
 
