@@ -64,33 +64,57 @@ if {$doi ne ""} {
 puts "linkout\tCUP\t$aid\t\t\t"
 
 
-#
-# Abstract doesn't seem to be in the RIS file, so hack it out from the page direct
-#
-if {[regexp {<p class="AbsType">(.+?)</p>} $page -> abstract]} {
-	puts abstract\t[string trim $abstract]
-}
-
-puts "end_tsv"
+set ris 0
 
 #
 # Make a citation export link - this is for RIS data
+# BibTeX export may be a better option but keep this RIS code for now.
 #
-set ris_url [subst {http://journals.cambridge.org/action/exportCitation?format=RIS&componentIds=${aid}&Download=Download}]
+if {$ris == 1} {
+	#
+	# Abstract doesn't seem to be in the RIS file, so hack it out from the page direct, if it's there.
+	#
+	if {[regexp {<p class="AbsType">(.+?)</p>} $page -> abstract]} {
+		puts abstract\t[string trim $abstract]
+	}
 
-set ris [url_get $ris_url]
+	puts "end_tsv"
+	set ris_url [subst {http://journals.cambridge.org/action/exportCitation?format=RIS&componentIds=${aid}&Download=Download}]
+	set ris [url_get $ris_url]
+	#
+	# CUP seem to have decided to ignore the RIS specification, so their tokens now look like 'XX - content'
+	# rather then 'XX  - content'
+	#
 
-#
-# CUP seem to have decided to ignore the RIS specification, so their tokens now look like 'XX - content'
-# rather then 'XX  - content'
-#
-set fixed_ris [list]
-foreach ris_line [split $ris \n] {
-	lappend fixed_ris [regsub {^([A-Z0-9]{2}) - } $ris_line {\1  - }]
+	set fixed_ris [list]
+	foreach ris_line [split $ris \n] {
+		lappend fixed_ris [regsub {^([A-Z0-9]{2}) - } $ris_line {\1  - }]
+	}
+
+	puts "begin_ris"
+	puts [join $fixed_ris \n]
+	puts "end_ris"
+} else {
+	puts "end_tsv"
+	set bib_url [subst {http://journals.cambridge.org/action/exportCitation?displayAbstract=Yes&format=BibTex&Download=Download&componentIds=${aid}}]
+	set bib [url_get $bib_url]
+	#
+	# Dunno if it's common, but test-case #1 has several authors like "BISHOP,E.?J."
+	# so let's strip out those "?"
+	#
+	set fixed_bib [list]
+	foreach bib_line [split $bib \n] {
+		if {[regexp {^author =} $bib_line]} {
+			set bib_line [string map {? {}} $bib_line]
+		}
+		lappend fixed_bib $bib_line
+	}
+
+	puts "begin_bibtex"
+	puts [join $fixed_bib \n]
+	puts "end_bibtex"
 }
 
-puts "begin_ris"
-puts [join $fixed_ris \n]
-puts "end_ris"
+
 
 puts "status\tok"
