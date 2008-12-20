@@ -102,10 +102,16 @@ if {$ris == 1} {
 	# Dunno if it's common, but test-case #1 has several authors like "BISHOP,E.?J."
 	# so let's strip out those "?"
 	#
+	# Also strip out any ABSTRACT SUMMARY text in abstract
+	#
 	set fixed_bib [list]
 	foreach bib_line [split $bib \n] {
 		if {[regexp {^author =} $bib_line]} {
 			set bib_line [string map {? {}} $bib_line]
+		}
+		if {[regexp {^abstract =} $bib_line]} {
+			regsub {\{\s*ABSTRACT\s*} $bib_line "\{" bib_line
+			regsub {\{SUMMARY\s*} $bib_line "\{" bib_line
 		}
 		lappend fixed_bib $bib_line
 	}

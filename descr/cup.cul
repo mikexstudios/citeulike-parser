@@ -112,6 +112,10 @@ format_linkout CUP {
 # If you ever fix a bug in the parser, it is highly recommended that
 # you add the offending page as a test case.
 
+#
+# This is the RIS test (break with BibTeX - so delete when stable)
+#
+
 test {http://www.journals.cambridge.org/action/displayAbstract?fromPage=online&aid=1378656} {
 	formatted_url {DOI http://dx.doi.org/10.1017/S0950268807008515}
 	formatted_url {{Cambridge University Press} http://journals.cambridge.org/action/displayAbstract?fromPage=online&aid=1378656}
@@ -137,5 +141,36 @@ author {Shilton {} C SHILTON,C.}
 	author {Godoy {} D GODOY,D.}
 	author {Spratt {} {} SPRATT,B.?G.}
 	author {Currie {} {} CURRIE,B.?J.}
+	status ok
+}
+
+# A "copy" of the RIS test, adjusted for BibTeX
+test {http://www.journals.cambridge.org/action/displayAbstract?fromPage=online&aid=1378656} {
+	formatted_url {DOI http://dx.doi.org/10.1017/S0950268807008515}
+	formatted_url {{Cambridge University Press} http://journals.cambridge.org/action/displayAbstract?fromPage=online&aid=1378656}
+	linkout {DOI {} 10.1017/S0950268807008515 {} {}}
+	linkout {CUP 1378656 {} {} {}}
+	volume 135
+	year 2007
+	type JOUR
+	start_page 1248
+	end_page 1255
+	plugin_version 1
+	issue 08
+	doi 10.1017/S0950268807008515
+	url	http://journals.cambridge.org/action/displayAbstract?fromPage=online&aid=1378656&fulltextType=RV&fileId=S0950268807008515
+	eprint http://journals.cambridge.org/article_S0950268807008515
+	title {Necrotizing fasciitis in captive juvenile Crocodylus porosus caused by Streptococcus agalactiae: an outbreak and review of the animal and human literature}
+	journal {Epidemiology and Infection}
+	abstract {We observed an outbreak of necrotizing fasciitis associated with Streptococcus agalactiae infection in a group of juvenile saltwater crocodiles (Crocodylus porosus). We undertook screening of crocodiles and the environment to clarify the source of the outbreak and evaluated the isolates cultured from post-mortem specimens with molecular methods to assess clonality and the presence of known group B streptococcal virulence determinants. The isolates were indistinguishable by pulsed-field gel electrophoresis. They were a typical serotype Ia strain with the C&#945;-like protein gene, epsilon (or alp1), the mobile genetic elements IS381 ISSag1 and ISSag2, and belonged to multi-locus sequence type (ST) 23. All of these characteristics suggest they were probably of human origin. We review the medical and veterinary literature relating to S. agalactiae necrotizing fasciitis, epidemiology and virulence determinants.}
+	author {Bishop {} EJ {E.J. BISHOP}} 
+	author {Shilton {} C {C. SHILTON}} 
+	author {Benedict {} S {S. BENEDICT}} 
+	author {Kong {} F {F. KONG}} 
+	author {Gilbert {} GL {G.L. GILBERT}} 
+	author {Gal {} D {D. GAL}} 
+	author {Godoy {} D {D. GODOY}} 
+	author {Spratt {} BG {B.G. SPRATT}} 
+	author {Currie {} BJ {B.J. CURRIE}}
 	status ok
 }
