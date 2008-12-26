@@ -50,6 +50,7 @@ set url "http://www.ingentaconnect.com/$path"
 
 set page [url_get $url]
 
+# set f [open /tmp/page.txt w]; puts $f $page ; close $f
 # set page [read [open /tmp/page.txt r]]
 
 

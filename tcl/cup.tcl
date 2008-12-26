@@ -33,6 +33,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
+
+# don't use the proxy (this is a bit grim)
+set ::env(http_proxy_host) ""
+set ::env(http_proxy_port) ""
 source util.tcl
 
 set url [gets stdin]
