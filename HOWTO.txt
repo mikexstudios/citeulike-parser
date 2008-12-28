@@ -50,7 +50,7 @@ at the Cygwin user's guide if this is all new to you
 
 You can download the source using subversion:
 
-svn get http://svn.citeulike.org/svn/plugins
+svn co http://svn.citeulike.org/svn/plugins
 
 ==Running==
 
