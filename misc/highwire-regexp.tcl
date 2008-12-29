@@ -9,4 +9,4 @@ foreach line $r_lines {
 }
 set body [join $n_lines "|"]
 set body [regsub -all {\.} $body {\\.}]
-puts "http://(www\\.)?($body)"
+puts "http://(www\\.)?($body)/"
