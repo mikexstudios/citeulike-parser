@@ -15,6 +15,7 @@ class ParseException(Exception):
 # Strip off any institutional proxies we find
 #
 def canon_url(url):
+#	print "xxxxx url = %s" % url
 	m = re.match(r'http://[^/]*sciencedirect.com[^/]*/(science(\?_ob|/article).*$)', url)
 	if not m:
 		raise ParseException, "bad source url"
@@ -74,6 +75,16 @@ def handle(url):
 	
 	m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
 
+	# this page might requires a login.  Luckily there seems to be a 
+	# link "View Abstract" which can take us to a page we can read
+	if not m:
+		soup = BeautifulSoup.BeautifulSoup(page)
+		for link in soup.findAll('a'):
+			if link.string and string.lower(link.string) in ('view abstract'):
+				page = urlopen(canon_url("http://www.sciencedirect.com" + link['href'])).read()
+				m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
+				break
+	
 	if not m:
 		raise ParseException, "Cannot find DOI in page"
 
