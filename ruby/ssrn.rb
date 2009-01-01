@@ -36,7 +36,7 @@ puts "url\thttp://ssrn.com/abstract=#{id}"
 title = (doc/"//div[@id='abstractTitle']").first.inner_text.strip
 puts "title\t" + title
 
-for author in (doc/"//a[@title='View other papers by this author']")
+for author in (doc/"//div[@id='innerWhite']/center/font/a[@title='View other papers by this author']")
   puts "author\t" + author.inner_text.strip
 end
 
