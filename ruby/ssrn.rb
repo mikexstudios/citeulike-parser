@@ -6,14 +6,17 @@ require 'hpricot'
 
 url = gets.strip
 
-#puts "xxxx #{url}"
-
 doc = Hpricot(open(url, "User-Agent" => "lwp-request/5.810"))
 
 puts "begin_tsv"
 
 url.match(/abstract_id=(\d+)/)
 id = $1
+
+#
+# Look PDF "filename" from a 
+# <a href="/Delivery.cfm/xxxxxx.pdf......">
+#
 filename=""
 for a in (doc/"//a")
 	href = a.attributes['href']
@@ -39,13 +42,16 @@ end
 
 for input in (doc/"//input[@class='simField']")
 	doi = input.attributes['value']
-	if doi.match(/DOI:10\./)
-		puts "doi\t" + doi
+	if doi.match(/DOI:(10\..*)/)
+		puts "doi\t" + $1
 	end
 end
 
 puts "journal\tSocial Science Research Network Working Paper Series"
 
+#
+# Lots of matches for this, but only 2(?) match a date.   We want the first one ("first published")
+#
 for date_el in (doc/"//h4/font")
   date = date_el.inner_text
   if date =~ /^(January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{1,2}), ([0-9]{4}$)/
