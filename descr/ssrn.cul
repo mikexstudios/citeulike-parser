@@ -39,7 +39,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-  regexp {^http://papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+$}
+  regexp {^http://papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+}
 }
 
 #
@@ -79,8 +79,8 @@ format_linkout SSRN {
 test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=161637} {
     formatted_url {{SSRN (abstract)} http://ssrn.com/abstract=161637}
     formatted_url {{SSRN (pdf)} http://papers.ssrn.com/sol3/Delivery.cfm/99042103.pdf?abstractid=161637&mirid=1}
-    author {Lott John JR {John R. Lott Jr.}}
-    author {Landes William WM {William M. Landes}}
+    author {Lott John JR {Lott, John  R., Jr.}}
+    author {Landes William WM {Landes, William M.}}
     linkout {SSRN 161637 99042103 {} {}}
     url {http://ssrn.com/abstract=161637}
     journal {Social Science Research Network Working Paper Series}
@@ -90,6 +90,7 @@ test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=161637} {
     year 1999
     title {Multiple Victim Public Shootings, Bombings, and Right-to-Carry Concealed Handgun Laws: Contrasting Private and Public Law Enforcement}
     abstract {Few events obtain the same instant worldwide news coverage as multiple victim public shootings. These crimes allow us to study the alternative methods used to kill a large number of people (e.g., shootings versus bombings), marginal deterrence and the severity of the crime, substitutability of penalties, private versus public methods of deterrence and incapacitation, and whether attacks produce copycats. Yet, economists have not studied this phenomenon. Our results are surprising and dramatic. While arrest or conviction rates and the death penalty reduce normal murder rates, our results find that the only policy factor to influence multiple victim public shootings is the passage of concealed handgun laws. We explain why public shootings are more sensitive than other violent crimes to concealed handguns, why the laws reduce both the number of shootings as well as their severity, and why other penalties like executions have differential deterrent effects depending upon the type of murder.}
+	publisher SSRN
     type JOUR
     status ok
 }
@@ -97,7 +98,7 @@ test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=161637} {
 test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=15108} {
     formatted_url {{SSRN (abstract)} http://ssrn.com/abstract=15108}
     formatted_url {{SSRN (pdf)} http://papers.ssrn.com/sol3/Delivery.cfm/9704241.pdf?abstractid=15108&mirid=1}
-    author {Fama Eugene EF {Eugene F. Fama}}
+    author {Fama Eugene EF {Fama, Eugene  F.}}
     linkout {SSRN 15108 9704241 {} {}}
     url {http://ssrn.com/abstract=15108}
     journal {Social Science Research Network Working Paper Series}
@@ -107,6 +108,7 @@ test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=15108} {
     year 1997
     title {Market Efficiency, Long-Term Returns, and Behavioral Finance}
     abstract {Market efficiency survives the challenge from the literature on long-term return anomalies. Consistent with the market efficiency hypothesis that the anomalies are chance results, apparent over-reaction to information is about as common as under-reaction. And post-event continuation of pre-event abnormal returns is about as frequent as post-event reversal. Consistent with the market efficiency prediction that apparent anomalies can also be due to methodology, the anomalies are sensitive to the techniques used to measure them, and many disappear with reasonable changes in technique.}
+	publisher SSRN
     type JOUR
     status ok
 }
@@ -124,8 +126,8 @@ test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=642123} {
 	journal {Social Science Research Network Working Paper Series}
 	abstract {The literature of software patents has thus far tried to directly address whether software patents increase innovation. The wholesale reform papers have persuaded neither the courts nor Congress, perhaps due to the unfortunate dearth of economic data.  This paper starts from the proposition that software patents are, practically speaking, hidden away in the recesses of the patent office and practically impossible to find. It proceeds under the first economic principles of the patent system to argue that there can be no justification for patenting software when the public has no knowledge of the patents' scope or technical disclosure. It concludes by observing that patent law already provides a mechanism for disclosing patents to the public, the marking requirement, and proposes putting teeth into it so that holders of software patents would be required to play by the same rules as holders of other kinds of patents.}
 	month January
-	author {Lindholm Stephen SB {Stephen Bruce Lindholm}}
-
+	author {Lindholm Stephen SB {Lindholm, Stephen B.}}
+	publisher SSRN
 	type JOUR
 	status ok
 }
