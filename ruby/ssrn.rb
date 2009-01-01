@@ -37,7 +37,7 @@ title = (doc/"//div[@id='abstractTitle']").first.inner_text.strip
 puts "title\t" + title
 
 for author in (doc/"//div[@id='innerWhite']/center/font/a[@title='View other papers by this author']")
-  puts "author\t" + author.inner_text.strip
+  puts "author\t" + author.inner_text.strip.squeeze(" ")
 end
 
 for input in (doc/"//input[@class='simField']")
