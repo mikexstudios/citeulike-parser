@@ -44,7 +44,7 @@ plugin {
 	version {1}
 
 	# The name of the plugin, as displayed on the "CiteULike supports..." page
-	name {CiteSeerX Alpha}
+	name {CiteSeerX Beta}
 
 	# The link the front page of this service
 	url {http://citeseerx.ist.psu.edu/}
@@ -97,7 +97,7 @@ plugin {
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
 format_linkout CITESX {
-    return [list "CiteSeerX Alpha" \
+    return [list "CiteSeerX Beta" \
 		    "http://citeseerx.ist.psu.edu/viewdoc/summary?doi=${ckey_1}"]
 }
 
@@ -115,7 +115,7 @@ format_linkout CITESX {
 # you add the offending page as a test case.
 
 test {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.103.1502} {
-    formatted_url {{CiteSeerX Alpha} http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.103.1502}
+    formatted_url {{CiteSeerX Beta} http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.103.1502}
     volume 52
     linkout {CITESX {} 10.1.1.103.1502 {} {}}
     year 2001
@@ -134,7 +134,7 @@ test {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.103.1502} {
 }
 
 test {http://citeseerx.ist.psu.edu/viewdoc/versions?doi=10.1.1.30.5842} {
-    formatted_url {{CiteSeerX Alpha} http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.30.5842}
+    formatted_url {{CiteSeerX Beta} http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.30.5842}
     year 1993
     linkout {CITESX {} 10.1.1.30.5842 {} {}}
     start_page 12
