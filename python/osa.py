@@ -46,6 +46,12 @@ except:
     print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' + ERR_STR_TRY_AGAIN
     sys.exit(1)
 
+# get page (the meta tag lies about the encoding)
+page = unicode(br.response().read(), encoding="utf-8").replace("iso-8859-1", "utf-8")
+
+# parse the HTML
+soup = BeautifulSoup(page)
+
 # if the user came from a page with an article id in the url we use
 # that directly in the RIS query
 if src_query.has_key('id'):
@@ -55,21 +61,12 @@ if src_query.has_key('id'):
 else:
     try:
         # find the article id in the export form
-        br.select_form(predicate=lambda form: \
-            'articles' in [ctrl.name for ctrl in form.controls])
-        article_id = int(br['articles'])
+        article_id_metadata = soup.findAll(name='input', attrs={'name':'articles'})
+        article_id = article_id_metadata[0]['value']
         ris_server_post_data['articles'] = article_id
     except:
-        # The above should have worked. Sometimes it seems not to. Resort to a good ol' regexp
-        # to get the article_id
-        try:
-            page = urllib2.urlopen(url).read().strip()
-            m = re.search('<\s*input\s+type="hidden"\s+name="articles"\s+value="(\d+)"\s*>',page,re.IGNORECASE)
-            article_id = int(m.group(1))
-            ris_server_post_data['articles'] = article_id
-        except:
-            print ERR_STR_PREFIX + ERR_STR_NO_KEYS + url + '.  ' + ERR_STR_REPORT
-            sys.exit(1)
+        print ERR_STR_PREFIX + ERR_STR_NO_KEYS + url + '.  ' + ERR_STR_REPORT
+        sys.exit(1)
 
 # fetch the RIS entry for the article and exit gracefully in case of trouble
 query = urllib.urlencode(ris_server_post_data)
@@ -79,12 +76,6 @@ except:
     print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' \
             + ERR_STR_TRY_AGAIN
     raise
-
-# get page (the meta tag lies about the encoding)
-page = unicode(br.response().read(), encoding="utf-8").replace("iso-8859-1", "utf-8")
-
-# parse the HTML
-soup = BeautifulSoup(page)
 
 # look for an abstract in the Dublin Core metadata in the HTML head
 abstract_metadata = soup.findAll(name='meta', attrs={'name':'dc.description'})
@@ -105,7 +96,7 @@ if len(doi_metadata):
 
 # print the results
 print "begin_tsv"
-print "linkout\tOSA\t%d\t\t\t" % article_id
+print "linkout\tOSA\t%s\t\t\t" % article_id
 if doi:
     print "linkout\tDOI\t\t%s\t\t" % (doi)
     print "doi\t" + doi

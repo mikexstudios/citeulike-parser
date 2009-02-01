@@ -6,7 +6,7 @@ plugin {
 	author {Kristinn B. Gylfason}
 	email {citeulike@askur.org}
 	language {python}
-	regexp {(osa.org|opticsinfobase.org|opticsexpress.org)/abstract.cfm}
+	regexp {(osa.org|opticsinfobase.org|opticsexpress.org)}
 }
 
 format_linkout OSA {
@@ -30,7 +30,7 @@ test {http://jlt.osa.org/abstract.cfm?id=141326} {
 	title {Localized High Birefringence Induced in SMF-28 Fiber by Femtosecond IR Laser Exposure of the Cladding}
 	journal {J. Lightwave Technol.}
 	status ok
-        abstract {A process for creating a local high fiber birefringence and large variation in refractive-index modulation with a polarization in fiber Bragg gratings using postwriting exposures with femtosecond pulses is presented. A birefringence as high as ~8ÃƒÂ—10-4 was obtained in the core of SMF-28 fiber by exposing the cladding of the fiber in close proximity to the core/cladding interface with a modulated multibeam interference field created by a phase mask. The birefringence is likely due to the induced stress rather than the direct asymmetric refractive index modification.}
+	abstract {A process for creating a local high fiber birefringence and large variation in refractive-index modulation with a polarization in fiber Bragg gratings using postwriting exposures with femtosecond pulses is presented. A birefringence as high as ~8Ã—10-4 was obtained in the core of SMF-28 fiber by exposing the cladding of the fiber in close proximity to the core/cladding interface with a modulated multibeam interference field created by a phase mask. The birefringence is likely due to the induced stress rather than the direct asymmetric refractive index modification.}
 	author {Grobnic Dan D {Grobnic, Dan}}
 	author {Mihailov Stephen SJ {Mihailov, Stephen J.}}
 	author {Smelser Christopher CW {Smelser, Christopher W.}}
@@ -86,8 +86,10 @@ test {http://www.opticsinfobase.org/abstract.cfm?URI=oe-1-3-60} {
 
 test {http://www.opticsinfobase.org/abstract.cfm?id=49264} {
 	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=49264}
+	formatted_url {DOI http://dx.doi.org/10.1364/JOSA.30.000163}
 	volume 30
 	linkout {OSA 49264 {} {} {}}
+	linkout {DOI {} 10.1364/JOSA.30.000163 {} {}}
 	year 1940
 	start_page 163
 	type JOUR
@@ -96,6 +98,7 @@ test {http://www.opticsinfobase.org/abstract.cfm?id=49264} {
 	day 1
 	issue 4
 	publisher {OSA}
+        doi 10.1364/JOSA.30.000163
 	title {The Fluorescent Mercury-Vapor Lamp as a Light Source for a Single-Point Check on Optical Pyrometers}
 	journal {J. Opt. Soc. Am.}
 	status ok
@@ -182,6 +185,33 @@ test {http://www.opticsinfobase.org/abstract.cfm?URI=oe-15-11-6846} {
 	author {Sohlström {} H {Sohlström, H.}}
 	author {Holgado {} M {Holgado, M.}}
 	author {Casquel {} R {Casquel, R.}}
+        plugin osa
+}
+
+test {http://www.opticsinfobase.org/oe/abstract.cfm?URI=OPEX-17-1-304} {
+	formatted_url {{Optical Society of America} http://www.opticsinfobase.org/abstract.cfm?id=175646}
+	formatted_url {DOI http://dx.doi.org/10.1364/OE.17.000304}
+	volume 17
+	linkout {OSA 175646 {} {} {}}
+	linkout {DOI {} 10.1364/OE.17.000304 {} {}}
+	year 2009
+        type JOUR
+	start_page 304
+	url http://www.opticsexpress.org/abstract.cfm?URI=oe-17-1-304
+	end_page 313
+        plugin_version 1
+	doi 10.1364/OE.17.000304
+	day 5
+        publisher OSA
+        issue 1
+	title {Electro-optical modulator in a polymerinfiltrated silicon slotted photonic crystal waveguide heterostructure resonator}
+        journal {Opt. Express}
+        status ok
+	abstract {We present a novel concept of a compact, ultra fast electro-optic modulator, based on photonic crystal resonator structures that can be realized in two dimensional photonic crystal slabs of silicon as core material employing a nonlinear optical polymer as infiltration and cladding material. The novel concept is to combine a photonic crystal heterostructure cavity with a slotted defect waveguide. The photonic crystal lattice can be used as a distributed electrode for the application of a modulation signal. An electrical contact is hence provided while the optical wave is kept isolated from the lossy metal electrodes. Thereby, well known disadvantages of segmented electrode designs such as excessive scattering are avoided. The optical field enhancement in the slotted region increases the nonlinear interaction with an external electric field resulting in an envisaged switching voltage  of approximately 1 V at modulation speeds up to 100 GHz.}
+        month 1
+	author {Wülbern Jan JH {Wülbern, Jan H.}}
+	author {Petrov Alexander A {Petrov, Alexander}}
+	author {Eich Manfred M {Eich, Manfred}}
         plugin osa
 }
 
