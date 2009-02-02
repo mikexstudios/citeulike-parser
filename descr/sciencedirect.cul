@@ -139,6 +139,13 @@ test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6TVK-40X8HYB-2&_
 	status ok
 }
 
+test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B8CWT-4ST2RTK-H&_user=10&_rdoc=1&_fmt=&_orig=search&_sort=d&view=c&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=ccc8bb47c33c3cdf76706c7fd04e63bf} {
+	status ok
+	type CHAP
+
+}
+
+
 #test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6X09-4GT63KF-8&_coverDate=07%2F31%2F2005&_alid=302396169&_rdoc=1&_fmt=&_orig=search&_qd=1&_cdi=7209&_sort=d&view=c&_acct=C000058699&_version=1&_urlVersion=0&_userid=2744511&md5=a4e67ff1d73c27a79723943d32982def} {
 #	 formatted_url {DOI http://dx.doi.org/10.1037/0278-7393.31.4.703}
 #	 formatted_url {ScienceDirect http://www.sciencedirect.com/science/article/B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8}
