@@ -51,8 +51,6 @@ def item(soup, entry, key):
 
 def handle(url):
 
-	MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
 	m = re.match(r'http://www\.jove.com/index/Details\.stp\?ID=(\d+)', url)
 	if not m:
 		raise ParseException, "URL not supported %s" % url
@@ -82,6 +80,7 @@ def handle(url):
 	if date:
 		m = re.match(r'(\d+)/(\d+)/(\d+)', date)
 		if m:
+			# ARGH: American m/d/y
 			day = m.group(2)
 			month = m.group(1)
 			year = m.group(3)
@@ -92,18 +91,19 @@ def handle(url):
 			if day:
 				print "day\t%s" % day
 			
-
 	# authors
 	authors = head.findAll("meta", {"name":"dc.Contributor"})
 	if authors:
 		for a in authors:
 			print "author\t%s" % a['content']
 
+	#
+	# This seems very fragile.  
+	#
 	abstract = soup.find('div', {'id':'C47_c1vzp1s1'})
 	if abstract:
 		abs = abstract.renderContents().strip()
-#		abs = abs.replace(' xmlns=""','')
-#		abs = re.sub(r'<[^>]+>','',abs)
+		abs = re.sub(r'<[^>]+>','',abs)
 		abs = unescape(abs)
 		print "abstract\t%s" % abs
 
