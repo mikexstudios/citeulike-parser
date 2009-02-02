@@ -5,7 +5,7 @@ from urllib import urlencode
 from urllib2 import urlopen
 from copy import copy
 import BeautifulSoup
-
+import htmlentitydefs
 
 class ParseException(Exception):
 	pass
@@ -87,7 +87,6 @@ def scrape_abstract(page):
 			if string.lower(h3.string) in ('abstract'):
 				for p in h3.findNextSiblings('p'):
 					for t in p.findAll(text=True):
-						# print t
 						abs.append(t)
 				break
 
