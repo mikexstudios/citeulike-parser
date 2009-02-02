@@ -223,19 +223,26 @@ proc CROSSREF::parse_xml {xml {hints {}}} {
 
 	set doc [[dom parse $xml] documentElement]
 	
+	set ret ""
+	
 	# Journal?
 	catch {
 		if {[$doc selectNodes /doi_records/doi_record/crossref/journal] ne ""} {
-			return [parse_journal $doc]		
+			set ret [parse_journal $doc] 
 		}
+	}
+	if {$ret ne ""} {
+		return $ret
 	}
 	
 	# Chapter?
 	catch {
-		
 		if {[$doc selectNodes /doi_records/doi_record/crossref/book/content_item\[@component_type="chapter"\] ] ne ""} {
-			return [parse_chapter $doc]		
+			set ret [parse_chapter $doc]		
 		}	
+	}
+	if {$ret ne ""} {
+		return $ret
 	}
 	
 	return {}
