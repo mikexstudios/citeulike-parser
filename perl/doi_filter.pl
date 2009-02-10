@@ -18,7 +18,7 @@ chomp($url);
 $url =~ s/^\s+//;
 $url =~ s/\s+$//;
 
-if (! $url =~ m{^(http://dx\.doi\.org/|doi:|10\.)}i ) {
+if (! $url =~ m{^(http://dx\.(doi|plos)\.org/|doi:|10\.)}i ) {
 	print "OK\t$url\tNOT_CHANGED\tNO_MATCH\tEOL1\n";
 	exit 0;
 }

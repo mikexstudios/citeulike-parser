@@ -2,6 +2,7 @@
 # parse a PLoS for CiteULike.org
 # fetch the RIS citation provided by PLoS journals
 # C.Ladroue
+# mods by Fergus Gallagher/CiteULike
 
 from urllib2 import urlopen
 from urlparse import urlparse
@@ -33,20 +34,22 @@ def fetch_record(url):
 		# It's definitely an old style one
 		return fetch_old_ris(hostname, doi)
 
-	(type, record) = fetch_new_ris(doi)
+	(type, record) = fetch_new_ris(hostname, doi)
 	if re.search('\s*TY  - ', record):
 		return (type, record)
 
 	# See if it's an old style "perlserv" record just in case
 	return fetch_old_ris(hostname, doi)
+	
 
-def fetch_new_ris(doi):
-	# PLOS seems happy to serve up the BibTeX record from any of its journal sites
-	# (so pathogens paper can come from ploscompbiol with no problem)
-	url = "http://www.plosgenetics.org/article/getRisCitation.action?articleURI=info:doi/%s" % urllib.quote(doi)
-#	url = 'http://www.ploscompbiol.org/article/getBibTexCitation.action?articleURI=info:doi/%s' % urllib.quote(doi)
+def fetch_new_ris(hostname, doi):
+	
+	url = "http://%s/article/getRisCitation.action?articleURI=info:doi/%s" % (hostname, urllib.quote(doi))
+
 	record = unicode(urlopen(url).read().strip(), "utf8")
-	record = decode_entities(record.replace("10.1371%2F", "10.1371/"))
+
+	record = record.replace("10.1371%2F", "10.1371/")
+	record = decode_entities(record)
 	return ("ris", record)
 
 def fetch_old_ris(hostname, doi):
