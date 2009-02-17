@@ -54,7 +54,8 @@ def url_to_id(url):
 			return None
 
 	# Otherwise assume anything which looks like /123123/ is an ID
-	m = re.search(r'https?://.*?jstor.+?/(\d{4,})(/|$|\?)', url)
+	#m = re.search(r'https?://.*?jstor.+?/(\d{4,})(/|$|\?|#)', url)
+	m = re.search(r'https?://.*?jstor.+?/(\d{4,})', url)
 	if m:
 		return int(m.group(1))
 	return None
