@@ -47,13 +47,11 @@ set url [gets stdin]
 #
 set paper_id ""
 
-if {$paper_id eq ""} {
-	regexp {paper_id=(\d+)} $url -> paper_id
-}
+regexp {paper_id=(\d+)} $url -> paper_id
 
 
 if {$paper_id eq ""} {
-	regexp {go\.editlib\.org\/p\/(\d+)} $url -> paper_id
+	regexp {editlib\.org\/p\/(\d+)} $url -> paper_id
 }
 
 if {$paper_id eq ""} {
