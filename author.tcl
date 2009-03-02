@@ -51,7 +51,7 @@ namespace eval author {
 	set TITLE_JUNK {(?:His (?:Excellency|Honou?r)\s+|Her (?:Excellency|Honou?r)\s+|The Right Honou?rable\s+|The Honou?rable\s+|Right Honou?rable\s+|The Rt\.? Hon\.?\s+|The Hon\.?\s+|Rt\.? Hon\.?\s+|Mr\.?\s+|Ms\.?\s+|M\/s\.?\s+|Mrs\.?\s+|Miss\.?\s+|Dr\.?\s+|Sir\s+|Dame\s+|Prof\.?\s+|Professor\s+|Doctor\s+|Mister\s+|Mme\.?\s+|Mast(?:\.|er)?\s+|Lord\s+|Lady\s+|Madam(?:e)?\s+|Priv\.-Doz\.\s+)+}
 	set TRAILING_JUNK {,?\s+(?:Esq(?:\.|uire)?|Sn?r\.?|Jn?r\.?|[Ee]t [Aa]l\.?)} ; # The Indiana Jones school of naming your children..
 	set NAME_2 {(?:[^ \t\n\r\f\v,.]{2,}|[^ \t\n\r\f\v,.;]{2,}\-[^ \t\n\r\f\v,.;]{2,})}
-	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
+	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]\.-?){1,3}[A-Z]\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
 	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
 	set SURNAME [subst {(?:$PREFIX)?(?:$NAME_2)}]
 	set EMAIL {(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)}
@@ -296,6 +296,7 @@ namespace eval author {
  					{"Cameron" "Richard" "RD" "Richard  D  Cameron"}\
  					{"Steves" "" "BA" "Steves B.A."}\
  					{"Florek" "" "HJ" "Florek, H.-J."}\
+ 					{"Steves" "" "ABC" "Steves, A.B.C"}\
  				   ]
 
 		# To fix at some point:
