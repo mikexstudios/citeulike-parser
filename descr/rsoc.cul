@@ -5,6 +5,7 @@
 # by
 #
 #	Stevan Springer <stevan.springer@gmail.com>
+#   modified by Fergus Gallagher, citeulike.org
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -39,6 +40,15 @@
 #
 # Plugin description
 #
+#
+# 2009/4/2 - RoySoc have moved to HighWire.  Keep this so that 
+# old linkouts work, but change to regexp so that it never matches.
+# Mind you, none of the test cases below seem to work - they all redirect to
+# a home page.  It seems they haven't bothered to set up redirects.
+#
+
+
+#	regexp {http://[^/]*journals.royalsoc.ac.uk[^/]*/content|http://journals.royalsociety.org/content}
 
 plugin {
 	version {1}
@@ -48,7 +58,7 @@ plugin {
 	author {Fergus Gallagher}
 	email {fergus.gallagher@citelike.org}
 	language {perl}
-	regexp {http://[^/]*journals.royalsoc.ac.uk[^/]*/content|http://journals.royalsociety.org/content}
+	regexp {XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX}
 
 }
 

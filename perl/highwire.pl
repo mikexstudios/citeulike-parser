@@ -87,6 +87,7 @@ $abstract_part = "abstract";
 if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9]+(?:\.[a-z]+)?)}) {
 	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
 	$journal_site = gobble_proxy($journal_site);
+	$page =~ s/\.abstract//;
 	$url_abstract = "http://$journal_site/content/$volume/$number/${page}.abstract";
 }
 
@@ -121,6 +122,7 @@ else {
 # Get the link to the citebuilder url and formulate a link to the reference manager RIS file
 
 $ok = 0;
+
 
 if ($source_abstract = get("$url_abstract")) {
 	$ok = 1;
