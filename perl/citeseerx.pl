@@ -92,7 +92,7 @@ foreach my $line (split(/\n/, $data)) {
     print "volume\t$1\n";
   }
   elsif($line =~ m,<tr><td>VENUE TYPE</td><td>(.*)</td><td>,) {
-    $venue_type = $1;
+    $venue_type = uc $1;
   }
   elsif($line =~ m,<tr><td>VENUE</td><td>(.*)</td><td>,) {
     $venue = $1;
@@ -107,7 +107,7 @@ if ($venue and $venue_type) {
   elsif ($venue_type eq "JOURNAL") {
     print "journal\t$venue\n";
     print "type\tJOUR\n";
-  }
+  } 
 } else {
     # Type is a required field, so we'll say ELEC if we don't know.
     print "type\tELEC\n";
