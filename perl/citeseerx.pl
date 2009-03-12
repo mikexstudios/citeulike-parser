@@ -108,6 +108,10 @@ if ($venue and $venue_type) {
     print "journal\t$venue\n";
     print "type\tJOUR\n";
   } 
+  elsif ($venue_type eq "TECHREPORT") {
+    print "journal\t$venue\n";
+    print "type\tREP\n";
+  }
 } else {
     # Type is a required field, so we'll say ELEC if we don't know.
     print "type\tELEC\n";
