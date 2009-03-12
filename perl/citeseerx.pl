@@ -99,23 +99,29 @@ foreach my $line (split(/\n/, $data)) {
   }
 }
 
+# Type is a required field, so we'll say ELEC if we don't know.
+my $type = "ELEC";
+my $journal = "";
+my $title_secondary = "";
+
 if ($venue and $venue_type) {
   if ($venue_type eq "CONFERENCE") {
-    print "title_secondary\t$venue\n";
-    print "type\tINCONF\n";
+    $title_secondary = $venue;
+    $type = "INCONF";
   }
   elsif ($venue_type eq "JOURNAL") {
-    print "journal\t$venue\n";
-    print "type\tJOUR\n";
+  	$journal = $venue;
+  	$type = "JOUR";
   } 
   elsif ($venue_type eq "TECHREPORT") {
-    print "journal\t$venue\n";
-    print "type\tREP\n";
+  	$journal = $venue;
+  	$type = "REP";
   }
-} else {
-    # Type is a required field, so we'll say ELEC if we don't know.
-    print "type\tELEC\n";
 }
+
+print "title_secondary\t$title_secondary\n" if $title_secondary;
+print "journal\t$journal\n" if $journal;
+print "type\t$type\n";
 
 print "end_tsv\n";
 print "status\tok\n";
