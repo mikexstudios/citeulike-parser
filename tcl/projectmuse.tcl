@@ -57,7 +57,7 @@ set url [gets stdin]
 puts "begin_tsv"
 
 #build the linkout
-if {[regexp {muse.(?:jhu.edu|uq.edu.au)[^/]*(/journals/[^/]+/v[0-9]+/[0-9]+.+.(html|pdf))} $url -> l_url]} {
+if {[regexp {muse.(?:jhu.edu|uq.edu.au).*(/journals/[^/]+/v[0-9]+/[0-9]+.+.(html|pdf))} $url -> l_url]} {
 	puts "linkout\tMUSE\t\t$l_url\t\t"
 } else {
 	bail "This doesn't look like a valid link from Project Muse"
