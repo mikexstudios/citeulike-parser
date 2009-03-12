@@ -56,6 +56,11 @@ proc parse_ris {rec} {
 		# This is the gospel spec for a field header
 		set ok [regexp {^([A-Z][A-Z0-9])  - (.*)$} $l match k v]
 		
+		# special case for "DOI" which is not part of the spec, but, ho, hum
+		if {!$ok && [regexp {^(DOI)  - (.*)$} $l match k v]} {
+			set ok 1
+		}
+		
 		# Sometimes there are some borderline legal implementations
 		# where empty fields are defined.
 		if {!$ok && [regexp {^([A-Z][A-Z0-9])  -$} $l match k]} {
@@ -78,7 +83,6 @@ proc parse_ris {rec} {
 		if {$ok} {
 			set v [string trim $v]
 			set last_tag $k
-
 			switch -regexp -- $k {
 
 				{ER} {}
@@ -87,6 +91,8 @@ proc parse_ris {rec} {
 						set ret(type) INCOL
 					} elseif {$v=="RPRT"} {
 						set ret(type) REP
+					} elseif {$v=="ABST"} {
+						set ret(type) JOUR
 					} else {
 						set ret(type) $v
 					}
@@ -198,6 +204,9 @@ proc parse_ris {rec} {
 					set ret(address) $v
 				}
 
+				{DOI} {
+					set ret(doi) $v
+				}
 
 				{UR} {
 					set ret(url) $v
