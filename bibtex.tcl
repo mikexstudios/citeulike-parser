@@ -164,11 +164,42 @@ proc bibtex_untangle {data} {
 
 
 	# There some post-processing needs done
+#	if {[info exists ret(pages)]} {
+#		if {[regexp {^(.*?)--?(.*?)$} $ret(pages) -> ret(start_page) ret(end_page)]} {
+#			unset ret(pages)
+#		}
+#	}
+	
 	if {[info exists ret(pages)]} {
-		if {[regexp {^(.*?)--?(.*?)$} $ret(pages) -> ret(start_page) ret(end_page)]} {
+
+		if {[regexp {^([A-Za-z0-9]+)--?([A-Za-z0-9]+)$} $ret(pages) match first last]} {
+			set ret(start_page) $first
+			set ret(end_page) $last
+			unset ret(pages)
+		} elseif {[regexp {^([A-Za-z0-9]+)(:?\+)?$} $ret(pages) match first]} {
+			set ret(start_page) $first
+			unset ret(pages)
+		} elseif {[regexp {^([A-Za-z0-9]+,)+[A-Za-z0-9]+$} $ret(pages) match first]} {
+			set l [split $ret(pages)]
+			# Damned computer scientists with their negative page numbers
+			set min [lindex $l -100]
+			set max [lindex $l -100]
+			foreach page [split $ret(pages)] {
+				if {$page<$min} {
+					set min $page
+				}
+				if {$page>$max} {
+					set max $page
+				}
+			}
+			set ret(start_page) $min
+			if {$min!=$max} {
+				set ret(end_page) $max
+			}
 			unset ret(pages)
 		}
 	}
+
 								   
 	bibtex_cleanup
 
