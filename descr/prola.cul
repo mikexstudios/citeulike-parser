@@ -1,32 +1,39 @@
+# Modified from original code by 
+# 	author {Eric Moore}
+#	email {ewm-list@redtetrahedron.org}
+
 plugin {
 	version {1}
-	name {Physical Review Online Archive}
-	url {http://prola.aps.org/}
+	name {American Physical Society}
+	url {http://www.aps.org/}
 	blurb {}
-	author {Eric Moore}
-	email {ewm-list@redtetrahedron.org}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
 	language {python}
-	regexp {prola.aps.org/abstract|cornell.mirror.aps.org/abstract|prola.ridge.aps.org|prola.library.cornell.edu/abstract}
+	regexp {aps.org/abstract}
 }
 
 format_linkout PROLA {
-	return [list "PROLA (abstract)" \
+	return [list "APS (abstract)" \
 				"http://link.aps.org/abstract/$ckey_1" \
-				"PROLA (pdf)" \
+				"APS (pdf)" \
 				"http://link.aps.org/pdf/$ckey_1" \
 			  ]
 }
 
+#tests 5+6 hang :-(
 
-# Reviews of Modern Physics 
+# 1 Reviews of Modern Physics 
 test {http://prola.aps.org/abstract/RMP/v66/i3/p1105_1} {
-	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/RMP/v66/i3/p1105_1}
-	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/RMP/v66/i3/p1105_1}
+	formatted_url {{APS (abstract)} http://link.aps.org/abstract/RMP/v66/i3/p1105_1}
+	formatted_url {{APS (pdf)} http://link.aps.org/pdf/RMP/v66/i3/p1105_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/RevModPhys.66.1105}
 	linkout {PROLA {} RMP/v66/i3/p1105_1 {} {}}
 	linkout {DOI {} 10.1103/RevModPhys.66.1105 {} {}}
 	volume 66
 	year 1994
+	month 7
+	day 1
 	journal_user_abbrev_1 RMP
 	type JOUR
 	start_page 1105
@@ -39,19 +46,20 @@ test {http://prola.aps.org/abstract/RMP/v66/i3/p1105_1} {
 	journal {Reviews of Modern Physics}
 	status ok
 	abstract {Halo states extend over an unusually large space where many of their properties hinge on the tail of the wave functions. Their levels lie mainly just below the thresholds for neutron-emission channels. This short review covers the main distinguishing features of halos and how they are revealed in experiments. Special emphasis is placed on the large variety of experiments apt to study halo structures. Some aspects of current research are treated in greater detail.}
-	month 7
 	author {Riisager {} K {Riisager, K.}}
 }
 
-# Physical Review (2nd Series)
+# 2 Physical Review (2nd Series)
 test {http://prola.aps.org/abstract/PR/v69/i1-2/p37_1} {
-	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/PR/v69/i1-2/p37_1}
-	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/PR/v69/i1-2/p37_1}
+	formatted_url {{APS (abstract)} http://link.aps.org/abstract/PR/v69/i1-2/p37_1}
+	formatted_url {{APS (pdf)} http://link.aps.org/pdf/PR/v69/i1-2/p37_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRev.69.37}
 	linkout {PROLA {} PR/v69/i1-2/p37_1 {} {}}
 	linkout {DOI {} 10.1103/PhysRev.69.37 {} {}}
 	volume 69
 	year 1946
+	month 1
+	day 99
 	journal_user_abbrev_1 PR
 	type JOUR
 	start_page 37
@@ -62,23 +70,24 @@ test {http://prola.aps.org/abstract/PR/v69/i1-2/p37_1} {
 	publisher {American Physical Society}
 	issue 1-2
 	title {Resonance Absorption by Nuclear Magnetic Moments in a Solid}
-	journal {Physical Review}
+	journal {Physical Review Online Archive (Prola)}
 	status ok
-	month 1
 	author {Purcell {} EM {Purcell, E. M.}}
 	author {Torrey {} HC {Torrey, H. C.}}
 	author {Pound {} RV {Pound, R. V.}}
 }
 
-# Physical Review (Series I)
+# 3 Physical Review (Series I)
 test {http://prola.ridge.aps.org/abstract/PRI/v1/i1/p1_1} {
-	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/PRI/v1/i1/p1_1}
-	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/PRI/v1/i1/p1_1}
+	formatted_url {{APS (abstract)} http://link.aps.org/abstract/PRI/v1/i1/p1_1}
+	formatted_url {{APS (pdf)} http://link.aps.org/pdf/PRI/v1/i1/p1_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevSeriesI.1.1}
 	linkout {PROLA {} PRI/v1/i1/p1_1 {} {}}
 	linkout {DOI {} 10.1103/PhysRevSeriesI.1.1 {} {}}
 	volume 1
 	year 1893
+	month 7
+	day 1
 	journal_user_abbrev_1 PRI
 	type JOUR
 	start_page 1
@@ -90,14 +99,44 @@ test {http://prola.ridge.aps.org/abstract/PRI/v1/i1/p1_1} {
 	title {A Study of the Transmission Spectra of Certain Substances in the Infra-Red}
 	journal {Physical Review (Series I)}
 	status ok
-	month 7
 	authors {{Nichols Ernest EF {Nichols, Ernest F.}}}
 }
 
-# Physical Review Letters
+
+# 4 Physical Review C (1)
+test {http://prola.aps.org/abstract/PRC/v50/i2/pR571_1} {
+	formatted_url {{APS (abstract)} http://link.aps.org/abstract/PRC/v50/i2/pR571_1}
+	formatted_url {{APS (pdf)} http://link.aps.org/pdf/PRC/v50/i2/pR571_1}
+	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevC.50.R571}
+	linkout {PROLA {} PRC/v50/i2/pR571_1 {} {}}
+	linkout {DOI {} 10.1103/PhysRevC.50.R571 {} {}}
+	volume 50
+	year 1994
+	month 8
+	day 1
+	journal_user_abbrev_1 PRC
+	type JOUR
+	start_page R571
+	url http://link.aps.org/abstract/PRC/v50/pR571
+	plugin_version 1
+	doi 10.1103/PhysRevC.50.R571
+	id 10.1103/PhysRevC.50.R571
+	publisher {American Physical Society}
+	issue 2
+	title {Hermitian boson mapping and finite truncation}
+	journal {Physical Review C}
+	status ok
+	abstract {Starting from a general; microscopic fermion-to-boson mapping that preserves Hermitian conjugation; we discuss truncations of the boson Fock space basis. We give conditions under which the exact boson images of finite fermion operators are also finite [e.g.; a (1+2)-body fermion Hamiltonian is mapped to a (1+2)-body boson Hamiltonian] in the truncated basis. For the most general case; where the image is not necessarily exactly finite; we discuss how to make practical and controlled approximations.}
+	author {Johnson Calvin CW {Johnson, Calvin W.}}
+	author {Ginocchio Joseph JN {Ginocchio, Joseph N.}}
+}
+
+# The following tests hang (as of 13/Mar/2009)
+
+# 5 Physical Review Letters (HANGS)
 test {http://cornell.mirror.aps.org/abstract/PRL/v56/i10/p1043_1} {
-	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/PRL/v56/i10/p1043_1}
-	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/PRL/v56/i10/p1043_1}
+	formatted_url {{APS (abstract)} http://link.aps.org/abstract/PRL/v56/i10/p1043_1}
+	formatted_url {{APS (pdf)} http://link.aps.org/pdf/PRL/v56/i10/p1043_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevLett.56.1043}
 	linkout {PROLA {} PRL/v56/i10/p1043_1 {} {}}
 	linkout {DOI {} 10.1103/PhysRevLett.56.1043 {} {}}
@@ -126,10 +165,11 @@ test {http://cornell.mirror.aps.org/abstract/PRL/v56/i10/p1043_1} {
 	author {Ziock {} KOH {Ziock, K. O. H.}}
 }
 
-# Physical Review C
+
+# 6 Physical Review C (HANGS)
 test {http://prola.library.cornell.edu/abstract/PRC/v50/i2/pR571_1} {
-	formatted_url {{PROLA (abstract)} http://link.aps.org/abstract/PRC/v50/i2/pR571_1}
-	formatted_url {{PROLA (pdf)} http://link.aps.org/pdf/PRC/v50/i2/pR571_1}
+	formatted_url {{APS (abstract)} http://link.aps.org/abstract/PRC/v50/i2/pR571_1}
+	formatted_url {{APS (pdf)} http://link.aps.org/pdf/PRC/v50/i2/pR571_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevC.50.R571}
 	linkout {PROLA {} PRC/v50/i2/pR571_1 {} {}}
 	linkout {DOI {} 10.1103/PhysRevC.50.R571 {} {}}
@@ -151,3 +191,5 @@ test {http://prola.library.cornell.edu/abstract/PRC/v50/i2/pR571_1} {
 	author {Johnson Calvin CW {Johnson, Calvin W.}}
 	author {Ginocchio Joseph JN {Ginocchio, Joseph N.}}
 }
+
+
