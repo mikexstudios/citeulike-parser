@@ -142,14 +142,14 @@ proc parse_ris {rec} {
 						} else {
 							set ret(year) ""
 						}
-						if {$month!="" && [string is integer $month]} {
-							set ret(month) [format %d $month]
+						if {$month!="" && [scan $month %d month]} {
+							set ret(month) $month
 						} else {
 							set ret(month) ""
 						}
 						
-						if {$day!="" && [string is integer $day]} {
-							set ret(day) [format %d $day]
+						if {$day!="" && [scan $day %d day]} {
+							set ret(day) $day
 						} else {
 							set ret(day) ""
 						}
