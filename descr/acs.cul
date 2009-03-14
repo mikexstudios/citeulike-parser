@@ -11,81 +11,75 @@ plugin {
 
 # format_linkout is defined in doi.cul
 
-test {http://pubs.acs.org/cgi-bin/abstract.cgi/bcches/2006/17/i02/abs/bc0501000.html} {
+test {http://pubs.acs.org/doi/abs/10.1021/bc0501000} {
 	formatted_url {DOI http://dx.doi.org/10.1021/bc0501000}
-	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/bc0501000}
+	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021%2Fbc0501000}
 	volume 17
 	linkout {DOI {} 10.1021/bc0501000 {} {}}
 	year 2006
 	start_page 267
 	type JOUR
-	url {http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/bc0501000}
+	url {http://dx.doi.org/10.1021/bc0501000}
 	end_page 274
 	doi {10.1021/bc0501000}
-	serial "1043-1802"
-	address "Nobex Corporation, 617 Davis Drive, Suite 100, Durham, North Carolina 27713"
-	day 15
+	day 1
 	issue 2
 	title {Amphiphilic Conjugates of Human Brain Natriuretic Peptide Designed for Oral Delivery: In Vitro Activity Screening}
-	journal {Bioconjugate Chem.}
+	journal {Bioconjugate Chemistry}
 	status ok
 	month 3
-	author {Miller {} MA {Miller, M.A.}} 
-	author {Malkar {} NB {Malkar, N.B.}} 
-	author {Severynse-Stevens {} D {Severynse-Stevens, D.}} 
-	author {Yarbrough {} KG {Yarbrough, K.G.}} 
-	author {Bednarcik {} MJ {Bednarcik, M.J.}} 
-	author {Dugdell {} RE {Dugdell, R.E.}} 
-	author {Puskas {} ME {Puskas, M.E.}} 
-	author {Krishnan {} R {Krishnan, R.}} 
-	author {James {} KD {James, K.D.}}
-	abstract {Abstract: Congestive heart failure (CHF) is a complex syndrome involving altered neurohormonal levels and impaired cardiac and renal function. In recent years, intravenous administration of exogenous human brain-type natriuretic peptide (hBNP) has become an important therapy in treating patients with acutely decompensated CHF. However, reports during the past year suggest that hBNP could play a prominent role in the chronic treatment of CHF patients as well. We are currently developing conjugates of hBNP suitable for oral delivery to provide a patient-friendly treatment option for chronic heart failure patients. In this report, we present in vitro activity results obtained from hBNP conjugates featuring a variety of rationally designed amphiphilic oligomers. Mapping studies revealed that the hydrophobic/hydrophilic balance of the oligomer impacted the regioselectivity of conjugation. Additionally, the regiochemistry and extent of conjugation had a significant impact on activity. Many monoconjugates retained activity comparable to native peptide and are currently under evaluation in subsequent in vivo screens.}
+	author {Miller Mark MA {Miller, Mark A.}}
+	author {Malkar Navdeep NB {Malkar, Navdeep B.}}
+	author {Severynse-Stevens Diana D {Severynse-Stevens, Diana}}
+	author {Yarbrough Kevin KG {Yarbrough, Kevin G.}}
+	author {Bednarcik Mark MJ {Bednarcik, Mark J.}}
+	author {Dugdell Robert RE {Dugdell, Robert E.}}
+	author {Puskas Monica ME {Puskas, Monica E.}}
+	author {Krishnan Radha R {Krishnan, Radha}}
+	author {James Kenneth KD {James, Kenneth D.}}
+	abstract {Congestive heart failure (CHF) is a complex syndrome involving altered neurohormonal levels and impaired cardiac and renal function. In recent years, intravenous administration of exogenous human brain-type natriuretic peptide (hBNP) has become an important therapy in treating patients with acutely decompensated CHF. However, reports during the past year suggest that hBNP could play a prominent role in the chronic treatment of CHF patients as well. We are currently developing conjugates of hBNP suitable for oral delivery to provide a patient-friendly treatment option for chronic heart failure patients. In this report, we present in vitro activity results obtained from hBNP conjugates featuring a variety of rationally designed amphiphilic oligomers. Mapping studies revealed that the hydrophobic/hydrophilic balance of the oligomer impacted the regioselectivity of conjugation. Additionally, the regiochemistry and extent of conjugation had a significant impact on activity. Many monoconjugates retained activity comparable to native peptide and are currently under evaluation in subsequent in vivo screens.}
 }
 
-test {http://pubs.acs.org/cgi-bin/abstract.cgi/jceaax/2006/51/i02/abs/je050369+.html} {
+test {http://pubs.acs.org/doi/abs/10.1021/je050369+} {
 	formatted_url {DOI http://dx.doi.org/10.1021/je050369+}
-	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/je050369+}
+	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021%2Fje050369%2B}
 	volume 51
 	linkout {DOI {} 10.1021/je050369+ {} {}}
 	year 2006
 	start_page 330
 	type JOUR
-	url {http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/je050369+}
+	url {http://dx.doi.org/10.1021/je050369+}
 	end_page 337
 	doi {10.1021/je050369+}
-	serial {0021-9568}
-	address "Department of Chemical Engineering and Applied Chemistry and Department of Physical and Environmental Sciences, University of Toronto at Scarborough, 1265 Military Trail, Toronto, Ontario, Canada M1C 1A4"
-	day 9
+	day 1
 	issue 2
 	title {Evaluation of Three Prediction Methods for Partitioning Coefficients of Organic Solutes between a Long-Chain Aliphatic Alcohol and the Gas Phase as a Function of Temperature}
-	journal {J. Chem. Eng. Data}
+	journal {Journal of Chemical & Engineering Data}
 	status ok
 	month 3
-	author {Xiao {} H {Xiao, H.}} 
-	author {Wania {} F {Wania, F.}}
-	abstract {Abstract: Temperature-dependent experimental hexadecan-1-ol/air partition coefficients of numerous organic solutes are regressed against molecular interaction parameters to derive a linear solvation energy relationship (LSER) for each experimental temperature. The system constants derived by these regressions are linearly related to reciprocal absolute temperature, allowing their extrapolation to 298.15 K and the establishment of a LSER equation for the hexadecan-1-ol/air partition coefficients at 298.15 K. This equation yields predictions comparable to those of another LSER equation for that parameter that is independently derived by extrapolating the system constants of smaller aliphatic alcohols to the chain length of hexadecan-1-ol. This confirms that the solvation properties of the long-chain alkanols can be extrapolated from those of smaller normal alcohols. Hexadecan-1-ol/air partition coefficients for the same solutes are also predicted using SPARC and calculated from vapor pressure data from the literature and activity coefficients in hexadecan-1-ol predicted by UNIFAC. The SPARC- and UNIFAC-predicted partition coefficients agree well with each other, and also the agreements between predictions and measurements are acceptable considering experimental uncertainty. A comparison of measured and predicted activity coefficients in hexadecan-1-ol reveals that they are not correlated, although they are in the same range and have a similar average. The predictions of the partition coefficients simply succeed because their variability is determined by vapor pressure rather than the activity coefficient, which only varies within an order of magnitude.}
+	author {Xiao Hang H {Xiao, Hang}}
+	author {Wania Frank F {Wania, Frank}}
+	abstract {Temperature-dependent experimental hexadecan-1-ol/air partition coefficients of numerous organic solutes are regressed against molecular interaction parameters to derive a linear solvation energy relationship (LSER) for each experimental temperature. The system constants derived by these regressions are linearly related to reciprocal absolute temperature, allowing their extrapolation to 298.15 K and the establishment of a LSER equation for the hexadecan-1-ol/air partition coefficients at 298.15 K. This equation yields predictions comparable to those of another LSER equation for that parameter that is independently derived by extrapolating the system constants of smaller aliphatic alcohols to the chain length of hexadecan-1-ol. This confirms that the solvation properties of the long-chain alkanols can be extrapolated from those of smaller normal alcohols. Hexadecan-1-ol/air partition coefficients for the same solutes are also predicted using SPARC and calculated from vapor pressure data from the literature and activity coefficients in hexadecan-1-ol predicted by UNIFAC. The SPARC- and UNIFAC-predicted partition coefficients agree well with each other, and also the agreements between predictions and measurements are acceptable considering experimental uncertainty. A comparison of measured and predicted activity coefficients in hexadecan-1-ol reveals that they are not correlated, although they are in the same range and have a similar average. The predictions of the partition coefficients simply succeed because their variability is determined by vapor pressure rather than the activity coefficient, which only varies within an order of magnitude.}
 }
 
-test {http://pubs.acs.org/cgi-bin/abstract.cgi/jpchax/1996/100/i51/abs/jp961497v.html} {
+test {http://pubs.acs.org/doi/abs/10.1021/jp961497v} {
 	formatted_url {DOI http://dx.doi.org/10.1021/jp961497v}
-	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/jp961497v}
+	formatted_url {{American Chem. Soc. Publications} http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021%2Fjp961497v}
 	volume 100
 	linkout {DOI {} 10.1021/jp961497v {} {}}
 	year 1996
 	start_page 19747
 	type JOUR
-	url {http://pubs3.acs.org/acs/journals/doilookup?in_doi=10.1021/jp961497v}
+	url {http://dx.doi.org/10.1021/jp961497v}
 	end_page 19757
 	doi {10.1021/jp961497v}
-	serial {0022-3654}
-	day 19
+	day 1
 	issue 51
 	title {Uncommon Ultrasonic Absorption Spectra of Tetraalkylammonium Bromides in Aqueous Solution}
-	journal {J. Phys. Chem.}
-	address {Drittes Physikalisches Institut, Georg-August-Universität, Bürgerstrasse 42-44, D-37073 Göttingen, Germany}
+	journal {The Journal of Physical Chemistry}
 	status ok
-	month 12
+	month 1
 	author {Kuhnel {} V {Kuhnel, V.}} 
 	author {Kaatze {} U {Kaatze, U.}}
-	abstract {Abstract: Ultrasonic absorption coefficients and sound velocities of aqueous solutions of symmetric tetraalkylammonium bromides have been measured at 25 C as a function of frequency (300 kHz < < 5 GHz) and molal concentration m of salt (0 < m < 6 mol/kg). The hydrophobic chains of the cations (CnH2n+1)4N+ have been varied from n = 1 to n = 5. The absorption spectra for solutions of Me4NBr (n = 1) did not show contributions in excess to the classical absorption, while those for solutions of larger hydrophobic cations revealed two relaxation regions. One of these regions can be represented by a Debye-type relaxation process with a relaxation time D (D 20 ns) which is almost independent of the solute concentration and the length of the cation alkyl groups. The process is attributed to an intramolecular mechanism of rotational isomerization. The other relaxation region reflects a relaxation time distribution. Its principal relaxation time max adopts values between 15 and 230 ps. This relaxation appears to be due to a microheterogeneous structure of the salt solutions. It can be well represented by the Romanov-Solov'ev model of concentration fluctuations if this model is extended to also consider effects of correlations. The values for the correlation length are found to nearly agree with the particle radius that can be calculated from the mutual diffusion coefficient and the shear viscosity of the solutions according to the Stokes-Einstein relation. A noticeable result is the finding that the extended Romanov-Solov'ev model meets with the unusual concentration dependence in the relaxation amplitude. The volume viscosity data derived from the classical part of the sound absorption and data for the isentropic compressibility as resulting from the sound velocity are also discussed in terms of structural properties of the organic salt solutions.}
+	abstract {Ultrasonic absorption coefficients and sound velocities of aqueous solutions of symmetric tetraalkylammonium bromides have been measured at 25 oC as a function of frequency nu (300 kHz nu 5 GHz) and molal concentration m of salt (0 m 6 mol/kg). The hydrophobic chains of the cations (CnH2n+1)4N+ have been varied from n = 1 to n = 5. The absorption spectra for solutions of Me4NBr (n = 1) did not show contributions in excess to the classical absorption, while those for solutions of larger hydrophobic cations revealed two relaxation regions. One of these regions can be represented by a Debye-type relaxation process with a relaxation time tauD (tauD 20 ns) which is almost independent of the solute concentration and the length of the cation alkyl groups. The process is attributed to an intramolecular mechanism of rotational isomerization. The other relaxation region reflects a relaxation time distribution. Its principal relaxation time taumax adopts values between 15 and 230 ps. This relaxation appears to be due to a microheterogeneous structure of the salt solutions. It can be well represented by the RomanovSolov'ev model of concentration fluctuations if this model is extended to also consider effects of correlations. The values for the correlation length are found to nearly agree with the particle radius that can be calculated from the mutual diffusion coefficient and the shear viscosity of the solutions according to the StokesEinstein relation. A noticeable result is the finding that the extended RomanovSolov'ev model meets with the unusual concentration dependence in the relaxation amplitude. The volume viscosity data derived from the classical part of the sound absorption and data for the isentropic compressibility as resulting from the sound velocity are also discussed in terms of structural properties of the organic salt solutions.}
 }
