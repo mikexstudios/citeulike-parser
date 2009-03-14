@@ -248,7 +248,7 @@ namespace eval driver {
 			# If another plugin can handle it, we'll do that
 			if {$status=="redirect"} {
 				incr rec_level
-				return [parse_url $url $rec_level]
+				return [parse_url $extra $rec_level]
 			}
 
 			# Otherwise we'll just have to sort out the data.
