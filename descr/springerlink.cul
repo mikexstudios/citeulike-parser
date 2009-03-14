@@ -48,7 +48,7 @@ plugin {
 	author {Stevan Springer}
 	email {stevan.springer@gmail.com}
 	language {perl}
-	regexp {(http://(www.)?springerlink(\.metapress)?\.com([^/]*)/(index/.*|\(\w+\)/app/home/contribution.*|content/.*))}
+	regexp {(http://(www.)?springerlink(\.metapress)?\.com([^/]*)/(index/.*|\(\w+\)/app/home/contribution.*|content/.*))|(http://www.springerprotocols.com/Abstract/doi/.*)}
 }
 
 # Linkout formatting

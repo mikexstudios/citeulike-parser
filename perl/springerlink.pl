@@ -4,6 +4,7 @@ use warnings;
 #use LWP::Simple;
 use LWP 5.64;
 
+
 #
 # Copyright (c) 2005 Richard Cameron, CiteULike.org
 # All rights reserved.
@@ -66,6 +67,26 @@ my @ns_headers = (
 
 #Examples of compatible url formats:
 #ADD some examples here later.
+
+
+if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
+	my $doi = $1;
+	my $s_url = "http://www.springerlink.com/openurl.asp?genre=article&id=doi:$doi";
+	my $resp = $browser->head("$s_url", @ns_headers);
+	if ($resp) {
+		my $code = $resp->code;
+		if ($code == 200 ) {
+		# this gives us back the last hop "request", i.e., the
+		# URL of the last redirect
+			my $req = $resp->request();
+			my $uri = $req->uri;
+			print "status\tredirect\t$uri\n";
+			exit 0;
+		}
+	}	
+}
+
+
 
 
 # Parser for Springerlink Web Addresses:
