@@ -87,6 +87,7 @@ citation_post_data = {
 }
 
 ris_data = urllib2.urlopen(CITATION_DOWNLOAD_URL, urllib.urlencode(citation_post_data)).read().strip()
+ris_data = re.sub("\nN1  - doi: .*\n","\n",ris_data)
 
 # print the results
 print "begin_tsv"
