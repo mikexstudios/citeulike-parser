@@ -149,8 +149,9 @@ proc bibtex_untangle {data} {
 			}
 
 			# Try to remove stray BibTeX bracing which doesn't do much good
-			set v [regsub {([^\\]|^)\{} $v {\1}]
-			set v [regsub {([^\\])\}} $v {\1}]
+			# Careful! This naive replacement breaks accented characters!
+#			set v [regsub {([^\\]|^)\{} $v {\1}]
+#			set v [regsub {([^\\])\}} $v {\1}]
 			set v [string trim [string map {"  " " "} $v]]
 
 			if {[::driver::is_multiple_field $k]} {
