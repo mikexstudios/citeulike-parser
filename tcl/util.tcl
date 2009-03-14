@@ -68,31 +68,28 @@ proc url_get {url {once_only 0}} {
 
 	set getting 1
 	set count 0
+	set url_orig $url
+
 	while {$getting==1} {
 
 		# We'll pass in whatever cookies we know about
-		set cookie_list {}
-		foreach {k v} [array get ::COOKIES] {
-			lappend cookie_list $v
+		set headers {}
+		foreach {k v} [array get COOKIES] {
+			lappend headers "Cookie" "$v;path=/"
 		}
-		if {[llength $cookie_list]>0} {
-			set headers [list Cookie [join $cookie_list {;}]]
-		} else {
-			set headers {}
-		}
-		
+
 		# Do it.
 		set token [http::geturl $url -headers $headers]
 		upvar #0 $token state
 		
 		# Set whatever cookies get returned into our hi-tech
-		# global variable storage system.
+		# variable storage system.
 		foreach {name value} $state(meta) {
-			if {$name=="Set-Cookie"} {
+			if {[string tolower $name]=="set-cookie"} {
 				set cookie_set [lindex [split $value {;}] 0]
 				# Blatantly ignoring expires. host, path, etc
-				if {[regexp {^[^=]+=(.*)$} $cookie_set -> cookie_key cookie_val]} {
-					set ::COOKIES($cookie_key) $cookie_set
+				if {[regexp {^([^=]+)=(.*)$} $cookie_set -> cookie_key cookie_val]} {
+					set COOKIES($cookie_key) $cookie_set
 				}
 			}
 		}
@@ -111,7 +108,7 @@ proc url_get {url {once_only 0}} {
 
 		incr count
 		if {$count>10} {
-			error "Possible infinite loop fetching $url"
+			error "Possible infinite loop fetching $url_orig"
 		}
 	}
 
