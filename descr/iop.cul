@@ -6,7 +6,7 @@ plugin {
 	author {Kristinn B. Gylfason}
 	email {citeulike@askur.org}
 	language {python}
-	regexp {iop.org[^/]*/EJ/abstract/}
+	regexp {(iop.org[^/]*/EJ/abstract/)|(http://iopscience.iop.org/\d\d\d\d-\d\d\d\d/)}
 }
 
 format_linkout IOP {

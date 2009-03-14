@@ -40,6 +40,9 @@
 
 import re, sys, urllib2
 
+
+
+
 RIS_SERVER_ROOT = 'http://www.iop.org/EJ/sview/'
 RIS_SERVER_POST_STR = 'submit=1&format=refmgr'
 
@@ -60,6 +63,13 @@ ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
 url = sys.stdin.readline()
 # get rid of the newline at the end
 url = url.strip()
+
+# if this is a (restricted) URL, try to redirect to a readable one
+match  = re.search(r'http://iopscience.iop.org/([^?]*)', url)
+if match:
+	print "status\tredirect\thttp://www.iop.org/EJ/abstract/%s" % match.group(1)
+	sys.exit(0)	
+
 
 # fetch the page the user is viewing and exit gracefully in case of trouble
 try:
