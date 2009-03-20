@@ -78,17 +78,20 @@ set page [url_get $arxiv_url]
 # known to work, if a little messy.
 
 # AUTHORS
-regexp "Authors?:.{0,20}((<a href=\"\[^\"\]+\">\[^<\]+</a>\[^<\]*)+)" $page match hauthors
+#regexp "Authors?:.{0,20}((<a href=\"\[^\"\]+\">\[^<\]+</a>\[^<\]*)+)" $page match hauthors
+regexp {<div (?:id="long-author-list"|class="authors")>(.*?)</div>} $page -> hauthors
+
 if {![info exists hauthors]} {
     puts stderr "Page was $page"
 }
 foreach authorlink [split $hauthors "\n"] {
-	regexp "<a href=\"\[^\"\]+\">(\[^<\]+)</a>" $authorlink match name
-	puts "author\t$name"
+	if {[regexp "<a href=\"/find\[^\"\]+\">(\[^<\]+)</a>" $authorlink -> name]} {
+		puts "author\t$name"
+	} 
 }
 
 # TITLE		
-regexp {dc:title="(.*?)"\s*trackback:ping} $page match title
+regexp {dc:title="(.*?)"\s*trackback:ping} $page -> title
 set title [string trim $title]
 # CRs not significant in HTML
 set title [string map [list "\n" ""] $title]
