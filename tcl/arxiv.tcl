@@ -79,12 +79,7 @@ set page [url_get $arxiv_url]
 
 # AUTHORS
 #regexp "Authors?:.{0,20}((<a href=\"\[^\"\]+\">\[^<\]+</a>\[^<\]*)+)" $page match hauthors
-regexp {<div (?:id="long-author-list"|class="authors")>(.*?)</div>} $page -> hauthors
-
-if {![info exists hauthors]} {
-    puts stderr "Page was $page"
-}
-foreach authorlink [split $hauthors "\n"] {
+foreach authorlink [split $page "\n"] {
 	if {[regexp "<a href=\"/find\[^\"\]+\">(\[^<\]+)</a>" $authorlink -> name]} {
 		puts "author\t$name"
 	} 

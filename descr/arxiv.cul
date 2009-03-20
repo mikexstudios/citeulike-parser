@@ -133,7 +133,7 @@ voter model dynamics associated with the conservation law of the magnetization.}
 	author {Eguiluz Victor VM {Victor M. Eguiluz}} 
 	author {{San Miguel} Maxi M {Maxi San Miguel}}
 
-	type ELEC
+	type JOUR
 	year 2004
 	month Aug
 	day 4
@@ -156,7 +156,7 @@ saddle-point manifold within this sigma model which corresponds to the
 replica-symmetry breaking. Moreover, we demonstrate that in the unitary case
 the very same results can be extracted from the well known exact integral
 representation for R_2(\omega).}
-    type ELEC
+    type JOUR
     year 1999
     month Mar
     day 1
