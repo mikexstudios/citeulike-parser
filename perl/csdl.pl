@@ -36,6 +36,7 @@
 
 use LWP::Simple;
 use strict;
+use HTML::Entities;
 
 my $unclean_url = <>;
 
@@ -86,7 +87,14 @@ if ($data =~ m{<div id="bibText-content">(.*?)</div>}s) {
 
   # Get the abstract from the page.
   if ($data =~ m{<div class="abs-articlesummary">(.*?)</div>}s) {
-    print "abstract\t$1\n";
+  	my $abstract = $1;
+    $abstract =~ s,<[^>]+>,,gs;
+	$abstract =~ s/&#822[0123];/"/gs; # microsoft smart double quotes
+	$abstract =~ s/&#821[67];/'/gs; # microsoft smart single quotes
+    decode_entities($abstract); 
+    $abstract =~ s/^\s*Abstract\W+//;
+    print "abstract\t$abstract\n";
+    
   }
   print "end_tsv\n";
 
