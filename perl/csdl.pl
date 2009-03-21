@@ -49,6 +49,10 @@ if ($unclean_url =~ m,^https?://csdl\d*\.computer\.org(\.[^/]+)?/persagen/.*DOI=
 	$doi = $2;
 } elsif ($unclean_url =~ m,^https?://[^/]+\.computer\.org/portal/web/csdl/doi/(\d{2}[.]\d{4}/[^/?&]+),) {
 	$doi = $1
+} elsif ($unclean_url =~ m{http://[^/]+\.computer.org/portal/web/csdl/abs/}) {
+	my $data = get $unclean_url;
+	$data =~ m{>http://doi.ieeecomputersociety.org/([^<]*)};
+	$doi = $1;
 }
 
 if (not $doi) {

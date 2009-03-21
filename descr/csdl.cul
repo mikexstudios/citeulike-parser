@@ -80,7 +80,7 @@ plugin {
 	# RB note: fixing the URL string so it can handle things like 
 	# http://blah.com.proxy.uni.edu/whatever.  We'll clean away the proxy info 
 	# on the script side.
-	regexp {^https?://[^/]+\.computer\.org(.[^/]+)?/((persagen/.*DOI=[0-9./a-zA-Z]+)|(portal/web/csdl/doi/\d\d.\d\d\d\d/[^/]+))}
+	regexp {^https?://[^/]+\.computer\.org(.[^/]+)?/((persagen/.*DOI=[0-9./a-zA-Z]+)|(portal/web/csdl/doi/\d\d.\d\d\d\d/[^/]+)|(portal/web/csdl/abs/))}
 }
 
 #
