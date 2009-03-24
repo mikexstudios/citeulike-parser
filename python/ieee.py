@@ -39,11 +39,16 @@
 
 import re, sys, cookielib, urllib2
 from cultools import urlparams, bail
-from urllib import urlencode
+from urllib import urlencode, unquote
 from urllib2 import urlopen
 
 # Read URL from stdin
 url = sys.stdin.readline().strip()
+
+
+if url.startswith("http://ieeexplore.ieee.org/Xplore/login.jsp?url="):
+	url = unquote(urlparams(url)["url"])
+	
 
 # Some IEEE urls are malformed and have ? characters instead of & to separate
 # key-value pairs in the url.
