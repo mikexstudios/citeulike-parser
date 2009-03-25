@@ -55,14 +55,16 @@ def canon_url(url):
 # Make up crossref metadata URL (just need the DOI)
 #
 def crossref_xml_url(doi):
-
-	f = open(os.environ.get("HOME") + "/.crossref-key");
-	key = f.read().strip()
-	f.close()
-
 	url = "http://www.crossref.org/openurl/?id=doi:" + doi
 	url += "&noredirect=true"
-	url += "&pid=" + key
+
+	key_file = os.environ.get("HOME") + "/.crossref-key"
+	if os.path.exists(key_file):
+		f = open(key_file)
+		key = f.read().strip()
+		f.close()
+		url += "&pid=" + key
+
 	url += "&format=unixref"
 
 	return url

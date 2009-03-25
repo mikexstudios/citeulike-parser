@@ -117,54 +117,69 @@ format_linkout EVPII {
 
 test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6TVK-40X8HYB-2&_coverDate=09%2F01%2F2000&_alid=210978952&_rdoc=1&_fmt=&_orig=search&_qd=1&_cdi=5537&_sort=d&view=c&_acct=C000010021&_version=1&_urlVersion=0&_userid=121749&md5=7afb811531661847b590d5b841433991} {
 	formatted_url {DOI http://dx.doi.org/10.1016/S0167-2789(00)00094-4}
-	formatted_url {ScienceDirect http://www.sciencedirect.com/science/article/B6TVK-40X8HYB-2/2/896af3e4a1f562f276f6969eac5ad89e}
+	formatted_url {ElsevierPII http://linkinghub.elsevier.com/retrieve/pii/S0167-2789(00)00094-4}
 	linkout {DOI {} 10.1016/S0167-2789(00)00094-4 {} {}}
-	linkout {SD {} B6TVK-40X8HYB-2/2/896af3e4a1f562f276f6969eac5ad89e {} {}}
-
-
-	type JOUR 
-	title "From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators"
-	journal "Physica D: Nonlinear Phenomena"
-	volume "143"
-	issue "1-4"
+	linkout {EVPII {} S0167-2789(00)00094-4 {} {}}
+	year 2000
+	type JOUR
 	start_page 1
 	end_page 20
-	year 2000
-	month 9
+	volume 143
+	plugin_version 2
+	pub_id_type pii
+	doi 10.1016/S0167-2789(00)00094-4
 	day 1
-	date_other ""
-	url {http://www.sciencedirect.com/science/article/B6TVK-40X8HYB-2/2/896af3e4a1f562f276f6969eac5ad89e}
-	abstract {The Kuramoto model describes a large population of coupled limit-cycle oscillators whose natural frequencies are drawn from some prescribed distribution. If the coupling strength exceeds a certain threshold, the system exhibits a phase transition: some of the oscillators spontaneously synchronize, while others remain incoherent. The mathematical analysis of this bifurcation has proved both problematic and fascinating. We review 25 years of research on the Kuramoto model, highlighting the false turns as well as the successes, but mainly following the trail leading from Kuramoto's work to Crawford's recent contributions. It is a lovely winding road, with excursions through mathematical biology, statistical physics, kinetic theory, bifurcation theory, and plasma physics.}
-	author {Strogatz Steven SH {Strogatz, Steven H.}}
+	issue 1-4
+	title {From Kuramoto to Crawford: exploring the onset of synchronization in populations of coupled oscillators}
+	journal {Physica D: Nonlinear Phenomena}
+	pub_id S0167-2789(00)00094-4
+	abstract {The Kuramoto model describes a large population of coupled limit-cycle oscillators whose natural frequencies are drawn from some prescribed distribution. If the coupling strength exceeds a certain threshold, the system exhibits a phase transition: some of the oscillators spontaneously synchronize, while others remain incoherent. The mathematical analysis of this bifurcation has proved both problematic and fascinating. We review 25 years of research on the Kuramoto model, highlighting the false turns as well as the successes, but mainly following the trail leading from Kuramoto’s work to Crawford’s recent contributions. It is a lovely winding road, with excursions through mathematical biology, statistical physics, kinetic theory, bifurcation theory, and plasma physics.}
+	issn 01672789
+	author {Strogatz {} S {Strogatz, S}}
+	month 9
 	status ok
 }
 
 test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B8CWT-4ST2RTK-H&_user=10&_rdoc=1&_fmt=&_orig=search&_sort=d&view=c&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=ccc8bb47c33c3cdf76706c7fd04e63bf} {
-	status ok
+	formatted_url {DOI http://dx.doi.org/10.1016/S1872-2423(08)00007-0}
+	formatted_url {ElsevierPII http://linkinghub.elsevier.com/retrieve/pii/S1872242308000070}
+	linkout {DOI {} 10.1016/S1872-2423(08)00007-0 {} {}}
+	linkout {EVPII {} S1872242308000070 {} {}}
+	year 2008
 	type CHAP
-
+	volume 2
+	start_page 249
+	end_page 281
+	pub_id_type pii
+	title_series {Advances in Experimental Biology}
+	doi {10.1016/S1872-2423(08)00007-0}
+	title {Systems toxicology: using the systems biology approach to assess chemical pollutants in the environment}
+	title_secondary {Comparative Toxicogenomics}
+	pub_id S1872242308000070
+	abstract {There are many complex problems in environmental toxicology that we have historically not been able to resolve in a satisfactory quantitative manner. These complexities include the effects of mixtures of pollutants, complex exposure profiles, or the complex responses of organisms or ecosystems over different timescales. The cell biology community, along with mathematicians developed the ‘Systems Biology’ concept. This is a modelling tool that was developed to understand and predict how complex biological process at the cellular, and sub-cellular level, work. It is also theoretically possible to apply this systems approach to toxicology, called ‘Systems Toxicology’. This discipline is in its infancy. Historic concepts in the control of biological systems are outlined, and how these relate to the modern concept of systems biology. We then describe systems toxicology and its application to environmental pollution. System toxicology involves the input of data into computer modelling techniques, which use mostly differential equations, models of networks, or cellular automata theory. The input data can be biological information from organisms exposed to pollutants. These inputs could be data from the ‘omics, or traditional biochemical or physiological effects data. The input data must also include environmental chemistry data sets and quantitative information on ecosystems so that geochemistry, toxicology, and ecology can be modelled together. The outputs could include complex descriptions of how organisms and ecosystems respond to chemicals or other pollutants and the inter-relationships with the many other environmental variables involved. The model outputs could be at the cellular level, organ, organism, or ecosystem level. Ecologically relevant outputs could be achieved (‘systems ecotoxicology’), provided environmental variability is considered in the modelling. Systems toxicology is potentially a very powerful tool, but a number of practical issues remain to be resolved such as the creation and quality assurance of databases for environmental pollutants and their effects, as well as user-friendly software that uses ecological or ecotoxicological parameters and terminology.}
+	issn 18722423
+	author {Handy {} R {HANDY, R}}
+	status ok
 }
 
 
-#test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6X09-4GT63KF-8&_coverDate=07%2F31%2F2005&_alid=302396169&_rdoc=1&_fmt=&_orig=search&_qd=1&_cdi=7209&_sort=d&view=c&_acct=C000058699&_version=1&_urlVersion=0&_userid=2744511&md5=a4e67ff1d73c27a79723943d32982def} {
-#	 formatted_url {DOI http://dx.doi.org/10.1037/0278-7393.31.4.703}
-#	 formatted_url {ScienceDirect http://www.sciencedirect.com/science/article/B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8}
-#	 
-#	 linkout {DOI {} 10.1037/0278-7393.31.4.703 {} {}}
-#	 linkout {SD {} B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8 {} {}}
-#	 
-#	 type JOUR
-#	 title "When Do Visual and Verbal Memories Conflict? The Importance of Working-Memory Load and Retrieval"
-#	 journal "Journal of Experimental Psychology: Learning, Memory, and Cognition"
-#	 volume 31
-#	 year 2005
-#	 start_page 703
-#	 url http://www.sciencedirect.com/science/article/B6X09-4GT63KF-8/2/4bb049fbdd16843f03baba36a98c0ad8
-#	 end_page 713
-#	 issue 4
-#	 abstract {Examinations of interference between verbal and visual materials in working memory have produced mixed results. If there is a central form of storage (e.g., the focus of attention; N. Cowan, 2001), then cross-domain interference should be obtained. The authors examined this question with a visual-array comparison task (S. J. Luck & E. K. Vogel, 1997) combined with various verbal memory load conditions. Interference between tasks occurred if there was explicit retrieval of the verbal load during maintenance of a visual array. The effect was localized in the maintenance period of the visual task and was not the result of articulation per se. Interference also occurred when especially large silent verbal and visual loads were held concurrently. These results suggest central storage along with code-specific passive storage.}
-#	 month 7  
-#	 author {Morey Candice CC {Morey, Candice C.}}
-#	 author {Cowan Nelson N {Cowan, Nelson}}
-#	 status ok
-#}
+test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6X09-4GT63KF-8&_coverDate=07%2F31%2F2005&_alid=302396169&_rdoc=1&_fmt=&_orig=search&_qd=1&_cdi=7209&_sort=d&view=c&_acct=C000058699&_version=1&_urlVersion=0&_userid=2744511&md5=a4e67ff1d73c27a79723943d32982def} {
+	formatted_url {DOI http://dx.doi.org/10.1037/0278-7393.31.4.703}
+	linkout {DOI {} 10.1037/0278-7393.31.4.703 {} {}}
+	year 2005
+	type JOUR
+	volume 31
+	start_page 703
+	end_page 713
+	plugin_version 2
+	pub_id_type other
+	doi {10.1037/0278-7393.31.4.703}
+	issue 4
+	title {When Do Visual and Verbal Memories Conflict? The Importance of Working-Memory Load and Retrieval.}
+	pub_id 2005-08130-008
+	journal {Journal of Experimental Psychology: Learning, Memory, and Cognition}
+	issn 0278-7393
+	author {Morey Candice CC {Morey, Candice C.}}
+	author {Cowan Nelson N {Cowan, Nelson}}
+	status ok
+}

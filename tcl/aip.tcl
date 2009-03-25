@@ -107,7 +107,7 @@ if {[string equal "" $id]} {
 # looks like this:
 #   http://scitation.aip.org/getabs/servlet/GetCitation?source=scitation&PrefType=ARTICLE&PrefAction=Add+Selected&SelectCheck=PRVDAQ000071000012123523000001&fn=view_bibtex2&downloadcitation=+Go+
 
-# We've already extracted an ID like 
+# We've already extracted an ID like
 #   PRVDAQ000071000012123523000001
 
 set base "http://scitation.aip.org/getabs/servlet/GetCitation?source=scitation&PrefType=ARTICLE&PrefAction=Add+Selected&SelectCheck="
@@ -139,7 +139,7 @@ if {[regexp {^(\s*@[a-zA-Z_-]+\{)([^,]+)(.+)} $page -> l1 key l2]} {
 }
 
 puts "begin_bibtex"
-puts $page 
+puts $page
 puts "end_bibtex"
 
 # Other stuff--which we could live without if we had to
@@ -148,7 +148,7 @@ puts "end_bibtex"
 
 # The linkout should be at the end of the page, and we can just use it--I need to figure out this linkout business
 puts "begin_tsv"
-puts "linkout\tAIP\t\t${id}\t\t"	
+puts "linkout\tAIP\t\t${id}\t\t"
 if {[regexp {url = \{http://link\.(aps|aip)\.org/(.*)\}} $page -> domain toparse]} {
 	if {[string equal $domain "aps"]} {
 		if {[regexp {abstract/([A-Z]+)/v([0-9]+)/([ep]{1,2}[0-9]+)(?:.*?)} $toparse -> ckey_1 ikey_1 ckey_2]} {
@@ -182,16 +182,35 @@ if {[catch {
 #puts $abpage
 #puts [regexp "abstract" $abpage]
 #These pages are really ugly and inconsistent--save me!
-if {[regexp {<p class=\"abstract\">(.*?)</p>} $abpage -> abstract]} {
+#} elseif {[regexp {\(Received[^)]*; accepted[^)]*\)\s*<p>(.*?)</p>} $abpage -> abstract]} {
+#} elseif {[regexp {(1996\)\s*?<p>.*?</p>)} $abpage -> abstract]} {
+
+if {[regexp {<div class=\"abstract\">.*?<p>(.*?)</p>.*?</div>} $abpage -> abstract]} {
 	set abstract [striphtml $abstract]
 	puts "abstract\t${abstract}"
-} elseif {[regexp {Received(?:.*?)<p>(.*?)</p>} $abpage -> abstract]} {
+} elseif {[regexp {<div id=\"abstract\">.*?<p>(.*?)</p>.*?<p>&copy;.*? <i>The American Physical Society</i></p>.*?</div>} $abpage -> abstract]} {
 	set abstract [striphtml $abstract]
 	puts "abstract\t${abstract}"
-} elseif {[regexp {<!-- Component: abstract -->(?:.*?)<p>(.*?)&copy} $abpage -> abstract]} { 
+} elseif {[regexp {<div id=\"abstract\">(.*?)<br/><br/>&copy;.*?personal use only.</i>.*?</div>} $abpage -> abstract]} {
 	set abstract [striphtml $abstract]
 	puts "abstract\t${abstract}"
-} 
+} elseif {[regexp {<p class=\"abstract\">(.*?)</p>} $abpage -> abstract]} {
+	set abstract [striphtml $abstract]
+	puts "abstract\t${abstract}"
+} elseif {[regexp {\(Received[^)]*?\)\s*?<p>(.*?)</p>} $abpage -> abstract]} {
+	regsub {&copy;.*} $abstract "" abstract
+	regsub {[^.]*copyrighted by.*\.} $abstract "" abstract
+	set abstract [striphtml $abstract]
+	puts "abstract\t${abstract}"
+} elseif {[regexp {<h3>.*?</h3>\s*?<dl>.*?</dl>\s*?<p>\s*?<p>[^<>]*?<p>\s*?(.*?)&copy;[0-9][0-9][0-9][0-9]} $abpage -> abstract]} {
+	set abstract [striphtml $abstract]
+	puts "abstract\t${abstract}"
+}
+
+#} elseif {[regexp {<!-- Component: abstract -->(?:.*?)<p>(.*?)&copy;} $abpage -> abstract]} {
+#	set abstract [striphtml $abstract]
+#	puts "abstract\t${abstract}"
+#}
 
 # Next, get DOI from the same page
 # This DOI routine is pretty iffy and needs to be checked pretty badly

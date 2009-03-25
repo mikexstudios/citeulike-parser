@@ -38,19 +38,25 @@ urllib2.install_opener(opener)
 # use type=bibtex for bibtex 
 # should we prefer one to the other?
 
-parsed_url = urlparse(url)
+#parsed_url = urlparse(url)
 
-host = 'http://'+ parsed_url.netloc
+#host = 'http://'+ parsed_url.netloc
+host = 'http://prola.aps.org'
 
 address = url.split('abstract')[1]
 
-risurl = host +'/export' + address + '?type=ris'
+#risurl = host +'/export' + address + '?type=ris'
+bibtexurl = host +'/export' + address + '?type=bibtex'
 try:
-	f = urlopen(risurl);
+#	f = urlopen(risurl);
+	f = urlopen(bibtexurl);
 except:
 	print ERR_STR_PREFIX + ERR_STR_FETCH + risurl + '.  ' + ERR_STR_TRY_AGAIN
 	sys.exit(1)
-ris = f.read()
+#ris = f.read()
+bibtex = f.read()
+bibtex = bibtex.split('\n',2)[2]
+bibtex = re.sub(r'\\ifmmode .*?\\else (.*?)\\fi\{\}',r'\1',bibtex)
 
 #okay so that handles most of it  but we still need to get the actual title of the journal,
 # and we need to find the abstract if it has one.
@@ -76,12 +82,13 @@ if match:
 	parser.feed(match.group(1))
 	abstract = parser.just_text.replace(',',';').strip()
 
-# We would much much rather extract the DOI from the ris feed, since it has a
+# We would much much rather extract the DOI from the bibtex feed, since it has a
 # much more std structure, (that isn't as subject to change as the page conent.
 # I don't ever expect that we should get to the else clause.  If the re is
 # going to fail, we've probably failed to get the ris earlier.
 
-match = re.search(r"""^ID\s*-\s*(10\..*)""", ris, re.MULTILINE)
+#match = re.search(r"""^ID\s*-\s*(10\..*)""", ris, re.MULTILINE)
+match = re.search(r"""^  doi = \{(10\..*)\},$""", bibtex, re.MULTILINE)
 if match:
 	doi = match.group(1)
 else:
@@ -131,8 +138,11 @@ print "linkout\tPROLA\t\t%s\t\t" % (address[1:])
 print "linkout\tDOI\t\t%s\t\t" % (doi)
 print 'doi\t' + doi
 print 'end_tsv'
-print 'begin_ris'
-print ris
-print 'end_ris'
+#print 'begin_ris'
+#print ris
+#print 'end_ris'
+print 'begin_bibtex'
+print bibtex
+print 'end_bibtex'
 print 'status\tok'
 	
