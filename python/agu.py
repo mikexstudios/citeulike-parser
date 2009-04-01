@@ -66,6 +66,8 @@ def handle(url):
 
 	doi = meta(head, 'dc.identifier')
 
+	if not doi:
+		raise ParseException, "Cannot find DOI"
 	m = re.match(r'doi:(.*)$', doi)
 	if not m:
 		raise ParseException, "Cannot find DOI"
@@ -124,7 +126,6 @@ def handle(url):
 url = sys.stdin.readline()
 # get rid of the newline at the end
 url = url.strip()
-
 
 try:
 	handle(url)
