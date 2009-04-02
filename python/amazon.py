@@ -80,7 +80,7 @@ def parse_url(url):
 	# Hunt through the URL looking for any sequence of characters
 	# which look like an ISBN
 	candidates = list(isbn.hunt(url))
-	if len(candidates==1):
+	if len(candidates)==1:
 		return (domain, candidates[0])
 
 	# Nope. I give up.
