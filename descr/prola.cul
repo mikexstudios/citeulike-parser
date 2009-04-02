@@ -71,7 +71,7 @@ test {http://prola.aps.org/abstract/PR/v69/i1-2/p37_1} {
 }
 
 # 3 Physical Review (Series I)
-test {http://prola.ridge.aps.org/abstract/PRI/v1/i1/p1_1} {
+test {http://prola.aps.org/abstract/PRI/v1/i1/p1_1} {
 	formatted_url {{APS (abstract)} http://link.aps.org/abstract/PRI/v1/i1/p1_1}
 	formatted_url {{APS (pdf)} http://link.aps.org/pdf/PRI/v1/i1/p1_1}
 	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevSeriesI.1.1}

@@ -38,10 +38,8 @@ urllib2.install_opener(opener)
 # use type=bibtex for bibtex 
 # should we prefer one to the other?
 
-#parsed_url = urlparse(url)
-
-#host = 'http://'+ parsed_url.netloc
-host = 'http://prola.aps.org'
+host = 'http://'+ urlparse(url).netloc
+# host = 'http://prola.aps.org'
 
 address = url.split('abstract')[1]
 
@@ -51,7 +49,7 @@ try:
 #	f = urlopen(risurl);
 	f = urlopen(bibtexurl);
 except:
-	print ERR_STR_PREFIX + ERR_STR_FETCH + risurl + '.  ' + ERR_STR_TRY_AGAIN
+	print ERR_STR_PREFIX + ERR_STR_FETCH + bibtexurl + '.  ' + ERR_STR_TRY_AGAIN
 	sys.exit(1)
 #ris = f.read()
 bibtex = f.read()
