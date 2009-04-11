@@ -1,8 +1,9 @@
 #!/usr/bin/env perl
 
 use warnings;
-use LWP::Simple;
 use LWP::UserAgent;
+use LWP;
+use HTTP::Request::Common;
 
 #
 # Copyright (c) 2005 Richard Cameron, CiteULike.org
@@ -43,6 +44,11 @@ use LWP::UserAgent;
 # POSSIBILITY OF SUCH DAMAGE.
 
 my $ua = LWP::UserAgent->new;
+
+# HighWire want a unique string for their robots.txt
+$ua->agent("CiteULike/1.0 +http://www.citeulike.org/");
+# $ua->agent("Mozilla/5.0 (X11; U; Linux x86_64; en-GB; rv:1.9.0.8) Gecko/2009032712 Ubuntu/8.10 (intrepid) Firefox/3.0.8");
+
 
 $url = <>;
 chomp($url);
@@ -92,14 +98,14 @@ if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-
 }
 
 #
-#  Published articles: determine journal,volume,number and page details. 
+#  Published articles: determine journal,volume,number and page details.
 #
 #elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[A-Za-z0-9-.]+)/([0-9]+)/([A-Za-z0-9.]+)}) {
 elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[^/]+)/([^/]+)/([^/]+)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
 	$journal_site = gobble_proxy($journal_site);
 	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
-} 
+}
 
 #
 #  Unpublished articles, determine journal and AOP id number.
@@ -122,7 +128,6 @@ else {
 # Get the link to the citebuilder url and formulate a link to the reference manager RIS file
 
 $ok = 0;
-
 
 if ($source_abstract = get("$url_abstract")) {
 	$ok = 1;
@@ -203,12 +208,37 @@ print "status\tok\n";
 #
 # Strip any part of the url (host part) after any word containing "proxy".
 # None of the valid highwire URLs have "proxy" in them or this wouldn't work!
-# 
+#
 sub gobble_proxy {
 	local $url = shift;
 	$url =~ s/\.[a-z]*proxy.*//i;
 	# OK, that was easy, now for some case-specifics
 	$url =~ s/\.ezp-prod.*//i;
 	return $url;
+}
+
+sub get {
+	my ($url) = @_;
+	my $a = $ua->request(GET $url);
+	my $content = $a->content;
+	return $content;
+}
+
+
+#<status>#######################################################################
+sub status {
+	my ($res) = @_;
+	if ($res->is_success) {
+		print ">>>>> ".$res->base."\n";
+#		print $res->content;
+#		print "=<COOKIES>====================================\n";
+#		print $ua->cookie_jar->as_string;
+	}
+	else {
+		print ">>>>> ERROR: ".$res->base."\n";
+		print $res->status_line, "\n";
+		print $res->content;
+	}
+	print "---------------------------------------------------\n";
 }
 
