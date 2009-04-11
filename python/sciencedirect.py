@@ -37,7 +37,7 @@ def unescape(text):
                 pass
         return text # leave as is
     return re.sub("&#?\w+;", fixup, text).encode('utf-8')
-	
+
 
 
 #
@@ -102,12 +102,12 @@ def scrape_abstract(page):
 # Just try to fetch the metadata from crossref
 #
 def handle(url):
- 
+
 	page = urlopen(canon_url(url)).read()
-	
+
 	m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
 
-	# this page might requires a login.  Luckily there seems to be a 
+	# this page might requires a login.  Luckily there seems to be a
 	# link "View Abstract" which can take us to a page we can read
 	if not m:
 		soup = BeautifulSoup.BeautifulSoup(page)
@@ -116,7 +116,7 @@ def handle(url):
 				page = urlopen(canon_url("http://www.sciencedirect.com" + link['href'])).read()
 				m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
 				break
-	
+
 	if not m:
 		raise ParseException, "Cannot find DOI in page"
 
@@ -154,12 +154,13 @@ if __name__ == "__main__":
 	if "--debug" in sys.argv:
 		handlers.append( urllib2.HTTPHandler(debuglevel=True) )
 	handlers.append( urllib2.HTTPCookieProcessor(cookie_jar) )
-	
+
 	opener=urllib2.build_opener(*handlers)
 	opener.addheaders = [
 		("User-Agent", "CiteULike/1.0 +http://www.citeulike.org/"),
 		]
 	urllib2.install_opener(opener)
+# 	urllib2.ProxyHandler({"http":"http://quimby.smithersbet.com:3128"})
 
 	url = sys.stdin.readline().strip()
 	try:
@@ -170,4 +171,4 @@ if __name__ == "__main__":
 		line = traceback.tb_lineno(sys.exc_info()[2])
 		print "\t".join(["status", "error", "There was an internal error processing this request. Please report this to bugs@citeulike.org quoting error code %d." % line])
 		raise
-		
+
