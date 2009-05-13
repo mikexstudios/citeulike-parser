@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 # use module
 use XML::Simple;
@@ -61,8 +61,8 @@ $doi = $1;
 
 # pid=username:password (private!)
 # (we already have a similar file .crossref-key so should use that)
-my $pid="";
-require "$ENV{HOME}/.crossrefid";
+my $keydata=`cat $ENV{HOME}/.crossref-key`;
+my ($pid) = $keydata =~ m{(\w+:\w+)};
 
 $url="http://www.crossref.org/openurl/?id=doi:$doi&noredirect=true&pid=$pid&format=unixref";
 
@@ -157,13 +157,13 @@ for $p (sort { $b->{sequence} cmp $a->{sequence}} @$persons) {
 	}
 }
 
-# publisher 
+# publisher
 # TODO check this - nothing in HOWTO.txt
 $publisher = $article->{"publisher_item"}->{"identifier"}->[0];
 if ($publisher) {
 	out("pub_id", $publisher->{"content"});
 	out("pub_id_type", $publisher->{"id_type"});
-	print "linkout\tEVPII\t\t".$publisher->{"content"}."\t\t\n";	
+	print "linkout\tEVPII\t\t".$publisher->{"content"}."\t\t\n";
 }
 
 $DOI = $article->{"doi_data"}->{"doi"};
