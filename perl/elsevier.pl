@@ -11,7 +11,7 @@ use LWP 5.64;
 # This code is derived from software contributed to CiteULike.org
 # by
 # 	Fergus Gallagher <fergus.gallagher@citeulike.org>
-# 
+#
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -44,14 +44,14 @@ use LWP 5.64;
 
 
 my $browser = LWP::UserAgent->new;
-$browser->cookie_jar({}); 
+$browser->cookie_jar({});
 
 $url = <>;
 chomp($url);
 
 my @ns_headers = (
    'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
-   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, 
+   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg,
         image/pjpeg, image/png, */*',
    'Accept-Charset' => 'iso-8859-1,*,utf-8',
    'Accept-Language' => 'en-US',
@@ -59,14 +59,24 @@ my @ns_headers = (
 
 
 if ($url =~ m{http://linkinghub.elsevier.com/retrieve/pii/}) {
-	my $resp = $browser->head("$url", @ns_headers);
-		if ($resp && $resp->code == 200 ) {
-			# this gives us back the last hop "request", i.e., the
-			# URL of the last redirect
-			my $uri = $resp->request()->uri;
+	my $resp = $browser->get("$url", @ns_headers);
+	if ($resp && $resp->code == 200 ) {
+		# this gives us back the last hop "request", i.e., the
+		# URL of the last redirect
+		my $uri = $resp->request()->uri;
+		if ($uri !~ /linkinghub.elsevier.com/) {
 			print "status\tredirect\t$uri\n";
 			exit 0;
-	}	
+		} else {
+#				print "ARSE: $uri\n";
+			my $c = $resp->content;
+			my ($sd) = ($c =~ m{value=\"(http://www.sciencedirect.com/science?[^\"]*)\"});
+			if ($sd) {
+				print "status\tredirect\t$sd\n";
+				exit 0;
+			}
+		}
+	}
+	print "status\terr\tCannot process $url\n";
 }
-print "status\terr\tCannot process $url\n";
 
