@@ -60,13 +60,13 @@ if {[driver_from_command_line]} {
 
 # The base filenames of all the extensions we know about
 namespace eval driver {
-	
+
 	variable PLUGINS
 
 	proc plugin {raw_kvpairs} {
 		variable PLUGIN
 		variable DETAIL_${PLUGIN}
-		
+
 		# Bodge the contents of this string to remove
 		# pseudo "comments".
 		set kvpairs ""
@@ -75,9 +75,16 @@ namespace eval driver {
 				append kvpairs "$line\n"
 			}
 		}
-		
+
 		array set DETAIL_${PLUGIN} $kvpairs
-		
+
+
+#		if {[info exists DETAIL_${PLUGIN}(regexp)] || [set DETAIL_${PLUGIN}(regexp)] ne ""} {
+#			proc interested_in_${PLUGIN} {url} {
+#				return [regexp $DETAIL_${PLUGIN}(regexp) $url]
+#			}
+#		}
+
 		# Check for required fields
 		foreach f {author email language regexp version} {
 			if {![info exists DETAIL_${PLUGIN}($f)] || [set DETAIL_${PLUGIN}($f)]==""} {
@@ -87,7 +94,7 @@ namespace eval driver {
 	}
 
 	# This command is executed with the config file is sourced.
-	
+
 	proc format_linkout {type body} {
 		# Slight Tcl tricker here. Define a procedure, but with
 		# a slightly different signature to what might be obvious
@@ -100,6 +107,15 @@ namespace eval driver {
 		variable TESTS_${PLUGIN}
 		lappend TESTS_${PLUGIN} [list $url $kvpairs]
 	}
+
+
+#	proc interested {body} {
+#		variable PLUGIN
+#		proc interested_in_${PLUGIN} {url} {
+#			return [eval {$body} $url]
+#		}
+#	}
+
 
 	proc descr_dir {} {
 	    if {![driver_from_command_line]} {
@@ -114,19 +130,19 @@ namespace eval driver {
 		variable PLUGIN
 		foreach file [glob -directory [descr_dir] "*.cul"] {
 			set name [file rootname [file tail $file]]
-			
+
 			lappend PLUGINS $name
 			set PLUGIN $name
-			
+
 			# The description file is actually a valid TCL file, which we can source
 			source $file
-			
+
 			# Confirm it actually defined what it had to
 			variable DETAIL_$PLUGIN
 			if {![info exists DETAIL_${PLUGIN}]} {
 				error "Plugin description file for $PLUGIN does not have a valid plugin directive"
 			}
-			
+
 			set language [set DETAIL_${PLUGIN}(language)]
 
 			variable TESTS_$PLUGIN
@@ -135,7 +151,7 @@ namespace eval driver {
 					error "Plugin $PLUGIN does not define any tests"
 				}
 			}
-			
+
 			# And it had better actually have an executable
 			set exe [executable_for_name $language $PLUGIN]
 			if {![file exists $exe] && $language!="none"} {
@@ -145,7 +161,7 @@ namespace eval driver {
 				error "File should be executable: $exe"
 			}
 		}
-		
+
 		set PLUGINS [lsort $PLUGINS]
 	}
 
@@ -154,16 +170,16 @@ namespace eval driver {
 	# regexp test for the url
 	proc interested_plugins {url} {
 		variable PLUGINS
-		
+
 		set ret {}
-		
+
 		foreach p $PLUGINS {
 			variable DETAIL_${p}
 			if {[regexp [set DETAIL_${p}(regexp)] $url]} {
 				lappend ret $p
 			}
 		}
-		
+
 		return $ret
 	}
 
@@ -179,8 +195,8 @@ namespace eval driver {
 
 	# Actually do the work. Given a URL, we'll actually
 	# run the appropriate plugins and then we'll have a result.
-	proc parse_url {url {rec_level 0}} {
-		
+	proc parse_url {url {rec_level 0} {candidate ""}} {
+
 		# Plugins are permitted to "redirect" to other URLs
 		# but we really don't want to end up in an inifite loop
 		# with each iteration doing a DOS attack on our hosts.
@@ -189,9 +205,13 @@ namespace eval driver {
 		if {$rec_level > 5} {
 			error "Too much recursion. Last url was $url"
 		}
-		
-		set candidates [interested_plugins $url]
-		
+
+		if {$candidate ne ""} {
+			set candidates [list $candidate]
+		} else {
+			set candidates [interested_plugins $url]
+		}
+
 		foreach plugin $candidates {
 			# For now, we'll just exec() a process. This is
 			# not terribly efficient, and we ultimately want to
@@ -225,7 +245,7 @@ namespace eval driver {
 				set result [join $lines "\n"]
 				set last_line [lindex $lines end]
 			}
-			
+
 			# The last line of the file should contain some status information.
 			if {![regexp {status\t([^\t]+)(\t(.*)+)?$} $last_line -> status extra]} {
 				error "$plugin: Expected plugin to return status in last line. Got:\n---\n$result\n---"
@@ -247,6 +267,9 @@ namespace eval driver {
 
 			# If another plugin can handle it, we'll do that
 			if {$status=="redirect"} {
+				if {$candidate eq ""} {
+					continue
+				}
 				incr rec_level
 				return [parse_url $extra $rec_level]
 			}
@@ -264,13 +287,13 @@ namespace eval driver {
 						error "$lineno: Nested begin blocks in output from $parser $url"
 					}
 					set state $new_state
-					
+
 					continue
 				} elseif {[regexp {^end_(tsv|ris|bibtex|crossref)$} $line -> old_state]} {
 					if {$state!=$old_state} {
 						error "$lineno: Found end_$old_state block, but was in $state block"
 					}
-					
+
 					# Flush the remaining buffer into the array
 					if {$state=="tsv" && [info exists tsv_state]} {
 						if {[is_multiple_field $tsv_state]} {
@@ -314,7 +337,7 @@ namespace eval driver {
 			if {$state!=""} {
 				error "Saw begin $state block, but no end $state block"
 			}
-			
+
 			if {[info exists ris_lines]} {
 				set ris [join $ris_lines "\n"]
 
@@ -325,7 +348,7 @@ namespace eval driver {
 					}
 				}
 			}
-			
+
 			if {[info exists bibtex_lines]} {
 				set bibtex [join $bibtex_lines "\n"]
 
@@ -362,7 +385,7 @@ namespace eval driver {
 				}
 				unset ret(editor)
 			}
-			
+
 			if {[info exists ret(linkout)]} {
 
 				foreach lo $ret(linkout) {
@@ -381,7 +404,7 @@ namespace eval driver {
 				}
 				unset ret(linkout)
 			}
-			
+
 			#
 			# If it's an empty string, we may as well not have it
 			#
@@ -398,14 +421,14 @@ namespace eval driver {
 
 			set ret(plugin) $plugin
 			set ret(plugin_version) [set DETAIL_${plugin}(version)]
-			
-			
+
+
 			# TODO - make sure the kv pairs takes priority over bibtex/ris
 			# Return the first plugin which gets a result.
 
 			return [array get ret]
 		}
-		
+
 		return {}
 	}
 
@@ -418,7 +441,7 @@ namespace eval driver {
 	}
 
 	proc executable_for_name {language plugin} {
-		
+
 		switch -- [string tolower $language] {
 			tcl {set ext "tcl"}
 			perl {set ext "pl"}
@@ -456,7 +479,7 @@ namespace eval driver {
 		puts "scraper is written in an obscure language which you don't have installed"
 		puts "on your machine."
 		puts ""
-		
+
 		foreach p $PLUGINS {
 			variable TESTS_$p
 			if {[info exists TESTS_$p]} {
@@ -507,7 +530,7 @@ namespace eval driver {
 
 			catch {unset x_expected}
 			catch {unset x_actual}
-			
+
 			array set x_actual $actual
 
 			# Can't do an array set as this contains multiple values
@@ -518,8 +541,8 @@ namespace eval driver {
 					set x_expected($k) $v
 				}
 			}
-									
-			# The test case needs a bit of post-processing to put it into 
+
+			# The test case needs a bit of post-processing to put it into
 			# canonical form
 			if {[info exists x_expected(linkout)]} {
 				set x_expected(linkouts) $x_expected(linkout)
@@ -536,7 +559,7 @@ namespace eval driver {
 				unset x_expected(editor)
 			}
 
-			
+
 			# We'll also run the linkout formatter as we'll want to test that too.
 			if {[info exists x_actual(linkouts)]} {
 				foreach l $x_actual(linkouts) {
@@ -570,7 +593,7 @@ namespace eval driver {
 			set expected [array get x_expected]
 			set actual   [array get x_actual]
 
-			
+
 			# Check we get what we wanted
 			foreach {k v} $expected {
 				if {[info exists x_actual($k)]} {
@@ -578,7 +601,7 @@ namespace eval driver {
 				} else {
 					set actual_v ""
 				}
-				
+
 				if {![string equal $actual_v $v]} {
 					test_error Error $plugin $url $k "Expected:\n'$v'\nbut actually got:\n'$actual_v'\n\n\n"
 				}
@@ -586,7 +609,7 @@ namespace eval driver {
 
 			# And warn about any extra information
 			foreach {k v} $actual {
-				
+
 				if {[lsearch {plugin plugin_version cite} $k]>-1} {
 					# These aren't required to be in the test case
 					continue
@@ -606,25 +629,25 @@ namespace eval driver {
 		# the decision to the main application.
 		read_descr
 
-		
+
 		set ok 0
 		if {[llength $::argv]==2 && ([lindex $argv 0]=="test" || [lindex $argv 0]=="parse")} {
 			set ok 1
 		}
-		
+
 		if {!$ok} {
 			puts {Usage:
   driver.tcl test all
   driver.tcl test -plugin-
   driver.tcl parse -url-
-  
+
   test all: runs all tests. Note that some may fail
             unless you have access rights to everything
             the plugins require
-  
+
   test -plugin-: will test just your plugin, where
                  the plugin is the base name of the .cul file
-  
+
   parse -url-: will show the results of parsing an arbitrary url
 			}
 			exit
@@ -653,7 +676,7 @@ namespace eval driver {
 					}
 				}
 			}
-			
+
 		}
 	}
 }
