@@ -48,11 +48,11 @@ plugin {
 	author {Christophe Ladroue}
 	email {chris.ladroue@gmail.com}
 	language {python}
-	regexp {(http:\/\/www\.jstatsoft\.org\/[a-z][0-9]+\/[a-z][0-9]+)}
+	regexp {(http://www\.jstatsoft\.org/[a-z][0-9]+/[a-z][0-9]+)}
 }
 
 
-format_linkout JSTATSOFT {
+format_linkout JSS {
 	return [list \
 		"JSS" "http://www.jstatsoft.org/${ckey_1}/${ckey_2}" \
 		"JSS (pdf)" "http://www.jstatsoft.org/${ckey_1}/${ckey_2}/paper" \
@@ -69,7 +69,7 @@ format_linkout JSTATSOFT {
 test {http://www.jstatsoft.org/v12/i07} {
 	formatted_url		{JSS http://www.jstatsoft.org/v12/i07}
 	formatted_url		{{JSS (pdf)} http://www.jstatsoft.org/v12/i07/paper}
-	linkout			{JSTATSOFT {} v12 {} i07}
+	linkout			{JSS {} v12 {} i07}
 	volume			{12}
 	issue			{7}
 	start_page		{1}
@@ -94,7 +94,7 @@ test {http://www.jstatsoft.org/v12/i07} {
 test {http://www.jstatsoft.org/v17/b04} {
 	formatted_url		{JSS http://www.jstatsoft.org/v17/b04}
 	formatted_url		{{JSS (pdf)} http://www.jstatsoft.org/v17/b04/paper}
-	linkout			{JSTATSOFT {} v17 {} b04}
+	linkout			{JSS {} v17 {} b04}
 	volume			{17}
 	issue			{4}
 	start_page		{1}

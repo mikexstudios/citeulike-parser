@@ -20,7 +20,7 @@ def main():
 		sys.exit(1)
 
 	print "begin_tsv"
-	print "linkout\tJSTATSOFT\t\t%s\t\t%s" % (match.group(1),match.group(2))
+	print "linkout\tJSS\t\t%s\t\t%s" % (match.group(1),match.group(2))
 	print "end_tsv"
 	print "\nbegin_bibtex"
 
