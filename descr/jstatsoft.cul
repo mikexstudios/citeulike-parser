@@ -1,0 +1,112 @@
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+#	Stevan Springer <stevan.springer@gmail.com>
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+#
+# Plugin description
+#
+
+plugin {
+	version {1}
+	name {JStatSoft}
+	url {http://www.jstatsoft.org}
+	blurb {}
+	author {Christophe Ladroue}
+	email {chris.ladroue@gmail.com}
+	language {python}
+	regexp {(http:\/\/www\.jstatsoft\.org\/[a-z][0-9]+\/[a-z][0-9]+)}
+}
+
+
+format_linkout JSTATSOFT {
+	return [list \
+		"JSS" "http://www.jstatsoft.org/${ckey_1}/${ckey_2}" \
+		"JSS (pdf)" "http://www.jstatsoft.org/${ckey_1}/${ckey_2}/paper" \
+	]
+}
+
+# Linkout formatting
+# Raw ingredients required to build the full text URL dynamically using the following variables
+# collected by the plugin: type ikey_1 ckey_1 ikey_2 ckey_2
+
+
+#Tests
+# Article with abstract
+test {http://www.jstatsoft.org/v12/i07} {
+	formatted_url		{JSS http://www.jstatsoft.org/v12/i07}
+	formatted_url		{{JSS (pdf)} http://www.jstatsoft.org/v12/i07/paper}
+	linkout			{JSTATSOFT {} v12 {} i07}
+	volume			{12}
+	issue			{7}
+	start_page		{1}
+	end_page		{4}
+	year			{2005}
+	month			{2}
+	issn			{1548-7660}
+	title			{A Comment on the Implementation of the Ziggurat Method}
+	journal			{Journal of Statistical Software}
+	author			{Leong Philip PHW {Philip H. W. Leong}}
+	author			{Zhang Ganglie G {Ganglie Zhang}}
+	author			{Lee Dong DU {Dong U Lee}}
+	author			{Luk Wayne W {Wayne Luk}}
+	author			{Villasenor John J {John Villasenor}}
+	type			{JOUR}
+	url			{http://www.jstatsoft.org/v12/i07}
+	status 			ok
+	abstract		{We show that the short period of the uniform random number generator in the published implementation of Marsaglia and Tsang's Ziggurat method for generating random deviates can lead to poor distributions. Changing the uniform random number generator used in its implementation fixes this issue.}
+}
+
+# Book Review without abstract
+test {http://www.jstatsoft.org/v17/b04} {
+	formatted_url		{JSS http://www.jstatsoft.org/v17/b04}
+	formatted_url		{{JSS (pdf)} http://www.jstatsoft.org/v17/b04/paper}
+	linkout			{JSTATSOFT {} v17 {} b04}
+	volume			{17}
+	issue			{4}
+	start_page		{1}
+	end_page		{3}
+	year			{2007}
+	month			{1}
+	issn			{1548-7660}
+	title			{'Linear Models with R' and 'Extending the Linear Model with R'}
+	journal			{Journal of Statistical Software, Book Reviews}
+	author			{Sanchez Juana J {Juana Sanchez}}
+	type			{JOUR}
+	url			{http://www.jstatsoft.org/v17/b04}
+	status 			ok
+	abstract		{}
+}
