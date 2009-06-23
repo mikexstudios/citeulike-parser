@@ -13,6 +13,7 @@ format_linkout WCAT {
 	set ret [list "WCAT" "http://www.worldcat.org/oclc/${ckey_1}"]
 	if {$ckey_2 ne ""} {
 		lappend ret "Google Books" "http://books.google.com/books?isbn=${ckey_2}"
+		lappend ret "Amazon.com" "http://www.amazon.com/gp/search?keywords=${ckey_2}&index=books&linkCode=qs"
 	}
 	return $ret
 }
