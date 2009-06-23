@@ -3,18 +3,18 @@
 import re, sys, urlparse, urllib2
 from cultools import urlparams, bail
 
-
 #
 # Read URL from stdin and check it's OK
 #
 url = sys.stdin.readline().strip()
 
-oclc_match = re.search(r'/oclc/([0-9]+)', url, re.IGNORECASE)
+oclc_match = re.search(r'/(oclc|isbn)/([0-9]+)', url, re.IGNORECASE)
 
 if not oclc_match:
 	bail("Couldn't find an 'oclc' in the URL (" + url + ")")
 
-oclc = oclc_match.group(1)
+type = oclc_match.group(1)
+id = oclc_match.group(2)
 
 #
 # Fetch the page - don't need it, but it validates the URL the user posted
@@ -25,15 +25,27 @@ except:
 	bail("Couldn't fetch page (" + url + ")")
 
 
+if (type == "isbn"):
+	isbn = id
+	m = re.search(r'/oclc/(\d+)', page)
+	oclc = m.group(1)
+else:
+	oclc = id
+#	m = re.search(r'rft.isbn=(\d+)', page)
+#	if m:
+#		isbn = m.group(1)
+
 #
 # Fetch the RIS file
 #
-ris_file_url = 'http://www.worldcat.org/oclc/' + oclc + '?page=endnote'
+ris_file_url = 'http://www.worldcat.org/oclc/%s?page=endnote' % oclc
 
 try:
 	ris_file = urllib2.urlopen(ris_file_url).read()
 except:
 	bail("Could not fetch RIS file (" + ris_file_url + ")")
+
+print ris_file
 
 if not re.search(r'TY\s{1,4}-', ris_file):
 	bail("RIS file doesn't have a 'TY -'")
