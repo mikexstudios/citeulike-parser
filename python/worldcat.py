@@ -31,9 +31,9 @@ if (type == "isbn"):
 	oclc = m.group(1)
 else:
 	oclc = id
-#	m = re.search(r'rft.isbn=(\d+)', page)
-#	if m:
-#		isbn = m.group(1)
+	m = re.search(r'rft.isbn=(\d+)', page)
+	if m:
+		isbn = m.group(1)
 
 #
 # Fetch the RIS file
@@ -51,7 +51,7 @@ if not re.search(r'TY\s{1,4}-', ris_file):
 	bail("RIS file doesn't have a 'TY -'")
 
 print "begin_tsv"
-print "linkout\tWCAT\t\t%s\t\t" % oclc
+print "linkout\tWCAT\t\t%s\t\t%s" % (oclc, isbn)
 print "end_tsv"
 print "begin_ris"
 print "%s" % (ris_file)
