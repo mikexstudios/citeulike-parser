@@ -24,6 +24,7 @@ try:
 except:
 	bail("Couldn't fetch page (" + url + ")")
 
+isbn = ""
 
 if (type == "isbn"):
 	isbn = id
@@ -50,8 +51,11 @@ print ris_file
 if not re.search(r'TY\s{1,4}-', ris_file):
 	bail("RIS file doesn't have a 'TY -'")
 
+
 print "begin_tsv"
 print "linkout\tWCAT\t\t%s\t\t%s" % (oclc, isbn)
+if (isbn != ""):
+	print "isbn\t%s" % isbn
 print "end_tsv"
 print "begin_ris"
 print "%s" % (ris_file)

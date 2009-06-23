@@ -21,6 +21,7 @@ format_linkout WCAT {
 test {http://www.worldcat.org/isbn/9781844630158} {
 	formatted_url {WCAT http://www.worldcat.org/oclc/70119587}
 	formatted_url {{Google Books} http://books.google.com/books?isbn=9781844630158}
+	formatted_url {Amazon.com http://www.amazon.com/gp/search?keywords=9781844630158&index=books&linkCode=qs}
 	linkout {WCAT {} 70119587 {} 9781844630158}
 	serial {9781844630158 1844630153}
 	city {Sheffield; London}
@@ -28,6 +29,7 @@ test {http://www.worldcat.org/isbn/9781844630158} {
 	type BOOK
 	plugin_version 1
 	id 70119587
+	isbn 9781844630158
 	publisher {NHS Cancer Screening Programmes ; Royal College of Pathologists}
 	title {Pathology reporting of breast disease : a joint document incorporating the third edition of the NHS Breast Screening Programme's Guidelines for pathology reporting in breast cancer screening and the second edition of the Royal College of Pathologists' Minimum dataset for breast cancer histopathology.}
 	status ok
@@ -39,14 +41,16 @@ test {http://www.worldcat.org/isbn/9781844630158} {
 
 test {http://www.worldcat.org/oclc/52821313} {
 	formatted_url {WCAT http://www.worldcat.org/oclc/52821313}
-	linkout {WCAT {} 52821313 {} 9783540404606}
 	formatted_url {{Google Books} http://books.google.com/books?isbn=9783540404606}
+	formatted_url {Amazon.com http://www.amazon.com/gp/search?keywords=9783540404606&index=books&linkCode=qs}
+	linkout {WCAT {} 52821313 {} 9783540404606}
 	serial {3540404600  9783540404606}
 	city {Berlin; New York}
 	year 2004
 	type BOOK
 	plugin_version 1
 	id 52821313
+	isbn 9783540404606
 	publisher Springer
 	title {Proofs from the book}
 	status ok
