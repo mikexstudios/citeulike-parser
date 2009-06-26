@@ -78,7 +78,7 @@ plugin {
 	#
 	# Nature have two styles of URLs for their articles.. they seem to be slowly
 	# moving to the second.
-	regexp {http://(?:www\.)?casesjournal\.com/casesjournal/article/view/(\d+)}
+	regexp {http://(?:www\.)?(jmedicalcasereports|casesjournal)\.com/(?:jmedicalcasereports|casesjournal)/article/view/(\d+)}
 }
 
 
@@ -98,6 +98,13 @@ format_linkout CASES {
 	set ret [list "Cases Journal"  "http://casesjournal.com/casesjournal/article/view/${ikey_1}"]
 	if {$ikey_2 != ""} {
 		lappend ret "Cases Journal (PDF)"  "http://casesjournal.com/casesjournal/article/download/${ikey_1}/${ikey_2}"
+	}
+	return $ret
+}
+format_linkout JMEDC {
+	set ret [list "J.Med. Cases Reports"  "http://jmedicalcasereports.com/jmedicalcasereports/article/view/${ikey_1}"]
+	if {$ikey_2 != ""} {
+		lappend ret "J.Med. Cases Reports (PDF)"  "http://jmedicalcasereports.com/jmedicalcasereports/article/download/${ikey_1}/${ikey_2}"
 	}
 	return $ret
 }
@@ -123,14 +130,15 @@ format_linkout CASES {
 test {http://www.casesjournal.com/casesjournal/article/view/7131} {
 	formatted_url {DOI http://dx.doi.org/10.4076/1757-1626-2-7131}
 	formatted_url {{Cases Journal} http://casesjournal.com/casesjournal/article/view/7131}
-	formatted_url {{Cases Journal (PDF)} http://casesjournal.com/casesjournal/article/view/7131/3493}
+	formatted_url {{Cases Journal (PDF)} http://casesjournal.com/casesjournal/article/download/7131/3493}
 	linkout {DOI {} 10.4076/1757-1626-2-7131 {} {}}
 	linkout {CASES 7131 {} 3493 {}}
 	doi 10.4076/1757-1626-2-7131
 	year 2009
-	month 05
-	day 06
+	month 06
+	day 05
 	type JOUR
+	issn 1757-1626
 	plugin_version 1
 	issue 2
 	title {Brain abscess and epidural empyema caused by  Salmonella enteritidis  in a child: successful treatment with ciprofloxacin: a case report}
@@ -146,5 +154,29 @@ test {http://www.casesjournal.com/casesjournal/article/view/7131} {
 }
 
 
-
+test {http://jmedicalcasereports.com/jmedicalcasereports/article/view/7314} {
+	formatted_url {DOI http://dx.doi.org/10.4076/1752-1947-3-7314}
+	formatted_url {{J.Med. Cases Reports} http://jmedicalcasereports.com/jmedicalcasereports/article/view/7314}
+	formatted_url {{J.Med. Cases Reports (PDF)} http://jmedicalcasereports.com/jmedicalcasereports/article/download/7314/3703}
+	linkout {DOI {} 10.4076/1752-1947-3-7314 {} {}}
+	linkout {JMEDC 7314 {} 3703 {}}
+	doi 10.4076/1752-1947-3-7314
+	year 2009
+	month 06
+	day 26
+	type JOUR
+	plugin_version 1
+	issue 0
+	issn 1752-1947
+	title {Unusual Epstein-Barr esophageal infection in an immunocompetent patient: a case report}
+	author {Pape Magdalini M {Magdalini Pape}}
+	author {Mandraveli Kalliopi K {Kalliopi Mandraveli}}
+	author {Sidiropoulos Ioannis I {Ioannis Sidiropoulos}}
+	author {Koliouskas Dimitrios D {Dimitrios Koliouskas}}
+	author {Alexiou-Daniel Stella S {Stella Alexiou-Daniel}}
+	author {Frantzidou Flanthi F {Flanthi Frantzidou}}
+	journal {Journal of Medical Case Reports}
+	abstract {Introduction:  Epstein-Barr virus esophagitis in an immunocompetent host is a rare entity. It represents either primary infection or reactivation and is usually characterized by acute onset and extensive ulcerative involvement of the upper and middle third of the esophagus.   Case presentation:  A case of Epstein-Barr virus esophagitis in a 27-year-old woman with no immunosuppressive factors, and having gastrointestinal symptoms is reported here. Using real-time polymerase chain reaction, biopsy and blood specimens were tested for Candida and Herpes viruses. Epstein-Barr virus DNA was detected in tissue samples. The patient was treated with acyclovir with resolution of the symptomatology.   Conclusions:  The prevalence of esophagitis remains undefined in both immunodeficient and immunocompetent individuals and should be taken into consideration in a patient presenting with esophageal symptoms. This case report stresses the role of Epstein-Barr virus infection in the pathogenesis of esophagitis, a rare condition in an immunocompetent host. In this setting, active infection may represent a primary infection or reactivation. Histopathological examination alone may miss the diagnosis, while polymerase chain reaction techniques optimize the diagnostic sensitivity, establish a diagnosis, and lead to an appropriate therapy.}
+	status ok
+}
 

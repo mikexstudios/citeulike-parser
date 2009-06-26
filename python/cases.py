@@ -51,13 +51,13 @@ def item(soup, entry, key):
 
 def handle(url):
 
-
-	m = re.match(r'http://(?:www\.)?casesjournal\.com/casesjournal/article/view/(\d+)', url)
+	m = re.match(r'http://(?:www\.)?(jmedicalcasereports|casesjournal)\.com/(?:jmedicalcasereports|casesjournal)/article/view/(\d+)', url)
 	if not m:
 		raise ParseException, "URL not supported %s" % url
-	wkey = m.group(1)
+	site = m.group(1)
+	wkey = m.group(2)
 
-	url = "http://casesjournal.com/casesjournal/article/viewArticle/%s" % wkey
+	url = "http://%s.com/%s/article/viewArticle/%s" % (site, site, wkey)
 
 	page = urlopen(url).read()
 
@@ -80,7 +80,12 @@ def handle(url):
 
 	print "begin_tsv"
 	print "linkout\tDOI\t\t%s\t\t" % (doi)
-	print "linkout\tCASES\t%s\t\t%s\t" % (wkey, pdf_key)
+	if site == "casesjournal":
+		print "linkout\tCASES\t%s\t\t%s\t" % (wkey, pdf_key)
+	elif site == "jmedicalcasereports":
+		print "linkout\tJMEDC\t%s\t\t%s\t" % (wkey, pdf_key)
+	else:
+		raise ParseException, "Unknown journal %s" % site
 	print "type\tJOUR"
 	title = meta(head, "citation_title")
 	if title:
@@ -92,9 +97,8 @@ def handle(url):
 	if date:
 		m = re.match(r'(\d+)/(\d+)/(\d+)', date)
 		if m:
-			# ARGH: American m/d/y
-			day = m.group(2)
-			month = m.group(1)
+			day = m.group(1)
+			month = m.group(2)
 			year = m.group(3)
 			if year:
 				print "year\t%s" % year
