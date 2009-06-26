@@ -97,7 +97,7 @@ plugin {
 format_linkout CASES {
 	set ret [list "Cases Journal"  "http://casesjournal.com/casesjournal/article/view/${ikey_1}"]
 	if {$ikey_2 != ""} {
-		lappend ret "Cases Journal (PDF)"  "http://casesjournal.com/casesjournal/article/view/${ikey_1}/${ikey_2}"
+		lappend ret "Cases Journal (PDF)"  "http://casesjournal.com/casesjournal/article/download/${ikey_1}/${ikey_2}"
 	}
 	return $ret
 }
