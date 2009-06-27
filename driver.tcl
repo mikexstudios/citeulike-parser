@@ -267,9 +267,6 @@ namespace eval driver {
 
 			# If another plugin can handle it, we'll do that
 			if {$status=="redirect"} {
-				if {$candidate eq ""} {
-					continue
-				}
 				incr rec_level
 				return [parse_url $extra $rec_level]
 			}
