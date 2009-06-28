@@ -43,10 +43,10 @@ plugin {
 	version {1}
 
 	# The name of the plugin, as displayed on the "CiteULike supports..." page
-	name {Cases Journal}
+	name {Cases Network}
 
 	# The link the front page of this service
-	url {http://www.casesjournal.com}
+	url {http://www.casesnetwork.com}
 
 	# Any additional information which needs to be displayed to the user.
 	# E.g. "Experimental support"
