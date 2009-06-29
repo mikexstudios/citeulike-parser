@@ -55,19 +55,19 @@ proc parse_ris {rec} {
 
 		# This is the gospel spec for a field header
 		set ok [regexp {^([A-Z][A-Z0-9])  - (.*)$} $l match k v]
-		
+
 		# special case for "DOI" which is not part of the spec, but, ho, hum
 		if {!$ok && [regexp {^(DOI)  - (.*)$} $l match k v]} {
 			set ok 1
 		}
-		
+
 		# Sometimes there are some borderline legal implementations
 		# where empty fields are defined.
 		if {!$ok && [regexp {^([A-Z][A-Z0-9])  -$} $l match k]} {
 			set v ""
 			set ok 1
 		}
-		
+
 
 		# Maybe it's a line continuation
 		# Technically should have some leading space, but this
@@ -130,6 +130,10 @@ proc parse_ris {rec} {
 
 
 				{A[1-9]|AU|ED} {
+					# a few dud cases we've seen
+					if {[regexp {^\s*[,\.]\s*$} $v]} {
+						continue
+					}
 					lappend ret(authors) $v
 				}
 
@@ -147,7 +151,7 @@ proc parse_ris {rec} {
 						} else {
 							set ret(month) ""
 						}
-						
+
 						if {$day!="" && [scan $day %d day]} {
 							set ret(day) $day
 						} else {
@@ -156,7 +160,7 @@ proc parse_ris {rec} {
 						set ret(date_other) $other
 					}
 				}
-				
+
 				{N1|AB|N2} {
 					append ret(abstract) "$v "
 				}
@@ -243,7 +247,7 @@ proc parse_ris {rec} {
 		}
 		set ret(authors) $authors
 	}
-	
-		
+
+
 	return [array get ret]
 }
