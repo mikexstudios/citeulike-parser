@@ -55,12 +55,12 @@ namespace eval author {
 	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
 	set SURNAME [subst {(?:$PREFIX)?(?:$NAME_2)}]
 	set EMAIL {(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)}
-	
+
 
 	# Try to pick out a few common formats with regexps first.
 	proc common_formats {raw} {
 		array set x [_common_formats $raw]
-		
+
 
 		# Post-process results of RE, unless verbatim flag is set
 
@@ -79,11 +79,19 @@ namespace eval author {
 			}
 
 			if {[info exists x(first_name)]} {
-				set initials [string range $x(first_name) 0 0]
-				if {[info exists x(initials)]} {
-					append initials $x(initials)
+				if {[info exists x(initials_first)]} {
+					set initials [string range $x(first_name) 0 0]
+					if {[info exists x(initials)]} {
+						set initials "$x(initials)${initials}"
+					}
+					set x(initials) $initials
+				} else {
+					set initials [string range $x(first_name) 0 0]
+					if {[info exists x(initials)]} {
+						append initials $x(initials)
+					}
+					set x(initials) $initials
 				}
-				set x(initials) $initials
 			}
 		}
 
@@ -96,7 +104,7 @@ namespace eval author {
 				lappend ret ""
 			}
 		}
-		
+
 		return $ret
 
 	}
@@ -136,43 +144,49 @@ namespace eval author {
 		if {[regexp\
 				 [subst {^($INITIALS_4)($SURNAME) $}]\
 				 $raw -> ret(initials) ret(last_name)]} { return [array get ret]}
-		
+
 		# Richard D. Cameron
 		# Richard Cameron
 		if {[regexp\
 				 [subst {^($NAME_2) ($INITIALS_4)?($SURNAME) $}]\
 				 $raw -> ret(first_name) ret(initials) ret(last_name)]} { return [array get ret] }
-		
+
 		# R.D.Cameron
 		if {[regexp\
 				 [subst -nocommands {^((?:[A-Z]\\\.){1,3})($SURNAME) $}]\
 				 $raw -> ret(initials) ret(last_name)]} {return [array get ret]}
-		
-				  
+
+
 		# Cameron
 		if {[regexp\
 				 [subst {^($SURNAME) $}]\
 				 $raw -> ret(last_name) ret(initials)]} { return [array get ret] }
-		
+
 		# D Waylon Smithers
 		if {[regexp\
 				 [subst {^($INITIALS_4)($NAME_2) ($SURNAME) $}]\
-				 $raw -> ret(initials) ret(first_name) ret(last_name)]} { return [array get ret] }
-		
+				 $raw -> ret(initials) ret(first_name) ret(last_name)]} {
+			set ret(initials_first) 1
+			return [array get ret]
+		}
+
 
 		# Deborah Gladstein Ancona
 		if {[regexp\
 				 [subst {^($NAME_2) ($NAME_2) ($SURNAME) $}]\
 				 $raw -> ret(first_name) middle_name ret(last_name)]} {
 			set ret(initials) [string range $middle_name 0 0]
-			return [array get ret] 
+			return [array get ret]
 		}
-   	
+
 		# Smithers, D Waylon
 		if {[regexp\
 				 [subst {^($SURNAME), ($INITIALS_4)($NAME_2) $}]\
-				 $raw -> ret(last_name) ret(initials) ret(first_name)]} { return [array get ret] }
-		
+				 $raw -> ret(last_name) ret(initials) ret(first_name)]} {
+ 			set ret(initials_first) 1
+			return [array get ret]
+		}
+
 
 		# Now we'll give up. This should always be the last case.
 		# See if we can extract anything that looks even vaguely like a surname
@@ -207,9 +221,9 @@ namespace eval author {
 
 		set work [regsub -all {[()]} $work ""]
 		set work [regsub -all "$EMAIL" $work ""]
-		
+
 		# puts "$work"
-		
+
 		# Honorific and strange conventions just need to get binned immediately
 		# (I don't support this for now, but because I keep the raw names
 		#  this stuff can be added in retrospectively if required)
@@ -218,7 +232,7 @@ namespace eval author {
 
 		# The way we've phrased the REs, we need a trailing space
 		append work " "
-		
+
 		set common [common_formats $work]
 
 		if {[llength $common]>0} {
@@ -252,7 +266,7 @@ namespace eval author {
 	proc test_author {} {
 		test_parse_author
 	}
-		
+
  	proc parse_test_cases {} {
 		# last_name first_name initials raw
  		return [list \
@@ -279,8 +293,9 @@ namespace eval author {
  					{"Vonesch" "Jean-Luc" "J" "Jean-Luc Vonesch"}\
  					{"von Herrath" "Matthias" "M" "Matthias von Herrath"}\
  					{"O'Donnell-Tormey" "Jill" "J" "Jill O'Donnell-Tormey"}\
- 					{"Smithers" "Waylon" "WD" "D Waylon Smithers"}\
- 					{"Smithers" "Waylon" "WD" "Smithers, D Waylon"}\
+ 					{"Smithers" "Waylon" "DW" "D Waylon Smithers"}\
+ 					{"Smithers" "Waylon" "DW" "D. Waylon Smithers"}\
+ 					{"Smithers" "Waylon" "DW" "Smithers, D Waylon"}\
  					{"von Herrath" "Matthias" "M" "Matthias von Herrath"}\
  					{"von Hoyningen-Huene" "Wolfgang" "W" "von Hoyningen-Huene, Wolfgang"}\
  					{"de Boer" "" "J" "de Boer, J."}\
@@ -297,18 +312,16 @@ namespace eval author {
  					{"Steves" "" "BA" "Steves B.A."}\
  					{"Florek" "" "HJ" "Florek, H.-J."}\
  					{"Steves" "" "ABC" "Steves, A.B.C"}\
+					{"Cho-Vega" "Jeong" "JH" "Jeong Hee Cho-Vega"}\
+					{"Yeung" "Henry" "HW" "Henry Wai-chung Yeung"}\
  				   ]
 
-		# To fix at some point:
-	# 					{"Cho-Vega" "Jeong" "JH" "Jeong Hee Cho-Vega"}\
-	#  					{"Yeung" "Henry" "HW" "Henry Wai-chung Yeung"}\
-
  	}
-	
+
 	proc test_parse_author {} {
 		foreach case [parse_test_cases] {
 			foreach {last_name first_name initials raw_name} $case {}
-			
+
 			# Raw name is element 3
 			set result [parse_author [lindex $case 3]]
 
@@ -326,5 +339,5 @@ namespace eval author {
 	}
 
 	test_author
-	
+
 }
