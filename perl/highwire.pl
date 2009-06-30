@@ -6,13 +6,14 @@ use LWP;
 use HTTP::Request::Common;
 
 #
-# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# Copyright (c) 2000 CiteULike.org
 # All rights reserved.
 #
 # This code is derived from software contributed to CiteULike.org
 # by
 #	 Stevan Springer <stevan.springer@gmail.com>
-#	 (Derived from original code by Will Wade and Richard Cameron)
+#	 (Derived from original code by Will Wade, Richard Cameron
+#         and Fergus Gallagher)
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -25,8 +26,7 @@ use HTTP::Request::Common;
 # 3. All advertising materials mentioning features or use of this software
 #    must display the following acknowledgement:
 #        This product includes software developed by
-#		 CiteULike <http://www.citeulike.org> and its
-#		 contributors.
+#		 CiteULike <http://www.citeulike.org> and its contributors.
 # 4. Neither the name of CiteULike nor the names of its
 #    contributors may be used to endorse or promote products derived
 #    from this software without specific prior written permission.
@@ -93,10 +93,14 @@ $abstract_part = "abstract";
 # H20 earlies
 # http://rspa.royalsocietypublishing.org/content/early/2009/06/22/rspa.2009.0091.abstract
 # need a few more examples - just a first guess
+# currently no good - need a "permanent" URL. so use skip_hirewire for now
+
+$skip_highwire = 0;
 if ($url =~ m{http://([^/]+)/content/early/([^/]+)/([^/]+)/([^/]+)/(.*)\.(\w+)$}) {
 	($journal_site,$volume,$number,$page,$extra) = ($1,$2,$3,$4,$5);
 	$journal_site = gobble_proxy($journal_site);
 	$url_abstract = "http://$journal_site/content/early/$volume/$number/$page/${extra}.$abstract_part";
+	$skip_highwire = 1
 }
 #
 # New (2008) Highwire URL format
@@ -196,10 +200,12 @@ unless ($ris =~ m{ER\s+-}) {
 print "begin_tsv\n";
 
 # Two styles of highwire linkouts...
-if ($hiwire) {
-	print "linkout\tHIWIRE\t\t$hiwire\t\t\n";
-} elsif ($volume =~ m/^[0-9]+$/) {
-	print "linkout\tHWIRE\t$volume\t$journal_site\t$number\t$page\n";
+if (!$skip_highwire) {
+	if ($hiwire) {
+		print "linkout\tHIWIRE\t\t$hiwire\t\t\n";
+	} elsif ($volume =~ m/^[0-9]+$/) {
+		print "linkout\tHWIRE\t$volume\t$journal_site\t$number\t$page\n";
+	}
 }
 
 if ($doi) {
