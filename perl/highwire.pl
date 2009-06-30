@@ -90,10 +90,18 @@ $url =~ s/\?.*$//;
 $abstract_part = "abstract";
 #$abstract_part = "refs";
 
+# H20 earlies
+# http://rspa.royalsocietypublishing.org/content/early/2009/06/22/rspa.2009.0091.abstract
+# need a few more examples - just a first guess
+if ($url =~ m{http://([^/]+)/content/early/([^/]+)/([^/]+)/([^/]+)/(.*)\.(\w+)$}) {
+	($journal_site,$volume,$number,$page,$extra) = ($1,$2,$3,$4,$5);
+	$journal_site = gobble_proxy($journal_site);
+	$url_abstract = "http://$journal_site/content/early/$volume/$number/$page/${extra}.$abstract_part";
+}
 #
 # New (2008) Highwire URL format
 #
-if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9]+(?:\.[a-z]+)?)}) {
+elsif ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9]+(?:\.[a-z]+)?)}) {
 	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
 	$journal_site = gobble_proxy($journal_site);
 	$page =~ s/\.abstract//;
@@ -104,7 +112,7 @@ if ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-
 #  Published articles: determine journal,volume,number and page details.
 #
 #elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[A-Za-z0-9-.]+)/([0-9]+)/([A-Za-z0-9.]+)}) {
-elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[^/]+)/([^/]+)/([^/]+)}) {
+elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters|pdf_extract)/((?:[a-zA-Z]+;)?[^/]+)/([^/]+)/([^/]+)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
 	$journal_site = gobble_proxy($journal_site);
 	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
@@ -114,7 +122,7 @@ elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|r
 #  Unpublished articles, determine journal and AOP id number.
 #  Create URL that links to abstract (some AOP links need minor modification)
 #
-elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|short|extract|full|refs|reprint|screenpdf|summary|eletters)/(.*)}) {
+elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|short|extract|full|refs|reprint|screenpdf|summary|eletters|pdf_extract)/(.*)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,"","");
 	$journal_site = gobble_proxy($journal_site);
 	if ($volume =~ m{(.*)/(.*)}) {
