@@ -82,6 +82,9 @@ if ($url =~ m{http://[^/]+/cgi(/|/content/)(abstract|short|long|extract|full|ref
 
 $ok || (print "status\tnot_interested\n" and exit);
 
+# strip query part
+$url =~ s/\?.*$//;
+
 #  set url_abstract to URL that links to abstract.
 
 $abstract_part = "abstract";
@@ -111,7 +114,7 @@ elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|r
 #  Unpublished articles, determine journal and AOP id number.
 #  Create URL that links to abstract (some AOP links need minor modification)
 #
-elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|extract|full|refs|reprint|screenpdf|summary)/(.*)}) {
+elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|short|extract|full|refs|reprint|screenpdf|summary|eletters)/(.*)}) {
 	($journal_site,$volume,$number,$page) = ($1,$4,"","");
 	$journal_site = gobble_proxy($journal_site);
 	if ($volume =~ m{(.*)/(.*)}) {
