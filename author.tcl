@@ -197,6 +197,13 @@ namespace eval author {
 			return [array get ret]
 		}
 
+		# Gladstein Ancona, D. A.
+		if {[regexp\
+				 [subst {^(${SURNAME}(?: $SURNAME)*), ?($INITIALS_4)$}]\
+				 $raw -> ret(last_name) ret(initials)]} {
+			return [array get ret]
+		}
+
 		# Smithers, D Waylon
 		if {[regexp\
 				 [subst {^(${SURNAME}(?: $SURNAME)*), ?($INITIALS_4)($NAME_2) $}]\
@@ -351,6 +358,7 @@ namespace eval author {
 					{"Gladstein Ancona" "Deborah" "DA" "Deborah A. Gladstein Ancona"}\
 					{"Gladstein Ancona" "Deborah" "DA" "Gladstein Ancona, Deborah A."}\
 					{"Gladstein Ancona Bancona Anaconda" "Deborah" "DA" "Gladstein Ancona Bancona Anaconda, Deborah A."}\
+					{"Gladstein Ancona Bancona Anaconda" "" "DA" "Gladstein Ancona Bancona Anaconda, D. A."}\
  				   ]
 
  	}
