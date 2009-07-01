@@ -62,7 +62,10 @@ format_linkout HWIRE {
 	return [list HighWire "http://${ckey_1}/cgi/content/abstract/${ikey_1}/${ikey_2}/${ckey_2}"]
 }
 format_linkout HIWIRE {
-	return [list HighWire "http://${ckey_1}.abstract"]
+	return [list \
+		HighWire "http://${ckey_1}.abstract" \
+		"HighWire (PDF)" "http://${ckey_1}.full.pdf" \
+	]
 }
 
 #Tests

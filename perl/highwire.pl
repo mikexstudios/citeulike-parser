@@ -90,33 +90,19 @@ $url =~ s/\?.*$//;
 $abstract_part = "abstract";
 #$abstract_part = "refs";
 
-# H20 earlies
-# http://rspa.royalsocietypublishing.org/content/early/2009/06/22/rspa.2009.0091.abstract
-# need a few more examples - just a first guess
-# currently no good - need a "permanent" URL. so use skip_hirewire for now
 
-$skip_highwire = 0;
-if ($url =~ m{http://([^/]+)/content/early/([^/]+)/([^/]+)/([^/]+)/(.*)\.(\w+)$}) {
-	($journal_site,$volume,$number,$page,$extra) = ($1,$2,$3,$4,$5);
-	$journal_site = gobble_proxy($journal_site);
-	$url_abstract = "http://$journal_site/content/early/$volume/$number/$page/${extra}.$abstract_part";
-	$skip_highwire = 1
-}
 #
-# New (2008) Highwire URL formattrue.
-# Issue numbers are not always numbers, an example would be:
-#http://www.pnas.org/content/101/suppl.1/5186.abstract
-#http://symposium.cshlp.org/content/73/9.abstract
-#
-elsif ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/(?:([^/]+)/)?([A-Za-z0-9]+(?:\.[a-z]+)?)}) {
-	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
-	$journal_site = gobble_proxy($journal_site);
-	$page =~ s/\.abstract//;
-	if ($number) {
-		$url_abstract = "http://$journal_site/content/$volume/$number/${page}.abstract";
-	} else {
-		$url_abstract = "http://$journal_site/content/$volume/${page}.abstract";
+# New (2008) Highwire URL format .
+if ($url =~ m{http://([^/]+)/content/}) {
+	($journal_site) = ($1);
+	$url =~ s/\.(\w+)$/.abstract/;
+	($url_abstract, $doi, $pmid, $body) = get_abstract_url($url);
+	if ($url_abstract eq $url) {
+		$source_abstract = $body;
 	}
+	$hiwire = $url_abstract;
+	$hiwire =~ s/\.abstract$//;
+	$hiwire =~ s|^http://||;
 }
 
 #
@@ -150,8 +136,9 @@ else {
 # Get the link to the citebuilder url and formulate a link to the reference manager RIS file
 
 $ok = 0;
-
-if ($source_abstract = get("$url_abstract")) {
+if ($source_abstract) {
+	$ok =1;
+} elsif ($source_abstract = get("$url_abstract")) {
 	$ok = 1;
 } else {
 	$url_abstract =~ s!/refs/!/abstract/!;
@@ -162,16 +149,20 @@ if ($source_abstract = get("$url_abstract")) {
 
 $ok || (print "status\terr\t (2 $url_abstract) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
-if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_doi"\s*/>}) {
-	$doi = $1;
-} elsif ($source_abstract =~ m!<meta name="citation_doi" content="([^"]+)">!) {
-	$doi = $1;
+if (!$doi) {
+	if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_doi"\s*/>}) {
+		$doi = $1;
+	} elsif ($source_abstract =~ m!<meta name="citation_doi" content="([^"]+)">!) {
+		$doi = $1;
+	}
 }
 
-if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_pmid"\s*/>}) {
-	$pmid = $1;
-} elsif ($source_abstract =~ m{access_num=([0-9]+)&link_type=PUBMED}) {
-	$pmid = $1;
+if (!$pmid) {
+	if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_pmid"\s*/>}) {
+		$pmid = $1;
+	} elsif ($source_abstract =~ m{access_num=([0-9]+)&link_type=PUBMED}) {
+		$pmid = $1;
+	}
 }
 
 if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/>}) {
@@ -180,10 +171,12 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/>}
 	$link_refman = "http://"."$journal_site"."/citmgr?type=refman&gca=".$mjid;
 
 	# Make up new hiwire linkout here
-	if ($number) {
-		$hiwire = "$journal_site/content/$volume/$number/$page";
-	} else {
-		$hiwire = "$journal_site/content/$volume/$page";
+	if (!$hiwire) {
+		if ($number) {
+			$hiwire = "$journal_site/content/$volume/$number/$page";
+		} else {
+			$hiwire = "$journal_site/content/$volume/$page";
+		}
 	}
 } elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation [M|m]anager)|(Download Citation))}) {
 	$link_citmgr = $1;
@@ -211,12 +204,10 @@ unless ($ris =~ m{ER\s+-}) {
 print "begin_tsv\n";
 
 # Two styles of highwire linkouts...
-if (!$skip_highwire) {
-	if ($hiwire) {
-		print "linkout\tHIWIRE\t\t$hiwire\t\t\n";
-	} elsif ($volume =~ m/^[0-9]+$/) {
-		print "linkout\tHWIRE\t$volume\t$journal_site\t$number\t$page\n";
-	}
+if ($hiwire) {
+	print "linkout\tHIWIRE\t\t$hiwire\t\t\n";
+} elsif ($volume && $number && $page && $volume =~ m/^[0-9]+$/) {
+	print "linkout\tHWIRE\t$volume\t$journal_site\t$number\t$page\n";
 }
 
 if ($doi) {
@@ -270,3 +261,29 @@ sub status {
 	print "---------------------------------------------------\n";
 }
 
+sub get_abstract_url {
+	use HTML::TreeBuilder;
+
+	my ($url) = @_;
+
+	$body = get($url);
+	my $tree = HTML::TreeBuilder->new();
+	$tree->parse($body);
+	@meta =  $tree->find("meta");
+	$citation_abstract_html_url = "";
+	$citation_doi = "";
+	$citation_pmid = "";
+	foreach $m (@meta) {
+		$name = $m->attr("name");
+		if ($name && $name eq "citation_abstract_html_url") {
+			$citation_abstract_html_url = $m->attr("content");
+		}
+		if ($name && $name eq "citation_doi") {
+			$citation_doi = $m->attr("content");
+		}
+		if ($name && $name eq "citation_pmid") {
+			$citation_pmid = $m->attr("content");
+		}
+	}
+	return ($citation_abstract_html_url, $citation_abstract_html_url, $citation_pmid, $body);
+}
