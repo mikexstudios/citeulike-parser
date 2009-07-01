@@ -285,5 +285,5 @@ sub get_abstract_url {
 			$citation_pmid = $m->attr("content");
 		}
 	}
-	return ($citation_abstract_html_url, $citation_abstract_html_url, $citation_pmid, $body);
+	return ($citation_abstract_html_url, $citation_doi, $citation_pmid, $body);
 }
