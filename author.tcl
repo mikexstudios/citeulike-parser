@@ -131,6 +131,19 @@ namespace eval author {
 			return [array get ret]
 		}
 
+		# "on (3+ words)" -> verbatim
+		if {[regexp -nocase {^\s*(on(\s+\w+){3,})} $raw -> ret(last_name) ]} {
+			set ret(verbatim) 1
+			return [array get ret]
+		}
+
+		# "the (2+ words)" -> verbatim
+		if {[regexp -nocase {^\s*(the(\s+\w+){2,})} $raw -> ret(last_name) ]} {
+			set ret(verbatim) 1
+			return [array get ret]
+		}
+
+
 		# Cameron(,?) R.D.
 		if {[regexp\
 				 [subst {^($SURNAME),? ?($INITIALS_4)$}]\
@@ -359,6 +372,8 @@ namespace eval author {
 					{"Gladstein Ancona" "Deborah" "DA" "Gladstein Ancona, Deborah A."}\
 					{"Gladstein Ancona Bancona Anaconda" "Deborah" "DA" "Gladstein Ancona Bancona Anaconda, Deborah A."}\
 					{"Gladstein Ancona Bancona Anaconda" "" "DA" "Gladstein Ancona Bancona Anaconda, D. A."}\
+					{"The Science Project" "" "" "The Science Project"}\
+					{"On the Science Project" "" "" "On the Science Project"}\
  				   ]
 
  	}
