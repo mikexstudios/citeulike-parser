@@ -76,7 +76,7 @@ $ok = 0;
 
 if ($url =~ m{http://[^/]+/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)[A-Za-z0-9.-/;]+}) {
 	$ok = 1;
-} elsif ($url =~ m{http://([^/]+)/content/[^/]+/[^/]+/[^/]+(\.[a-z]+)?}) {
+} elsif ($url =~ m{http://([^/]+)/content/[^/]+/([^/]+/)?[^/]+(\.[a-z]+)?}) {
 	$ok = 1;
 }
 
@@ -103,13 +103,20 @@ if ($url =~ m{http://([^/]+)/content/early/([^/]+)/([^/]+)/([^/]+)/(.*)\.(\w+)$}
 	$skip_highwire = 1
 }
 #
-# New (2008) Highwire URL format
+# New (2008) Highwire URL formattrue.
+# Issue numbers are not always numbers, an example would be:
+#http://www.pnas.org/content/101/suppl.1/5186.abstract
+#http://symposium.cshlp.org/content/73/9.abstract
 #
-elsif ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/([0-9]+)/([A-Za-z0-9]+(?:\.[a-z]+)?)}) {
+elsif ($url =~ m{http://([^/]+)/content/((?:[a-zA-Z]+;)?[0-9]+)/(?:([^/]+)/)?([A-Za-z0-9]+(?:\.[a-z]+)?)}) {
 	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
 	$journal_site = gobble_proxy($journal_site);
 	$page =~ s/\.abstract//;
-	$url_abstract = "http://$journal_site/content/$volume/$number/${page}.abstract";
+	if ($number) {
+		$url_abstract = "http://$journal_site/content/$volume/$number/${page}.abstract";
+	} else {
+		$url_abstract = "http://$journal_site/content/$volume/${page}.abstract";
+	}
 }
 
 #
@@ -173,7 +180,11 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/>}
 	$link_refman = "http://"."$journal_site"."/citmgr?type=refman&gca=".$mjid;
 
 	# Make up new hiwire linkout here
-	$hiwire = "$journal_site/content/$volume/$number/$page";
+	if ($number) {
+		$hiwire = "$journal_site/content/$volume/$number/$page";
+	} else {
+		$hiwire = "$journal_site/content/$volume/$page";
+	}
 } elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation [M|m]anager)|(Download Citation))}) {
 	$link_citmgr = $1;
 	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
