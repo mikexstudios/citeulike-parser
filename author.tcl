@@ -53,9 +53,9 @@ namespace eval author {
 	set NAME_2 {(?:[^ \t\n\r\f\v,.]{2,}|[^ \t\n\r\f\v,.;]{2,}\-[^ \t\n\r\f\v,.;]{2,})}
 	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]\.-?){1,3}[A-Z]\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
 	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
-	# set PREFIX2 {Dell(?:[a|e])?|Dalle|D[a|e]ll\'|Dela|Del|[Dd]e (?:La |Los )?|[Dd]e|[Dd][a|i|u]|L[a|e|o]|[D|L|O]\'|St\.?|San|[Dd]en|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?)?}
 	set PREFIX2 {^(dell([ae])?|d[aiue]|l[aeio]|v[oa]n|san|de[rn])$}
 	set SURNAME [subst {(?:$PREFIX)?(?:$NAME_2)}]
+	set SURNAMES [subst {${SURNAME}(?: $SURNAME)*}]
 	set EMAIL {(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)}
 
 
@@ -118,6 +118,7 @@ namespace eval author {
 		variable INITIALS_4
 		variable PREFIX
 		variable SURNAME
+		variable SURNAMES
 
 		# "verbatim name"
 		if {[regexp {^\s*"([^"]+)"\s*$} $raw -> ret(last_name)]} {
@@ -142,6 +143,13 @@ namespace eval author {
 			set ret(verbatim) 1
 			return [array get ret]
 		}
+
+		# anything ending in "group" (or similar)
+		if {[regexp -nocase {\s+(group|consortium|project|alliance|team)$} $raw -> ret(last_name) ]} {
+			set ret(verbatim) 1
+			return [array get ret]
+		}
+
 
 
 		# Cameron(,?) R.D.
@@ -188,6 +196,8 @@ namespace eval author {
 		}
 
 
+		# It's impossible to distinguish between "NAME SURNAME SURNAME" and
+		# "NAME NAME SURNAME" - the latter is more likely so assume that
 		# Deborah Gladstein Ancona
 		if {[regexp\
 				 [subst {^($NAME_2) ($NAME_2) ($SURNAME) $}]\
@@ -198,28 +208,28 @@ namespace eval author {
 
 		# Deborah A. Gladstein Ancona
 		if {[regexp\
-				 [subst {^($NAME_2) ($INITIALS_4)($SURNAME $SURNAME) $}]\
+				 [subst {^($NAME_2) ($INITIALS_4)(${SURNAME}(?: $SURNAME)*) $}]\
 				 $raw -> ret(first_name) ret(initials) ret(last_name)]} {
 			return [array get ret]
 		}
 
 		# Gladstein Ancona, Deborah A.
 		if {[regexp\
-				 [subst {^(${SURNAME}(?: $SURNAME)*), ?($NAME_2)(?: ($INITIALS_4))?$}]\
+				 [subst {^($SURNAMES), ?($NAME_2)(?: ($INITIALS_4))?$}]\
 				 $raw -> ret(last_name) ret(first_name) ret(initials)]} {
 			return [array get ret]
 		}
 
 		# Gladstein Ancona, D. A.
 		if {[regexp\
-				 [subst {^(${SURNAME}(?: $SURNAME)*), ?($INITIALS_4)$}]\
+				 [subst {^($SURNAMES), ?($INITIALS_4)$}]\
 				 $raw -> ret(last_name) ret(initials)]} {
 			return [array get ret]
 		}
 
 		# Smithers, D Waylon
 		if {[regexp\
-				 [subst {^(${SURNAME}(?: $SURNAME)*), ?($INITIALS_4)($NAME_2) $}]\
+				 [subst {^($SURNAMES), ?($INITIALS_4)($NAME_2) $}]\
 				 $raw -> ret(last_name) ret(initials) ret(first_name)]} {
  			set ret(initials_first) 1
 			return [array get ret]
@@ -228,6 +238,9 @@ namespace eval author {
 		# Now we'll give up. This should always be the last case.
 		# See if we can extract anything that looks even vaguely like a surname
 		# and be happy with that.
+		if {[regexp [subst {($SURNAMES)}]\
+				 $raw -> ret(last_name)]} { return [array get ret] }
+
 		if {[regexp [subst {($SURNAME)}]\
 				 $raw -> ret(last_name)]} { return [array get ret] }
 
