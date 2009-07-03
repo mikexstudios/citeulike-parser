@@ -268,6 +268,9 @@ namespace eval author {
 		set work [regsub -all {\s+\.+$} $work ""]
 		set work [regsub -all {,+$} $work ""]
 		set work [regsub -all {&nbsp;} $work " "]
+		set work [regsub -all {\s+,} $work ","]
+		set work [regsub -all {\s+\.} $work "."]
+		set work [regsub -all {\s+;} $work ";"]
 
 		set work [regsub -all {[()]} $work ""]
 		set work [regsub -all "$EMAIL" $work ""]
@@ -387,6 +390,7 @@ namespace eval author {
 					{"Gladstein Ancona Bancona Anaconda" "" "DA" "Gladstein Ancona Bancona Anaconda, D. A."}\
 					{"The Science Project" "" "" "The Science Project"}\
 					{"On the Science Project" "" "" "On the Science Project"}\
+ 					{"Florek" "" "HJ" "Florek , H.-J."}\
  				   ]
 
  	}
