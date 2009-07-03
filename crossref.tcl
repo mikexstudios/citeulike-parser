@@ -66,10 +66,10 @@ proc CROSSREF::parse_journal {doc} {
 		set fname ""
 		set lname ""
 		catch {
-			set fname [[$a_node selectNodes given_name] text]
+			set fname [string trim [[$a_node selectNodes given_name] text]]
 		}
 		catch {
-			set lname [[$a_node selectNodes surname] text]
+			set lname [string trim [[$a_node selectNodes surname] text]]
 		}
 
 		lappend author_list [list $seq "$lname, $fname"]
