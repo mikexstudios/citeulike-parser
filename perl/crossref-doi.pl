@@ -77,6 +77,9 @@ $xml = new XML::Simple;
 $data = $xml->XMLin($body, ForceArray => [qw/title titles person_name identifier issn/]);
 
 $base = $data->{"doi_record"}->{"crossref"};
+if (!$base) {
+	$base = $data->{"crossref"};
+}
 
 if (!$base) {
 	print "status\terr\t  That DOI does not appear to be a known type.\n";

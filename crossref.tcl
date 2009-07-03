@@ -11,12 +11,12 @@ proc CROSSREF::parse_journal {doc} {
 
 	set ret(type) JOUR
 
-	set prefix /doi_records/doi_record/crossref/journal
+	set prefix //doi_record/crossref/journal
 
 	catch {
 		set ret(journal) [[$doc selectNodes ${prefix}//full_title] text]
-	} 
-	
+	}
+
 	# there can be multiple issn e.g., media_type="print"|"electronic"
 	# Which one?  Just choose first one for now.
 	catch {
@@ -127,17 +127,17 @@ proc CROSSREF::parse_chapter {doc} {
 
 	set ret(type) CHAP
 
-	set prefix /doi_records/doi_record/crossref/book
+	set prefix //doi_record/crossref/book
 	set meta "$prefix/book_metadata"
 	set content "$prefix/content_item\[1\]"
 
 	catch {
 		set ret(title_secondary) [[$doc selectNodes ${prefix}/book_metadata/titles/title\[1\]] text]
-	} 
+	}
 	catch {
 		set ret(title_series) [[$doc selectNodes ${prefix}/book_metadata/series_metadata/titles/title\[1\]] text]
-	} 
-	
+	}
+
 	# there can be multiple issn e.g., media_type="print"|"electronic"
 	# Which one?  Just choose first one for now.
 	catch {
@@ -219,32 +219,54 @@ proc CROSSREF::parse_chapter {doc} {
 	return [array get ret]
 }
 
+proc ns_test {xml} {
+	set doc [[dom parse $xml] documentElement]
+	puts "XXX1: $xml"
+		# <doi_record xmlns="http://www.crossref.org/xschema/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		# <crossref><journal>
+	puts "XXX2: [[$doc firstChild] nodeName]"; # crossref
+	puts "XXX3: [[[$doc firstChild] firstChild] nodeName]"; #journal
+	puts "XXX3.1: [[[$doc firstChild] firstChild] namespaceURI]"; #http://www.crossref.org/xschema/1.0
+
+	puts "XXX4.1a: [$doc selectNodes crossref]"; # NOTHING
+	puts "XXX4.1b: [$doc selectNodes -namespaces {default http://www.crossref.org/xschema/1.0} default:crossref]"; # domNode
+	puts "XXX4.1c: [[$doc selectNodes -namespaces {default http://www.crossref.org/xschema/1.0} default:crossref] nodeName]"; # crossref
+
+	puts "XXX4.2a: [$doc selectNodes //journal]"; # NOTHING
+	puts "XXX4.2b: [$doc selectNodes -namespaces {default http://www.crossref.org/xschema/1.0}  //default:crossref/default:journal]"; # domNode
+	puts "XXX4.2c: [$doc selectNodes  //crossref/journal]"; # NOTHING
+}
+
 proc CROSSREF::parse_xml {xml {hints {}}} {
 
+
+	regsub -all {xmlns(:\w+)?="[^"]+"} $xml {} xml
+
 	set doc [[dom parse $xml] documentElement]
-	
+
 	set ret ""
-	
+
+
 	# Journal?
 	catch {
-		if {[$doc selectNodes /doi_records/doi_record/crossref/journal] ne ""} {
-			set ret [parse_journal $doc] 
+		if {[$doc selectNodes //doi_record/crossref/journal] ne ""} {
+			set ret [parse_journal $doc]
 		}
 	}
 	if {$ret ne ""} {
 		return $ret
 	}
-	
+
 	# Chapter?
 	catch {
-		if {[$doc selectNodes /doi_records/doi_record/crossref/book/content_item\[@component_type="chapter"\] ] ne ""} {
-			set ret [parse_chapter $doc]		
-		}	
+		if {[$doc selectNodes //doi_record/crossref/book/content_item\[@component_type="chapter"\] ] ne ""} {
+			set ret [parse_chapter $doc]
+		}
 	}
 	if {$ret ne ""} {
 		return $ret
 	}
-	
+
 	return {}
-	
+
 }
