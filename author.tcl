@@ -247,6 +247,17 @@ namespace eval author {
 	}
 
 
+	proc c2html {c} {
+		format "&#x%4.4x;" [scan $c %c]
+	}
+
+	proc html2u {string} {
+		while {[regexp {&#[xX]([0-9A-Fa-f]+);} $string matched hex]} {
+			regsub -all $matched $string [format %c 0x$hex] string
+		}
+		set string
+	}
+
 	proc parse_author {raw} {
 		variable TITLE_JUNK
 		variable TRAILING_JUNK
@@ -263,6 +274,7 @@ namespace eval author {
 		# Remove leading, trailing, double spacing,
 		# and other unwanted bits and pieces.
 		set work [string trim $raw]
+		set work [html2u $work]
 		set work [regsub -all {\s{2,}} $work " "]
 		set work [regsub -all {,{2,}} $work ","]
 		set work [regsub -all {\s+\.+$} $work ""]
