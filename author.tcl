@@ -269,6 +269,7 @@ namespace eval author {
 		set work [regsub -all {,+$} $work ""]
 		set work [regsub -all {&nbsp;} $work " "]
 		set work [regsub -all {\s+,} $work ","]
+		set work [regsub -all {\s+\.\s+} $work ""]
 		set work [regsub -all {\s+\.} $work "."]
 		set work [regsub -all {\s+;} $work ";"]
 
