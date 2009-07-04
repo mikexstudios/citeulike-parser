@@ -264,26 +264,38 @@ namespace eval author {
 		variable EMAIL
 
 		# trim whitespace
-		set raw_trim [string trim $raw]
+		set raw [string trim $raw]
+
+		set raw [string trim $raw]
+		set raw [html2u $raw]
+		# this function only defined in main server
+		catch {
+			set raw [unicode_bibtex_unmap $raw]
+		}
 
 		# If we have a braced string, turn it into a quoted string
-		if {([string index $raw_trim 0] eq "\{") && ([string index $raw_trim end] eq "\}")} {
-			set raw \"[string range $raw_trim 1 end-1]\"
+		if {([string index $raw 0] eq "\{") && ([string index $raw end] eq "\}")} {
+			set raw \"[string range $raw 1 end-1]\"
 		}
 
 		# Remove leading, trailing, double spacing,
 		# and other unwanted bits and pieces.
-		set work [string trim $raw]
-		set work [html2u $work]
+		set work $raw
 		set work [regsub -all {\s{2,}} $work " "]
-		set work [regsub -all {,{2,}} $work ","]
+		set work [regsub -all {,+} $work ","]
 		set work [regsub -all {\s+\.+$} $work ""]
 		set work [regsub -all {,+$} $work ""]
 		set work [regsub -all {&nbsp;} $work " "]
 		set work [regsub -all {\s+,} $work ","]
-		set work [regsub -all {\s+\.\s+} $work " "]
-		set work [regsub -all {\s+\.} $work "."]
-		set work [regsub -all {\s+;} $work ";"]
+		set work [regsub -all {\s+\.+\s+} $work " "]
+		set work [regsub -all {\s+\.+} $work "."]
+		set work [regsub -all {\s+;+} $work ";"]
+
+		# using raw/work is from legacy code.
+		# Previously "raw" was sacrosanct and tweaking done using "work",
+		# but now all the obvious stuff is done on the raw.  This might
+		# be wrong in some circumstances but seems best overall.
+		set raw $work
 
 		set work [regsub -all {[()]} $work ""]
 		set work [regsub -all "$EMAIL" $work ""]
