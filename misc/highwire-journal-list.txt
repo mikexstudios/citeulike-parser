@@ -107,7 +107,6 @@ ash-sap.hematologylibrary.org
 asianannals.ctsnetjournals.org
 asj.sagepub.com
 asm.sagepub.com
-ast.sagepub.com
 ats.ctsnetjournals.org
 atvb.ahajournals.org
 aut.sagepub.com
@@ -413,6 +412,7 @@ fcs.sagepub.com
 fcx.sagepub.com
 fh.oxfordjournals.org
 fhs.dukejournals.org
+fieldguides.gsapubs.org
 fla.sagepub.com
 fmls.oxfordjournals.org
 fmx.sagepub.com
@@ -850,6 +850,7 @@ meeting.ascopubs.org
 meeting.chestjournal.org
 mej.sagepub.com
 mem.lyellcollection.org
+memoirs.gsapubs.org
 mend.endojournals.org
 mh.bmj.com
 mhj.sagepub.com
@@ -867,6 +868,7 @@ mlq.dukejournals.org
 mlq.sagepub.com
 mmbr.asm.org
 mmcts.ctsnetjournals.org
+mmd.sagepub.com
 mmr.sagepub.com
 mms.sagepub.com
 moh.sagepub.com
@@ -1034,6 +1036,7 @@ ras.sagepub.com
 rcb.sagepub.com
 rcgp-innovait.oxfordjournals.org
 reep.oxfordjournals.org
+reg.gsapubs.org
 rel.sagepub.com
 rer.sagepub.com
 res.oxfordjournals.org
@@ -1118,6 +1121,7 @@ socrel.oxfordjournals.org
 soc.sagepub.com
 soil.scijournals.org
 soq.sagepub.com
+specialpapers.gsapubs.org
 spectrum.diabetesjournals.org
 sph.sagepub.com
 spi.sagepub.com
@@ -1143,6 +1147,7 @@ symposium.cshlp.org
 sysbio.oxfordjournals.org
 tag.sagepub.com
 tak.sagepub.com
+tam.sagepub.com
 tandt.oxfordjournals.org
 tan.sagepub.com
 tap.sagepub.com
@@ -1209,6 +1214,7 @@ wmr.sagepub.com
 womens-health.jwatch.org
 wom.sagepub.com
 wox.sagepub.com
+writsy.oxfordjournals.org
 www2.ejbjs.org
 www.aacnjournals.org
 www.aacrjournals.org
