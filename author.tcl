@@ -54,7 +54,7 @@ namespace eval author {
 	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]\.-?){1,3}[A-Z]\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
 	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
 	set PREFIX2 {^(dell([ae])?|d[aiue]|l[aeio]|v[oa]n|san|de[rn])$}
-	set SURNAME [subst {(?:$PREFIX)?(?:$NAME_2)}]
+	set SURNAME [subst {(?:$PREFIX){0,2}(?:$NAME_2)}]
 	set SURNAMES [subst {${SURNAME}(?: $SURNAME)*}]
 	set EMAIL {(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)}
 
@@ -416,6 +416,7 @@ namespace eval author {
 					{"The Science Project" "" "" "The Science Project"}\
 					{"On the Science Project" "" "" "On the Science Project"}\
  					{"Florek" "" "HJ" "Florek , H.-J."}\
+					{"De La Paz" "Susan" "S" "De La Paz, Susan"}\
  				   ]
 
  	}
