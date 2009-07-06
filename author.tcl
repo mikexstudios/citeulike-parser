@@ -49,7 +49,8 @@ namespace eval author {
 	# Try to define some of the tokens in the "grammar" as simple regexps.
 	# These are influences from Lingua::EN::NameParse
 	set TITLE_JUNK {(?:His (?:Excellency|Honou?r)\s+|Her (?:Excellency|Honou?r)\s+|The Right Honou?rable\s+|The Honou?rable\s+|Right Honou?rable\s+|The Rt\.? Hon\.?\s+|The Hon\.?\s+|Rt\.? Hon\.?\s+|Mr\.?\s+|Ms\.?\s+|M\/s\.?\s+|Mrs\.?\s+|Miss\.?\s+|Dr\.?\s+|Sir\s+|Dame\s+|Prof\.?\s+|Professor\s+|Doctor\s+|Mister\s+|Mme\.?\s+|Mast(?:\.|er)?\s+|Lord\s+|Lady\s+|Madam(?:e)?\s+|Priv\.-Doz\.\s+)+}
-	set TRAILING_JUNK {,?\s+(?:Esq(?:\.|uire)?|Sn?r\.?|Jn?r\.?|[Ee]t [Aa]l\.?)} ; # The Indiana Jones school of naming your children..
+	set TRAILING_JUNK {,?\s+(?:Esq(?:\.|uire)?|Sn?r\.?|Jn?r\.?|[Ee]t [Aa]l\.?|I|II|III|IV)} ; # The Indiana Jones school of naming your children..
+	set TRAILING_JUNK_2 {,?\s*(?:I|II|II|IV)} ; # The Indiana Jones school of naming your children..
 	set NAME_2 {(?:[^ \t\n\r\f\v,.]{2,}|[^ \t\n\r\f\v,.;]{2,}\-[^ \t\n\r\f\v,.;]{2,})}
 	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]\.-?){1,3}[A-Z]\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
 	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
@@ -114,6 +115,7 @@ namespace eval author {
 	proc _common_formats {raw} {
 		variable TITLE_JUNK
 		variable TRAILING_JUNK
+		variable TRAILING_JUNK_2
 		variable NAME_2
 		variable INITIALS_4
 		variable PREFIX
@@ -301,6 +303,7 @@ namespace eval author {
 	proc parse_author {raw} {
 		variable TITLE_JUNK
 		variable TRAILING_JUNK
+		variable TRAILING_JUNK_2
 		variable EMAIL
 
 		# trim whitespace
@@ -347,7 +350,10 @@ namespace eval author {
 		# (I don't support this for now, but because I keep the raw names
 		#  this stuff can be added in retrospectively if required)
 		set work [regsub "^$TITLE_JUNK" $work ""]
+		puts "XXX1: $work"
 		set work [regsub "${TRAILING_JUNK}\$" $work ""]
+		set work [regsub "${TRAILING_JUNK_2}\$" $work ""]
+		puts "XXX2: $work"
 
 		# The way we've phrased the REs, we need a trailing space
 		append work " "
@@ -458,6 +464,7 @@ namespace eval author {
 					{"On the Science Project" "" "" "On the Science Project"}\
  					{"Florek" "" "HJ" "Florek , H.-J."}\
 					{"De La Paz" "Susan" "S" "De La Paz, Susan"}\
+					{"Ager" "" "JW" "J. W. Ager III"}\
 
  				   ]
 
