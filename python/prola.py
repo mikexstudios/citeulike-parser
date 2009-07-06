@@ -35,7 +35,7 @@ urllib2.install_opener(opener)
 # we'll be given a url of the form http://prola.aps.org/abstract/PRA/v18/i3/p787_1
 #  http://prola.aps.org/abstract/journal/volume/issue/page
 # the ris resource is located at http://prola.aps.org/export/___/v__/i__/p__?type=ris
-# use type=bibtex for bibtex 
+# use type=bibtex for bibtex
 # should we prefer one to the other?
 
 host = 'http://'+ urlparse(url).netloc
@@ -79,6 +79,7 @@ if match:
 	parser = XMLJustText()
 	parser.feed(match.group(1))
 	abstract = parser.just_text.replace(',',';').strip()
+	abstract = parser.just_text.replace(',',';').replace('\n',' ').strip()
 
 # We would much much rather extract the DOI from the bibtex feed, since it has a
 # much more std structure, (that isn't as subject to change as the page conent.
@@ -93,7 +94,7 @@ else:
 	print ERR_STR_PREFIX + ERR_STR_NO_DOI + absurl + '.  ' + ERR_STR_REPORT
 	sys.exit(1)
 
-#We can look at the letter code in the address (/address/xxxxx/) 
+#We can look at the letter code in the address (/address/xxxxx/)
 #to get the journal name.
 #Journal  	URL
 #Phys. Rev. A	http://pra.aps.org/ PRA
@@ -109,7 +110,7 @@ else:
 # ??? PRI
 
 journal_key = address.split("/")[1]
-	
+
 journalmap = {'PRA' : 'Physical Review A',
               'PRB' : 'Physical Review B',
               'PRC' : 'Physical Review C',
@@ -127,7 +128,7 @@ journal = journalmap[journal_key]
 #	journal = journalmap[address[1:4]]
 #except KeyError:
 #	journal = "APS Journal"
- 
+
 print 'begin_tsv'
 print 'journal\t' + journal
 if abstract:
@@ -143,4 +144,4 @@ print 'begin_bibtex'
 print bibtex
 print 'end_bibtex'
 print 'status\tok'
-	
+
