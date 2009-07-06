@@ -49,8 +49,8 @@ namespace eval author {
 	# Try to define some of the tokens in the "grammar" as simple regexps.
 	# These are influences from Lingua::EN::NameParse
 	set TITLE_JUNK {(?:His (?:Excellency|Honou?r)\s+|Her (?:Excellency|Honou?r)\s+|The Right Honou?rable\s+|The Honou?rable\s+|Right Honou?rable\s+|The Rt\.? Hon\.?\s+|The Hon\.?\s+|Rt\.? Hon\.?\s+|Mr\.?\s+|Ms\.?\s+|M\/s\.?\s+|Mrs\.?\s+|Miss\.?\s+|Dr\.?\s+|Sir\s+|Dame\s+|Prof\.?\s+|Professor\s+|Doctor\s+|Mister\s+|Mme\.?\s+|Mast(?:\.|er)?\s+|Lord\s+|Lady\s+|Madam(?:e)?\s+|Priv\.-Doz\.\s+)+}
-	set TRAILING_JUNK {,?\s+(?:Esq(?:\.|uire)?|Sn?r\.?|Jn?r\.?|[Ee]t [Aa]l\.?|I|II|III|IV)} ; # The Indiana Jones school of naming your children..
-	set TRAILING_JUNK_2 {,?\s*(?:I|II|II|IV)} ; # The Indiana Jones school of naming your children..
+	set TRAILING_JUNK {,?\s+(?:Esq(?:\.|uire)?|Sn?r\.?|Jn?r\.?|[Ee]t [Aa]l\.?)} ; # The Indiana Jones school of naming your children..
+	set TRAILING_JUNK_2 {,?\s*(?:II|III|IV)} ; # The Indiana Jones school of naming your children..
 	set NAME_2 {(?:[^ \t\n\r\f\v,.]{2,}|[^ \t\n\r\f\v,.;]{2,}\-[^ \t\n\r\f\v,.;]{2,})}
 	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]\.-?){1,3}[A-Z]\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
 	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
@@ -122,7 +122,7 @@ namespace eval author {
 		variable SURNAME
 		variable SURNAMES
 
-		set debug 0
+		set debug 1
 
 		# "verbatim name"
 		if {[regexp {^\s*"([^"]+)"\s*$} $raw -> ret(last_name)]} {
@@ -233,12 +233,12 @@ namespace eval author {
 
 
 		# Cameron
-		if {[regexp\
-				 [subst {^($SURNAME) $}]\
-				 $raw -> ret(last_name) ret(initials)]} {
-			if {$debug} { puts "Match Rule 11" }
-			return [array get ret]
-		}
+#		if {[regexp\
+#				 [subst {^($SURNAME) $}]\
+#				 $raw -> ret(last_name) ret(initials)]} {
+#			if {$debug} { puts "Match Rule 11" }
+#			return [array get ret]
+#		}
 
 		# D Waylon Smithers
 		if {[regexp\
@@ -419,7 +419,6 @@ namespace eval author {
  	proc parse_test_cases {} {
 		# last_name first_name initials raw
  		return [list \
-					{"Person" "" "I" "Person I"}\
  					{"Edozien" "Leroy" "LC" "Edozien, Leroy C"}\
  					{"Chaitin" "" "GJ" "G. J. Chaitin"} \
  					{"Chaitin" "" "GJ" "G. J. Chaitin	 "}\
@@ -458,7 +457,6 @@ namespace eval author {
  					{"Cameron" "" "" "rcameron@citeulike.org (Cameron et al)"}\
  					{"Cameron" "Richard" "RD" "Richard D Cameron"}\
  					{"Cameron" "Richard" "RD" "Richard  D  Cameron"}\
- 					{"Steves" "" "BA" "Steves B.A."}\
  					{"Florek" "" "HJ" "Florek, H.-J."}\
  					{"Steves" "" "ABC" "Steves, A.B.C"}\
 					{"Cho-Vega" "Jeong" "JH" "Jeong Hee Cho-Vega"}\
@@ -472,6 +470,11 @@ namespace eval author {
  					{"Florek" "" "HJ" "Florek , H.-J."}\
 					{"De La Paz" "Susan" "S" "De La Paz, Susan"}\
 					{"Ager" "" "JW" "J. W. Ager III"}\
+					{"Buchwald" "Stephen" "SL" "Stephen L. Buchwald"}\
+					{"Person" "" "I" "Person I"}\
+					{"Person" "" "I" "Person I."}\
+ 					{"Steves" "" "BA" "Steves B.A."}\
+
 
  				   ]
 
