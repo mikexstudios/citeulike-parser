@@ -373,12 +373,21 @@ namespace eval author {
 		#D'Angelo, and not D'angelo
 		if {[regexp [subst {($PREFIX)(.*)$}] $sub -> prefix rest]} {
 			set this $prefix
-			append this [string totitle $rest]
+			append this [totitle $rest]
 		} else {
-			set this [string totitle $sub]
+			set this [totitle $sub]
 		}
 		return $this
 	}
+
+	# Sometime get BibTeX {} so strip off any non letters
+	# Q: should we be throwing away {} - probably yes
+	# as they get thrown away on editing anyway.
+	proc totitle {name} {
+		regexp {^([^[:alnum:]]*)(.*?)$} $name -> pre post
+		return "$pre[string totitle $post]"
+	}
+
 
 	proc capitalize_name {name} {
 		variable PREFIX2

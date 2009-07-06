@@ -63,7 +63,10 @@ if {[regexp {href=\"http://dx.doi.org/([^\"]+)\">} $page -> doi]} {
 }
 
 if {[regexp {Abstract</h3>(.*?)<hr} $page -> abstract]} {
-	puts "abstract\t[string trim $abstract]"
+	set abstract [string trim $abstract]
+	if {$abstract ne "Not Available"} {
+		puts "abstract\t$abstract"
+	}
 }
 
 puts "end_tsv"
@@ -362,6 +365,8 @@ set bibtex [url_get $bibtex_url]
 #  journal = prd,
 # and the macro expansion can work.
 set bibtex [regsub {journal = \{\\([a-z0-9]+)\},} $bibtex {journal = \1,}]
+
+set bibtex [regsub {title = "\{(.*?)\}",} $bibtex {title = "\1",}]
 
 # They also include some junk at the start of the record which we need to get rid of:
 # Query Results from the ADS Database
