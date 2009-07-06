@@ -350,10 +350,8 @@ namespace eval author {
 		# (I don't support this for now, but because I keep the raw names
 		#  this stuff can be added in retrospectively if required)
 		set work [regsub "^$TITLE_JUNK" $work ""]
-		puts "XXX1: $work"
 		set work [regsub "${TRAILING_JUNK}\$" $work ""]
 		set work [regsub "${TRAILING_JUNK_2}\$" $work ""]
-		puts "XXX2: $work"
 
 		# The way we've phrased the REs, we need a trailing space
 		append work " "
