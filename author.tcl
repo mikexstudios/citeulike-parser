@@ -120,77 +120,129 @@ namespace eval author {
 		variable SURNAME
 		variable SURNAMES
 
+		set debug 0
+
 		# "verbatim name"
 		if {[regexp {^\s*"([^"]+)"\s*$} $raw -> ret(last_name)]} {
+			if {$debug} { puts "Match Rule 0" }
 			set ret(verbatim) 1
 			return [array get ret]
 		}
 
 		# Manually specified
 		if {[regexp {^\s*=/([^/]*)/([^/]*)/([^/]*)/=\s*$} $raw -> ret(first_name) ret(initials) ret(last_name)]} {
+			if {$debug} { puts "Match Rule 1" }
 			set ret(verbatim) 1
 			return [array get ret]
 		}
 
 		# "on (3+ words)" -> verbatim
 		if {[regexp -nocase {^\s*(on(\s+\w+){3,})} $raw -> ret(last_name) ]} {
+			if {$debug} { puts "Match Rule 2" }
 			set ret(verbatim) 1
 			return [array get ret]
 		}
 
 		# "the (2+ words)" -> verbatim
 		if {[regexp -nocase {^\s*(the(\s+\w+){2,})} $raw -> ret(last_name) ]} {
+			if {$debug} { puts "Match Rule 3" }
 			set ret(verbatim) 1
 			return [array get ret]
 		}
 
 		# anything ending in "group" (or similar)
 		if {[regexp -nocase {\s+(group|consortium|project|alliance|team)$} $raw -> ret(last_name) ]} {
+			if {$debug} { puts "Match Rule 4" }
 			set ret(verbatim) 1
 			return [array get ret]
 		}
 
 
+		# First, all the "surname, firstname options"
 
 		# Cameron(,?) R.D.
 		if {[regexp\
-				 [subst {^($SURNAME),? ?($INITIALS_4)$}]\
-				 $raw -> ret(last_name) ret(initials)]} { return [array get ret] }
+				 [subst {^($SURNAMES),? ?($INITIALS_4)$}]\
+				 $raw -> ret(last_name) ret(initials)]} {
+ 			if {$debug} { puts "Match Rule 5" }
+			return [array get ret] }
+
+		# Gladstein Ancona, Deborah A.
+		# redundant - caught by #6
+		if {[regexp\
+				 [subst {^($SURNAMES), ?($NAME_2)(?: ($INITIALS_4))?$}]\
+				 $raw -> ret(last_name) ret(first_name) ret(initials)]} {
+			if {$debug} { puts "Match Rule 15" }
+			return [array get ret]
+		}
 
 		# Cameron, Richard D
 		if {[regexp\
-				 [subst {^($SURNAME), ?($NAME_2)( \[A-Z\]+)?}]\
-				 $raw -> ret(last_name) ret(first_name) ret(initials)]} { return [array get ret]
+				 [subst {^($SURNAMES), ?($NAME_2)( \[A-Z\]+)?}]\
+				 $raw -> ret(last_name) ret(first_name) ret(initials)]} {
+			if {$debug} { puts "Match Rule 6 $ret(last_name) $ret(first_name) $ret(initials)" }
+			return [array get ret]
+		}
+
+
+		# Gladstein Ancona, D. A.
+		# redundant - caught by #5
+		if {0 && [regexp\
+				 [subst {^($SURNAMES), ?($INITIALS_4)$}]\
+				 $raw -> ret(last_name) ret(initials)]} {
+			if {$debug} { puts "Match Rule 16" }
+			return [array get ret]
+		}
+
+
+		# Smithers, D Waylon
+		if {[regexp\
+				 [subst {^($SURNAMES), ?($INITIALS_4)($NAME_2) $}]\
+				 $raw -> ret(last_name) ret(initials) ret(first_name)]} {
+			if {$debug} { puts "Match Rule 17" }
+			set ret(initials_first) 1
+			return [array get ret]
 		}
 
 		# R.D. Cameron
 		if {[regexp\
 				 [subst {^($INITIALS_4)($SURNAME) $}]\
-				 $raw -> ret(initials) ret(last_name)]} { return [array get ret]}
+				 $raw -> ret(initials) ret(last_name)]} {
+			if {$debug} { puts "Match Rule 7" }
+			return [array get ret]
+		}
 
 		# Richard D. Cameron
 		# Richard Cameron
 		if {[regexp\
 				 [subst {^($NAME_2) ($INITIALS_4)?($SURNAME) $}]\
 				 $raw -> ret(first_name) ret(initials) ret(last_name)]} {
+			if {$debug} { puts "Match Rule 9" }
 			return [array get ret]
 		}
 
 		# R.D.Cameron
 		if {[regexp\
 				 [subst -nocommands {^((?:[A-Z]\\\.){1,3})($SURNAME) $}]\
-				 $raw -> ret(initials) ret(last_name)]} {return [array get ret]}
+				 $raw -> ret(initials) ret(last_name)]} {
+			if {$debug} { puts "Match Rule 10" }
+			return [array get ret]
+		}
 
 
 		# Cameron
 		if {[regexp\
 				 [subst {^($SURNAME) $}]\
-				 $raw -> ret(last_name) ret(initials)]} { return [array get ret] }
+				 $raw -> ret(last_name) ret(initials)]} {
+			if {$debug} { puts "Match Rule 11" }
+			return [array get ret]
+		}
 
 		# D Waylon Smithers
 		if {[regexp\
 				 [subst {^($INITIALS_4)($NAME_2) ($SURNAME) $}]\
 				 $raw -> ret(initials) ret(first_name) ret(last_name)]} {
+			if {$debug} { puts "Match Rule 12" }
 			set ret(initials_first) 1
 			return [array get ret]
 		}
@@ -202,6 +254,7 @@ namespace eval author {
 		if {[regexp\
 				 [subst {^($NAME_2) ($NAME_2) ($SURNAME) $}]\
 				 $raw -> ret(first_name) middle_name ret(last_name)]} {
+			if {$debug} { puts "Match Rule 13" }
 			set ret(initials) [string range $middle_name 0 0]
 			return [array get ret]
 		}
@@ -210,52 +263,39 @@ namespace eval author {
 		if {[regexp\
 				 [subst {^($NAME_2) ($INITIALS_4)(${SURNAME}(?: $SURNAME)*) $}]\
 				 $raw -> ret(first_name) ret(initials) ret(last_name)]} {
+			if {$debug} { puts "Match Rule 14" }
 			return [array get ret]
 		}
 
-		# Gladstein Ancona, Deborah A.
-		if {[regexp\
-				 [subst {^($SURNAMES), ?($NAME_2)(?: ($INITIALS_4))?$}]\
-				 $raw -> ret(last_name) ret(first_name) ret(initials)]} {
-			return [array get ret]
-		}
 
-		# Gladstein Ancona, D. A.
-		if {[regexp\
-				 [subst {^($SURNAMES), ?($INITIALS_4)$}]\
-				 $raw -> ret(last_name) ret(initials)]} {
-			return [array get ret]
-		}
-
-		# Smithers, D Waylon
-		if {[regexp\
-				 [subst {^($SURNAMES), ?($INITIALS_4)($NAME_2) $}]\
-				 $raw -> ret(last_name) ret(initials) ret(first_name)]} {
- 			set ret(initials_first) 1
-			return [array get ret]
-		}
 
 		# Now we'll give up. This should always be the last case.
 		# See if we can extract anything that looks even vaguely like a surname
 		# and be happy with that.
 		if {[regexp [subst {($SURNAMES)}]\
-				 $raw -> ret(last_name)]} { return [array get ret] }
+				 $raw -> ret(last_name)]} {
+			if {$debug} { puts "Match Rule 18" }
+			return [array get ret]
+		}
 
 		if {[regexp [subst {($SURNAME)}]\
-				 $raw -> ret(last_name)]} { return [array get ret] }
+				 $raw -> ret(last_name)]} {
+			if {$debug} { puts "Match Rule 19" }
+			return [array get ret]
+		}
 
 	}
 
 
 	proc c2html {c} {
-		format "&#x%4.4x;" [scan $c %c]
+		return [format "&#x%4.4x;" [scan $c %c]]
 	}
 
-	proc html2u {string} {
-		while {[regexp {&#[xX]([0-9A-Fa-f]+);} $string matched hex]} {
-			regsub -all $matched $string [format %c 0x$hex] string
+	proc html2u {s} {
+		while {[regexp {&#[xX]([0-9A-Fa-f]+);} $s match digits]} {
+			regsub -all $match $s [format %c 0x$digits] s
 		}
-		set string
+		return $s
 	}
 
 	proc parse_author {raw} {
@@ -290,6 +330,7 @@ namespace eval author {
 		set work [regsub -all {\s+\.+\s+} $work " "]
 		set work [regsub -all {\s+\.+} $work "."]
 		set work [regsub -all {\s+;+} $work ";"]
+		set work [regsub -all {\\} $work ""]
 
 		# using raw/work is from legacy code.
 		# Previously "raw" was sacrosanct and tweaking done using "work",
@@ -417,7 +458,13 @@ namespace eval author {
 					{"On the Science Project" "" "" "On the Science Project"}\
  					{"Florek" "" "HJ" "Florek , H.-J."}\
 					{"De La Paz" "Susan" "S" "De La Paz, Susan"}\
+
  				   ]
+
+	#				{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
+	#				{"de la Vallee Poussin" "Charles" "CLXJ" "Charles Louis de la Vallee Poussin"}\
+	#				{"de la Vallee Poussin" "Charles" "CLXJ" "Charles Louis Xavier Joseph de la Vallee Poussin"}\
+
 
  	}
 
