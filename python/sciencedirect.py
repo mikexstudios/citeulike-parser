@@ -127,10 +127,7 @@ def handle(url):
 
 	xml_url  = crossref_xml_url(doi)
 	xml_page = urlopen(xml_url).read()
-	try:
-		xml_page = xml_page.decode('utf-8').encode('latin-1')
-	except:
-		pass
+	xml_page = xml_page.decode('utf-8')
 
 	yield "begin_crossref"
 	yield xml_page
@@ -169,7 +166,7 @@ if __name__ == "__main__":
 	url = sys.stdin.readline().strip()
 	try:
 		for line in handle(url):
-			print line
+			print line.encode("utf-8")
 	except Exception, e:
 		import traceback
 		line = traceback.tb_lineno(sys.exc_info()[2])
