@@ -5,6 +5,7 @@ use XML::Simple;
 use Data::Dumper;
 use warnings;
 use LWP 5.64;
+use Encode;
 
 #
 # Copyright (c) 2008 Fergus Gallagher, CiteULike.org
@@ -67,6 +68,7 @@ $url="http://www.crossref.org/openurl/?id=doi:$doi&noredirect=true&pid=$pid&form
 
 $response = $browser->get("$url") or (print "status\terr\t Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 $body = $response->content;
+$body = decode("utf-8", $body); # why is this needed?
 
 #
 # Bizarrely, there's no XML decl ("<?xml..") so the encoding's assumed somewhere
