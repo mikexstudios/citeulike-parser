@@ -52,7 +52,7 @@ namespace eval author {
 	set TRAILING_JUNK {,?\s+(?:Esq(?:\.|uire)?|Sn?r\.?|Jn?r\.?|[Ee]t [Aa]l\.?)} ; # The Indiana Jones school of naming your children..
 	set TRAILING_JUNK_2 {,?\s*(?:II|III|IV)} ; # The Indiana Jones school of naming your children..
 	set NAME_2 {(?:[^ \t\n\r\f\v,.]{2,}|[^ \t\n\r\f\v,.;]{2,}\-[^ \t\n\r\f\v,.;]{2,})}
-	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]\.-?){1,3}[A-Z]\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
+	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:(?:[A-Z]\.\s){1,3}[A-Z]\s)|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]\.-?){1,3}[A-Z]\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
 	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
 	set PREFIX2 {^(dell([ae])?|d[aiue]|l[aeio]|v[oa]n|san|de[rn])$}
 	set SURNAME [subst {(?:$PREFIX){0,2}(?:$NAME_2)}]
@@ -474,7 +474,9 @@ namespace eval author {
 					{"Person" "" "I" "Person I"}\
 					{"Person" "" "I" "Person I."}\
  					{"Steves" "" "BA" "Steves B.A."}\
-
+					{"Rumbaut" "" "RG" "Rumbaut,R. G."}\
+					{"Rumbaut" "" "RG" "Rumbaut, R. G."}\
+					{"Rumbaut" "" "RG" "Rumbaut,R. G"}\
 
  				   ]
 
