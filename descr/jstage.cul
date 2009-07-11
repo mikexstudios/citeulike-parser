@@ -66,7 +66,7 @@ test {http://www.jstage.jst.go.jp/article/jjsmcwm/20/1/20_1/_article/-char/ja/} 
 	status	ok
 }
 
-# Test 2
+# Test 3
 test {http://www.jstage.jst.go.jp/article/jjsmcwm/20/1/20_1/_article} {
 	formatted_url {{JSTAGE (JA)} http://www.jstage.jst.go.jp/article/jjsmcwm/20/1/20_1/_article/-char/ja/}
 	formatted_url {{JSTAGE (EN)} http://www.jstage.jst.go.jp/article/jjsmcwm/20/1/20_1/_article/}
@@ -87,5 +87,24 @@ test {http://www.jstage.jst.go.jp/article/jjsmcwm/20/1/20_1/_article} {
 	author {Osaki Masashi M Osaki,Masashi}
 	author {Kato Masahiro M Kato,Masahiro}
 	author {Daimon Masaki M Daimon,Masaki}
+	status	ok
+}
+
+
+# Test 4 - no english version
+test {http://www.jstage.jst.go.jp/article/kapps/50/0/50_15/_article} {
+	formatted_url {{JSTAGE (JA)} http://www.jstage.jst.go.jp/article/kapps/50/0/50_15/_article/-char/ja/}
+	formatted_url {{JSTAGE (EN)} http://www.jstage.jst.go.jp/article/kapps/50/0/50_15/_article/}
+	formatted_url {DOI http://dx.doi.org/10.4165/kapps.50.15}
+	linkout {JSTAGE {} kapps/50/0/50_15 {} {}}
+	linkout {DOI {} 10.4165/kapps.50.15 {} {}}
+	title {最近10年間の野菜・花き病害の発生および防除技術に関する研究動向}
+	year 2008
+	type JOUR
+	journal {関西病虫害研究会報}
+	volume 50
+	start_page	15
+	end_page	20
+	author {深谷 雅博 雅 深谷,雅博}
 	status	ok
 }

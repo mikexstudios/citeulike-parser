@@ -38,12 +38,14 @@ article_data = urllib2.urlopen(url).read().strip()
 article_data.encode('utf-8')
 
 # get abstract
+abst = None
 abst_regexp = '<!--Abstract-->(?: *?)<table border="0" cellpadding="2" cellspacing="0"><tr><td><nobr><B>(?:.*?)</B></nobr>(?:&nbsp;)*(?:<br>)*' + '(.*?)' + '</td></tr></table>';
 abst_match = re.search(abst_regexp, article_data , re.IGNORECASE)
-if not abst_match:
-	print "Could not find abst in article page (" + url + ")"
-	sys.exit(1)
-abst = abst_match.group(1)
+#if not abst_match:
+#	print "Could not find abst in article page (" + url + ")"
+#	sys.exit(1)
+if abst_match:
+	abst = abst_match.group(1)
 
 doi = None
 m = re.search(r'doi:(10.(\d{4})/[^<]+)', article_data)
@@ -60,11 +62,18 @@ if m:
 
 # change article url to RIS download url
 # url2 = re.sub(ARTICLE_URL , DOWNLOAD_URL , url);
-url3 = re.sub(ARTICLE_SUFFIX ,  RIS_SUFFIX , url2);
+# url3 = re.sub(ARTICLE_SUFFIX ,  RIS_SUFFIX , url2);
+url3 = DOWNLOAD_URL + jstage_id + RIS_SUFFIX
 
 # fetch the citation export page
 ris_data = urllib2.urlopen(url3).read().strip()
+m = re.search("_in_Japanese", ris_data, re.IGNORECASE)
+if m:
+	ris_data = urllib2.urlopen(url3+"/-char/ja/").read().strip()
+
 ris_data = re.sub("\nN1  - doi: .*\n","\n",ris_data)
+
+
 
 # print the results
 print "begin_ris"
