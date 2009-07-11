@@ -10,14 +10,14 @@ import re, sys, urllib, urllib2,codecs
 
 # URL parts
 JSTAGE_URL = 'http://www.jstage.jst.go.jp/'
-DOWNLOAD__URL = JSTAGE_URL + 'download/'
+DOWNLOAD_URL = JSTAGE_URL + 'download/'
 ARTICLE_URL = JSTAGE_URL + 'article/'
 #ARTICLE_SUFFIX =  '/_article/-char/ja/'
 #RIS_SUFFIX = '/_ris/-char/ja/'
 #BIBTEX_SUFFIX = '/_bib/-char/ja/'
-ARTICLE_SUFFIX =  '/_article/'
-RIS_SUFFIX = '/_ris/'
-BIBTEX_SUFFIX = '/_bib/'
+ARTICLE_SUFFIX =  '/_article'
+RIS_SUFFIX = '/_ris'
+BIBTEX_SUFFIX = '/_bib'
 
 # read url from std input
 url = sys.stdin.readline().strip()
@@ -59,8 +59,11 @@ if m:
 #keywords = keywords_match.groups
 
 # change article url to RIS download url
-url2 = re.sub(ARTICLE_URL , DOWNLOAD__URL , url);
-url3 = re.sub(ARTICLE_SUFFIX , RIS_SUFFIX , url2);
+url2 = re.sub(ARTICLE_URL , DOWNLOAD_URL , url);
+url3 = re.sub(ARTICLE_SUFFIX ,  RIS_SUFFIX , url2);
+print DOWNLOAD_URL + jstage_id + RIS_SUFFIX
+print url3
+
 
 # fetch the citation export page
 ris_data = urllib2.urlopen(url3).read().strip()
