@@ -53,7 +53,8 @@ if not re.search(r'TY\s{1,4}-', ris_file):
 
 
 print "begin_tsv"
-print "linkout\tWCAT\t\t%s\t\t%s" % (oclc, isbn)
+print "linkout\tWCAT\t\t%s\t\t" % oclc
+print "linkout\tISBN\t\t%s\t\t" % isbn
 if (isbn != ""):
 	print "isbn\t%s" % isbn
 print "end_tsv"

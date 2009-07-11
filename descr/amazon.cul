@@ -85,9 +85,11 @@ format_linkout AZ-JP {
 }
 
 format_linkout ISBN {
-	return [list "WorldCat"	"http://www.worldcat.org/isbn/${ckey_1}" \
+	return [list "WorldCat (ISBN)"	"http://www.worldcat.org/isbn/${ckey_1}" \
 		"Google Books" "http://books.google.com/books?vid=ISBN${ckey_1}" \
-		"LibraryThing" "http://www.librarything.com/isbn/${ckey_1}" ]
+		"Amazon.com" "http://www.amazon.com/gp/search?keywords=${ckey_1}&index=books&linkCode=qs" \
+		"LibraryThing" "http://www.librarything.com/isbn/${ckey_1}" \
+		]
 }
 
 format_linkout IMGS {}
