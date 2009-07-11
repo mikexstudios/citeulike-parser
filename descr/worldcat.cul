@@ -6,7 +6,7 @@ plugin {
 	author {Chris Hall}
 	email {plugins@citeulike.org}
 	language {python}
-	regexp {http://www.worldcat.org.*/(isbn|oclc)/.+}
+	regexp {http://(www.)?worldcat.org.*/(isbn|oclc)/.+}
 }
 
 format_linkout WCAT {
