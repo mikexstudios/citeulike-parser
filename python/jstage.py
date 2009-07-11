@@ -59,11 +59,8 @@ if m:
 #keywords = keywords_match.groups
 
 # change article url to RIS download url
-url2 = re.sub(ARTICLE_URL , DOWNLOAD_URL , url);
+# url2 = re.sub(ARTICLE_URL , DOWNLOAD_URL , url);
 url3 = re.sub(ARTICLE_SUFFIX ,  RIS_SUFFIX , url2);
-print DOWNLOAD_URL + jstage_id + RIS_SUFFIX
-print url3
-
 
 # fetch the citation export page
 ris_data = urllib2.urlopen(url3).read().strip()
