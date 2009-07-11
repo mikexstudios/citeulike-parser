@@ -561,7 +561,7 @@ namespace eval driver {
 			if {[info exists x_actual(linkouts)]} {
 				foreach l $x_actual(linkouts) {
 					foreach {type ikey_1 ckey_1 ikey_2 ckey_2} $l {}
-					foreach {descr link} [format_linkout_$type $type $ikey_1 $ckey_1 $ikey_2 $ckey_2] {
+					foreach {descr link} [format_linkout_$type $type [string trim $ikey_1] [string trim $ckey_1] [string trim $ikey_2] [string trim $ckey_2]] {
 						lappend x_actual(formatted_url) [list $descr $link]
 					}
 				}
