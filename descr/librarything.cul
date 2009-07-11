@@ -1,0 +1,30 @@
+plugin {
+	version {1}
+	name {LibraryThing}
+	url {http://www.librarything.com}
+	blurb {}
+	author {Fergus Gallagher}
+	email {plugins@citeulike.org}
+	language {python}
+	regexp {http://www.librarything.com/work/.+}
+}
+
+test {http://www.librarything.com/work/71861} {
+	formatted_url {WCAT http://www.worldcat.org/oclc/32399670}
+	formatted_url {{Google Books} http://books.google.com/books?isbn=1885261055}
+	formatted_url {Amazon.com http://www.amazon.com/gp/search?keywords=1885261055&index=books&linkCode=qs}
+	linkout {WCAT {} 32399670 {} 1885261055}
+	serial {1885261055 9781885261052}
+	city {Palo Alto, CA}
+	year 1995
+	type BOOK
+	plugin_version 1
+	id 32399670
+	isbn 1885261055
+	publisher {Global Brain}
+	title {The global brain awakens : our next evolutionary leap}
+	status ok
+	author {Russell Peter P {Russell, Peter}}
+	author {Russell Peter P {Russell, Peter}}
+	plugin worldcat
+}
