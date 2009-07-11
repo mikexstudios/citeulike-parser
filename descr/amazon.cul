@@ -85,8 +85,8 @@ format_linkout AZ-JP {
 }
 
 format_linkout ISBN {
-	return [list "WorldCat" \
-			"http://www.worldcat.org/isbn/${ckey_1}"]
+	return [list "WorldCat"	"http://www.worldcat.org/isbn/${ckey_1}" \
+		"LibraryThing" "http://www.librarything.com/isbn/${ckey_1}" ]
 }
 
 format_linkout IMGS {}
@@ -104,7 +104,7 @@ test {http://www.amazon.co.uk/Leviathan-Air-Pump-Hobbes-Boyle-Experimental/dp/06
 	formatted_url {Amazon.jp http://www.amazon.jp/exec/obidos/ASIN/0691024324}
 	formatted_url {Amazon.fr {http://www.amazon.fr/exec/obidos/redirect?tag=citeulike06-21&amp;path=ASIN/0691024324}}
 	formatted_url {Amazon.ca {http://www.amazon.ca/exec/obidos/redirect?tag=citeulike09-20&amp;path=ASIN/0691024324}}
-			
+
 
 
 	linkout {IMGS {} http://ecx.images-amazon.com/images/I/51lY6tyZFBL._SL75_.jpg {} {}}
@@ -121,7 +121,7 @@ test {http://www.amazon.co.uk/Leviathan-Air-Pump-Hobbes-Boyle-Experimental/dp/06
 	year 1989
 	month 10
 	day "01"
-	
+
 	isbn 0691024324
 	edition Reprint
 	how_published Paperback
