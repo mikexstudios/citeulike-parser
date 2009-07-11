@@ -1,0 +1,67 @@
+plugin {
+	version {1}
+	name {JSTAGE}
+	url {http://www.jstage.jst.go.jp/browse/-char/ja}
+	blurb {beta}
+	author {Osamu Masutani}
+	email {omasutani@d-itlab.co.jp}
+	language {python}
+	regexp {www.jstage.jst.go.jp/article/}
+}
+
+format_linkout JSTAGE {
+	return [list "JSTAGE (JA)" "http://www.jstage.jst.go.jp/article/${ckey_1}/_article/-char/ja/" \
+		"JSTAGE (EN)" "http://www.jstage.jst.go.jp/article/${ckey_1}/_article/" \
+	]
+}
+
+# Test 1
+test {http://www.jstage.jst.go.jp/article/tjsai/24/1/24_58/_article/-char/ja/} {
+	formatted_url {{JSTAGE (JA)} http://www.jstage.jst.go.jp/article/tjsai/24/1/24_58/_article/-char/ja/}
+	formatted_url {{JSTAGE (EN)} http://www.jstage.jst.go.jp/article/tjsai/24/1/24_58/_article/}
+	formatted_url {DOI http://dx.doi.org/10.1527/tjsai.24.58}
+	linkout {JSTAGE {} tjsai/24/1/24_58 {} {}}
+	linkout {DOI {} 10.1527/tjsai.24.58 {} {}}
+	title {Proposal and Evaluation of Functionally Specialized CMA-ES}
+	abstract "This paper aims the design of efficient and effective optimization algorithms for function optimization. For that purpose we present a new framework of the derandomized evolution strategy with covariance matrix adaptation, which combines the hybrid step size adaptation that is proposed in this paper as a robust alternate to the cumulative step size adaptation and normalization mechanism of covariance matrix. Experiment is conducted on 8 classical unimodal and multimodal test functions and the performance of the proposed strategy is compared with that of the standard strategy. Results show that the proposed strategy beats the standard strategy when the population size becomes larger than the default one, while the performance of proposed strategy is as well or better than that of the standard strategy under the default population size."
+	year 2009
+	type JOUR
+	journal "Transactions of the Japanese Society for Artificial Intelligence"
+	volume 24
+	issue 1
+	start_page	58
+	end_page	68
+	author {Akimoto Youhei Y Akimoto,Youhei}
+	author {Sakuma Jun J Sakuma,Jun}
+	author {Ono Isao I Ono,Isao}
+	author {Kobayashi Shigenobu S Kobayashi,Shigenobu}
+	status	ok
+}
+
+
+
+
+
+# Test 2
+test {http://www.jstage.jst.go.jp/article/jjsmcwm/20/1/20_1/_article/-char/ja/} {
+	formatted_url {{JSTAGE (JA)} http://www.jstage.jst.go.jp/article/jjsmcwm/20/1/20_1/_article/-char/ja/}
+	formatted_url {{JSTAGE (EN)} http://www.jstage.jst.go.jp/article/jjsmcwm/20/1/20_1/_article/}
+	formatted_url {DOI http://dx.doi.org/10.3985/jjsmcwm.20.1}
+	linkout {JSTAGE {} jjsmcwm/20/1/20_1 {} {}}
+	linkout {DOI {} 10.3985/jjsmcwm.20.1 {} {}}
+	title {Material Design of Cement for Increased Waste Usage and Reduction of CO2 Emissions}
+	abstract {Japan&rsquo;s cement industry contributes to the recycling of resources by using various industrial wastes and by-products. Given the low probability of growth in demand for cement over the long term, it is necessary to increase the amount of waste consumption to secure a specified volume of processed waste. Furthermore, the industry must facilitate efforts to prevent global warming. Therefore, the comprehensive material design of cement, in consideration of both environmental impacts and properties, is expected to become increasingly important. For this study, the influences of mineral composition and admixture content of cement on demand characteristics&mdash;waste usage, CO<SUB>2</SUB> emission, and strength development&mdash;were estimated using a method combining blending calculations and the phase composition model. These estimations underscored the need for the future cement to have greater use of waste by increasing the interstitial phase content in clinker prior to the use of admixture. Estimation results also showed the possibility of producing cement having practical strength development, more waste usage, and less CO<SUB>2</SUB> emissions than current ordinary Portland cement.}
+	year 2009
+	type JOUR
+	journal {Journal of the Japan Society of Material Cycles and Waste Management}
+	volume 20
+	issue 1
+	start_page	1
+	end_page	11
+	author {Maruya Eiji E Maruya,Eiji}
+	author {Sakai Etsuo E Sakai,Etsuo}
+	author {Osaki Masashi M Osaki,Masashi}
+	author {Kato Masahiro M Kato,Masahiro}
+	author {Daimon Masaki M Daimon,Masaki}
+	status	ok
+}
