@@ -78,7 +78,6 @@ if match:
 
 	parser = XMLJustText()
 	parser.feed(match.group(1))
-	abstract = parser.just_text.replace(',',';').strip()
 	abstract = parser.just_text.replace(',',';').replace('\n',' ').strip()
 
 # We would much much rather extract the DOI from the bibtex feed, since it has a
