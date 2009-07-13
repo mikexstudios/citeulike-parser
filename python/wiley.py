@@ -51,11 +51,11 @@ ID_REGEXP_FLAGS = re.VERBOSE
 
 ID1_REGEXP = r"""abstract/	# begin at abstract/
 		(\d*)		# valid article ids contain only digits
-		/ABSTRACT"""	# terminate at /ABSTRACT
+		/"""	# terminate at /ABSTRACT
 
 ID2_REGEXP = r"""[^/]+/         # a word/
                 (\d+)           # a string of digits
-                /abstract"""    # followed by /abstract
+                /"""    # followed by /abstract
 
 
 # error messages
@@ -85,7 +85,7 @@ DEFAULT = ('unknown',None) # translate any unknown tags to the string 'unknown'
 
 TSV = 0; # location, in the PT_TO_TSV dictionary, of the TSV string
 PATT = 1; # location, in the PT_TO_TSV dictionary, of the string to replace
-REPL = 2; # location, in the PT_TO_TSV dictionary, of the replacement string 
+REPL = 2; # location, in the PT_TO_TSV dictionary, of the replacement string
 NUM_SPLITS = 1 # number of times to split each line into tokens
 TAG = 0; # location, in the token tuple, of the "plain text" tag
 STR = -1; # location, in the token tuple, of the data string
@@ -99,7 +99,7 @@ if 'ezproxy' in url.lower():
 	parts = list(urlparse.urlparse(url))
 	parts[1] = re.sub( r'(.+)\.ezproxy.+', r'\1', parts[1] )
 	url = urlparse.urlunparse(parts)
-	
+
 
 # parse the article id from the url and exit gracefully if not found
 id_match  = re.search(ID1_REGEXP, url, ID_REGEXP_FLAGS)
@@ -117,7 +117,7 @@ article_id = id_match.group(1)
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 
-# feed the cookie monster ;-) 
+# feed the cookie monster ;-)
 # (we need to have a session cookie before we can fetch the entry)
 try:
 	f = opener.open(SERVER_ROOT + GET_COOKIE_STR % article_id)
