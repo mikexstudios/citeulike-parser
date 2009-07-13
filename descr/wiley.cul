@@ -96,3 +96,26 @@ test {http://www3.interscience.wiley.com/cgi-bin/abstract/110462841/ABSTRACT} {
 	status ok
 }
 
+# password protected
+
+
+test {http://www3.interscience.wiley.com/cgi-bin/fulltext/118563658/HTMLSTART} {
+	formatted_url {{Wiley InterScience} http://www3.interscience.wiley.com/cgi-bin/abstract/118563658/ABSTRACT}
+	formatted_url {DOI http://dx.doi.org/10.1111/j.1540-5885.2005.00180.x}
+	volume 23
+	linkout {WILEY 118563658 {} {} {}}
+	linkout {DOI {} 10.1111/j.1540-5885.2005.00180.x {} {}}
+	year 2006
+	type JOUR
+	start_page 39
+	end_page 55
+	on 1540-5885
+	pn 0737-6782
+	url {http://dx.doi.org/10.1111/j.1540-5885.2005.00180.x}
+	doi {10.1111/j.1540-5885.2005.00180.x}
+	issue 1
+	title {The Ongoing Process of Building a Theory of Disruption}
+	journal {Journal of Product Innovation Management}
+	author {Christensen Clayton CM {Clayton M. Christensen}}
+	status ok
+}
