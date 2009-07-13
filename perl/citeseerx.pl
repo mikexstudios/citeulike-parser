@@ -45,7 +45,7 @@ my $unclean_url = <>;
 
 my $clean_url;
 my $doi;
-if ($unclean_url !~ m,^https?://citeseerx.ist.psu.edu(\.[^/]+)?/viewdoc/[^/]*doi=([0-9.]+),) { 
+if ($unclean_url !~ m,^https?://citeseerx.ist.psu.edu(\.[^/]+)?/viewdoc/[^/]*?(?:\?doi=)?([0-9.]+),) {
   print "status\tnot_interested\n";
   exit;
 } else {
@@ -112,7 +112,7 @@ if ($venue and $venue_type) {
   elsif ($venue_type eq "JOURNAL") {
   	$journal = $venue;
   	$type = "JOUR";
-  } 
+  }
   elsif ($venue_type eq "TECHREPORT") {
   	$journal = $venue;
   	$type = "REP";
