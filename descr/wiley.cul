@@ -23,11 +23,11 @@ test {http://www3.interscience.wiley.com/cgi-bin/abstract/62500349/ABSTRACT} {
 	linkout {DOI {} {10.1002/(SICI)1096-9071(199908)58:4<338::AID-JMV4>3.0.CO;2-5} {} {}}
 	year 1999
 	type JOUR
-	pn 0146-6615
 	copyright {Copyright © 1999 Wiley-Liss, Inc.}
 	start_page 338
 	end_page 345
-	on 1096-9071
+	issn 1096-9071
+	pn 0146-6615
 	url {http://dx.doi.org/10.1002/(SICI)1096-9071(199908)58:4<338::AID-JMV4>3.0.CO;2-5}
 	doi {10.1002/(SICI)1096-9071(199908)58:4<338::AID-JMV4>3.0.CO;2-5}
 	issue 4
@@ -56,7 +56,7 @@ test {http://www3.interscience.wiley.com/cgi-bin/abstract/112510815/ABSTRACT} {
 	copyright {Copyright © 2006 John Wiley & Sons, Ltd.}
 	start_page 179
 	end_page 198
-	on 1099-0798
+	issn 1099-0798
 	pn 0735-3936
 	url {http://dx.doi.org/10.1002/bsl.675}
 	doi {10.1002/bsl.675}
@@ -83,7 +83,7 @@ test {http://www3.interscience.wiley.com/cgi-bin/abstract/110462841/ABSTRACT} {
 	copyright {Copyright © 1986 VCH Verlagsgesellschaft mbH}
 	start_page 1
 	end_page 18
-	on 1522-2683
+	issn 1522-2683
 	pn 0173-0835
 	url {http://dx.doi.org/10.1002/elps.1150070102}
 	doi {10.1002/elps.1150070102}
@@ -109,7 +109,7 @@ test {http://www3.interscience.wiley.com/cgi-bin/fulltext/118563658/HTMLSTART} {
 	type JOUR
 	start_page 39
 	end_page 55
-	on 1540-5885
+	issn 1540-5885
 	pn 0737-6782
 	url {http://dx.doi.org/10.1111/j.1540-5885.2005.00180.x}
 	doi {10.1111/j.1540-5885.2005.00180.x}

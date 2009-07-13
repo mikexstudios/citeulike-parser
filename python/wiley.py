@@ -73,7 +73,7 @@ PT_TO_TSV = {'AB':('abstract',None),\
 		'US':('url',None),\
 		'DOI':('doi',None),\
 		'PN':('pn',None),\
-		'ON':('on',None),\
+		'ON':('issn',None),\
 		'CP':('copyright',None),\
 		'YR':('year',None),\
 		'PG':('start_page','-','\nend_page\t'),\
