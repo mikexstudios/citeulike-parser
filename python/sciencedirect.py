@@ -137,11 +137,11 @@ def handle(url):
 	#
 	# Emergency bodge to fix completely toileted XML from crossref
 	#
-	m = re.search("(<doi_record>.*</doi_record>)", xml_page, re.S)
-	if not m:
-		raise ParseException, "Unable to extract metadata - malformed XML"
+	#m = re.search("(<doi_record>.*</doi_record>)", xml_page, re.S)
+	#if not m:
+#		raise ParseException, "Unable to extract metadata - malformed XML"
 
-	xml_page = m.group(1)
+#	xml_page = m.group(1)
 
 
 	yield "begin_crossref"

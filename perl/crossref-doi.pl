@@ -79,11 +79,12 @@ $xml = new XML::Simple;
 #
 # Emergency bodge to fix completely toileted XML from crossref
 #
-$body =~ m{(<doi_record>.*</doi_record>)}s or do {
-	print "status\terr\t  Could not retrieve the information for that DOI. Invalid XML\n";
-	exit;
-};
-$body = $1;
+#print "$body\n";
+#$body =~ m{(<doi_record>.*</doi_record>)}s or do {
+#	print "status\terr\t  Could not retrieve the information for that DOI. Invalid XML\n";
+#	exit;
+#};
+#$body = $1;
 
 # parse XML (not really necessary as crossref.tcl has to do this anyway)
 $data = $xml->XMLin($body, ForceArray => [qw/title titles person_name identifier issn/]);

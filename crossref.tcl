@@ -5,6 +5,11 @@ package require tdom
 namespace eval CROSSREF {
 }
 
+
+proc CROSSREF::_get_text {node} {
+	return [string trim [$node asText]]
+}
+
 #<JOURNALS>#####################################################################
 proc CROSSREF::parse_journal {doc} {
 	array set ret [list]
@@ -14,7 +19,7 @@ proc CROSSREF::parse_journal {doc} {
 	set prefix //doi_record/crossref/journal
 
 	catch {
-		set ret(journal) [[$doc selectNodes ${prefix}//full_title] text]
+		set ret(journal) [_get_text [$doc selectNodes ${prefix}//full_title]]
 	}
 
 	# there can be multiple issn e.g., media_type="print"|"electronic"
@@ -44,8 +49,7 @@ proc CROSSREF::parse_journal {doc} {
 	}
 
 	catch {
-		set ret(title) [[$doc selectNodes ${prefix}/journal_article/titles/title\[1\]] text]
-		set ret(title) [string trim $ret(title)]
+		set ret(title) [_get_text [$doc selectNodes ${prefix}/journal_article/titles/title\[1\]]]
 	}
 
 	#
@@ -132,10 +136,10 @@ proc CROSSREF::parse_chapter {doc} {
 	set content "$prefix/content_item\[1\]"
 
 	catch {
-		set ret(title_secondary) [[$doc selectNodes ${prefix}/book_metadata/titles/title\[1\]] text]
+		set ret(title_secondary) [_get_text [$doc selectNodes ${prefix}/book_metadata/titles/title\[1\]]]
 	}
 	catch {
-		set ret(title_series) [[$doc selectNodes ${prefix}/book_metadata/series_metadata/titles/title\[1\]] text]
+		set ret(title_series) [_get_text [$doc selectNodes ${prefix}/book_metadata/series_metadata/titles/title\[1\]]]
 	}
 
 	# there can be multiple issn e.g., media_type="print"|"electronic"
@@ -161,8 +165,7 @@ proc CROSSREF::parse_chapter {doc} {
 	}
 
 	catch {
-		set ret(title) [[$doc selectNodes ${content}/titles/title\[1\]] text]
-		set ret(title) [string trim $ret(title)]
+		set ret(title) [_get_text [$doc selectNodes ${content}/titles/title\[1\]]]
 	}
 
 	#
