@@ -129,6 +129,21 @@ def handle(url):
 	xml_page = urlopen(xml_url).read()
 	xml_page = xml_page.decode('utf-8')
 
+	m = re.search("DOI not found in CrossRef", xml_page)
+	if m:
+		raise ParseException, "Unable to locate that DOI (%s) in crossref" % doi
+
+
+	#
+	# Emergency bodge to fix completely toileted XML from crossref
+	#
+	m = re.search("(<doi_record>.*</doi_record>)", xml_page, re.S)
+	if not m:
+		raise ParseException, "Unable to extract metadata - malformed XML"
+
+	xml_page = m.group(1)
+
+
 	yield "begin_crossref"
 	yield xml_page
 	yield "end_crossref"

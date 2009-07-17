@@ -75,13 +75,24 @@ $body = decode("utf-8", $body); # why is this needed?
 # (not here).
 #
 $xml = new XML::Simple;
-# read XML file (not really necessary as crossref.tcl has to do this anyway)
+
+#
+# Emergency bodge to fix completely toileted XML from crossref
+#
+$body =~ m{(<doi_record>.*</doi_record>)}s or do {
+	print "status\terr\t  Could not retrieve the information for that DOI. Invalid XML\n";
+	exit;
+};
+$body = $1;
+
+# parse XML (not really necessary as crossref.tcl has to do this anyway)
 $data = $xml->XMLin($body, ForceArray => [qw/title titles person_name identifier issn/]);
 
 $base = $data->{"doi_record"}->{"crossref"};
 if (!$base) {
 	$base = $data->{"crossref"};
 }
+
 
 if (!$base) {
 	print "status\terr\t  That DOI does not appear to be a known type.\n";
