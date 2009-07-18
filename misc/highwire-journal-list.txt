@@ -270,6 +270,7 @@ crs.sagepub.com
 crw.sagepub.com
 crx.sagepub.com
 csc.sagepub.com
+cshperspectives.cshlp.org
 cshprotocols.cshlp.org
 csi.sagepub.com
 csp.sagepub.com

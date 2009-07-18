@@ -6,6 +6,9 @@ from BeautifulSoup import BeautifulSoup
 import html5lib
 from html5lib import treebuilders
 
+# There's a CSV at which might be better.
+# http://www.biomedcentral.com/info/journals/biomedcentraljournallist.txt
+
 base = "http://www.biomedcentral.com"
 
 url = "http://www.biomedcentral.com/browse/journals/"
