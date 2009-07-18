@@ -9,11 +9,16 @@ my $url = <>;
 chomp $url;
 $url =~ s!/(abstract|comments|email|citation|postcomment).*$!!;
 
-my $bibtex_url = $url . '/citation?include=cit&format=bibtex&action=submit';
+#my $bibtex_url = $url . '/citation?include=cit&format=bibtex&action=submit';
+my $bibtex_url = $url . '/citation';
 print "url = $bibtex_url\n";
 
-my $res = $ua->get( $bibtex_url ) || (print "status\terr\tCouldn't fetch the bibtex file.\n" and exit);
+my $res = $ua->post( $bibtex_url , [include => "cit", format => "bibtex" , action => "submit"]) || (print "status\terr\tCouldn't fetch the bibtex file.\n" and exit);
 my $bibtex = $res->content;
+
+# sometime wrapped in <pre>...</pre>
+
+$bibtex =~ s|</?pre>||g;
 
 print "begin_tsv\n";
 
