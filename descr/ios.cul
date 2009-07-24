@@ -1,0 +1,98 @@
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by
+#
+#	Stevan Springer <stevan.springer@gmail.com>
+#   modified by Fergus Gallagher, citeulike.org
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+#
+# Plugin description
+#
+#
+# 2009/4/2 - RoySoc have moved to HighWire.  Keep this so that
+# old linkouts work, but change to regexp so that it never matches.
+# Mind you, none of the test cases below seem to work - they all redirect to
+# a home page.  It seems they haven't bothered to set up redirects.
+#
+
+
+#	regexp {http://[^/]*iospress.metapress.com[^/]*/content}
+
+plugin {
+	version {1}
+	name {IOS Press}
+	url {http://iospress.metapress.com/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citelike.org}
+	language {perl}
+	regexp {http://[^/]*iospress.metapress.com[^/]*/content}
+
+}
+
+# Linkout formatting
+# Raw ingredients required to build the full text URL dynamically using the following variables
+# collected by the plugin: type ikey_1 ckey_1 ikey_2 ckey_2
+format_linkout IOS {
+	return [list {IOS Press} "http://iospress.metapress.com/content/${ckey_1}"]
+}
+
+#Tests
+
+test {http://iospress.metapress.com/content/2140471q61628j24/} {
+	formatted_url {DOI http://dx.doi.org/10.3233/AIC-2009-0444}
+	formatted_url {{IOS Press} http://iospress.metapress.com/content/2140471q61628j24}
+	linkout {DOI {} 10.3233/AIC-2009-0444 {} {}}
+	linkout {IOS {} 2140471q61628j24 {} {}}
+
+	type JOUR
+	title {Parametric abstraction of behavioral modes for model-based diagnosis}
+	journal {AI Communications}
+	volume "22"
+	issue 2
+	start_page 73
+	end_page 96
+	year 2009
+	month 1
+	day 1
+	date_other ""
+	url {http://dx.doi.org/10.3233/AIC-2009-0444}
+	abstract {In the present paper we address the problem of automatically abstracting the behavioral modes of system components on the basis of their indiscriminability in a diagnostic setting. Our goal is to abstract the original model in such a way as to provide more informative results to the supervisor, without loosing any relevant diagnostic information.This paper extends and complements existing work on automatic abstraction in MBD in different directions: we propose a framework to integrate different parameters (system observability, context restriction and status restriction) that can influence the abstractions; we develop an algorithm for the computation of abstractions that can take advantage of the symbolic compilation of the system model for giving both theoretical guarantees about the computational cost and good experimental performance on non-trivial domains; finally, we discuss the properties of the abstractions resulting by the combination of a-priori, user-provided abstractions with the ones automatically computed by our algorithm.}
+	author {Torta Gianluca G {Torta, Gianluca}}
+	author {Torasso Pietro P {Torasso, Pietro}}
+	doi 10.3233/AIC-2009-0444
+	status ok
+}
+
