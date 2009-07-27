@@ -66,8 +66,11 @@ set page [url_get $url]
 #
 # Now, fetch the export URL
 #
-set    bibtex_url http://www.editlib.org/index.cfm/files/citation_${paper_id}.bib
-append bibtex_url ?fuseaction=Reader.ExportAbstract&paper_id=$paper_id&format=BibTex
+
+# http://go.editlib.org/index.cfm/files/citation_27830.bib?fuseaction=Reader.ExportAbstract&paper_id=27830&citationformat=BibTex
+
+set    bibtex_url http://go.editlib.org/index.cfm/files/citation_${paper_id}.bib
+append bibtex_url ?fuseaction=Reader.ExportAbstract&paper_id=$paper_id&citationformat=BibTex
 
 
 set bibtex [url_get $bibtex_url]
