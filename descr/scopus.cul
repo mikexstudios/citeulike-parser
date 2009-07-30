@@ -11,7 +11,7 @@ plugin {
 
 format_linkout SCOPUS {
 	return [list "Scopus" \
-			"http://www.scopus.com/scopus/record/display.url?view=extended&origin=resultslist&eid=${ckey_1}"]
+			"http://www.scopus.com/record/display.url?view=extended&origin=resultslist&eid=${ckey_1}"]
 }
 test {http://www.scopus.com/scopus/record/display.url?view=basic&origin=resultslist&eid=2-s2.0-33646709446&sort=plf-f&src=s&st1=mangrove*+AND+predat*+AND+nursery&st2=&affilName=&affilCity=&affilCntry=&sid=erEAstYlbSNQkFG6aUNDpvZ%3a30&sot=b&sdt=b&sl=48&s=TITLE-ABS-KEY%28mangrove*+AND+predat*+AND+nursery%29&relpos=0} {
 	formatted_url {Scopus http://www.scopus.com/scopus/record/display.url?view=extended&origin=resultslist&eid=2-s2.0-33646709446}
