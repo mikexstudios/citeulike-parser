@@ -1,0 +1,76 @@
+plugin {
+	version {1}
+	name {First Monday}
+	url {http://firstmonday.org/}
+	blurb {}
+	author {Tristan Henderson}
+	email {tnhh@tnhh.org}
+	language {perl}
+	regexp {http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/\d+}
+}
+
+format_linkout FSTMON {
+	return [list "FirstMonday" "http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/${ikey_1}"]
+}
+
+test {http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/2523} {
+	formatted_url {FirstMonday http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/2523}
+	linkout {FirstMonday 2523 {} {} {}}
+	volume 14
+	issue 7
+	year 2009
+	month 7
+	day 6
+	type JOUR
+	plugin_version 1
+	title {Capacity building in ecological informatics: Lessons from the DST/CSIR learnership programme in South Africa}
+	journal {First Monday}
+	url {http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/2523}
+	status ok
+	author {Makhado Rudzani RA {Rudzani Albert Makhado}}
+    author {{van Deventer} Martie MJ {Martie J van Deventer}}
+    author {Barwell Laurie L {Laurie Barwell}}
+    author {Adey Althea AML {Althea M.L. Adey}}
+    author {Knight Richard R {Richard Knight}}
+    author {Niehaus Jansie J {Jansie Niehaus}}
+	abstract {This paper provides the lessons learned from an attempt by the South African Department of Science and Technology (DST) and the Council for Scientific and Industrial Research (CSIR) to develop a National Information Society Learnership in Ecological Informatics (NISL: EI). Ten unemployed graduates were selected in 2004 to be part of two years NISL: EI learnership programme. The results show that the programme had succeeded in making candidates employable, with 90 percent of the learners working in different science and technology sectors, and two Honours degrees having been awarded.  Challenges for higher level learnership development and implementation are identified and possible solutions are discussed.}
+	plugin firstmonday
+}
+
+test {http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/1419} {
+	formatted_url {FirstMonday http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/1419}
+	linkout {FirstMonday 1419 {} {} {}}
+	volume 11
+	issue 12
+	year 2006
+	month 12
+	day 4
+	type JOUR
+	plugin_version 1
+	title {MySpace on the record: The admissibility of social website content under the Federal Rules of Evidence}
+	journal {First Monday}
+	url {http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/1419}
+	status ok
+	author {Schesser Stacey S {Stacey Schesser}}
+	abstract {With the increased reliance on technology in everyday life — including business, recreation, and culture — individuals leave traces of criminal activity on their computers, and now, online. As scholars address the U.S. Fourth Amendment and digital search and seizure issues, questions as to the admissibility of such acquired evidence begin to emerge. This paper explores the issues that both prosecutors and defense counsel face in determining whether digital evidence from Internet-based sources, primarily social networks, should be admitting under the Federal Rules of Evidence. Using an analysis of recent case law involving the admissibility of electronic evidence, the paper concludes with predictions on how these precedents would apply to social network Web sites like MySpace, Craigslist, personal blogs, and eBay.}
+	plugin firstmonday
+}
+
+test {http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/496/417} {
+	formatted_url {FirstMonday http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/496}
+	linkout {FirstMonday 496 {} {} {}}
+	volume 1
+	issue 5
+	year 1996
+	month 11
+	day 4
+	type JOUR
+	plugin_version 1
+	title {Spirituality and technology: Exploring the relationship}
+	journal {First Monday}
+	url {http://firstmonday.org/htbin/cgiwrap/bin/ojs/index.php/fm/article/view/496}
+	status ok
+	author {Bauwens Michel M {Michel Bauwens}}
+	abstract {This essay first looks at some of the social and cultural changes associated with the notion of a Digital Revolution, the result of the growth of the Internet and the emergence of 'cyberspace'. It then examines some basic 'spiritual' attitudes and how various debates within and between different schools of thought are changing attitudes about technology. Technology can be seen both as a degenerate practice and/or as a means to bring mankind to a higher level of consciousness or to a more well-developed civilization. Finally, the essay will discuss some of the emergent spiritual practices on the Internet itself.}
+	plugin firstmonday
+}
