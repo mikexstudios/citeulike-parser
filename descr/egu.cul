@@ -1,0 +1,196 @@
+#
+# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# All rights reserved.
+#
+# This code is derived from software contributed to CiteULike.org
+# by Jan Cermak
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {EGU Journals}
+
+	# The link the front page of this service
+	url {http://www.egu.eu/publications/list-of-publications.html}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {Experimental support}
+
+	# Your name
+	author {Jan Cermak}
+
+	# Your email address
+	email {jan.cermak@env.ethz.ch}
+
+	# Language you wrote the plugin in
+	language {python}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	#
+	regexp {www.((advances-in-geosciences)|(adv-geosci)|(annales-geophysicae)|(ann-geophys)|(atmospheric-chemistry-and-physics)|(atmos-chem-phys)|(atmos-chem-phys-discuss)|(atmospheric-measurement-techniques)|(atmos-meas-tech-discuss)|(biogeosciences)|(biogeosciences-discuss)|(climate-of-the-past)|(clim-past)|(clim-past-discuss)|(electronic-earth)|(electronic-earth-discuss)|(geophysical-research-abstracts)|(geophys-res-abstr)|(geoscientific-model-development)|(geosci-model-dev)|(geosci-model-dev-discuss)|(hydrology-and-earth-system-sciences)|(hydrol-earth-syst-sci)|(hydrol-earth-syst-sci-discuss)|(natural-hazards-and-earth-system-sciences)|(nat-hazards-earth-syst-sci)|(nonlinear-processes-in-geophysics)|(nonlin-processes-geophys)|(ocean-science)|(ocean-sci)|(ocean-sci-discuss)|(stephan-mueller-special-publication-series)|(the-cryosphere)|(the-cryosphere-discuss))\.net/[0-9]+/[0-9]+/[0-9]{4}/[[:alpha:]]+-[0-9]+-[0-9]+-[0-9]{4}.*}
+	#works	regexp {www.((atmos-chem-phys)|(clim-past))\.net/[0-9]+/[0-9]+/[0-9]{4}/[[:alpha:]]+-[0-9]+-[0-9]{4}.*}
+}
+
+#
+# Linkout formatting
+#
+
+# CiteULike doesn't store URLs for articles.
+# Instead it stores the raw ingredients required to build them dynamically.
+# Each plugin is required to define a small procedure which does this formatting
+# See the HOWTO file for more details.
+#
+# The variables following variables are defined for your use
+# in the function: type ikey_1 ckey_1 ikey_2 ckey_2
+#
+format_linkout EGU {
+
+	# style:
+	# http://www.atmos-chem-phys.net/9/1847/2009/
+	return [list "European Geosciences Union" "http://www.${ckey_1}.net/${ikey_1}/${ikey_2}/${ckey_2}/"]
+}
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+
+test {http://www.atmos-chem-phys.net/9/1847/2009/acp-9-1847-2009.html} {
+	formatted_url {{European Geosciences Union} http://www.atmos-chem-phys.net/9/1847/2009/}
+	status ok
+	linkout {EGU 9 atmos-chem-phys 1847 2009}
+	volume 9
+	year 2009
+	type JOUR
+	start_page 1847
+	end_page 1862
+	issue 6
+	title {{L}arge surface radiative forcing from topographic blowing snow residuals measured in the {H}igh {A}rctic at {E}ureka}
+	journal {Atmospheric Chemistry and Physics}
+	url http://www.atmos-chem-phys.net/9/1847/2009/
+	author {Lesins {} G {G. Lesins}}
+	author {Bourdages {} L {L. Bourdages}}
+	author {Duck {} TJ {T. J. Duck}}
+	author {Drummond {} JR {J. R. Drummond}}
+	author {Eloranta {} EW {E. W. Eloranta}}
+	author {Walden {} VP {V. P. Walden}}
+	month 3
+	day 16
+	serial 1680-7316
+	journal_user_abbrev_1 ACP
+	pdf_url http://www.atmos-chem-phys.net/9/1847/2009/acp-9-1847-2009.pdf
+	publisher {Copernicus Publications}
+	abstract {Ice crystals, also known as diamond dust, are suspended in the boundary layer air under clear sky conditions during most of the Arctic winter in Northern Canada. Occasionally ice crystal events can produce significantly thick layers with optical depths in excess of 2.0 even in the absence of liquid water clouds. Four case studies of high optical depth ice crystal events at Eureka in the Nunavut Territory of Canada during the winter of 2006/07 are presented. They show that the measured ice crystal surface infrared downward radiative forcing ranged from 8 to 36 W m<sup>&minus;2</sup> in the wavelength band from 5.6 to 20 μm for 532 nm optical depths ranging from 0.2 to 1.7. MODIS infrared and visible images and the operational radiosonde wind profile were used to show that these high optical depth events were caused by surface snow being blown off 600 to 800 m high mountain ridges about 20 to 30 km North-West of Eureka and advected by the winds towards Eureka as they settled towards the ground within the highly stable boundary layer. This work presents the first study that demonstrates the important role that surrounding topography plays in determining the occurrence of high optical depth ice crystal events from residual blowing snow that becomes a source of boundary layer ice crystals distinct from the classical diamond dust phenomenon.}
+}
+
+test {http://www.clim-past.net/5/129/2009/cp-5-129-2009.html} {
+	formatted_url {{European Geosciences Union} http://www.clim-past.net/5/129/2009/}
+	linkout {EGU 5 clim-past 129 2009}
+	volume 5
+	year 2009
+	type JOUR
+	start_page 129
+	end_page 141
+	issue 2
+	title {{V}ariability of summer precipitation over {E}astern {C}hina during the last millennium}
+	journal {Climate of the Past}
+	url {http://www.clim-past.net/5/129/2009/}
+	author {Shen {} C {C. Shen}}
+	author {Wang {} W {W. Wang}}
+	author {Peng {} Y {Y. Peng}}
+	author {Xu {} Y {Y. Xu}}
+	author {Zheng {} J {J. Zheng}}
+	status ok
+	month 4
+	day 6
+	serial 1814-9324
+	journal_user_abbrev_1 CP
+	pdf_url http://www.clim-past.net/5/129/2009/cp-5-129-2009.pdf
+	publisher {Copernicus Publications}
+	abstract {We use measurements of recent decades, 1500-yr proxy data, and millennium model simulations with a variety of climate facings to study the temporal and spatial variability of summer precipitation over eastern China. Spectral analysis of the proxy data using multi-taper method reveals three statistically significant bidecadal (15–35-yr), pendadecadal (40–60-yr), and centennial (65–170-yr) oscillation bands. The results of wavelet filtering show that the amplitudes of these bands vary substantially through time depending on the temperature regimes. Weak centennial oscillation and strong pentadecadal oscillation occur in warm conditions, whereas both the centennial and pentadecadal oscillations are strong in cold conditions. A model/data intercomparison suggests that pentadecadal and bidecadal oscillations could be associated with internal variability of the climate system. It is also found that the increased frequency of drought-in-north/flood-in-south spatial pattern over eastern China during the last two decades is unusual in the past five centuries.}
+}
+
+test {http://www.the-cryosphere.net/3/155/2009/tc-3-155-2009.html} {
+	formatted_url {{European Geosciences Union} http://www.the-cryosphere.net/3/155/2009/}
+	linkout {EGU 3 the-cryosphere 155 2009}
+	volume 3
+	year 2009
+	type JOUR
+	start_page 155
+	end_page 165
+	issue 2
+	title {{T}he role of radiation penetration in the energy budget of the snowpack at {S}ummit, {G}reenland}
+	journal {The Cryosphere}
+	url {http://www.the-cryosphere.net/3/155/2009/}
+	author {Munneke Kuipers PK {P. Kuipers Munneke}}
+	author {{van den Broeke} {} MR {M. R. van den Broeke}}
+	author {Reijmer {} CH {C. H. Reijmer}}
+	author {Helsen {} MM {M. M. Helsen}}
+	author {Boot {} W {W. Boot}}
+	author {Schneebeli {} M {M. Schneebeli}}
+	author {Steffen {} K {K. Steffen}}
+	status ok
+	month 7
+	day 3
+	serial 1994-0416
+	journal_user_abbrev_1 TC
+	pdf_url http://www.the-cryosphere.net/3/155/2009/tc-3-155-2009.pdf
+	publisher {Copernicus Publications}
+	abstract {Measurements of the summer surface energy balance at Summit, Greenland, are presented (8 June–20 July 2007). These measurements serve as input to an energy balance model that searches for a surface temperature for which closure of all energy terms is achieved. A good agreement between observed and modelled surface temperatures was found, with an average difference of 0.45&deg;C and an RMSE of 0.85&deg;C. It turns out that penetration of shortwave radiation into the snowpack plays a small but important role in correctly simulating snow temperatures. After 42 days, snow temperatures in the first meter are 3.6–4.0&deg;C higher compared to a model simulation without radiation penetration. Sensitivity experiments show that these results cannot be reproduced by tuning the heat conduction process alone, by varying snow density or snow diffusivity. We compared the two-stream radiation penetration calculations with a sophisticated radiative transfer model and discuss the differences. The average diurnal cycle shows that net shortwave radiation is the largest energy source (diurnal average of +61 W m<sup>&minus;2</sup>), net longwave radiation the largest energy sink (&minus;42 W m<sup>&minus;2</sup>). On average, subsurface heat flux, sensible and latent heat fluxes are the remaining, small heat sinks (&minus;5, &minus;5 and &minus;7 W m<sup>&minus;2</sup>, respectively), although these are more important on a subdaily timescale.}
+}
