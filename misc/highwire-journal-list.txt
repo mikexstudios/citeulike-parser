@@ -265,6 +265,7 @@ crd.sagepub.com
 cre.sagepub.com
 crj.sagepub.com
 crop.scijournals.org
+cro.sagepub.com
 cr.rsmjournals.com
 crs.sagepub.com
 crw.sagepub.com
@@ -586,6 +587,7 @@ jah.sagepub.com
 jama.ama-assn.org
 JAMACareerNet.ama-assn.org
 jamafr.ama-assn.org
+jam.sagepub.com
 jap.physiology.org
 japr.fass.org
 jap.sagepub.com
@@ -1013,6 +1015,7 @@ psychsoc.gerontologyjournals.org
 psychsocgerontology.oxfordjournals.org
 psy.psychiatryonline.org
 ptx.sagepub.com
+publications.rsna.org
 publicculture.dukejournals.org
 publius.oxfordjournals.org
 pubs.ama-assn.org
@@ -1031,8 +1034,8 @@ qrj.sagepub.com
 qshc.bmj.com
 qsw.sagepub.com
 rac.sagepub.com
-radiographics.rsnajnls.org
-radiology.rsnajnls.org
+radiographics.rsna.org
+radiology.rsna.org
 ras.sagepub.com
 rcb.sagepub.com
 rcgp-innovait.oxfordjournals.org
@@ -1190,6 +1193,7 @@ trj.sagepub.com
 trn.lyellcollection.org
 trn.sagepub.com
 tropej.oxfordjournals.org
+tse.sagepub.com
 tva.sagepub.com
 tvn.sagepub.com
 uar.sagepub.com
@@ -1316,7 +1320,6 @@ www.ptjournal.org
 www.radiologictechnology.org
 www.rcpsych.org
 www.reproduction-online.org
-www.rsnajnls.org
 www.sciencemag.org
 www.scijournals.org
 www.sepmonline.org
