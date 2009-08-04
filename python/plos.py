@@ -20,7 +20,7 @@ def url2doi(url):
 def fetch_pmid(hostname, doi):
 	url = "http://%s/perlserv/?request=get-document&doi=%s" % (hostname,urllib.quote(doi))
 	page = urlopen(url).read()
-	
+
 	m = re.search(r'=([0-9]+)&dopt=Citation" class="ncbi" title="View PubMed Record', page)
 	if m:
 		return int(m.group(1))
@@ -40,10 +40,14 @@ def fetch_record(url):
 
 	# See if it's an old style "perlserv" record just in case
 	return fetch_old_ris(hostname, doi)
-	
+
+
+def strip_markup(text):
+	p = re.compile( '<[^>]+>')
+	return p.sub("", text)
 
 def fetch_new_ris(hostname, doi):
-	
+
 	url = "http://%s/article/getRisCitation.action?articleURI=info:doi/%s" % (hostname, urllib.quote(doi))
 
 	record = unicode(urlopen(url).read().strip(), "utf8")
@@ -81,7 +85,7 @@ def main():
 
 	if not doi:
 		bail("Can't find a DOI in the URL. Are you definitely looking at a single article on PLoS?")
-		
+
 	try:
 		(type, record) = fetch_record(url)
 	except:
@@ -102,6 +106,9 @@ def main():
 	emit("end_tsv")
 
 	# Push out the RIS record. CiteULike will figure out everything else from that.
+	record = strip_markup(record)
+	record = record.replace(u"\u201C", "\"").replace(u"\u201D", "\"")
+	record = record.replace(u"\u2018", "'").replace(u"\u2019", "'")
 	emit("begin_%s" % type)
 	emit(record)
 	emit("end_%s" % type)
