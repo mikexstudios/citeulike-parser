@@ -48,20 +48,21 @@ print "begin_tsv\n";
 
 # We can get the bog-standard Nature linkout from just looking at the URL
 
-if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/]+)/([^/]+)(_[^._]+)?.(html|pdf|ris)})	 {
+if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([^/]+)/n([^/]+)/([^/]+)/([^/]+)(_[^._]+)?.(html|pdf|ris)})	 {
 # Old style
 	($journal,$vol,$num,$view_type,$article)=($1,$2,$3,$4,$5);
-} elsif ($url =~ m{www.nature.com/nphoton/journal/v([0-9]+)/n([0-9]+)/[^/]+/([^/_]+)\.(html|pdf|ris)}) {
+} elsif ($url =~ m{www.nature.com/nphoton/journal/v([^/]+)/n([^/]+)/[^/]+/([^/_]+)\.(html|pdf|ris)}) {
 # Fix to get Nature photonics to parse
 	($journal,$vol,$num,$article)=("nphoton",$1,$2,$3);
-} elsif ($url =~ m{www.nature.com/([^/]+)/journal/v([0-9]+)/n([0-9]+s?)/[^/]+/([^/]+)(_[^._]+)?\.(html|pdf|ris)}) {
+} elsif ($url =~ m{www.nature.com/([^/]+)/journal/v([^/]+)/n([^/]+s?)/[^/]+/([^/]+)(_[^._]+)?\.(html|pdf|ris)}) {
+#http://www.nature.com/ni/journal/vaop/ncurrent/abs/ni.1771.html
 	($journal,$vol,$num,$article)=($1,$2,$3,$4);
 } else {
 	print "status\terr\tThis page does not appear to be a Nature article\n";
 	exit;
 }
 
-if ($num !~ m{s}) {
+if ($num !~ m{s}  && $num =~ /^\d+$/ && $vol =~ /^\d+$/) {
 	print "linkout\tNATUR\t$vol\t$article\t$num\t$journal\n";
 }
 

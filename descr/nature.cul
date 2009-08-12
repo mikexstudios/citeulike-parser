@@ -78,7 +78,7 @@ plugin {
 	#
 	# Nature have two styles of URLs for their articles.. they seem to be slowly
 	# moving to the second.
-	regexp {(www.nature.com/cgi.*file=/([^/]+)/journal/v([0-9]+)/n([0-9]+)/([^/]+)/([^/]+)(_[^.]+)?.(html|pdf|ris))|www.nature.com/([^/]+)/journal/v([0-9]+)/n([0-9]+s?)/[^/]+/([^/._]+)}
+	regexp {(www.nature.com/cgi.*file=/([^/]+)/journal/v([^/]+)/n([^/]+)/([^/]+)/([^/]+)(_[^.]+)?.(html|pdf|ris))|www.nature.com/([^/]+)/journal/v([^/]+)/n([^/]+)/[^/]+/([^/._]+)}
 }
 
 
@@ -103,11 +103,11 @@ format_linkout NATUR {
 	# New style:
 	# http://www.nature.com/nature/journal/v433/n7022/full/433113a.html
 	# http://www.nature.com/nature/journal/v%7B433%7D/n7022/full/433113a.html
-	
+
 	# Unfortunately, there's no way of working out which is which for the linkout
 	# as they've converted some issues to the new scheme but not others, in a
 	# seemingly random fashion.
-	
+
 	# This is roughly what we'd want in an ideal world (Nature new style)
 	#	return [list Nature "http://www.nature.com/nature/journal/v${ikey_1}/n${ikey_2}/full/${ckey_1}.html"]
 
@@ -137,12 +137,12 @@ test {http://www.nature.com/nature/journal/v433/n7024/abs/nature03261.html} {
 	linkout {DOI {} 10.1038/nature03261 {} {}}
 	volume 433
 	year 2005
-	type JOUR 
+	type JOUR
 	start_page 395
-	end_page 399 
+	end_page 399
 	day 27
-	issue 7024 
-	title {Strong polarization enhancement in asymmetric three-component ferroelectric superlattices} 
+	issue 7024
+	title {Strong polarization enhancement in asymmetric three-component ferroelectric superlattices}
 	journal Nature
 	serial 0028-0836
 	doi 10.1038/nature03261
@@ -150,7 +150,7 @@ test {http://www.nature.com/nature/journal/v433/n7024/abs/nature03261.html} {
 	author {Lee Ho HN {Lee, Ho Nyung}}
 	author {Christen Hans HM {Christen, Hans M.}}
 	author {Chisholm Matthew MF {Chisholm, Matthew F.}}
-	author {Rouleau Christopher CM {Rouleau, Christopher M.}} 
+	author {Rouleau Christopher CM {Rouleau, Christopher M.}}
 	author {Lowndes Douglas DH {Lowndes, Douglas H.}}
 	month 1
 	status ok
@@ -200,7 +200,7 @@ test {http://www.nature.com/nchembio/journal/v1/n2/pdf/nchembio0705-69.pdf} {
 }
 
 test {http://www.nature.com/nphoton/journal/v1/n2/full/nphoton.2007.2.html} {
-	linkout {NATUR 1 nphoton.2007.2 2 nphoton} 
+	linkout {NATUR 1 nphoton.2007.2 2 nphoton}
 	linkout {DOI {} 10.1038/nphoton.2007.2 {} {}}
 	formatted_url {Nature http://dx.doi.org/10.1038/nphoton.2007.2}
 	formatted_url {DOI http://dx.doi.org/10.1038/nphoton.2007.2}
