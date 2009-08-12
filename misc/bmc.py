@@ -48,7 +48,7 @@ for link in links:
 	if re.search(r'^/', href):
 		continue
 
-	m = re.search(r'http://(.*)', href)
+	m = re.search(r'http://(.*?)/?$', href)
 	if not m:
 		raise Exception, "Opps"
 
