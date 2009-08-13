@@ -51,15 +51,15 @@ proc arxiv_id {url} {
 	set re "([join $mirrors "|"])"
 	append re {[^/]*}
 	append re {/(pdf|abs|format|ps)/([^/]+/?[^/?]+)}
-	
+
 	if {[regexp $re $url match -> document_type arxiv_id]} {
 		return $arxiv_id
 	}
-	
+
 	if {[regexp {front.math.ucdavis.edu/([^/]+/?[^/?]+)} $url match arxiv_id]} {
 		return $arxiv_id
 	}
-	
+
 	puts "status\terr\tThis page does not appear to be an arXiv article."
 	exit
 }
@@ -82,10 +82,17 @@ set page [url_get $arxiv_url]
 foreach authorlink [split $page "\n"] {
 	if {[regexp "<a href=\"/find\[^\"\]+\">(\[^<\]+)</a>" $authorlink -> name]} {
 		puts "author\t$name"
-	} 
+	}
+}
+# DOI
+
+if {[regexp "<a href=\"http://dx.doi.org\[^\"\]+\">(\[^<\]+)</a>" $page -> doi]} {
+	puts [join [list linkout DOI {} $doi {} {}] "\t"]
 }
 
-# TITLE		
+
+
+# TITLE
 regexp {dc:title="(.*?)"\s*trackback:ping} $page -> title
 set title [string trim $title]
 # CRs not significant in HTML
