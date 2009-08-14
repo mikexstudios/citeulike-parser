@@ -11,21 +11,20 @@ chomp($url);
 # just for debugging
 
 #
-# These next bits should be needed as already done in 
+# These next bits should be needed as already done in
 # the pre-filter go_posturl_doi_rewrite (post.tcl).
 # However, still useful for command line testing
 #
 $url =~ s/^\s+//;
 $url =~ s/\s+$//;
-
-if (! $url =~ m{^(http://dx\.(doi|plos)\.org/|doi:|10\.)}i ) {
+if (! $url =~ m{^(http://dx\.(doi|plos)\.org/|doi:|10\.|http://feedproxy\.google\.com)}i ) {
 	print "OK\t$url\tNOT_CHANGED\tNO_MATCH\tEOL1\n";
 	exit 0;
 }
 
 if ($url =~ m{^doi:\s*(.*)}i) {
 	$url = "http://dx.doi.org/$1";
-} 
+}
 elsif ($url =~ m{^(10\..*)}) {
 	$url = "http://dx.doi.org/$1";
 }
@@ -38,7 +37,7 @@ $browser->cookie_jar({}); # just in case someone needs it
 # some sites give a HTTP 400 to unknown headers
 my @ns_headers = (
    'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
-   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, 
+   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg,
         image/pjpeg, image/png, */*',
    'Accept-Charset' => 'iso-8859-1,*,utf-8',
    'Accept-Language' => 'en-US',
@@ -58,7 +57,7 @@ my $resp = $browser->head("$url", @ns_headers) or do {
 
 # As mentioned above, most dud DOIs give a error page (200 OK)
 # but, luckily for us, with the same URL. So a dud URL will appear
-# here with uri=url, even though the line says "CHANGED".  
+# here with uri=url, even though the line says "CHANGED".
 # No worries, though potential problem if doi.org changes things
 # e.g., might get a redirect to completely wrong page.
 #
