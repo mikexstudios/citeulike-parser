@@ -39,7 +39,7 @@
 import re, os
 import isbn, ecs
 from html2text import html2text
-	
+
 class BadUrl(Exception):
 	pass
 
@@ -47,17 +47,17 @@ class BadUrl(Exception):
 class UserException(Exception):
 	def __init__(self, message):
 		Exception.__init__(self)
-		self.message=message
+		self.msg=message
 
 def parse_url(url):
 	"""Try to get the amazon product ID (ASIN) out of the url.
 	Returns (domain, asin) where domain is .co.uk/.com/.de etc"""
-	
+
 	regexps = [r'amazon\.(?P<domain>[a-z.]+)/(?:gp|exec|o)/.*/?(?:ASIN|-|product)/(?P<asin>[^?/]+)',
 			   r'amazon.(?P<domain>[a-z.]+)/[^/]+/(gp|dp)/(?P<asin>[0-9X]+)',
 			   r'amazon.(?P<domain>[a-z.]+)/([^/]+/)?dp/(?P<asin>[^/]+)'
 			   ]
-	
+
 	for r in regexps:
 		m = re.search(r, url, re.I)
 		if m:
@@ -88,7 +88,7 @@ def parse_url(url):
 
 def tidy(s):
 	return s.replace("\t", " ").strip()
-		   
+
 def extract(node, path):
 	"""Pull bits of data out of the ecs bag structure"""
 	ptr = node
@@ -100,7 +100,7 @@ def extract(node, path):
 	return ptr
 
 def fetch(domain, asin):
-	
+
 	locale = {'com' : 'us',
 			  'co.uk' : 'uk',
 			  'de' : 'de',
@@ -113,14 +113,21 @@ def fetch(domain, asin):
 		pages = ecs.ItemLookup(asin, ResponseGroup="Medium")
 	except ecs.InvalidParameterValue, e:
 		raise UserException, str(e)
-	if len(pages)>1:
-		raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>")
-	if len(pages)==0:
+	if not pages:
 		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
-	if len(pages)==0:
-		pass
-	
-	page = pages[0]
+	num = getattr(pages, "NumberOfItems")
+	if num == '0':
+		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
+	if num != '1':
+		raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>")
+#	if len(pages)>1:
+#		raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>")
+#	if len(pages)==0:
+#		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
+#	if len(pages)==0:
+#		pass
+
+	page = pages
 
 	field_map = [
 		(['Title'], 'title'),
@@ -129,7 +136,7 @@ def fetch(domain, asin):
 		(['Edition'], 'edition'),
 		(['Binding'], 'how_published'),
 		]
-	
+
 	amazon_type = extract(page, ["ProductGroup"])
 	if amazon_type!="Book":
 		raise UserException("This item on Amazon does not appear to be a book. It looks like a %s" % amazon_type)
@@ -193,7 +200,7 @@ def fetch(domain, asin):
 	# ASIN. Trawl through all of them and see who has this one.
 	for other_locale in ["us", "uk", "de", "jp", "fr", "ca"]:
 
-			
+
 		if other_locale==locale:
 			continue
 		ecs.setLocale(other_locale)
@@ -201,10 +208,8 @@ def fetch(domain, asin):
 			pages = ecs.ItemLookup(asin, ResponseGroup="Medium")
 		except ecs.InvalidParameterValue:
 			continue
-		if len(pages)!=1:
-			continue
-		
-		page = pages[0]
+
+		page = pages
 		if not seen_abstract:
 			abstract = get_abstract(page)
 			if abstract:
@@ -215,8 +220,8 @@ def fetch(domain, asin):
 									 "", asin, "", ""]) )
 
 def test_parse_url():
-	tests = [("http://www.amazon.com/gp/product/0380715430", 
-			  "com", 
+	tests = [("http://www.amazon.com/gp/product/0380715430",
+			  "com",
 			  "0380715430"),
 			 ("http://www.amazon.com/Galileo-Courtier-Absolutism-Conceptual-Foundations/dp/0226045609/ref=sr_1_1?ie=UTF8&s=books&qid=xxx&sr=8-1",
 			  "com",
@@ -238,7 +243,7 @@ def test_parse_url():
 			raise Exception( msg % ("asin", pasin, asin, url) )
 
 
-def secret_key():
+def get_keys():
 	"""Rather than just putting the key which Amazon gave me to use their
 	API (and told me not to tell anyone) in plaintext in the scraper, we'll
 	read it from ~/.amazon-aws-key instead. Put yours there."""
@@ -247,18 +252,25 @@ def secret_key():
 
 	if not os.path.exists(amazon_key_file):
 		raise Exception("I can't find your secret amazon key in " + amazon_key_file)
-	return open(amazon_key_file).read().strip()
+	return open(amazon_key_file).read().strip().split(":")
+
+def secret_key():
+	return get_keys()[1]
+
+def api_key():
+	return get_keys()[0]
 
 def main():
 	import sys
 
-	ecs.setLicenseKey( secret_key() )
+	ecs.setLicenseKey( api_key() )
+	ecs.setSecretKey( secret_key() )
 
 	if "--test" in sys.argv:
 		test_parse_url()
 
 	url = sys.stdin.readline().strip()
-	
+
 	(domain,asin) = parse_url(url)
 	print "begin_tsv"
 	for (k,v) in fetch(domain, asin):
@@ -278,7 +290,7 @@ if __name__=="__main__":
 	except BadUrl, e:
 		print "\t".join(["status", "err", "The page you submitted did not look like a single book on the Amazon site. Were you looking at a list of search results, or a general page on the site?"])
 	except UserException, e:
-		print "\t".join(["status", "err", e.message])
+		print "\t".join(["status", "err", e.msg])
 	except Exception, e:
 		print "\t".join(["status", "err", str(e)])
 		raise
