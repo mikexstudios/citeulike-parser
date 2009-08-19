@@ -6,18 +6,12 @@ use LWP 5.64;
 
 
 #
-# Copyright (c) 2005 Richard Cameron, CiteULike.org
+# Copyright (c) 2009 Fergus Gallagher, CiteULike.org
 # All rights reserved.
-#
-# 05/oct/2006 Marcus Granado <mrc.gran(@)gmail.com>
-#   - added support for cookies,required by new springerlink.com portal
 #
 # This code is derived from software contributed to CiteULike.org
 # by
 #	 Stevan Springer <stevan.springer@gmail.com>
-#
-# with modifications by
-# 	Fergus Gallagher <fergus.gallagher@citeulike.org>
 #
 #
 # Redistribution and use in source and binary forms, with or without
@@ -51,7 +45,7 @@ use LWP 5.64;
 
 
 my $browser = LWP::UserAgent->new;
-$browser->cookie_jar({}); #springerlink.com expects we store cookies
+$browser->cookie_jar({}); #metapress.com expects we store cookies
 
 $url = <>;
 chomp($url);
@@ -65,42 +59,13 @@ my @ns_headers = (
    'Accept-Language' => 'en-US',
   );
 
-#Examples of compatible url formats:
-#ADD some examples here later.
 
-
-if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
-	my $doi = $1;
-	my $s_url = "http://www.springerlink.com/openurl.asp?genre=article&id=doi:$doi";
-	my $resp = $browser->head("$s_url", @ns_headers);
-	if ($resp) {
-		my $code = $resp->code;
-		if ($code == 200 ) {
-		# this gives us back the last hop "request", i.e., the
-		# URL of the last redirect
-			my $req = $resp->request();
-			my $uri = $req->uri;
-			print "status\tredirect\t$uri\n";
-			exit 0;
-		}
-	}
-}
-
-
-
-
-# Parser for Springerlink Web Addresses:
 # ADD a parser to link from other forms of the article to the abstract later.
-
-# lets remove any initial 'www.' : springerlink.com doesn't like it
 
 $url =~ s/www\.//;
 
-# Remove any instance of metapress in the URL
-$url =~ s/springerlink\.metapress\.com/springerlink.com/;
-
 # Remove any trailing proxy stuff on the end
-$url =~ s!springerlink\.com[^/]+/!springerlink.com/!;
+$url =~ s!metapress\.com[^/]+/!metapress.com/!;
 
 
 # extract the UID from the end of the line.
@@ -108,42 +73,49 @@ $url =~ m{/content/([^/?]+)};
 
 my $slink = $1 || "";
 
+chomp $slink;
+
 
 # TODO copy changes for url_abstract into other metapress plugin "roysoc"
 # Assuming it works
 
 # If we have a UID from the source URL, then we can jump direct to the RIS
 if ($slink) {
-	$url_abstract = "http://springerlink.com/content/$slink";
+	$url_abstract = "http://metapress.com/content/$slink";
 	# this annoying, need to get a page first - probably a cookie thing.
 	# At least the HTTP HEAD works and so speeds things up.
-	$browser->head("$url_abstract");
-	$link_ris = "http://springerlink.com/export.mpx?code=$slink&mode=ris";
+	$browser->head("$url_abstract", @ns_headers);
+	$link_ris = "http://metapress.com/export.mpx?code=$slink&mode=ris";
 } else {
 	# Get the link to the reference manager RIS file
 	$url_abstract = $url;
+	$browser->head("$url_abstract", @ns_headers);
 	$response = $browser->get("$url_abstract") or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 	$source_abstract = $response->content;
 	if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
-		$link_ris = "http://springerlink.com/$1";
+		$link_ris = "http://metapress.com/$1";
 		$link_ris =~ s/&amp;/&/; # replace &amp; for &
 		$link_ris =~ s/\.\.\/*//; # remove any ../
 		$link_ris =~ s/\.\.\/*//; # remove any ../ again
-	}
-	else{
+	} elsif ($source_abstract =~ m{href=".*&id=([^&]+)&.*">Linking Options</a>}i) {
+		$link_ris = "http://metapress.com/export.mpx?code=$1&mode=ris"
+	} else {
+		print $source_abstract;
 		print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
 	}
 }
 
 
 #Get the reference manager RIS file and check retrieved file
+
+$browser->head("$link_ris", @ns_headers);
 $response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 $ris = $response->content;
 
 unless ($ris =~ m{ER\s+-}) {
-	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
+	print "status\terr\tCouldn't extract the details from MetaPress's 'export citation'\n" and exit;
 }
 
 #Generate linkouts and print RIS:
@@ -159,16 +131,18 @@ if ($ris =~ m{UR  - http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}) {
 	print "linkout\tDOI\t\t$1\t\t\n";
 	$have_linkouts = 1;
 }
-if ($ris =~ m{UR  - http://www.springerlink.com/content/([^/\r\n]+)}) {
-	print "linkout\tSLINK\t\t$1\t\t\n";
+if ($ris =~ m{UR  - http://www.metapress.com/content/([^/\r\n]+)}) {
+	chomp $1;
+	print "linkout\tMPRESS\t\t$1\t\t\n";
 	$have_linkouts = 1;
 } elsif ($slink) {
-	print "linkout\tSLINK\t\t$slink\t\t\n";
+	chomp $slink;
+	print "linkout\tMPRESS\t\t$slink\t\t\n";
 	$have_linkouts = 1;
 }
 
 if (!$have_linkouts) {
-	print "status\terr\tThis document does not have a DOI or a Springer ID, so cannot make a permanent link to it.\n" and exit;
+	print "status\terr\tThis document does not have a DOI or a MetaPress ID, so cannot make a permanent link to it.\n" and exit;
 }
 
 print "end_tsv\n";
