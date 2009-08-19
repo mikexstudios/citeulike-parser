@@ -136,8 +136,9 @@ if ($ris =~ m{UR  - http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}) {
 	$have_linkouts = 1;
 }
 if ($ris =~ m{UR  - http://www.metapress.com/content/([^/\r\n]+)}) {
-	chomp $1;
-	print "linkout\tMPRESS\t\t$1\t\t\n";
+	$slink = $1;
+	chomp $slink;
+	print "linkout\tMPRESS\t\t$slink\t\t\n";
 	$have_linkouts = 1;
 } elsif ($slink) {
 	chomp $slink;
