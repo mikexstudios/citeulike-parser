@@ -50,6 +50,10 @@ $browser->cookie_jar({}); #metapress.com expects we store cookies
 $url = <>;
 chomp($url);
 
+if ($url =~ /springerlink/) {
+	print "status\tnot_interested\n" and exit;
+}
+
 #let's emulate better some browser headers
 my @ns_headers = (
    'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
