@@ -131,7 +131,7 @@ proc parse_ris {rec} {
 
 				{A[1-9]|AU|ED} {
 					# a few dud cases we've seen
-					if {[regexp {^\s*[,\.]\s*$} $v]} {
+					if {[regexp {^\s*[,\.]*\s*$} $v]} {
 						continue
 					}
 					lappend ret(authors) $v
