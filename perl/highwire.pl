@@ -154,6 +154,8 @@ if (!$doi) {
 		$doi = $1;
 	} elsif ($source_abstract =~ m!<meta name="citation_doi" content="([^"]+)">!) {
 		$doi = $1;
+	} elsif ($source_abstract =~ m{&doi=(10\.[^&]+)&}) {
+		$doi = $1;
 	}
 }
 
@@ -212,11 +214,15 @@ if ($hiwire) {
 
 if ($doi) {
 	print "linkout\tDOI\t\t$doi\t\t\n";
+} elsif ($ris =~ m/N1\s*-\s*(10\..*)/) {
+	print "linkout\tDOI\t\t$1\t\t\n";
 }
+
 
 if ($pmid) {
 	print "linkout\tPMID\t$pmid\t\t\t\n";
 }
+
 
 print "end_tsv\n";
 print "begin_ris\n";
