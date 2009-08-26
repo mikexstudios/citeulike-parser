@@ -214,7 +214,8 @@ if ($hiwire) {
 
 if ($doi) {
 	print "linkout\tDOI\t\t$doi\t\t\n";
-} elsif ($ris =~ m/N1\s*-\s*(10\..*)/) {
+} elsif ($ris =~ m/N1\s*-\s*(10\.[^ ]+)/) {
+	# sometimes there's a DOI at the start of the title
 	print "linkout\tDOI\t\t$1\t\t\n";
 }
 
