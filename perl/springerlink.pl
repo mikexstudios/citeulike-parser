@@ -142,6 +142,8 @@ $response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) 
 
 $ris = $response->content;
 
+$ris =~ s/\r//g;
+
 unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
 }
@@ -156,13 +158,18 @@ print "begin_tsv\n";
 
 my $have_linkouts = 0;
 if ($ris =~ m{UR  - http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}) {
-	print "linkout\tDOI\t\t$1\t\t\n";
+	$doi = $1;
+	chomp $doi;
+	print "linkout\tDOI\t\t$doi\t\t\n";
 	$have_linkouts = 1;
 }
 if ($ris =~ m{UR  - http://www.springerlink.com/content/([^/\r\n]+)}) {
-	print "linkout\tSLINK\t\t$1\t\t\n";
+	$slink = $1;
+	chomp $slink;
+	print "linkout\tSLINK\t\t$slink\t\t\n";
 	$have_linkouts = 1;
 } elsif ($slink) {
+	chomp $slink;
 	print "linkout\tSLINK\t\t$slink\t\t\n";
 	$have_linkouts = 1;
 }
