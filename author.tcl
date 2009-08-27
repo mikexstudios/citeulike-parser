@@ -477,7 +477,7 @@ namespace eval author {
 					{"Rumbaut" "" "RG" "Rumbaut,R. G."}\
 					{"Rumbaut" "" "RG" "Rumbaut, R. G."}\
 					{"Rumbaut" "" "RG" "Rumbaut,R. G"}\
-
+					{"Lino Cardenas" "Christian" "CL" "Lino Cardenas, Christian L."}\
  				   ]
 
 	#				{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
