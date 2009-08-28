@@ -309,6 +309,9 @@ namespace eval author {
 		# trim whitespace
 		set raw [string trim $raw]
 
+		# unicode extra spaces:
+		set raw [string map {"\u00A0" " "} $raw]
+
 		set raw [string trim $raw]
 		set raw [html2u $raw]
 		# this function only defined in main server
@@ -478,6 +481,7 @@ namespace eval author {
 					{"Rumbaut" "" "RG" "Rumbaut, R. G."}\
 					{"Rumbaut" "" "RG" "Rumbaut,R. G"}\
 					{"Lino Cardenas" "Christian" "CL" "Lino Cardenas, Christian L."}\
+					{"Forster" "Malcolm" "MR" "Forster, Malcolm R."}\
  				   ]
 
 	#				{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
