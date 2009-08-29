@@ -29,10 +29,12 @@ isbn = ""
 if (type == "isbn"):
 	isbn = id
 	m = re.search(r'/oclc/(\d+)', page)
+	if not m:
+		bail("Couldn't locate OCLC on page "+url)
 	oclc = m.group(1)
 else:
 	oclc = id
-	m = re.search(r'rft.isbn=(\d+)', page)
+	m = re.search(r'rft.isbn=(\w+)', page)
 	if m:
 		isbn = m.group(1)
 

@@ -18,7 +18,7 @@ except:
 
 isbn = ""
 
-m = re.search(r'isbn=(\d+)', page)
+m = re.search(r'isbn=(\w+)', page)
 if m:
 	isbn = m.group(1)
 else:
