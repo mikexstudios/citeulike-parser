@@ -22,10 +22,20 @@ end
 form=page.form('citationform')
 
 # Switch to citation tab if needed
+
 unless form
   url.match /content=(\w*)/
-  infoworld_id = $1
+  if $1 then
+    infoworld_id = $1
+  else
+    url.match /\/index\/(\w*)/
+    infoworld_id = $1
+    if infoworld_id.match /^\d+$/ then
+      infoworld_id = "a" + infoworld_id
+    end
+  end
   url = "http://www.informaworld.com/smpp/content~db=all~content=#{infoworld_id}~tab=citation"
+  print url
   rcount = 0
   begin
     page = agent.get url
@@ -45,9 +55,15 @@ unless form
   exit(0)
 end
 
-form.fields.name('citstyle').options.value('plain').first.select
-form.radiobuttons.name('format').value='file'
-form.radiobuttons.name('showabs').value=true
+
+#pp form.field_with(:name => 'citstyle')
+#form.field_with(:name => 'citstyle').options.value('plain').first.select
+form.field_with(:name => 'citstyle').options.find{ |opt| opt.value == 'plain' }.select
+form.radiobutton_with(:name => 'format').value='file'
+form.radiobutton_with(:name => 'showabs').value=true
+#form.fields.name('citstyle').options.value('plain').first.select
+#form.radiobuttons.name('format').value='file'
+#form.radiobuttons.name('showabs').value=true
 
 ris_entry = agent.submit(form).body
 
