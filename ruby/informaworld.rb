@@ -35,7 +35,6 @@ unless form
     end
   end
   url = "http://www.informaworld.com/smpp/content~db=all~content=#{infoworld_id}~tab=citation"
-  print url
   rcount = 0
   begin
     page = agent.get url
