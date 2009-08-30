@@ -24,16 +24,18 @@ form=page.form('citationform')
 # Switch to citation tab if needed
 
 unless form
-  url.match /content=(\w*)/
-  if $1 then
+
+  if url.match /content=(\w*)\~/ then
     infoworld_id = $1
-  else
-    url.match /\/index\/(\w*)/
+  elsif url.match /\/index\/(\w*)/
     infoworld_id = $1
     if infoworld_id.match /^\d+$/ then
       infoworld_id = "a" + infoworld_id
     end
+  elsif url.match /content=(10\.\d\d\d\d\/[^&]+)/
+    infoworld_id = $1
   end
+  # puts url + " -> "+ infoworld_id
   url = "http://www.informaworld.com/smpp/content~db=all~content=#{infoworld_id}~tab=citation"
   rcount = 0
   begin
