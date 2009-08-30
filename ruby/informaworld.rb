@@ -23,7 +23,7 @@ form=page.form('citationform')
 
 # Switch to citation tab if needed
 unless form
-  url.match /content=(\w*)\~/
+  url.match /content=(\w*)/
   infoworld_id = $1
   url = "http://www.informaworld.com/smpp/content~db=all~content=#{infoworld_id}~tab=citation"
   rcount = 0
