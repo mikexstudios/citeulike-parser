@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 #
-# Copyright (c) 2008 Robert Blake  
+# Copyright (c) 2008 Robert Blake
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,10 @@ use LWP::Simple;
 use strict;
 use HTML::Entities;
 
+binmode STDOUT, ":utf8";
+
+
+
 my $unclean_url = <>;
 
 chomp($unclean_url);
@@ -45,7 +49,7 @@ chomp($unclean_url);
 my $clean_url;
 my $doi;
 
-if ($unclean_url =~ m,^https?://csdl\d*\.computer\.org(\.[^/]+)?/persagen/.*DOI=([0-9.a-zA-Z/]+),) { 
+if ($unclean_url =~ m,^https?://csdl\d*\.computer\.org(\.[^/]+)?/persagen/.*DOI=([0-9.a-zA-Z/]+),) {
 	$doi = $2;
 } elsif ($unclean_url =~ m,^https?://[^/]+\.computer\.org/portal/web/csdl/doi/(\d{2}[.]\d{4}/[^/?&]+),) {
 	$doi = $1
@@ -95,10 +99,10 @@ if ($data =~ m{<div id="bibText-content">(.*?)</div>}s) {
     $abstract =~ s,<[^>]+>,,gs;
 	$abstract =~ s/&#822[0123];/"/gs; # microsoft smart double quotes
 	$abstract =~ s/&#821[67];/'/gs; # microsoft smart single quotes
-    decode_entities($abstract); 
+    decode_entities($abstract);
     $abstract =~ s/^\s*Abstract\W+//;
     print "abstract\t$abstract\n";
-    
+
   }
   print "end_tsv\n";
 
