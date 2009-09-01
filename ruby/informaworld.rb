@@ -57,14 +57,15 @@ unless form
 end
 
 
-#pp form.field_with(:name => 'citstyle')
-#form.field_with(:name => 'citstyle').options.value('plain').first.select
-form.field_with(:name => 'citstyle').options.find{ |opt| opt.value == 'plain' }.select
-form.radiobutton_with(:name => 'format').value='file'
-form.radiobutton_with(:name => 'showabs').value=true
-#form.fields.name('citstyle').options.value('plain').first.select
-#form.radiobuttons.name('format').value='file'
-#form.radiobuttons.name('showabs').value=true
+# These might work with later version of mechanize - but fail with current on
+# on fester 1.8.  Get deprecations warnings
+#form.field_with(:name => 'citstyle').options.find{ |opt| opt.value == 'plain' }.select
+#form.radiobutton_with(:name => 'format').value='file'
+#form.radiobutton_with(:name => 'showabs').value=true
+
+form.fields.name('citstyle').options.value('plain').first.select
+form.radiobuttons.name('format').value='file'
+form.radiobuttons.name('showabs').value=true
 
 ris_entry = agent.submit(form).body
 

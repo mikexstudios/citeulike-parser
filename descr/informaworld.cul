@@ -24,8 +24,8 @@ test {http://www.informaworld.com/smpp/content?content=10.1080/00397910701354392
 	issue 12
 	volume 37
 	title {Facile Synthesis of 4-Functionalized Cyclopentenones}
-	journal {Synthetic Communications}
-	publisher {Taylor &amp; Francis}
+	journal {Synthetic Communications: An International Journal for Rapid Communication of Synthetic Organic Chemistry}
+	publisher {Taylor & Francis}
 	status ok
 	abstract {1-8-Diazabicyclo[5.4.0]undec-7-ene(DBU)-catalyzed Michael addition of nitroalkanes to dicyclopentadienone (<b>1</b>) followed by flash vacuum pyrolysis (FVP) provided a high-yielding synthesis of extremely pure 4-nitroalkyl cyclopentenones (<b>3</b>). The optimized Nef reaction of the nitro adducts (<b>2</b>) provided 4-ketoalkyl cyclopentenones (<b>5</b>) in the similar way.}
 	url {http://www.informaworld.com/10.1080/00397910701354392}
@@ -46,8 +46,8 @@ test {http://www.informaworld.com/smpp/content~content=a779515458~db=all~order=p
 	issue 12
 	volume 37
 	title {Nitration of Ethyl Carbamates of Phenylenediamines and Aniline}
-	journal {Synthetic Communications}
-	publisher {Taylor &amp; Francis}
+	journal {Synthetic Communications: An International Journal for Rapid Communication of Synthetic Organic Chemistry}
+	publisher {Taylor & Francis}
 	status ok
 	abstract {The methyl and ethyl carbamates of aniline and the diethyl dicarbamates of 1,2-, 1,3-, and 1,4-phenylenediamine were prepared. Nitration of the carbamates gave ring mono-, di-, or trinitro-derivatives in good yield.}
 	url {http://www.informaworld.com/10.1080/00397910701357296}
