@@ -11,7 +11,7 @@ url = sys.stdin.readline().strip()
 oclc_match = re.search(r'/(oclc|isbn)/([0-9]+)', url, re.IGNORECASE)
 
 if not oclc_match:
-	bail("Couldn't find an 'oclc' in the URL (" + url + ")")
+	bail("Couldn't find either an 'oclc' or 'isbn' in the URL (" + url + ")")
 
 type = oclc_match.group(1)
 id = oclc_match.group(2)
@@ -24,19 +24,20 @@ try:
 except:
 	bail("Couldn't fetch page (" + url + ")")
 
-isbn = ""
-
 if (type == "isbn"):
 	isbn = id
 	m = re.search(r'/oclc/(\d+)', page)
-	if not m:
+	if m:
+		oclc = m.group(1)
+	else:
 		bail("Couldn't locate OCLC on page "+url)
-	oclc = m.group(1)
 else:
 	oclc = id
 	m = re.search(r'rft.isbn=(\w+)', page)
 	if m:
 		isbn = m.group(1)
+	else:
+		isbn = ""
 
 #
 # Fetch the RIS file
@@ -53,11 +54,10 @@ print ris_file
 if not re.search(r'TY\s{1,4}-', ris_file):
 	bail("RIS file doesn't have a 'TY -'")
 
-
 print "begin_tsv"
 print "linkout\tWCAT\t\t%s\t\t" % oclc
-print "linkout\tISBN\t\t%s\t\t" % isbn
 if (isbn != ""):
+	print "linkout\tISBN\t\t%s\t\t" % isbn
 	print "isbn\t%s" % isbn
 print "end_tsv"
 print "begin_ris"
