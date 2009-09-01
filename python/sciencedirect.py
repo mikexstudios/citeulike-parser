@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python -W ignore::DeprecationWarning
 
 import os, sys, re, urllib2, cookielib, string
 from urllib import urlencode
@@ -6,6 +6,9 @@ from urllib2 import urlopen
 from copy import copy
 import BeautifulSoup
 import htmlentitydefs
+import html5lib
+from html5lib import treebuilders
+
 
 class ParseException(Exception):
 	pass
@@ -81,12 +84,14 @@ def scrape_abstract(page):
 
 	abs = []
 
-	soup = BeautifulSoup.BeautifulSoup(page)
-
+	parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+	soup = parser.parse(page)
+#	soup = BeautifulSoup.BeautifulSoup(page)
 	for div in soup.findAll('div',attrs={'class':'articleText'}):
 		h3 = div.find('h3',{'class':'h3'})
 		if h3:
-			if string.lower(h3.string) in ('abstract'):
+			val = h3.contents[0]
+			if string.lower(val) in ('abstract'):
 				for p in h3.findNextSiblings('p'):
 					for t in p.findAll(text=True):
 						abs.append(t)
@@ -110,7 +115,9 @@ def handle(url):
 	# this page might requires a login.  Luckily there seems to be a
 	# link "View Abstract" which can take us to a page we can read
 	if not m:
-		soup = BeautifulSoup.BeautifulSoup(page)
+		parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+		soup = parser.parse(page)
+#		soup = BeautifulSoup.BeautifulSoup(page)
 		for link in soup.findAll('a'):
 			if link.string and string.lower(link.string) in ('view abstract'):
 				page = urlopen(canon_url("http://www.sciencedirect.com" + link['href'])).read()
