@@ -427,72 +427,74 @@ namespace eval author {
  	proc parse_test_cases {} {
 		# last_name first_name initials raw
  		return [list \
- 					{"Edozien" "Leroy" "LC" "Edozien, Leroy C"}\
- 					{"Chaitin" "" "GJ" "G. J. Chaitin"} \
- 					{"Chaitin" "" "GJ" "G. J. Chaitin	 "}\
- 					{"Chaitin" "" "GJ" "    G. J. Chaitin"}\
- 					{"Chaitin" "" "GJ" "    G. J. Chaitin    "}\
-					{"Chaitin" "" "GJ" "Prof. G. J. Chaitin"}\
- 					{"Chaitin" "" "GJ" "Sir G. J. Chaitin"}\
- 					{"Chaitin" "" "GJ" "Mister Prof. Dr. G. J. Chaitin"}\
- 					{"Chaitin" "" "GJ" "Mister Prof. Dr. G. J. CHAITIN"}\
- 					{"Chaitin" "" "GJ" "G. J. Chaitin Jnr."}\
- 					{"Chaitin" "" "GJ" "G. J. Chaitin Sr"}\
- 					{"Chaitin" "" "GJ" "G. J. Chaitin Sr."}\
- 					{"Chaitin" "" "GJ" "G. J. Chaitin et al."}\
- 					{"Ferreira" "Fernando" "F" "Fernando Ferreira"}\
- 					{"Botz" "" "GW" "G.W.Botz"}\
- 					{"D'Angelo" "Barbara" "BJ" "D'Angelo, Barbara J."}\
- 					{"Moyo" "" "LM" "Moyo L.M."}\
- 					{"Peyton-Jones" "Simon" "S" "Simon Peyton-Jones"}\
- 					{"O'Donnell" "Jill" "J" "Jill O'Donnell"}\
- 					{"Vonesch" "Jean-Luc" "J" "Jean-Luc Vonesch"}\
- 					{"von Herrath" "Matthias" "M" "Matthias von Herrath"}\
- 					{"O'Donnell-Tormey" "Jill" "J" "Jill O'Donnell-Tormey"}\
- 					{"Smithers" "Waylon" "DW" "D Waylon Smithers"}\
- 					{"Smithers" "Waylon" "DW" "D. Waylon Smithers"}\
- 					{"Smithers" "Waylon" "DW" "Smithers, D Waylon"}\
- 					{"von Herrath" "Matthias" "M" "Matthias von Herrath"}\
- 					{"von Hoyningen-Huene" "Wolfgang" "W" "von Hoyningen-Huene, Wolfgang"}\
- 					{"de Boer" "" "J" "de Boer, J."}\
- 					{"van den Berg" "Debbie" "DLC" "Debbie L.C. van den Berg"}\
- 					{"Botz" "" "GW" "Botz G. W.,"}\
- 					{"" "" "" ""}\
- 					{"Cameron" "" "" "Cameron"}\
-					{"Chaitin" "Gregory" "GJ" "GREGORY J CHAITIN"}\
-					{"A Company Name" "" "" "\"A Company Name\""}\
-					{"A Company Name" "" "" "{A Company Name}"}\
- 					{"Cameron" "" "" "rcameron@citeulike.org (Cameron et al)"}\
- 					{"Cameron" "Richard" "RD" "Richard D Cameron"}\
- 					{"Cameron" "Richard" "RD" "Richard  D  Cameron"}\
- 					{"Florek" "" "HJ" "Florek, H.-J."}\
- 					{"Steves" "" "ABC" "Steves, A.B.C"}\
-					{"Cho-Vega" "Jeong" "JH" "Jeong Hee Cho-Vega"}\
-					{"Yeung" "Henry" "HW" "Henry Wai-chung Yeung"}\
-					{"Gladstein Ancona" "Deborah" "DA" "Deborah A. Gladstein Ancona"}\
-					{"Gladstein Ancona" "Deborah" "DA" "Gladstein Ancona, Deborah A."}\
-					{"Gladstein Ancona Bancona Anaconda" "Deborah" "DA" "Gladstein Ancona Bancona Anaconda, Deborah A."}\
-					{"Gladstein Ancona Bancona Anaconda" "" "DA" "Gladstein Ancona Bancona Anaconda, D. A."}\
-					{"The Science Project" "" "" "The Science Project"}\
-					{"On the Science Project" "" "" "On the Science Project"}\
- 					{"Florek" "" "HJ" "Florek , H.-J."}\
-					{"De La Paz" "Susan" "S" "De La Paz, Susan"}\
-					{"Ager" "" "JW" "J. W. Ager III"}\
-					{"Buchwald" "Stephen" "SL" "Stephen L. Buchwald"}\
-					{"Person" "" "I" "Person I"}\
-					{"Person" "" "I" "Person I."}\
- 					{"Steves" "" "BA" "Steves B.A."}\
-					{"Rumbaut" "" "RG" "Rumbaut,R. G."}\
-					{"Rumbaut" "" "RG" "Rumbaut, R. G."}\
-					{"Rumbaut" "" "RG" "Rumbaut,R. G"}\
-					{"Lino Cardenas" "Christian" "CL" "Lino Cardenas, Christian L."}\
-					{"Forster" "Malcolm" "MR" "Forster, Malcolm R."}\
-					{"DeKay" "Michael" "ML" "Michael L DeKay"}\
- 				   ]
+ 				{"Edozien" "Leroy" "LC" "Edozien, Leroy C"}\
+ 				{"Chaitin" "" "GJ" "G. J. Chaitin"} \
+ 				{"Chaitin" "" "GJ" "G. J. Chaitin	 "}\
+ 				{"Chaitin" "" "GJ" "    G. J. Chaitin"}\
+ 				{"Chaitin" "" "GJ" "    G. J. Chaitin    "}\
+				{"Chaitin" "" "GJ" "Prof. G. J. Chaitin"}\
+ 				{"Chaitin" "" "GJ" "Sir G. J. Chaitin"}\
+ 				{"Chaitin" "" "GJ" "Mister Prof. Dr. G. J. Chaitin"}\
+ 				{"Chaitin" "" "GJ" "Mister Prof. Dr. G. J. CHAITIN"}\
+ 				{"Chaitin" "" "GJ" "G. J. Chaitin Jnr."}\
+ 				{"Chaitin" "" "GJ" "G. J. Chaitin Sr"}\
+ 				{"Chaitin" "" "GJ" "G. J. Chaitin Sr."}\
+ 				{"Chaitin" "" "GJ" "G. J. Chaitin et al."}\
+ 				{"Ferreira" "Fernando" "F" "Fernando Ferreira"}\
+ 				{"Botz" "" "GW" "G.W.Botz"}\
+ 				{"D'Angelo" "Barbara" "BJ" "D'Angelo, Barbara J."}\
+ 				{"Moyo" "" "LM" "Moyo L.M."}\
+ 				{"Peyton-Jones" "Simon" "S" "Simon Peyton-Jones"}\
+ 				{"O'Donnell" "Jill" "J" "Jill O'Donnell"}\
+ 				{"Vonesch" "Jean-Luc" "J" "Jean-Luc Vonesch"}\
+ 				{"von Herrath" "Matthias" "M" "Matthias von Herrath"}\
+ 				{"O'Donnell-Tormey" "Jill" "J" "Jill O'Donnell-Tormey"}\
+ 				{"Smithers" "Waylon" "DW" "D Waylon Smithers"}\
+ 				{"Smithers" "Waylon" "DW" "D. Waylon Smithers"}\
+ 				{"Smithers" "Waylon" "DW" "Smithers, D Waylon"}\
+ 				{"von Herrath" "Matthias" "M" "Matthias von Herrath"}\
+ 				{"von Hoyningen-Huene" "Wolfgang" "W" "von Hoyningen-Huene, Wolfgang"}\
+ 				{"de Boer" "" "J" "de Boer, J."}\
+ 				{"van den Berg" "Debbie" "DLC" "Debbie L.C. van den Berg"}\
+ 				{"Botz" "" "GW" "Botz G. W.,"}\
+ 				{"" "" "" ""}\
+ 				{"Cameron" "" "" "Cameron"}\
+				{"Chaitin" "Gregory" "GJ" "GREGORY J CHAITIN"}\
+				{"A Company Name" "" "" "\"A Company Name\""}\
+				{"A Company Name" "" "" "{A Company Name}"}\
+ 				{"Cameron" "" "" "rcameron@citeulike.org (Cameron et al)"}\
+ 				{"Cameron" "Richard" "RD" "Richard D Cameron"}\
+ 				{"Cameron" "Richard" "RD" "Richard  D  Cameron"}\
+ 				{"Florek" "" "HJ" "Florek, H.-J."}\
+ 				{"Steves" "" "ABC" "Steves, A.B.C"}\
+				{"Cho-Vega" "Jeong" "JH" "Jeong Hee Cho-Vega"}\
+				{"Yeung" "Henry" "HW" "Henry Wai-chung Yeung"}\
+				{"Gladstein Ancona" "Deborah" "DA" "Deborah A. Gladstein Ancona"}\
+				{"Gladstein Ancona" "Deborah" "DA" "Gladstein Ancona, Deborah A."}\
+				{"Gladstein Ancona Bancona Anaconda" "Deborah" "DA" "Gladstein Ancona Bancona Anaconda, Deborah A."}\
+				{"Gladstein Ancona Bancona Anaconda" "" "DA" "Gladstein Ancona Bancona Anaconda, D. A."}\
+				{"The Science Project" "" "" "The Science Project"}\
+				{"On the Science Project" "" "" "On the Science Project"}\
+ 				{"Florek" "" "HJ" "Florek , H.-J."}\
+				{"De La Paz" "Susan" "S" "De La Paz, Susan"}\
+				{"Ager" "" "JW" "J. W. Ager III"}\
+				{"Buchwald" "Stephen" "SL" "Stephen L. Buchwald"}\
+				{"Person" "" "I" "Person I"}\
+				{"Person" "" "I" "Person I."}\
+ 				{"Steves" "" "BA" "Steves B.A."}\
+				{"Rumbaut" "" "RG" "Rumbaut,R. G."}\
+				{"Rumbaut" "" "RG" "Rumbaut, R. G."}\
+				{"Rumbaut" "" "RG" "Rumbaut,R. G"}\
+				{"Lino Cardenas" "Christian" "CL" "Lino Cardenas, Christian L."}\
+				{"Forster" "Malcolm" "MR" "Forster, Malcolm R."}\
+				{"DeKay" "Michael" "ML" "Michael L DeKay"}\
+				{"O'Connell" "Gary" "GIM" "Gary I M O'Connell"}\
+				{"O'Connell" "Gary" "GIM" "O'Connell, Gary I M"}\
+			]
 
-	#				{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
-	#				{"de la Vallee Poussin" "Charles" "CLXJ" "Charles Louis de la Vallee Poussin"}\
-	#				{"de la Vallee Poussin" "Charles" "CLXJ" "Charles Louis Xavier Joseph de la Vallee Poussin"}\
+	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
+	#			{"de la Vallee Poussin" "Charles" "CLXJ" "Charles Louis de la Vallee Poussin"}\
+	#			{"de la Vallee Poussin" "Charles" "CLXJ" "Charles Louis Xavier Joseph de la Vallee Poussin"}\
 
 
  	}
