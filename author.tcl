@@ -390,7 +390,12 @@ namespace eval author {
 	}
 
 
+	# TODO? should we skip this is the name is
+	# already mixed-case?
 	proc capitalize_name {name} {
+		if {[regexp {[a-z]} $name] && [regexp {[A-Z]} $name]} {
+			return $name
+		}
 		variable PREFIX2
 		foreach sub [split $name "-"] {
 			lappend ret [capitalize_name_part $sub]
@@ -482,6 +487,7 @@ namespace eval author {
 					{"Rumbaut" "" "RG" "Rumbaut,R. G"}\
 					{"Lino Cardenas" "Christian" "CL" "Lino Cardenas, Christian L."}\
 					{"Forster" "Malcolm" "MR" "Forster, Malcolm R."}\
+					{"DeKay" "Michael" "ML" "Michael L DeKay"}\
  				   ]
 
 	#				{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
