@@ -17,6 +17,8 @@ test {http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?tp=&isnumber=987&arnumber=2
 	formatted_url {{IEEE Explore} http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=26487}
 	abstract {The VHSIC Hardware Description Language (VHDL) is a formal notation intended for use in all phases of the creation of electronic systems. Because it is both machine readable and human readable, it supports the development, verification, synthesis, and testing of hardware designs, the communication of hardware design data, and the maintenance, modification, and procurement of hardware. The form of a VHDL description is described by means of context-free syntax together with context-dependent syntactic and semantic requirements expressed by narrative rules. The context-free syntax of the language is described using a simple variant of Backus-Naur Form}
 	year 1988
+	month 3
+	day 31
 	linkout {IEEE 26487 {} {} {}}
 	title "IEEE standard VHDL language reference manual"
 	type STD
@@ -33,10 +35,11 @@ test {http://ieeexplore.ieee.org/xpls/freeabs_all.jsp?arnumber=1350729} {
 	linkout	{DOI {} 10.1109/MC.2004.172 {} {}}
 	linkout	{IEEE 1350729 {} {} {}}
 	year	2004
+	month	11
+	day	01
 	type	JOUR
 	start_page	64
 	end_page	72
-	title_secondary	"Computer"
 	issue	10
 	title	"Meaningful modeling: what's the semantics of \"semantics\"?"
 	journal	"Computer"
