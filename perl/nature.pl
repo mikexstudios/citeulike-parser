@@ -1,6 +1,9 @@
 #!/usr/bin/env perl
 
 use LWP::Simple;
+use HTML::TreeBuilder;
+use Encode;
+
 
 #
 # Copyright (c) 2005 Richard Cameron, CiteULike.org
@@ -39,21 +42,116 @@ use LWP::Simple;
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
+binmode STDOUT, ":utf8";
 
 # Scrape the RIS file from the Nature.com site
 
 $url = <>;
 
+$page = get $url;
+
+my $tree = HTML::TreeBuilder->new();
+$tree->parse($page);
+
+my $head = ($tree->look_down('_tag','head'))[0];
+my @meta = $head->look_down('_tag','meta');
+
 print "begin_tsv\n";
+
+my $doi = 0;
+
+foreach $m (@meta) {
+	my $name = $m->attr("name");
+	my $content = $m->attr("content");
+	#print "$name = $content\n";
+	$name =~ /dc.identifier/ and do {
+		$content =~ s/doi://;
+		# sometimes see the DOI prefix twice!
+		$content =~ s/(10\.\d\d\d\d)\/(10\.\d\d\d\d)/$1/;
+		$doi = $content;
+	};
+	$name =~ /dc.date/ and do {
+		$content =~ /(\d\d\d\d)(?:(?:-)(\d\d)(?:(?:-)(\d\d))?)?/;
+		print "year\t$1\n" if $1;
+		print "month\t$2\n" if $2;
+		print "day\t$3\n" if $3;
+	};
+	# prism.issn = ERROR! NO ISSN
+	$name =~ /prism.issn/ and do {
+		print "issn\t$content\n" if $content =~ /\d+/;
+	};
+	$name =~ /dc.title/ and do {
+		print "title\t$content\n" if $content;
+	};
+	$name =~ /prism.startingPage/ and do {
+		print "start_page\t$content\n" if $content;
+	};
+	$name =~ /prism.endingPage/ and do {
+		print "end_page\t$content\n" if $content;
+	};
+	$name =~ /prism.volume / and do {
+		print "volume\t$content\n" if $content;
+	};
+	$name =~ /prism.number / and do {
+		print "issue\t$content\n" if $content;
+	};
+	$name =~ /dc.publisher/ and do {
+		print "publisher\t$content\n" if $content;
+	};
+	$name =~ /prism.publicationName/ and do {
+		print "journal\t$content\n" if $content;
+	};
+
+# abstract                  | abstract          | AB
+# address                   | address           | AD
+# chapter                   | chapter           |
+# date_other                |                   |
+# edition                   | edition           |
+# how_published             | howpublished      |
+# institution               | institution       |
+# isbn                      | isbn              | SN
+# issn                      | issn              | SN
+# issue                     | number            | IS
+# journal                   | journal           | JO
+# month                     |                   |
+# organization              | organization      |
+# school                    | school            |
+# title_secondary           | booktitle         | BT
+# title_series              | series            | T3
+# type                      |                   |
+
+}
+
+
+my $abstract = $tree->look_down( '_tag', 'span',
+	sub { $_[0]->attr("class") eq 'articletext' }
+);
+if ($abstract) {
+	$abstract = $abstract->as_text;
+} else {
+	@abstract = $tree->look_down( '_tag', 'p',
+		sub { $_[0]->attr("class") eq 'lead' }
+	);
+	if (@abstract) {
+		$abstract = join (" ", map {$_->as_text} @abstract );
+	}
+}
+
+
+if ($abstract) {
+	print "abstract\t$abstract\n";
+} else {
+	print "abstract\t\n";
+}
 
 # We can get the bog-standard Nature linkout from just looking at the URL
 
 if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([^/]+)/n([^/]+)/([^/]+)/([^/]+)(_[^._]+)?.(html|pdf|ris)})	 {
 # Old style
 	($journal,$vol,$num,$view_type,$article)=($1,$2,$3,$4,$5);
-} elsif ($url =~ m{www.nature.com/nphoton/journal/v([^/]+)/n([^/]+)/[^/]+/([^/_]+)\.(html|pdf|ris)}) {
-# Fix to get Nature photonics to parse
-	($journal,$vol,$num,$article)=("nphoton",$1,$2,$3);
+} elsif ($url =~ m{www.nature.com/(n\w+)/journal/v([^/]+)/n([^/]+)/[^/]+/([^/_]+)\.(html|pdf|ris)}) {
+# Fix to get Nature photonics/genetics to parse
+	($journal,$vol,$num,$article)=($1,$2,$3,$4);
 } elsif ($url =~ m{www.nature.com/([^/]+)/journal/v([^/]+)/n([^/]+s?)/[^/]+/([^/]+)(_[^._]+)?\.(html|pdf|ris)}) {
 #http://www.nature.com/ni/journal/vaop/ncurrent/abs/ni.1771.html
 	($journal,$vol,$num,$article)=($1,$2,$3,$4);
@@ -62,9 +160,11 @@ if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([^/]+)/n([^/]+)/([^/]+
 	exit;
 }
 
-if ($num !~ m{s}  && $num =~ /^\d+$/ && $vol =~ /^\d+$/) {
+#if ($num !~ m{s}  && $num =~ /^\d+$/ && $vol =~ /^\d+$/) {
 	print "linkout\tNATUR\t$vol\t$article\t$num\t$journal\n";
-}
+#}
+
+# http://www.nature.com/ng/journal/v38/n6s/abs/ng1798.html
 
 #print "http://www.nature.com/${journal}/journal/v${vol}/n${num}/ris/${article}.ris\n" ;
 
@@ -72,15 +172,14 @@ if ($num !~ m{s}  && $num =~ /^\d+$/ && $vol =~ /^\d+$/) {
 
 $ris = get "http://www.nature.com/${journal}/journal/v${vol}/n${num}/ris/${article}.ris" || (print "status\terr\tCouldn't fetch the citation details from the Nature web site.\n" and exit);
 
-# We never get abstracts, and the seem to put the DOI in the N1 field,
-# so override that.
-print "abstract\t\n";
 
 # Not sure why they give us this crap in the "date_other" field. Kill it.
 print "date_other\t\n";
 
-# We can extract a DOI if we're cunning, so that'll give us another linkout
-if ($ris =~ m{UR  - http://dx.doi.org/(.*)}) {
+if ($doi) {
+	print "linkout\tDOI\t\t$doi\t\t\n";
+} elsif ($ris =~ m{UR  - http://dx.doi.org/(.*)}) {
+	# We can extract a DOI if we're cunning, so that'll give us another linkout
 	print "linkout\tDOI\t\t$1\t\t\n";
 }
 

@@ -136,25 +136,29 @@ test {http://www.nature.com/nature/journal/v433/n7024/abs/nature03261.html} {
 	linkout {NATUR 433 nature03261 7024 nature}
 	linkout {DOI {} 10.1038/nature03261 {} {}}
 	volume 433
-	year 2005
 	type JOUR
 	start_page 395
 	end_page 399
+	year 2005
+	month 01
 	day 27
 	issue 7024
 	title {Strong polarization enhancement in asymmetric three-component ferroelectric superlattices}
 	journal Nature
 	serial 0028-0836
 	doi 10.1038/nature03261
+	publisher {Nature Publishing Group}
+	issn 0028-0836
 	url {http://dx.doi.org/10.1038/nature03261}
 	author {Lee Ho HN {Lee, Ho Nyung}}
 	author {Christen Hans HM {Christen, Hans M.}}
 	author {Chisholm Matthew MF {Chisholm, Matthew F.}}
 	author {Rouleau Christopher CM {Rouleau, Christopher M.}}
 	author {Lowndes Douglas DH {Lowndes, Douglas H.}}
-	month 1
+	abstract {Theoretical predictions—motivated by recent advances in epitaxial engineering—indicate a wealth of complex behaviour arising in superlattices of perovskite-type metal oxides. These include the enhancement of polarization by strain1, 2 and the possibility of asymmetric properties in three-component superlattices3. Here we fabricate superlattices consisting of barium titanate (BaTiO3), strontium titanate (SrTiO3) and calcium titanate (CaTiO3) with atomic-scale control by high-pressure pulsed laser deposition on conducting, atomically flat strontium ruthenate (SrRuO3) layers. The strain in BaTiO3 layers is fully maintained as long as the BaTiO3 thickness does not exceed the combined thicknesses of the CaTiO3 and SrTiO3 layers. By preserving full strain and combining heterointerfacial couplings, we find an overall 50% enhancement of the superlattice global polarization with respect to similarly grown pure BaTiO3, despite the fact that half the layers in the superlattice are nominally non-ferroelectric. We further show that even superlattices containing only single-unit-cell layers of BaTiO3 in a paraelectric matrix remain ferroelectric. Our data reveal that the specific interface structure and local asymmetries play an unexpected role in the polarization enhancement.}
 	status ok
 }
+
 
 test {http://www.nature.com/nature/journal/v435/n7043/full/435718a.html} {
 	linkout {NATUR 435 435718a 7043 nature}
@@ -164,16 +168,20 @@ test {http://www.nature.com/nature/journal/v435/n7043/full/435718a.html} {
 	serial 0028-0836
 	volume 435
 	year 2005
-	month 6
+	month 06
+	day 08
 	type JOUR
 	start_page 718
 	url http://dx.doi.org/10.1038/435718a
+	publisher {Nature Publishing Group}
 	end_page 719
 	doi 10.1038/435718a
 	issue 7043
 	title {Chemistry society goes head to head with NIH in fight over public database}
 	journal Nature
 	author {Marris Emma E {Marris, Emma}}
+	issn 0028-0836
+	abstract {Free molecule registry triggers the wrath of a larger, fee-based effort. Many chemists might not know it, but the organization that represents them in the United States is fighting to limit their free access to chemical information. The American Chemical Society says that a new publicly funded database of molecules threatens its own fee-based Chemical Abstracts Service (CAS), and it is lobbying politicians to restrict the free version.}
 	status ok
 }
 
@@ -191,13 +199,16 @@ test {http://www.nature.com/nchembio/journal/v1/n2/pdf/nchembio0705-69.pdf} {
 	end_page 70
 	doi 10.1038/nchembio0705-69
 	issue 2
+	publisher {Nature Publishing Group}
 	title {A photochemical snapshot of CD22 binding}
 	journal {Nat Chem Biol}
 	author {Yarema Kevin KJ {Yarema, Kevin J}}
 	author {Sun Zhonghui Z {Sun, Zhonghui}}
-	month 7
+	month 07
+	day 01
 	status ok
 }
+
 
 test {http://www.nature.com/nphoton/journal/v1/n2/full/nphoton.2007.2.html} {
 	linkout {NATUR 1 nphoton.2007.2 2 nphoton}
@@ -213,15 +224,18 @@ test {http://www.nature.com/nphoton/journal/v1/n2/full/nphoton.2007.2.html} {
 	end_page 128
 	doi 10.1038/nphoton.2007.2
 	issue 2
+	issn 1749-4885
 	title {Morpho butterfly wing scales demonstrate highly selective vapour response}
-	journal {Nat Photon}
+	journal {Nature Photonics}
+	publisher {Nature Publishing Group}
 	author {Potyrailo Radislav RA {Potyrailo, Radislav A.}}
 	author {Ghiradella Helen H {Ghiradella, Helen}}
 	author {Vertiatchikh Alexei A {Vertiatchikh, Alexei}}
 	author {Dovidenko Katharine K {Dovidenko, Katharine}}
 	author {Cournoyer James JR {Cournoyer, James R.}}
 	author {Olson Eric E {Olson, Eric}}
-	month 2
+	month 02
+	day 01
 	status ok
 }
 
