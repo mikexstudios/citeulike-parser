@@ -1251,10 +1251,17 @@ namespace eval author {
 	# TODO? should we skip this is the name is
 	# already mixed-case?
 	proc capitalize_name {name} {
+		variable PREFIX2
+		variable SPECIAL
 		if {[regexp {[a-z]} $name] && [regexp {[A-Z]} $name]} {
 			return $name
 		}
-		variable PREFIX2
+		# We do this test for each name part, but some special cases
+		# have hyphens, etc so try at the "global" level first
+		if {[info exists SPECIAL([string tolower $name])]} {
+			return $SPECIAL([string tolower $name])
+		}
+
 		foreach sub [split $name "-"] {
 			lappend ret [capitalize_name_part $sub]
 		}
@@ -1351,8 +1358,11 @@ namespace eval author {
 				{"McDonald" "Gary" "GIM" "MCDONALD, GARY I M"}\
 				{"MacDonald" "Gary" "GIM" "MACDONALD, GARY I M"}\
 				{"d'Hurst" "Gary" "GIM" "d'Hurst, GARY I M"}\
+				{"VanDer Zweep" "Gary" "GIM" "VanDer Zweep, GARY I M"}\
+				{"vander Wulp" "Gary" "GIM" "vander Wulp, GARY I M"}\
+				{"de la Vallee Poussin" "Charles" "CL" "de la Vallee Poussin, Charles Louis"}\
 			]
-
+	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "Charles Louis de la Vallee Poussin"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "Charles Louis Xavier Joseph de la Vallee Poussin"}\
