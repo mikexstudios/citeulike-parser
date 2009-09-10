@@ -6,7 +6,7 @@ use LWP;
 use HTTP::Request::Common;
 
 #
-# Copyright (c) 2000 CiteULike.org
+# Copyright (c) 2009 CiteULike.org
 # All rights reserved.
 #
 # This code is derived from software contributed to CiteULike.org
@@ -42,6 +42,8 @@ use HTTP::Request::Common;
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+
+binmode STDOUT, ":utf8";
 
 my $ua = LWP::UserAgent->new;
 
