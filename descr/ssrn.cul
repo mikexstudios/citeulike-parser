@@ -39,7 +39,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-  regexp {^http://((papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+)|(.*\.ssrn.com/abstract=\d+))}
+  regexp {^http://((papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+)|((.*\.)?ssrn.com/abstract=\d+))}
 }
 
 #
