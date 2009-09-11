@@ -39,7 +39,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-  regexp {^http://((papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+)|((.*\.)?ssrn.com/abstract=\d+))}
+	regexp {^http://((papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+)|((.*\.)?ssrn.com/abstract=\d+))}
 }
 
 #
@@ -79,7 +79,7 @@ format_linkout SSRN {
 test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=161637} {
     formatted_url {{SSRN (abstract)} http://ssrn.com/abstract=161637}
     formatted_url {{SSRN (pdf)} http://papers.ssrn.com/sol3/Delivery.cfm/99042103.pdf?abstractid=161637&mirid=1}
-    author {Lott John JR {Lott, John  R., Jr.}}
+    author {Lott John JR {Lott, John R., Jr.}}
     author {Landes William WM {Landes, William M.}}
     linkout {SSRN 161637 99042103 {} {}}
     url {http://ssrn.com/abstract=161637}
@@ -98,7 +98,7 @@ test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=161637} {
 test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=15108} {
     formatted_url {{SSRN (abstract)} http://ssrn.com/abstract=15108}
     formatted_url {{SSRN (pdf)} http://papers.ssrn.com/sol3/Delivery.cfm/9704241.pdf?abstractid=15108&mirid=1}
-    author {Fama Eugene EF {Fama, Eugene  F.}}
+    author {Fama Eugene EF {Fama, Eugene F.}}
     linkout {SSRN 15108 9704241 {} {}}
     url {http://ssrn.com/abstract=15108}
     journal {Social Science Research Network Working Paper Series}
@@ -114,6 +114,25 @@ test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=15108} {
 }
 
 test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=642123} {
+
+	linkout {SSRN 642123 SSRN_ID895021_code434400 {} {}}
+	year 2005
+	url {http://ssrn.com/abstract=642123}
+	doi {10.2139/ssrn.642123}
+	day 03
+	formatted_url {{SSRN (abstract)} http://ssrn.com/abstract=642123}
+	formatted_url {{SSRN (pdf)} http://papers.ssrn.com/sol3/Delivery.cfm/SSRN_ID895021_code434400.pdf?abstractid=642123&mirid=1}
+	title {Marking the Software Patent Beast}
+	journal {Social Science Research Network Working Paper Series}
+	abstract {The literature of software patents has thus far tried to directly address whether software patents increase innovation. The wholesale reform papers have persuaded neither the courts nor Congress, perhaps due to the unfortunate dearth of economic data.  This paper starts from the proposition that software patents are, practically speaking, hidden away in the recesses of the patent office and practically impossible to find. It proceeds under the first economic principles of the patent system to argue that there can be no justification for patenting software when the public has no knowledge of the patents' scope or technical disclosure. It concludes by observing that patent law already provides a mechanism for disclosing patents to the public, the marking requirement, and proposes putting teeth into it so that holders of software patents would be required to play by the same rules as holders of other kinds of patents.}
+	month January
+	author {Lindholm Stephen SB {Lindholm, Stephen B.}}
+	publisher SSRN
+	type JOUR
+	status ok
+}
+
+test {http://ssrn.com/abstract=642123} {
 
 	linkout {SSRN 642123 SSRN_ID895021_code434400 {} {}}
 	year 2005
