@@ -39,7 +39,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-  regexp {^http://papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+}
+  regexp {^http://((papers\.ssrn\.com/sol3/papers.cfm\?abstract_id=[0-9]+)|(.*\.ssrn.com/abstract=\d+))}
 }
 
 #
@@ -114,9 +114,9 @@ test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=15108} {
 }
 
 test {http://papers.ssrn.com/sol3/papers.cfm?abstract_id=642123} {
-	
+
 	linkout {SSRN 642123 SSRN_ID895021_code434400 {} {}}
-	year 2005	
+	year 2005
 	url {http://ssrn.com/abstract=642123}
 	doi {10.2139/ssrn.642123}
 	day 03

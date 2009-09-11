@@ -10,7 +10,7 @@ url = gets.strip
 
 doc = Hpricot(open(url, "User-Agent" => "lwp-request/5.810"))
 
-url.match(/abstract_id=(\d+)/)
+url.match(/abstract(?:_id)?=(\d+)/)
 id = $1
 
 #<BEGIN_RIS>###########################################################
@@ -50,7 +50,7 @@ ris = (meta/"//input[@name='hdnContent']")
 puts "begin_tsv"
 
 #
-# Look PDF "filename" from a 
+# Look PDF "filename" from a
 # <a href="/Delivery.cfm/xxxxxx.pdf......">
 #
 filename=""
