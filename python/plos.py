@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python -W ignore::DeprecationWarning
 # parse a PLoS for CiteULike.org
 # fetch the RIS citation provided by PLoS journals
 # C.Ladroue
@@ -8,7 +8,12 @@ from urllib2 import urlopen
 from urlparse import urlparse
 import sys, re, urllib
 from utils import decode_entities
+import BeautifulSoup
+import htmlentitydefs
+import html5lib
+from html5lib import treebuilders
 
+#http://medicine.plosjournals.org/perlserv/?request=get-document&doi=10.1371%2Fjournal.pmed.0020124
 def url2doi(url):
 	""" Look for any instance of a DOI in the URL """
 	urluq = urllib.unquote(url)
@@ -17,7 +22,11 @@ def url2doi(url):
 		return m.group(0)
 	return None
 
-def fetch_pmid(hostname, doi):
+def fetch_pmid(page, hostname, doi):
+	m = re.search(r'=([0-9]+)&dopt=Citation" class="ncbi" title="View PubMed Record', page)
+	if m:
+		return int(m.group(1))
+
 	url = "http://%s/perlserv/?request=get-document&doi=%s" % (hostname,urllib.quote(doi))
 	page = urlopen(url).read()
 
@@ -79,6 +88,12 @@ def bail(msg):
 
 def main():
 	url = sys.stdin.readline().strip()
+
+	# open the URL (just HEAD?) to follow redirects
+	f = urllib.urlopen(url)
+	url =  f.geturl()
+	page = f.read()
+
 	hostname = urlparse(url)[1]
 
 	doi = url2doi(url)
@@ -94,12 +109,31 @@ def main():
 
 	emit("begin_tsv")
 
+	# try harder to get a good abstract
+	try:
+		parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+		soup = parser.parse(page)
+		div = soup.find('div',attrs={'class':'abstract'})
+		if div:
+			h2 = div.find("h2")
+			if h2 and re.search(r'Abstract',  h2.contents[0]):
+				p = div.find("p")
+				abs = []
+				for t in p.findAll(text=True):
+					abs.append(t)
+				abs = " ".join(abs).strip()
+				abs = re.sub(r"\s+", " ", abs)
+				emit("abstract",abs)
+	except:
+		pass
+
+
 	# Use the DOI as the linkout
 	emit("linkout", "DOI", "", doi, "", "")
 
 	if "/perlserv" in url:
 		# See if we have a pubmed ID
-		pmid = fetch_pmid(hostname, doi)
+		pmid = fetch_pmid(page, hostname, doi)
 		if pmid:
 			emit("linkout", "PMID", "%d" % pmid, "", "", "")
 
