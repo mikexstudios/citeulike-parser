@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import re, sys, urllib2, cookielib
+import re, sys, urllib2, cookielib,sys
 from urlparse import urlparse
 from urllib import urlencode
 from urllib2 import urlopen
@@ -21,6 +21,8 @@ url = sys.stdin.readline()
 # get rid of the newline at the end
 url = url.strip()
 
+
+
 cookie_jar = cookielib.CookieJar()
 
 handlers = []
@@ -31,6 +33,17 @@ handlers.append( urllib2.HTTPCookieProcessor(cookie_jar) )
 opener=urllib2.build_opener(*handlers)
 opener.addheaders = [('User-agent', 'lwp-request/5.810')]
 urllib2.install_opener(opener)
+
+if re.search(r'/doi/',url):
+	#print "resolving",url
+	f = urlopen(url)
+	url =  f.geturl()
+	#print "resolved as ",url
+	if not re.match(r'http://[^/]*(prola|aps)[^/]*/(abstract|doi)', url):
+		print "status\tredirect\t%s" %  url
+		sys.exit(0)
+
+
 
 # we'll be given a url of the form http://prola.aps.org/abstract/PRA/v18/i3/p787_1
 #  http://prola.aps.org/abstract/journal/volume/issue/page

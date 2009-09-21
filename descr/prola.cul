@@ -1,4 +1,4 @@
-# Modified from original code by 
+# Modified from original code by
 # 	author {Eric Moore}
 #	email {ewm-list@redtetrahedron.org}
 
@@ -10,7 +10,7 @@ plugin {
 	author {Fergus Gallagher}
 	email {fergus.gallagher@citeulike.org}
 	language {python}
-	regexp {http://[^/]*(prola|aps)[^/]*/abstract}
+	regexp {http://[^/]*(prola|aps)[^/]*/(abstract|doi)}
 }
 
 format_linkout PROLA {
@@ -21,7 +21,7 @@ format_linkout PROLA {
 			  ]
 }
 
-# 1 Reviews of Modern Physics 
+# 1 Reviews of Modern Physics
 test {http://prola.aps.org/abstract/RMP/v66/i3/p1105_1} {
 	formatted_url {{APS (abstract)} http://link.aps.org/abstract/RMP/v66/i3/p1105_1}
 	formatted_url {{APS (pdf)} http://link.aps.org/pdf/RMP/v66/i3/p1105_1}
