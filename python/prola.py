@@ -21,8 +21,6 @@ url = sys.stdin.readline()
 # get rid of the newline at the end
 url = url.strip()
 
-
-
 cookie_jar = cookielib.CookieJar()
 
 handlers = []
@@ -34,12 +32,16 @@ opener=urllib2.build_opener(*handlers)
 opener.addheaders = [('User-agent', 'lwp-request/5.810')]
 urllib2.install_opener(opener)
 
+# link.aps.org/doi is basically a DOI resolver, but not necessarily to
+# aps.org
 if re.search(r'/doi/',url):
-	#print "resolving",url
 	f = urlopen(url)
+	# Open the URL, which automatically follows redirects.
+	# I think this just does similar to HEAD (i.e, no data downloaded)
+	# but not sure.
 	url =  f.geturl()
-	#print "resolved as ",url
-	if not re.match(r'http://[^/]*(prola|aps)[^/]*/(abstract|doi)', url):
+	# if not an APS url we can handle, let another plugin handle it
+	if not re.match(r'http://[^/]*(prola|aps)[^/]*/abstract', url):
 		print "status\tredirect\t%s" %  url
 		sys.exit(0)
 
@@ -52,19 +54,15 @@ if re.search(r'/doi/',url):
 # should we prefer one to the other?
 
 host = 'http://'+ urlparse(url).netloc
-# host = 'http://prola.aps.org'
 
 address = url.split('abstract')[1]
 
-#risurl = host +'/export' + address + '?type=ris'
 bibtexurl = host +'/export' + address + '?type=bibtex'
 try:
-#	f = urlopen(risurl);
 	f = urlopen(bibtexurl);
 except:
 	print ERR_STR_PREFIX + ERR_STR_FETCH + bibtexurl + '.  ' + ERR_STR_TRY_AGAIN
 	sys.exit(1)
-#ris = f.read()
 bibtex = f.read()
 bibtex = bibtex.split('\n',2)[2]
 bibtex = re.sub(r'\\ifmmode .*?\\else (.*?)\\fi\{\}',r'\1',bibtex)
@@ -98,7 +96,6 @@ if match:
 # I don't ever expect that we should get to the else clause.  If the re is
 # going to fail, we've probably failed to get the ris earlier.
 
-#match = re.search(r"""^ID\s*-\s*(10\..*)""", ris, re.MULTILINE)
 match = re.search(r"""^  doi = \{(10\..*)\},$""", bibtex, re.MULTILINE)
 if match:
 	doi = match.group(1)
@@ -119,7 +116,7 @@ else:
 #Phys. Rev. ST Accel. Beams	http://prst-ab.aps.org/ PRSTAB
 #Rev. Mod. Phys.	http://rmp.aps.org/ RMP
 #PROLA Archive	http://prola.aps.org/ PR
-# ??? PRI
+#Physical Review (Series I) PRI
 
 journal_key = address.split("/")[1]
 
@@ -136,10 +133,6 @@ journalmap = {'PRA' : 'Physical Review A',
               'PRSTPER' : 'Phys. Rev. ST Phys. Educ. Res.'
              }
 journal = journalmap[journal_key]
-#try:
-#	journal = journalmap[address[1:4]]
-#except KeyError:
-#	journal = "APS Journal"
 
 print 'begin_tsv'
 print 'journal\t' + journal
@@ -149,11 +142,7 @@ print "linkout\tPROLA\t\t%s\t\t" % (address[1:])
 print "linkout\tDOI\t\t%s\t\t" % (doi)
 print 'doi\t' + doi
 print 'end_tsv'
-#print 'begin_ris'
-#print ris
-#print 'end_ris'
 print 'begin_bibtex'
 print bibtex
 print 'end_bibtex'
 print 'status\tok'
-
