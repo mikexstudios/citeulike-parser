@@ -152,7 +152,7 @@ if ($source_abstract) {
 $ok || (print "status\terr\t (2 $url_abstract) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 if (!$doi) {
-	if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_doi"\s*/>}) {
+	if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_doi"\s*/?>}) {
 		$doi = $1;
 	} elsif ($source_abstract =~ m!<meta name="citation_doi" content="([^"]+)">!) {
 		$doi = $1;
@@ -162,17 +162,25 @@ if (!$doi) {
 }
 
 if (!$pmid) {
-	if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_pmid"\s*/>}) {
+	if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_pmid"\s*/?>}) {
+		$pmid = $1;
+	} elsif ($source_abstract =~ m{<meta\s+name="citation_pmid"\s*content="([^"]+)"\s*/?>}) {
 		$pmid = $1;
 	} elsif ($source_abstract =~ m{access_num=([0-9]+)&link_type=PUBMED}) {
 		$pmid = $1;
 	}
 }
 
-if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/>}) {
-	$mjid = $1;
-	$mjid =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-	$link_refman = "http://"."$journal_site"."/citmgr?type=refman&gca=".$mjid;
+$mjid = "";
+if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/?>}) {
+	$mjid=$1;
+} elsif ($source_abstract =~ m{<meta\s+name="citation_mjid"\s*content="([^"]+)"\s*/?>}){
+	$mjid=$1;
+}
+
+if ($mjid) {
+	# $mjid =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
+	$link_refman = "http://"."$journal_site"."/cgi/citmgr?type=refman&gca=".$mjid;
 
 	# Make up new hiwire linkout here
 	if (!$hiwire) {
@@ -182,7 +190,7 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/>}
 			$hiwire = "$journal_site/content/$volume/$page";
 		}
 	}
-} elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd) to [C|c]itation [M|m]anager)|(Download Citation))}) {
+} elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd|[S]ave) to [C|c]itation [M|m]anager)|(Download Citation))}) {
 	$link_citmgr = $1;
 	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
 
@@ -198,8 +206,10 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/>}
 
 #Get the reference manager RIS file and check retrieved file
 
+#print "$link_refman\n";
 $refman = $ua->get("$link_refman") || (print "status\terr\t (5)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
 $ris = $refman->content;
+
 
 unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from HighWire's 'export citation'\n" and exit;
