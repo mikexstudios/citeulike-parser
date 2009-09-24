@@ -180,7 +180,8 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/?>
 
 if ($mjid) {
 	# $mjid =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
-	$link_refman = "http://"."$journal_site"."/cgi/citmgr?type=refman&gca=".$mjid;
+	$link_refman1 = "http://"."$journal_site"."/cgi/citmgr?type=refman&gca=".$mjid;
+	$link_refman2 = "http://"."$journal_site"."/citmgr?type=refman&gca=".$mjid;
 
 	# Make up new hiwire linkout here
 	if (!$hiwire) {
@@ -196,7 +197,8 @@ if ($mjid) {
 
 	$source_citmgr = get("$link_citmgr") || (print "status\terr\t (2.5) Could not retrieve information from the citation manager page.\n" and exit);
 	if ($source_citmgr =~ m{"(.*)">\s*<STRONG>Reference<BR><NOBR>Manager}) {
-		$link_refman = "http://"."$journal_site"."$1";
+		$link_refman1 = "http://"."$journal_site"."$1";
+		$link_refman2 = "";
 	} else {
 		print "status\terr\t (3) Could not find the citation details on this page. Try posting the article from the abstract page.\n" and exit;
 	}
@@ -206,12 +208,18 @@ if ($mjid) {
 
 #Get the reference manager RIS file and check retrieved file
 
-#print "$link_refman\n";
-$refman = $ua->get("$link_refman") || (print "status\terr\t (5)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
+print "(1) $link_refman1\n";
+$refman = $ua->get("$link_refman1") || (print "status\terr\t (5)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
 $ris = $refman->content;
 
+if ($ris !~ m{ER\s+-}) {
+	print "(2) $link_refman2 \n";
+	$refman = $ua->get("$link_refman2") || (print "status\terr\t (6)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
+	$ris = $refman->content;
+	print $ris;
+}
 
-unless ($ris =~ m{ER\s+-}) {
+if ($ris !~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from HighWire's 'export citation'\n" and exit;
 }
 
