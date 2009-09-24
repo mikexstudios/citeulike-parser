@@ -208,12 +208,10 @@ if ($mjid) {
 
 #Get the reference manager RIS file and check retrieved file
 
-print "(1) $link_refman1\n";
 $refman = $ua->get("$link_refman1") || (print "status\terr\t (5)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
 $ris = $refman->content;
 
 if ($ris !~ m{ER\s+-}) {
-	print "(2) $link_refman2 \n";
 	$refman = $ua->get("$link_refman2") || (print "status\terr\t (6)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
 	$ris = $refman->content;
 	print $ris;
