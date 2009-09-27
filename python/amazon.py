@@ -115,7 +115,12 @@ def fetch(domain, asin):
 		raise UserException, str(e)
 	if not pages:
 		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
-	num = getattr(pages, "NumberOfItems")
+
+	try:
+		num = getattr(pages, "NumberOfItems")
+	except AttributeError:
+		num = '1'
+
 	if num == '0':
 		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
 	if num != '1':
@@ -126,7 +131,6 @@ def fetch(domain, asin):
 #		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
 #	if len(pages)==0:
 #		pass
-
 	page = pages
 
 	field_map = [
@@ -136,6 +140,8 @@ def fetch(domain, asin):
 		(['Edition'], 'edition'),
 		(['Binding'], 'how_published'),
 		]
+
+
 
 	amazon_type = extract(page, ["ProductGroup"])
 	if amazon_type!="Book":
