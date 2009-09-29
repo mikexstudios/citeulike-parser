@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 # coding: utf-8
 #
 # Scraper for JSTAGE (Japanese Science and Technogy Information Aggregator, Electronic

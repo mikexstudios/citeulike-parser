@@ -1,4 +1,7 @@
-#!/usr/bin/python2.5 -W ignore::DeprecationWarning
+#!/usr/bin/env python
+import warnings
+warnings.simplefilter("ignore",DeprecationWarning)
+
 # parse a PLoS for CiteULike.org
 # fetch the RIS citation provided by PLoS journals
 # C.Ladroue

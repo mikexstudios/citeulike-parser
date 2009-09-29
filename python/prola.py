@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 
 import re, sys, urllib2, cookielib,sys
 from urlparse import urlparse

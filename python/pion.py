@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 
 import re, sys, urlparse, urllib2
 from cultools import urlparams, bail

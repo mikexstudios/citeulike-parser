@@ -1,4 +1,4 @@
-#!/usr/bin/python2.5
+#!/usr/bin/python
 # parse a JstatSoft URL for CiteULike.org
 # URL is expected to be of the form http:\/\/www\.jstatsoft\.org\/[a-z][0-9]+\/[a-z][0-9]+
 # Append /bibtex to the url, parse out the bibtex and pass it on.
