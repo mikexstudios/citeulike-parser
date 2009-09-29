@@ -1,4 +1,4 @@
-#!/usr/bin/python -W ignore::DeprecationWarning
+#!/usr/local/bin/python2.6 -W ignore::DeprecationWarning
 
 import os, sys, re, urllib2, cookielib, string
 from urllib import urlencode
