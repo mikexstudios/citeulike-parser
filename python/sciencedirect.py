@@ -1,4 +1,6 @@
-#!/usr/local/bin/python2.6 -W ignore::DeprecationWarning
+#!/usr/bin/env python2.6
+import warnings
+warnings.simplefilter("ignore",DeprecationWarning)
 
 import os, sys, re, urllib2, cookielib, string
 from urllib import urlencode
