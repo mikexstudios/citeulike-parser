@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 import re, sys, urllib2, cookielib
 
 # regexp to extract the scopus eid of the article from the url

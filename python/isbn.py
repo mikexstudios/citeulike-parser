@@ -4,9 +4,9 @@ def verify(s):
 	"""Takes a string and validates it to work out whether it's an ISBN or not"""
 	# Remove any spurious characters
 	s = re.sub(r'[^0-9xX]', '', s).upper().strip()
-	
+
 	l = len(s)
-	
+
 	if l==10:
 		if verify_10(s):
 			return s
@@ -20,7 +20,7 @@ def verify(s):
 def hunt(s):
 	"""Hunts through a string and yields things which look
 	like ISBNs"""
-	
+
 	# ISBN-13s
 	for regexp in [r'(?:[^0-9]|^)((?:[0-9]-*){12}[0-9X])(?:[^0-9X]|$)',
 				   r'(?:[^0-9]|^)((?:[0-9]-*){9}[0-9X])(?:[^0-9X]|$)']:
@@ -34,13 +34,13 @@ def verify_10(s):
 	for (i, digit) in enumerate(int(c) for c in s[:-1]):
 		sum += (i+1) * digit
 	comp_checksum = sum % 11
-		
+
 	observed_checksum = s[-1]
 	if observed_checksum=='X':
 		observed_checksum=10
 	else:
 		observed_checksum=int(observed_checksum)
-		
+
 	return comp_checksum == observed_checksum
 
 def verify_13(s):

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 
 # Copyright (c) 2008 Fergus Gallagher <fergus.gallagher@citeulike.org>
 # All rights reserved.

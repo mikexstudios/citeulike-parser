@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 # parse EGU journal html and return bibliographic information
 # (c) Jan Cermak, 2009, jan.cermak@env.ethz.ch
 # in part following agu.py and http://www.boddie.org.uk/

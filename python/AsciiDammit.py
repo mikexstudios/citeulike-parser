@@ -89,7 +89,7 @@ CHARS = { '\x80' : ('EUR', 'euro'),
           '\xbc' : ('1/4', 'frac14'),
           '\xbd' : ('1/2', 'frac12'),
           '\xbe' : ('3/4', 'frac34'),
-          '\xbf' : ('?', 'iquest'),          
+          '\xbf' : ('?', 'iquest'),
           '\xc0' : ('A', "Agrave"),
           '\xc1' : ('A', "Aacute"),
           '\xc2' : ('A', "Acirc"),
@@ -166,7 +166,7 @@ ONLY_WINDOWS = _makeRE('9f')
 def _replHTML(match):
     "Replace the matched character with its HTML equivalent."
     return _repl(match, 1)
-          
+
 def _repl(match, html=0):
     "Replace the matched character with its HTML or ASCII equivalent."
     g = match.group(0)

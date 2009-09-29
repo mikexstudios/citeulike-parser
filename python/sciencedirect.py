@@ -1,4 +1,5 @@
 #!/usr/bin/env python2.6
+# NOTE THIS NEEDS 2.6 as parser breaks with 2.5 :-)
 import warnings
 warnings.simplefilter("ignore",DeprecationWarning)
 

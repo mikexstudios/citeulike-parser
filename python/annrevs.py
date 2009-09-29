@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 
 # Copyright (c) 2006 Kristinn B. Gylfason <citeulike@askur.org>
 # All rights reserved.

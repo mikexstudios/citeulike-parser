@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 
 #
 # Copyright (c) 2005 Diwaker Gupta
