@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
 # Copyright (c) 2008 Oversity Ltd.
 # All rights reserved.

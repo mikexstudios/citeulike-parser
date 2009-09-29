@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
 # Copyright (c) 2008 Fergus Gallagher <fergus.gallagher@citeulike.org>
 # All rights reserved.
@@ -37,7 +37,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-import re, sys, urllib, urllib2, cookielib 
+import re, sys, urllib, urllib2, cookielib
 
 CITATION_SERVER_ROOT = 'http://www.journals.uchicago.edu/action/downloadCitation'
 DOI_URL_SEP ='%2F'
@@ -95,7 +95,7 @@ except:
 
 bibtex_entry = f.read().strip()
 
-# get rid of the session id in the url 
+# get rid of the session id in the url
 url_pat = re.compile(r';jsessionid.*$',re.MULTILINE)
 bibtex_entry = re.sub(url_pat,'',bibtex_entry)
 # Give the article a proper ID

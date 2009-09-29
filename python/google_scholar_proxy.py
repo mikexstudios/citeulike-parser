@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-import re, sys, urllib, urllib2, cookielib 
+#!/usr/bin/env python2.5
+import re, sys, urllib, urllib2, cookielib
 from BeautifulSoup import BeautifulSoup, Tag
 from urllib2 import HTTPError
 import BaseHTTPServer
@@ -31,7 +31,7 @@ if testing == 0:
 		except:
 			print "Google Scholar error (1)", sys.exc_info()[0]
 			sys.exit(0)
-		
+
 		if msg:
 			print ("Google Scholar error: %s %s (%s)" % (code, msg[0], msg[1]))
 		else:
@@ -72,7 +72,7 @@ for item in items:
 		continue
 	if not a['href']:
 		continue
-		
+
 	cul = Tag(soup, "a")
 
 	cul['href'] = "/posturl?url="+urllib.quote(a['href'])
@@ -80,7 +80,7 @@ for item in items:
 	img['src']="http://static.citeulike.org/favicon.gif"
 	img['style']="border:0"
 	cul.insert(0,img)
-	wspan.insert(99, cul)	
+	wspan.insert(99, cul)
 #	print wspan.prettify()
 
 if testing == 0:

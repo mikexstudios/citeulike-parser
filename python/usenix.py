@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
 #
 # Copyright (c) 2005 Diwaker Gupta
@@ -62,7 +62,7 @@ if author_m != None:
     if len(tmp) > 1:
         authors = tmp[0].split(", ")
         if authors[len(authors)-1]=='':
-            authors = authors[:len(authors)-1] 
+            authors = authors[:len(authors)-1]
             authors.append(tmp[1])
         else:
             authors = tmp

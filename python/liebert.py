@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
 # Copyright (c) 2006 Kristinn B. Gylfason <citeulike@askur.org>
 # Copyright (c) 2007 Dr. Nathan Edwards
@@ -40,7 +40,7 @@
 #
 
 
-import re, sys, urllib, urllib2, cookielib 
+import re, sys, urllib, urllib2, cookielib
 
 CITATION_SERVER_ROOT = 'http://www.liebertonline.com/action/downloadCitation'
 DOI_URL_SEP ='%2F'
@@ -98,7 +98,7 @@ except:
 
 bibtex_entry = f.read().strip()
 
-# get rid of the session id in the url 
+# get rid of the session id in the url
 url_pat = re.compile(r';jsessionid.*$',re.MULTILINE)
 bibtex_entry = re.sub(url_pat,'',bibtex_entry)
 # Give the article a proper ID
@@ -116,7 +116,7 @@ if m:
 		fs = map(lambda s: s.strip(),rest.split())
 		for f in fs:
 			if re.search(r'-',f):
-				bibtex_entry = re.sub( r'%s'%re.escape(f), r'{%s}'%f, bibtex_entry)	
+				bibtex_entry = re.sub( r'%s'%re.escape(f), r'{%s}'%f, bibtex_entry)
 
 # print the results
 print "begin_tsv"

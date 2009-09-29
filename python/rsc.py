@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
-# Copyright (c) 2008 Kristinn B. Gylfason <citeulike@askur.org>, 
+# Copyright (c) 2008 Kristinn B. Gylfason <citeulike@askur.org>,
 
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
-# Foundation, version 2 of the License.  
+# Foundation, version 2 of the License.
 
 # This program is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
@@ -32,7 +32,7 @@ ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
 # read url from std input an get rid of the newline at the end
 url = sys.stdin.readline().strip()
 
-# parse the article details from the url 
+# parse the article details from the url
 src_query = cgi.parse_qs(urlparse.urlparse(url)[QUERY])
 if src_query.has_key('doi'):
     REQ_DATA['article_id'] = src_query['doi'][0]

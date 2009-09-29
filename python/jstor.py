@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
 #
 # Copyright (c) 2008 Richard Cameron
@@ -62,14 +62,14 @@ def url_to_id(url):
 
 def grab_bibtex(id):
 	url = "http://www.jstor.org/action/downloadCitation?format=bibtex&include=abs"
-	params = { 
+	params = {
 		'noDoi' : 'yesDoi',
 		'doi' : '10.2307/%s' % id,
 		'suffix' : id,
 		'downloadFileName' : id }
 
 	page = urlopen(url, urllib.urlencode(params)).read()
-	
+
 	# Remove the random junk found in the record
 	m = re.search(r'@comment{{NUMBER OF CITATIONS : 1}}(.*)@comment{{ These records have been provided', page, re.M|re.DOTALL)
 	if m:
@@ -89,7 +89,7 @@ def main(id):
 	if not id:
 		print "\t".join([ "status", "err", "Could not identify this as being a JSTOR article" ])
 		sys.exit(1)
-		
+
 	print "begin_tsv"
 	print "\t".join([ "linkout", "JSTR2", "%d"%id, "", "", ""])
 	print "\t".join([ "linkout", "DOI", "", "10.2307/%d"%id, "", ""])
@@ -100,7 +100,7 @@ def main(id):
 	print "end_bibtex"
 
 	print "status\tok"
-	
+
 if __name__=="__main__":
 	import sys
 	url = sys.stdin.readline().strip()

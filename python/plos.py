@@ -1,4 +1,4 @@
-#!/usr/bin/python -W ignore::DeprecationWarning
+#!/usr/bin/python2.5 -W ignore::DeprecationWarning
 # parse a PLoS for CiteULike.org
 # fetch the RIS citation provided by PLoS journals
 # C.Ladroue

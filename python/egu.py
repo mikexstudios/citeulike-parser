@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 # parse EGU journal html and return bibliographic information
 # (c) Jan Cermak, 2009, jan.cermak@env.ethz.ch
 # in part following agu.py and http://www.boddie.org.uk/
@@ -121,7 +121,7 @@ def handle(url):
     print 'end_ris'
 
     # now write the rest in tsv code
-    print "begin_tsv"   
+    print "begin_tsv"
 
     # print authors
     for author in authors:
@@ -171,7 +171,7 @@ handle(url)
 
 #$ echo 'http://www.jstor.org/view/00376752/ap010113/01a00130/0' | ./jstor.tcl
 #begin_tsv
-#linkout	JSTOR		0037-6752%28198424%291%3A28%3A4%3C533%3AANOMEG%3E2.0.CO%3B2-3		
+#linkout	JSTOR		0037-6752%28198424%291%3A28%3A4%3C533%3AANOMEG%3E2.0.CO%3B2-3
 #title	A Note on May Eve, Good Friday, and the Full Moon in Bulgakov's The Master and Margarita
 #author	Donald M. Fiene
 #journal	The Slavic and East European Journal

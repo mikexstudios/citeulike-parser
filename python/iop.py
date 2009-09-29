@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
 #
 # Copyright (c) 2007 Kristinn B. Gylfason <citeulike@askur.org>
@@ -49,7 +49,7 @@ RIS_SERVER_POST_STR = 'submit=1&format=refmgr'
 # regexp to screen scrape the DOI and get the article info from it
 
 DOI_REGEXP = r'<meta name="citation_doi" content="([^"]+)" />'
-DOI_REGEXP_FLAGS = re.IGNORECASE 
+DOI_REGEXP_FLAGS = re.IGNORECASE
 
 # error messages
 ERR_STR_PREFIX = 'status\terr\t'
@@ -68,7 +68,7 @@ url = url.strip()
 match  = re.search(r'http://iopscience.iop.org/([^?]*)', url)
 if match:
 	print "status\tredirect\thttp://www.iop.org/EJ/abstract/%s" % match.group(1)
-	sys.exit(0)	
+	sys.exit(0)
 
 
 # fetch the page the user is viewing and exit gracefully in case of trouble

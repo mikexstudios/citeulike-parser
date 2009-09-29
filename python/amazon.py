@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
 # Copyright (c) 2006 Oversity Ltd.
 # All rights reserved.
@@ -56,7 +56,7 @@ def parse_url(url):
 	regexps = [r'amazon\.(?P<domain>[a-z.]+)/(?:gp|exec|o)/.*/?(?:ASIN|-|product)/(?P<asin>[^?/]+)',
 			   r'amazon.(?P<domain>[a-z.]+)/[^/]+/(gp|dp)/(?P<asin>[0-9X]+)',
 			   r'amazon.(?P<domain>[a-z.]+)/([^/]+/)?dp/(?P<asin>[^/]+)'
-			   ]
+	]
 
 	for r in regexps:
 		m = re.search(r, url, re.I)
@@ -101,12 +101,15 @@ def extract(node, path):
 
 def fetch(domain, asin):
 
-	locale = {'com' : 'us',
-			  'co.uk' : 'uk',
-			  'de' : 'de',
-			  'co.jp' : 'jp',
-			  'fr' : 'fr',
-			  'ca' : 'ca'}[domain]
+	# map domain -> country ("locale")
+	locale = {
+		'com' : 'us',
+		'co.uk' : 'uk',
+		'de' : 'de',
+		'co.jp' : 'jp',
+		'fr' : 'fr',
+		'ca' : 'ca'
+	}[domain]
 
 	ecs.setLocale(locale)
 	try:
@@ -118,19 +121,13 @@ def fetch(domain, asin):
 
 	try:
 		num = getattr(pages, "NumberOfItems")
+		if num == '0':
+			raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
+		if num != '1':
+			raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>")
 	except AttributeError:
-		num = '1'
+		pass
 
-	if num == '0':
-		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
-	if num != '1':
-		raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>")
-#	if len(pages)>1:
-#		raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>")
-#	if len(pages)==0:
-#		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
-#	if len(pages)==0:
-#		pass
 	page = pages
 
 	field_map = [
@@ -139,9 +136,7 @@ def fetch(domain, asin):
 		(['Publisher'], 'publisher'),
 		(['Edition'], 'edition'),
 		(['Binding'], 'how_published'),
-		]
-
-
+	]
 
 	amazon_type = extract(page, ["ProductGroup"])
 	if amazon_type!="Book":
@@ -238,7 +233,7 @@ def test_parse_url():
 			 ("http://www.amazon.com/some-very-strange-url-with-0226045609-isbn",
 			  "com",
 			  "0226045609"),
-			 ]
+	]
 
 	msg = "Couldn't extract %s (got: %s expected %s) from %s"
 	for (url, domain, asin) in tests:

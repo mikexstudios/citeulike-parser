@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.5
 
 import os, sys, re, urllib2, cookielib, string
 from urllib import urlencode
@@ -9,7 +9,7 @@ import htmlentitydefs
 
 class ParseException(Exception):
 	pass
-	
+
 
 ##
 # Removes HTML or XML character references and entities from a text string.
@@ -37,7 +37,7 @@ def unescape(text):
                 pass
         return text # leave as is
     return re.sub("&#?\w+;", fixup, text).encode('utf-8')
-	
+
 def meta(soup, key):
 	el = soup.find("meta", {'name':key})
 	if el:
@@ -54,7 +54,7 @@ def handle(url):
 	m = re.match(r'http://www\.jove.com/index/Details\.stp\?ID=(\d+)', url)
 	if not m:
 		raise ParseException, "URL not supported %s" % url
-	wkey = m.group(1)		
+	wkey = m.group(1)
 
 	page = urlopen(url).read()
 
@@ -66,7 +66,7 @@ def handle(url):
 
 	if not doi:
 		raise ParseException, "Cannot find DOI"
-			
+
 	print "begin_tsv"
 	print "linkout\tDOI\t\t%s\t\t" % (doi)
 	print "linkout\tJOVE\t%s\t\t\t" % wkey
@@ -90,7 +90,7 @@ def handle(url):
 				print "month\t%s" % month
 			if day:
 				print "day\t%s" % day
-			
+
 	# authors
 	authors = head.findAll("meta", {"name":"dc.Contributor"})
 	if authors:
@@ -98,7 +98,7 @@ def handle(url):
 			print "author\t%s" % a['content']
 
 	#
-	# This seems very fragile.  
+	# This seems very fragile.
 	#
 	abstract = soup.find('div', {'id':'C47_c1vzp1s1'})
 	if abstract:
@@ -109,7 +109,7 @@ def handle(url):
 
 	print "doi\t%s" % doi
 	print "end_tsv"
-	print "status\tok"	
+	print "status\tok"
 
 # read url from std input
 url = sys.stdin.readline()
