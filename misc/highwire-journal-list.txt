@@ -76,6 +76,7 @@ annonc.oxfordjournals.org
 ann.sagepub.com
 ant.sagepub.com
 aob.oxfordjournals.org
+aobpla.oxfordjournals.org
 aoj.uwpress.org
 apa.sagepub.com
 aph.sagepub.com
@@ -169,6 +170,7 @@ cardiology.jwatch.org
 cardiovascres.oxfordjournals.org
 care.diabetesjournals.org
 carlyleletters.dukejournals.org
+car.sagepub.com
 casereports.bmj.com
 cat.sagepub.com
 cbi.sagepub.com
@@ -197,6 +199,7 @@ cgp.iiarjournals.org
 chc.sagepub.com
 chd.sagepub.com
 chemse.oxfordjournals.org
+chestjournal.chestpubs.org
 chinesejil.oxfordjournals.org
 chi.sagepub.com
 chp.sagepub.com
@@ -585,7 +588,6 @@ jae.oxfordjournals.org
 jag.sagepub.com
 jah.sagepub.com
 jama.ama-assn.org
-JAMACareerNet.ama-assn.org
 jamafr.ama-assn.org
 jam.sagepub.com
 jap.physiology.org
@@ -637,6 +639,7 @@ jea.sagepub.com
 jeb.biologists.org
 jeb.sagepub.com
 jech.bmj.com
+jeclap.oxfordjournals.org
 jed.sagepub.com
 jeeg.geoscienceworld.org
 jei.sagepub.com
@@ -680,6 +683,7 @@ jicj.oxfordjournals.org
 jicru.oxfordjournals.org
 jic.sagepub.com
 jid.sagepub.com
+jids.oxfordjournals.org
 jiel.oxfordjournals.org
 jigpal.oxfordjournals.org
 jim.sagepub.com
@@ -736,6 +740,7 @@ jos.oxfordjournals.org
 jos.sagepub.com
 jot.sagepub.com
 journal.ashspublications.org
+journal.pda.org
 journals.asm.org
 journals.bmj.com
 journals.fass.org
@@ -763,7 +768,6 @@ jpubhealth.oxfordjournals.org
 jra.sagepub.com
 jrc.sagepub.com
 jri.sagepub.com
-jrma.oxfordjournals.org
 jrm.sagepub.com
 jrn.sagepub.com
 jrp.sagepub.com
@@ -1049,6 +1053,7 @@ rheumatology.oxfordjournals.org
 rhr.dukejournals.org
 rimg.geoscienceworld.org
 rmg.geoscienceworld.org
+rmi.sagepub.com
 rnajournal.cshlp.org
 roa.sagepub.com
 rof.oxfordjournals.org
@@ -1140,7 +1145,6 @@ ssh.dukejournals.org
 ssi.sagepub.com
 ssjj.oxfordjournals.org
 sss.sagepub.com
-stemcells.alphamedpress.org
 sth.sagepub.com
 sti.bmj.com
 stke.sciencemag.org
@@ -1149,6 +1153,7 @@ sts.sagepub.com
 sub.uwpress.org
 symposium.cshlp.org
 sysbio.oxfordjournals.org
+tab.sagepub.com
 tag.sagepub.com
 tak.sagepub.com
 tam.sagepub.com
@@ -1241,7 +1246,6 @@ www.amjpathol.org
 www.andrologyjournal.org
 www.anesthesia-analgesia.org
 www.annals.org
-www.annalssurgicaloncology.org
 www.annclinlabsci.org
 www.annfammed.org
 www.aspbjournals.org
@@ -1258,7 +1262,6 @@ www.bvapublications.com
 www.canmin.org
 www.ccjm.org
 www.cfp.ca
-www.chestjournal.org
 www.clinchem.org
 www.clinmedres.org
 www.cmaj.ca
