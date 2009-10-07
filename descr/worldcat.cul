@@ -10,7 +10,7 @@ plugin {
 }
 
 format_linkout WCAT {
-	set ret [list "WCAT" "http://www.worldcat.org/oclc/${ckey_1}"]
+	set ret [list "WorldCat" "http://www.worldcat.org/oclc/${ckey_1}"]
 	if {$ckey_2 ne ""} {
 		lappend ret "Google Books" "http://books.google.com/books?isbn=${ckey_2}"
 		lappend ret "Amazon.com" "http://www.amazon.com/gp/search?keywords=${ckey_2}&index=books&linkCode=qs"
@@ -19,7 +19,7 @@ format_linkout WCAT {
 }
 
 test {http://www.worldcat.org/isbn/9781844630158} {
-	formatted_url {WCAT http://www.worldcat.org/oclc/70119587}
+	formatted_url {WorldCat http://www.worldcat.org/oclc/70119587}
 	formatted_url {{WorldCat (ISBN)} http://www.worldcat.org/isbn/9781844630158}
 	formatted_url {{Google Books} http://books.google.com/books?vid=ISBN9781844630158}
 	formatted_url {Amazon.com http://www.amazon.com/gp/search?keywords=9781844630158&index=books&linkCode=qs}
@@ -37,13 +37,13 @@ test {http://www.worldcat.org/isbn/9781844630158} {
 	title {Pathology reporting of breast disease : a joint document incorporating the third edition of the NHS Breast Screening Programme's Guidelines for pathology reporting in breast cancer screening and the second edition of the Royal College of Pathologists' Minimum dataset for breast cancer histopathology.}
 	status ok
 	author {Ellis {} IO {Ellis, I. O.}}
-	author {{Nhs Cancer Screening Programmes} {} {} {NHS Cancer Screening Programmes.}}
-	author {{Royal College Of Pathologists} {} {} {Royal College of Pathologists.}}
+	author {{NHS Cancer Screening Programmes} {} {} {NHS Cancer Screening Programmes.}}
+	author {{Royal College of Pathologists} {} {} {Royal College of Pathologists.}}
 	plugin worldcat
 }
 
 test {http://www.worldcat.org/oclc/52821313} {
-	formatted_url {WCAT http://www.worldcat.org/oclc/52821313}
+	formatted_url {WorldCat http://www.worldcat.org/oclc/52821313}
 	formatted_url {{WorldCat (ISBN)} http://www.worldcat.org/isbn/9783540404606}
 	formatted_url {{Google Books} http://books.google.com/books?vid=ISBN9783540404606}
 	formatted_url {Amazon.com http://www.amazon.com/gp/search?keywords=9783540404606&index=books&linkCode=qs}
