@@ -17,6 +17,9 @@
 
 import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs
 from BeautifulSoup import BeautifulSoup
+import html5lib
+from html5lib import treebuilders
+
 
 RIS_SERVER_ROOT = \
         'http://www.opticsinfobase.org/custom_tags/IB_Download_Citations.cfm'
@@ -32,6 +35,7 @@ ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
 
 
 # read url from std input an get rid of the newline at the end
+# sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 url = sys.stdin.readline().strip()
 
 # parse the article details from the url
@@ -50,8 +54,11 @@ except:
 page = unicode(br.response().read(), encoding="utf-8").replace("iso-8859-1", "utf-8")
 
 # parse the HTML
-soup = BeautifulSoup(page)
+parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+soup = parser.parse(page)
 
+#soup = BeautifulSoup(page)
+# print soup.prettify()
 # if the user came from a page with an article id in the url we use
 # that directly in the RIS query
 if src_query.has_key('id'):
@@ -59,6 +66,10 @@ if src_query.has_key('id'):
     ris_server_post_data['articles'] = article_id
 # otherwize we need to get the id from the page the user is looking at
 else:
+    article_id_metadata = soup.findAll(name='input', attrs={'name':'articles'})
+#    print soup.findAll(name='input')
+    article_id = article_id_metadata[0]['value']
+    ris_server_post_data['articles'] = article_id
     try:
         # find the article id in the export form
         article_id_metadata = soup.findAll(name='input', attrs={'name':'articles'})
