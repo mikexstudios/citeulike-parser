@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.6
 
 import os, sys, re, urllib2, cookielib, string
 from urllib import urlencode
