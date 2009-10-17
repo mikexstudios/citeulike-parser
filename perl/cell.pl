@@ -13,7 +13,7 @@ use LWP 5.64;
 #
 # This code is derived from software contributed to CiteULike.org
 # 	Fergus Gallagher <fergus.gallagher@citeulike.org>
-# 
+#
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -54,7 +54,7 @@ chomp($url);
 #let's emulate better some browser headers
 my @ns_headers = (
    'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
-   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, 
+   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg,
         image/pjpeg, image/png, */*',
    'Accept-Charset' => 'iso-8859-1,*,utf-8',
    'Accept-Language' => 'en-US',
@@ -70,7 +70,10 @@ if (!$pii) {
 	exit;
 }
 
-print "$journal :: $pii\n";
+# sometime the () are url-encoded
+$pii = urldecode($pii);
+
+# print "$journal :: $pii\n";
 
 my $pii_enc = urlencode($pii);
 
@@ -94,5 +97,9 @@ exit 0;
 sub urlencode {
 	use URI::Escape qw( uri_escape_utf8 );
 	return uri_escape_utf8( $_[0] );
+}
+sub urldecode {
+	use URI::Escape qw( uri_unescape );
+	return uri_unescape( $_[0] );
 }
 
