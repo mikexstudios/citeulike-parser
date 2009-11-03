@@ -1,0 +1,38 @@
+plugin {
+	version {1}
+	name {Chicago Journals}
+	url {http://www.mitpressjournals.org/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {mitpressjournals.org}
+}
+
+format_linkout MITPR {
+	return [list "MIT Press Journals" \
+			"http://www.mitpressjournals.org/doi/abs/${ckey_1}"]
+}
+
+test {http://www.mitpressjournals.org/doi/abs/10.1162/dmal.9780262562324.123} {
+	formatted_url {{MIT Press Journals} http://www.mitpressjournals.org/doi/abs/10.1162/dmal.9780262562324.123}
+	formatted_url {DOI http://dx.doi.org/10.1162/dmal.9780262562324.123}
+	volume 687
+	linkout {MITPR {} 10.1162/dmal.9780262562324.123 {} {}}
+	linkout {DOI {} 10.1162/dmal.9780262562324.123 {} {}}
+	volume -
+	year 2007
+	month 12
+	day 1
+	start_page 123
+	end_page 154
+	doi 10.1162/dmal.9780262562324.123
+	title {Credibility of Health Information and Digital Media: New Perspectives and Implications for Youth}
+	journal {The John D. and Catherine T. MacArthur Foundation Series on Digital Media and Learning}
+	abstract {doi: 10.1162/dmal.9780262562324.123 This chapter considers the role of Web technologies on the availability and consumption of health information. It argues that young people are largely unfamiliar with trusted health sources online, making credibility particularly germane when considering this type of information. The author suggests that networked digital media allow for humans and technologies act as “apomediaries” that can be used to steer consumers to high quality health information, thereby empowering health information seekers of all ages.}
+	author {Eysenbach Gunther G {Eysenbach, Gunther}}
+	type JOUR
+	url {http://www.mitpressjournals.org/doi/abs/10.1162/dmal.9780262562324.123}
+
+	status ok
+}
