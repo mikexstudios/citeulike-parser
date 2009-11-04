@@ -232,11 +232,16 @@ namespace eval driver {
 			set exe [executable_for_name $language $plugin]
 			set olddir [pwd]
 			cd [file dirname $exe]
-			set fd [open "|./[file tail $exe]" "r+"]
-			puts $fd $url
-			flush $fd
-			set result [read $fd]
-			close $fd
+			if {1} {
+				set result [exec ./[file tail $exe] << $url]
+			} else {
+				set fd [open "|./[file tail $exe]" "r+"]
+				puts $fd $url
+				flush $fd
+				set result [read $fd]
+				close $fd
+			}
+
 			cd $olddir
 
 			set lines [split $result "\n"]
