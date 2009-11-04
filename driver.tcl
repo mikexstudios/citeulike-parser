@@ -1,5 +1,8 @@
 #!/usr/bin/env tclsh
 
+package require struct
+package require http
+
 #
 # Copyright (c) 2005 Richard Cameron, CiteULike.org
 # All rights reserved.
@@ -335,6 +338,8 @@ namespace eval driver {
 				error "Saw begin $state block, but no end $state block"
 			}
 
+
+
 			if {[info exists ris_lines]} {
 				set ris [join $ris_lines "\n"]
 
@@ -357,6 +362,12 @@ namespace eval driver {
 				}
 			}
 
+			# Shall we use extra crossref data?  Off by default
+			set use_crossref 0
+			catch {
+				set use_crossref [set DETAIL_${plugin}(use_crossref)]
+			}
+
 			if {[info exists crossref_lines]} {
 				set crossref_xml [join $crossref_lines "\n"]
 
@@ -366,7 +377,29 @@ namespace eval driver {
 						set ret($k) $v
 					}
 				}
+			} elseif {[info exists ret(linkout)] && $use_crossref} {
+				# load crossref to augment above data
+				foreach lo $ret(linkout) {
+					::struct::list assign [split $lo "\t"] type dummy doi
+					if {$type eq "DOI"} {
+						set crossref_xml [CROSSREF::load $doi]
+						if {$crossref_xml eq ""} {
+							break
+						}
+						set crossref_data [CROSSREF::parse_xml $crossref_xml]
+						foreach {k v} $crossref_data {
+							if {![info exists ret($k)] || $ret($k) eq ""} {
+								puts "XREF::set $k -> $v"
+								set ret($k) $v
+							}
+						}
+
+						break
+					}
+				}
+
 			}
+
 
 			# Post-process what we've got from the plugin.
 			if {[info exists ret(author)]} {

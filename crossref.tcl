@@ -1,6 +1,7 @@
 # Stub file to hold parser for Crossref's XML metadata
 
 package require tdom
+package require http
 
 namespace eval CROSSREF {
 }
@@ -272,4 +273,28 @@ proc CROSSREF::parse_xml {xml {hints {}}} {
 
 	return {}
 
+}
+
+
+proc CROSSREF::load {doi} {
+	# LAZY LAZY LAZY
+	set key [string trim [exec head -1 $::env(HOME)/.crossref-key]]
+
+	set qs [::http::formatQuery id doi:$doi noredirect true pid $key format unixref]
+
+	set url "http://www.crossref.org/openurl/?$qs"
+
+	puts "CROSSREF::load  $url"
+
+	set token [http::geturl $url -timeout 5000]
+	upvar #0 $token state
+	set code [lindex $state(http) 1]
+
+	if {$code != 200} {
+		set message [lrange $state(http) 2 end]
+		puts "ERROR: cannot access crossref @ $url :: code=$code $message"
+		return ""
+	}
+
+	return $state(body)
 }
