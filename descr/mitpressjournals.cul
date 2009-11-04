@@ -1,6 +1,6 @@
 plugin {
 	version {1}
-	name {Chicago Journals}
+	name {MIT Press Journals}
 	url {http://www.mitpressjournals.org/}
 	blurb {}
 	author {Fergus Gallagher}
