@@ -1,0 +1,46 @@
+plugin {
+	version {1}
+	name {Primary Care Respiratory Journal}
+	url {http://www.thepcrj.org/}
+
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {http://www.thepcrj.org/journ/}
+}
+
+format_linkout PCRJ {
+	regexp {([^/]*)/([^/]*)/([^/]*)/([^/]*)/([^/]*)} $ckey_1 -> article_id article volissue journal art_app
+	return [list "PCRJ" \
+			"http://www.thepcrj.org/journ/view_article.php?article_id=$article_id&article=$article&volissue=$volissue&journal=$journal&art_app=$art_app"]
+}
+
+
+test {http://www.thepcrj.org/journ/view_article.php?article_id=193&volissue=1} {
+	serial 1471-4418
+	volume 15
+	linkout {PCRJ {} 193//1// {} {}}
+	linkout {DOI 10.1016/j.pcrj.2006.08.010 {} {} {}}
+	year 2006
+	month 12
+	type JOUR
+	start_page 337
+	url http://www.thepcrj.org/journ/view_article.php?article_id=193&volissue=1
+	end_page 341
+	pdf_url http://www.thepcrj.org/journ/vol15/15_6_337_341.pdf
+	formatted_url {PCRJ http://www.thepcrj.org/journ/view_article.php?article_id=193&article=&volissue=1&journal=&art_app=}
+	formatted_url {DOI http://dx.doi.org/}
+	issue 6
+	title {The feasibility of a primary care model for the management of COPD}
+	journal {Prim Care Resp J}
+	abstract {AIMS: To investigate the feasibility of a primary care model to improve the management of COPD. METHODS: An intervention study on 1497 patients with documented COPD from 22 general practices, involving 11 practice nurses and a COPD Support Service (CSS). Outcome measures included the successful delegation of tasks from general practitioners (GPs) to the CSS and practice nurse, and performance in daily practice according to the model components – keeping a patient register with a recall system, periodical history taking and lung function measurements, asking diagnostic and therapeutic advice, and performing regular follow-up visits with education and counselling. RESULTS: In the 22 general practices, all components of the model were performed systematically, with the exception of ‘asking for diagnostic and therapeutic advice’ which occurred in 10 practices only. Of the 1497 patients, 374 (25%) were treated by chest physicians. Of the remaining patients 88% were included in the primary care model and 12% refused regular follow-up. CONCLUSION: This primary care model for COPD management proved to be very feasible; GPs delegated the tasks, almost all patients were included in the control system, and a large majority of patients accepted follow-up according to the model. 10.1016/j.pcrj.2006.08.010}
+	author {Meulepas Marianne MA {Meulepas, Marianne A.}}
+	author {Jacobs Johanna JE {Jacobs, Johanna E.}}
+	author {Lucas Annelies AEM {Lucas, Annelies E.M.}}
+	author {Smeenk Frank FWJM {Smeenk, Frank W.J.M.}}
+	author {Smeele Ivo I {Smeele, Ivo}}
+	author {Bottema Ben BJ {Bottema, Ben J. A.M.}}
+	author {Grol Richard RPTM {Grol, Richard P.T.M.}}
+	status ok
+}
