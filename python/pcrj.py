@@ -86,7 +86,7 @@ print "\t".join([ "linkout",  "PCRJ", "", "%s"% "/".join([article_id,article,vol
 
 m = re.search("DO  - (\S*)",ris,re.MULTILINE)
 if m:
-	print "\t".join([ "linkout", "DOI", m.group(1), "", "", ""])
+	print "\t".join([ "linkout", "DOI", "", m.group(1), "", ""])
 
 print "end_tsv"
 
