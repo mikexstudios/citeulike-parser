@@ -43,7 +43,7 @@ plugin {
 	version {1}
 
 	# The name of the plugin, as displayed on the "CiteULike supports..." page
-	name {Nature Preceedings}
+	name {Nature Precedings}
 
 	# The link the front page of this service
 	url {http://precedings.nature.com/}
@@ -97,7 +97,7 @@ plugin {
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
 format_linkout NATPRE {
-	return [list {Nature Preceedings} "http://precedings.nature.com/documents/${ikey_1}/version/${ckey_1}"]
+	return [list {Nature Precedings} "http://precedings.nature.com/documents/${ikey_1}/version/${ckey_1}"]
 }
 
 
@@ -121,7 +121,7 @@ test {http://precedings.nature.com/documents/3496/version/1} {
 	doi 10.1038/npre.2009.3496.1
 	publisher {Nature Publishing Group}
 	formatted_url {DOI http://dx.doi.org/10.1038/npre.2009.3496.1}
-	formatted_url {{Nature Preceedings} http://precedings.nature.com/documents/3496/version/1}
+	formatted_url {{Nature Precedings} http://precedings.nature.com/documents/3496/version/1}
 	issue 713
 	title {Cross-Product Extensions of the Gene Ontology }
 	journal {Nature Precedings}
