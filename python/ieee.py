@@ -79,23 +79,23 @@ original = urlopen("http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=%d" % a
 doi = re.findall(".*Digital Object Identifier\:.(10\...../[^<]+)<", original)
 
 published = None
-m = re.search("Published:\s+(\d+)-(\d+)-(\d+)", original)
+m = re.search("Publication Date:\s+(\d+)(?:\-\d+)? (\w+)(?:\.)? (\d+)", original)
 if m:
+	months = { 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12 }
 	published = {}
-	published["year"]=m.group(1)
-	published["month"]=m.group(2)
-	published["day"]=m.group(3)
-if not published:
-	m = re.search("Publication Date:\s+(\d+) (\w+) (\d+)", original)
+	published["year"]=m.group(3)
+	try:
+		published["month"]=months[m.group(2)]
+	except:
+		pass
+	published["day"]=m.group(1)
+else:
+	m = re.search("Published:\s+(\d+)-(\d+)-(\d+)", original)
 	if m:
-		months = { 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12 }
 		published = {}
-		published["year"]=m.group(3)
-		try:
-			published["month"]=months[m.group(2)]
-		except:
-			pass
-		published["day"]=m.group(1)
+		published["year"]=m.group(1)
+		published["month"]=m.group(2)
+		published["day"]=m.group(3)
 
 # Post to get the RIS document
 data = urlencode( { 'dlSelect' : 'cite_abs',
@@ -120,6 +120,12 @@ print "begin_tsv"
 
 if doi:
 	print "linkout\tDOI\t\t%s\t\t" % (doi[0])
+
+#if re.search("PY\s+-\s+(\d+)",ris):
+#	# trust the RIS
+#	pass
+#elif published:
+#	pass
 
 if published:
 	print "year\t%s" % published["year"]
