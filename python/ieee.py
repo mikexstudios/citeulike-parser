@@ -79,7 +79,7 @@ original = urlopen("http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=%d" % a
 doi = re.findall(".*Digital Object Identifier\:.(10\...../[^<]+)<", original)
 
 published = None
-m = re.search("Publication Date:\s+(\d+)(?:\-\d+)? (\w+)(?:\.)? (\d+)", original)
+m = re.search("Publication Date:(?:.*[^\d])?(\d+) (\w+)(?:\.)? (\d+)", original, re.MULTILINE)
 if m:
 	months = { 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12 }
 	published = {}
