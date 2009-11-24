@@ -1208,7 +1208,9 @@ namespace eval author {
 		#  this stuff can be added in retrospectively if required)
 		set work [regsub "^$TITLE_JUNK" $work ""]
 		set work [regsub "${TRAILING_JUNK}\$" $work ""]
+		set work [regsub "${TRAILING_JUNK}," $work ","]
 		set work [regsub "${TRAILING_JUNK_2}\$" $work ""]
+		set work [regsub "${TRAILING_JUNK_2}," $work ","]
 
 		# The way we've phrased the REs, we need a trailing space
 		append work " "
@@ -1361,6 +1363,11 @@ namespace eval author {
 				{"VanDer Zweep" "Gary" "GIM" "VanDer Zweep, GARY I M"}\
 				{"vander Wulp" "Gary" "GIM" "vander Wulp, GARY I M"}\
 				{"de la Vallee Poussin" "Charles" "CL" "de la Vallee Poussin, Charles Louis"}\
+				{"Rae-Dupree" "Janet" "J" "Janet Rae-Dupree"}\
+ 				{"Cameron" "Richard" "RD" "Richard D Cameron Jr."}\
+ 				{"Cameron" "Richard" "RD" "Richard D Cameron, Jr."}\
+ 				{"Cameron" "Richard" "RD" "Cameron Jr., Richard D"}\
+ 				{"Cameron" "Richard" "RD" "Cameron, Jr., Richard D"}\
 			]
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
