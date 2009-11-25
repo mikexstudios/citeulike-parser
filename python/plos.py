@@ -92,6 +92,9 @@ def bail(msg):
 def main():
 	url = sys.stdin.readline().strip()
 
+	# strip off a session ID
+	url = re.split(";jsession", url)[0]
+
 	# open the URL (just HEAD?) to follow redirects
 	f = urllib.urlopen(url)
 	url =  f.geturl()
