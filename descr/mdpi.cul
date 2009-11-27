@@ -1,0 +1,84 @@
+# Copyright (c) 2009 Fergus Gallagher, CiteULike.org
+# All rights reserved.
+#
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#        CiteULike <http://www.citeulike.org> and its
+#        contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+#
+# Plugin description
+#
+
+plugin {
+    version {2}
+    name {mdpi}
+    url {http://www.mdpi.com/}
+    blurb {}
+    author {Fergus Gallagher}
+    email {fergus.gallagher@citeulike.org}
+    language {python}
+    regexp {http://www\.mdpi\.com/(\d{4}-\d{4}/\d+/\d+/\d+)}
+}
+
+format_linkout MDPI {
+	set ret [list "MDPI"  "http://www.mdpi.com/${ckey_1}" ]
+	lappend ret "MDPI (PDF)"  "http://www.mdpi.com/${ckey_1}/pdf"
+	return $ret
+}
+
+
+# Linkout formatting
+# Raw ingredients required to build the full text URL dynamically using the following variables
+# collected by the plugin: type ikey_1 ckey_1 ikey_2 ckey_2
+
+
+#Tests
+test {http://www.mdpi.com/2072-4292/1/4/1139} {
+	volume 1
+	linkout {DOI {} 10.3390/rs1041139 {} {}}
+	linkout {MDPI {} 2072-4292/1/4/1139 {} {}}
+	type JOUR
+	start_page 1139
+	doi 10.3390/rs1041139
+	formatted_url {DOI http://dx.doi.org/10.3390/rs1041139}
+	formatted_url {MDPI http://www.mdpi.com/2072-4292/1/4/1139}
+	formatted_url {{MDPI (PDF)} http://www.mdpi.com/2072-4292/1/4/1139/pdf}
+	issue 4
+	title {Enhanced Automated Canopy Characterization from Hyperspectral Data by a Novel Two Step Radiative Transfer Model Inversion Approach}
+	journal {Remote Sensing}
+	abstract {Automated, image based methods for the retrieval of vegetation biophysical and biochemical variables are often hampered by the lack of a priori knowledge about land cover and phenology, which makes the retrieval a highly underdetermined problem. This study addresses this problem by presenting a novel approach, called CRASh, for the concurrent retrieval of leaf area index, leaf chlorophyll content, leaf water content and leaf dry matter content from high resolution solar reflective earth observation data. CRASh, which is based on the inversion of the combined PROSPECT+SAILh radiative transfer model (RTM), explores the benefits of combining semi-empirical and physically based approaches. The approach exploits novel ways to address the underdetermined problem in the context of an automated retrieval from mono-temporal high resolution data. To regularize the inverse problem in the variable domain, RTM inversion is coupled with an automated land cover classification. Model inversion is based on a two step lookup table (LUT) approach: First, a range of possible solutions is selected from a previously calculated LUT based on the analogy between measured and simulated reflectance. The final solution is determined from this subset by minimizing the difference between the variables used to simulate the spectra contained in the reduced LUT and a first guess of the solution. This first guess of the variables is derived from predictive semi-empirical relationships between classical vegetation indices and the single variables. Additional spectral regularization is obtained by the use of hyperspectral data. Results show that estimates obtained with CRASh are significantly more accurate than those obtained with a tested conventional RTM inversion and semi-empirical approach. Accuracies obtained in this study are comparable to the results obtained by various authors for better constrained inversions that assume more a priori information. The completely automated and image-based nature of the approach facilitates its use in operational chains for upcoming high resolution airborne and spaceborne imaging spectrometers.}
+	author {Dorigo Wouter W {Wouter Dorigo}}
+	author {Richter Rudolf R {Rudolf Richter}}
+	author {Baret Frédéric F {Frédéric Baret}}
+	author {Bamler Richard R {Richard Bamler}}
+	author {Wagner Wolfgang W {Wolfgang Wagner}}
+	status ok
+}
+
