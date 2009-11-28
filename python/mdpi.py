@@ -99,7 +99,7 @@ def handle(url):
 	item(head, "abstract", "dc.description")
 	date = meta(head, 'dc.date')
 	if date:
-		m = re.match(r'(\d+)/(\d+)/(\d+)', date)
+		m = re.match(r'(\d+)-(\d+)-(\d+)', date)
 		if m:
 			day = m.group(1)
 			month = m.group(2)
