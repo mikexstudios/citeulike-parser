@@ -107,9 +107,9 @@ def handle(url):
 	if date:
 		m = re.match(r'(\d+)-(\d+)-(\d+)', date)
 		if m:
-			day = m.group(1)
+			year = m.group(1)
 			month = m.group(2)
-			year = m.group(3)
+			day = m.group(3)
 			if year:
 				print "year\t%s" % year
 			if month:
