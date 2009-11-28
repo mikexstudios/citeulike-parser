@@ -43,7 +43,8 @@ def unescape(text):
             except KeyError:
                 pass
         return text # leave as is
-    return re.sub("&#?\w+;", fixup, text).encode('utf-8')
+    #return re.sub("&#?\w+;", fixup, text).encode('utf-8')
+    return re.sub("&#?\w+;", fixup, text)
 
 def meta(soup, key):
 	el = soup.find("meta", {'name':key})
@@ -65,7 +66,10 @@ def handle(url):
 		raise ParseException, "URL not supported %s" % url
 	wkey = m.group(1)
 
+	#u = codecs.getreader('utf-8')(urlopen(url))
+	#page = u.read()
 	page = urlopen(url).read()
+
 
 	parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
 	soup = parser.parse(page)
@@ -88,8 +92,10 @@ def handle(url):
 	print "linkout\tMDPI\t\t%s\t\t" % wkey
 	print "type\tJOUR"
 	title = meta(head, "dc.title")
+	#if title:
+	#	print "title\t%s" % unescape(title)
 	if title:
-		print "title\t%s" % unescape(title)
+		print "title\t%s" % title
 	item(head, "journal", "prism.publicationName")
 	item(head, "volume", "prism.volume")
 	item(head, "issue", "prism.number")
