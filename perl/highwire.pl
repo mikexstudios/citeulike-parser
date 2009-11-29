@@ -184,7 +184,7 @@ if ($mjid) {
 	$link_refman2 = "http://"."$journal_site"."/citmgr?type=refman&gca=".$mjid;
 
 	# Make up new hiwire linkout here
-	if (!$hiwire) {
+	if (!$hiwire && $url !~ m{/cgi/}) {
 		if ($number) {
 			$hiwire = "$journal_site/content/$volume/$number/$page";
 		} else {
