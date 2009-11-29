@@ -186,6 +186,7 @@ if {[catch {
 #} elseif {[regexp {(1996\)\s*?<p>.*?</p>)} $abpage -> abstract]} {
 
 if {[regexp -nocase {<META name="description" content=\"([^\"]+)\">} $abpage -> abstract]} {
+	set abstract [striphtml $abstract]
 	puts "abstract\t${abstract}"
 } elseif {[regexp {<div class=\"abstract\">.*?<p>(.*?)</p>.*?</div>} $abpage -> abstract]} {
 	set abstract [striphtml $abstract]
