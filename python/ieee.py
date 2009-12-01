@@ -129,8 +129,10 @@ if doi:
 
 if published:
 	print "year\t%s" % published["year"]
-	print "month\t%s" % published["month"]
-	print "day\t%s" % published["day"]
+	if published.has_key("month"):
+		print "month\t%s" % published["month"]
+	if published.has_key("day"):
+		print "day\t%s" % published["day"]
 
 
 print "linkout\tIEEE\t%d\t\t\t" % (ar_number)
