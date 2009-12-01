@@ -81,7 +81,9 @@ doi = re.findall(".*Digital Object Identifier\:.(10\...../[^<]+)<", original)
 published = None
 m = re.search("Publication Date:(?:.*[^\d])?(\d+) (\w+)(?:\.)? (\d+)", original, re.MULTILINE)
 if m:
-	months = { 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12 }
+	print "XXXX: %s" % m.group(0)
+	months = { 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12,
+		'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12 }
 	published = {}
 	published["year"]=m.group(3)
 	try:
