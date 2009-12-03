@@ -143,7 +143,8 @@ proc CROSSREF::parse_chapter {doc} {
 		set ret(title_series) [_get_text [$doc selectNodes ${prefix}/book_metadata/series_metadata/titles/title\[1\]]]
 	}
 	catch {
-		set ret(chapter) [[$doc selectNodes ${content}/component_number] text]
+		set x [[$doc selectNodes ${content}/component_number] text]
+		set ret(chapter) [regsub {Chapter\s+} $x {}]
 	}
 
 	# there can be multiple issn e.g., media_type="print"|"electronic"
@@ -211,6 +212,38 @@ proc CROSSREF::parse_chapter {doc} {
 
 	foreach a [lsort -ascii -index 0 $author_list] {
 		lappend ret(authors) [lindex $a 1]
+	}
+
+	#
+	# Editors
+	#    - NB we use the 'sequence' attribute to get author order correct
+	# book_metadata language="en"><contributors><person_name contributor_role="editor"
+	#
+	set a_nodes [$doc selectNodes ${meta}/contributors/person_name\[@contributor_role='editor'\]]
+
+	set author_list [list]
+
+	foreach a_node $a_nodes {
+		set seq [$a_node getAttribute sequence]
+		if {$seq eq "first"} {
+			set seq A
+		} else {
+			set seq Z
+		}
+		set fname ""
+		set lname ""
+		catch {
+			set fname [[$a_node selectNodes given_name] text]
+		}
+		catch {
+			set lname [[$a_node selectNodes surname] text]
+		}
+
+		lappend author_list [list $seq "$lname, $fname"]
+	}
+
+	foreach a [lsort -ascii -index 0 $author_list] {
+		lappend ret(editors) [lindex $a 1]
 	}
 
 	catch {
