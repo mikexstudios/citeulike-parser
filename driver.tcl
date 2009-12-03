@@ -394,9 +394,12 @@ namespace eval driver {
 						set crossref_data [CROSSREF::parse_xml $crossref_xml]
 						foreach {k v} $crossref_data {
 							if {![info exists ret($k)] || $ret($k) eq ""} {
-								puts "XREF::set $k -> $v"
+								# puts "XREF::set $k -> $v"
 								set ret($k) $v
+							} else {
+								# puts "XREF::noset $k -> $v"
 							}
+
 						}
 
 						break
@@ -405,6 +408,7 @@ namespace eval driver {
 
 			}
 
+			# puts "XXX: [array get ret]"
 
 			# Post-process what we've got from the plugin.
 			if {[info exists ret(author)]} {
