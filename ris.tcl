@@ -129,12 +129,20 @@ proc parse_ris {rec} {
 				}
 
 
-				{A[1-9]|AU|ED} {
+				{A1|AU} {
 					# a few dud cases we've seen
 					if {[regexp {^\s*[,\.]*\s*$} $v]} {
 						continue
 					}
 					lappend ret(authors) $v
+				}
+
+				{A[2-9]|ED} {
+					# a few dud cases we've seen
+					if {[regexp {^\s*[,\.]*\s*$} $v]} {
+						continue
+					}
+					lappend ret(editors) $v
 				}
 
 				{Y1|PY|Y2} {

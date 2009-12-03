@@ -143,8 +143,7 @@ proc CROSSREF::parse_chapter {doc} {
 		set ret(title_series) [_get_text [$doc selectNodes ${prefix}/book_metadata/series_metadata/titles/title\[1\]]]
 	}
 	catch {
-		set x [[$doc selectNodes ${content}/component_number] text]
-		set ret(chapter) [regsub {Chapter\s+} $x {}]
+		set ret(chapter) [regsub {Chapter\s+} [[$doc selectNodes ${content}/component_number] text] {}]
 	}
 
 	# there can be multiple issn e.g., media_type="print"|"electronic"
@@ -211,7 +210,7 @@ proc CROSSREF::parse_chapter {doc} {
 	}
 
 	foreach a [lsort -ascii -index 0 $author_list] {
-		lappend ret(authors) [lindex $a 1]
+		lappend ret(authors) [::author::parse_author [lindex $a 1]]
 	}
 
 	#
@@ -243,7 +242,7 @@ proc CROSSREF::parse_chapter {doc} {
 	}
 
 	foreach a [lsort -ascii -index 0 $author_list] {
-		lappend ret(editors) [lindex $a 1]
+		lappend ret(editors) [::author::parse_author [lindex $a 1]]
 	}
 
 	catch {

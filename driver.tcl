@@ -367,6 +367,8 @@ namespace eval driver {
 				}
 			}
 
+			# puts "XXX: [array get ret]"
+
 			# Shall we use extra crossref data?  Off by default
 			set use_crossref 0
 			catch {
@@ -392,6 +394,7 @@ namespace eval driver {
 							break
 						}
 						set crossref_data [CROSSREF::parse_xml $crossref_xml]
+
 						foreach {k v} $crossref_data {
 							if {![info exists ret($k)] || $ret($k) eq ""} {
 								# puts "XREF::set $k -> $v"
@@ -408,7 +411,6 @@ namespace eval driver {
 
 			}
 
-			# puts "XXX: [array get ret]"
 
 			# Post-process what we've got from the plugin.
 			if {[info exists ret(author)]} {
