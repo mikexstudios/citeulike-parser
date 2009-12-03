@@ -113,7 +113,7 @@ proc parse_ris {rec} {
 					}
 				}
 				{BT} {
-					if {$ret(ris_type) == "UNPB" || $ret(ris_type) == "BOOK"} {
+					if {$ret(type) == "UNPB" || $ret(type) == "BOOK"} {
 						append ret(title) "$v "
 					} else {
 						set ret(title_secondary) $v
@@ -167,7 +167,11 @@ proc parse_ris {rec} {
 
 
 				{JF|JO|JA} {
-					set ret(journal) $v
+					if {$ret(type) == "CHAP" || $ret(type) == "CHAPTER"} {
+						append ret(journal) "$v "
+					} else {
+						set ret(title_secondary) $v
+					}
 				}
 				{J1} {
 					set ret(journal_user_abbrev_1) $v
