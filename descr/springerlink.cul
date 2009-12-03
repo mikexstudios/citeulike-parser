@@ -49,6 +49,7 @@ plugin {
 	email {stevan.springer@gmail.com}
 	language {perl}
 	regexp {(http://(www.)?springerlink(\.metapress)?\.com([^/]*)/(index/.*|\(\w+\)/app/home/contribution.*|content/.*))|(http://www.springerprotocols.com/Abstract/doi/.*)}
+	use_crossref 1
 }
 
 # Linkout formatting
@@ -92,7 +93,7 @@ test {http://springerlink.com/index/10.1007/BF01059068} {
 	day				{1}
 	title			{Recent taxonomic discoveries concerning the musselMytilus: Implications for biomonitoring}
 	journal			{Archives of Environmental Contamination and Toxicology}
-	author			{Lobel {} PB {Lobel, P. B.}}  
+	author			{Lobel {} PB {Lobel, P. B.}}
 	author			{Belkhode {} SP {Belkhode, S. P.}}
 	author			{Jackson {} SE {Jackson, S. E.}}
 	author			{Longerich {} HP {Longerich, H. P.}}
