@@ -218,7 +218,12 @@ proc CROSSREF::parse_chapter {doc} {
 	#    - NB we use the 'sequence' attribute to get author order correct
 	# book_metadata language="en"><contributors><person_name contributor_role="editor"
 	#
-	set a_nodes [$doc selectNodes ${meta}/contributors/person_name\[@contributor_role='editor'\]]
+	set a_nodes [$doc selectNodes $prefix/book_metadata/contributors/person_name\[@contributor_role='editor'\]]
+
+	if {$a_nodes eq ""} {
+		set a_nodes [$doc selectNodes $prefix/book_series_metadata/contributors/person_name\[@contributor_role='editor'\]]
+	}
+	puts "XXX:editors: ${meta}/contributors/person_name -> $a_nodes"
 
 	set author_list [list]
 
