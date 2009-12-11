@@ -134,6 +134,7 @@ else {
 	print "status\terr\t (1) This ($url) does not appear to be a Highwire Press article. Try posting the article from the abstract page.\n" and exit;
 }
 
+$doi = "";
 
 # Get the link to the citebuilder url and formulate a link to the reference manager RIS file
 
@@ -232,7 +233,7 @@ if ($hiwire) {
 
 if ($doi) {
 	print "linkout\tDOI\t\t$doi\t\t\n";
-} elsif ($ris =~ m/N1\s*-\s*(10\.[^ ]+)/) {
+} elsif ($ris =~ m/N1\s*-\s*(10\.[^\s]+)/) {
 	# sometimes there's a DOI at the start of the title
 	print "linkout\tDOI\t\t$1\t\t\n";
 }
