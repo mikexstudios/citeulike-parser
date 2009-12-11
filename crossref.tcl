@@ -133,7 +133,18 @@ proc CROSSREF::parse_chapter {doc} {
 	set ret(type) CHAP
 
 	set prefix //doi_record/crossref/book
-	set meta "$prefix/book_metadata"
+
+	set x {}
+	catch {
+		set x  [[$doc selectNodes "$prefix/book_metadata"]]
+	}
+
+	if {[llength $x] > 0} {
+		set meta "$prefix/book_metadata"
+	} else {
+		set meta "$prefix/book_series_metadata"
+	}
+
 	set content "$prefix/content_item\[1\]"
 
 	catch {
@@ -218,16 +229,15 @@ proc CROSSREF::parse_chapter {doc} {
 	#    - NB we use the 'sequence' attribute to get author order correct
 	# book_metadata language="en"><contributors><person_name contributor_role="editor"
 	#
-	set a_nodes [$doc selectNodes $prefix/book_metadata/contributors/person_name\[@contributor_role='editor'\]]
+	set a_nodes [$doc selectNodes $meta/contributors/person_name\[@contributor_role='editor'\]]
 
-	if {$a_nodes eq ""} {
-		set a_nodes [$doc selectNodes $prefix/book_series_metadata/contributors/person_name\[@contributor_role='editor'\]]
-	}
-	puts "XXX:editors: ${meta}/contributors/person_name -> $a_nodes"
+#	puts "XXX:editors: ${meta}/contributors/person_name -> $a_nodes"
 
 	set author_list [list]
 
 	foreach a_node $a_nodes {
+
+		puts "XXXX: $a_node"
 		set seq [$a_node getAttribute sequence]
 		if {$seq eq "first"} {
 			set seq A
