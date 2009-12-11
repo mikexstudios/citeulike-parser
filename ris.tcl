@@ -175,10 +175,10 @@ proc parse_ris {rec} {
 
 
 				{JF|JO|JA} {
-					if {$ret(type) == "CHAP" || $ret(type) == "CHAPTER"} {
-						append ret(journal) "$v "
+					if {$ret(type) eq "CHAP" || $ret(type) eq "CHAPTER" || $ret(type) eq "INCOL"} {
+						set ret(title_secondary) "$v "
 					} else {
-						set ret(title_secondary) $v
+						set ret(journal) $v
 					}
 				}
 				{J1} {
