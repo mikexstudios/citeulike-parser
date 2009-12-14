@@ -1,0 +1,115 @@
+# Copyright (c) 2009 Kristinn B. Gylfason <citeulike@askur.org>,
+
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, version 2 of the License.
+
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+
+plugin {
+	version {1}
+	name {Japan Society of Applied Physics}
+	url {http://www.jsap.or.jp/english/}
+	blurb {}
+	author {Kristinn B. Gylfason}
+	email {citeulike@askur.org}
+	language {python}
+	regexp {ipap.jp}
+}
+
+format_linkout JSAP {
+	return [list "Japan Society of Applied Physics" \
+			"http://${ckey_1}.ipap.jp/link?${ckey_2}/${ikey_2}/${ikey_1}/"]
+}
+
+
+test {http://jjap.ipap.jp/link?JJAP/48/09KA02/} {
+	formatted_url {{Japan Society of Applied Physics} http://jjap.ipap.jp/link?JJAP/48/09KA02/}
+        linkout {JSAP 09KA02 jjap 48 JJAP}
+	year 2009
+	type JOUR
+        url {http://jjap.ipap.jp/link?JJAP/48/09KA02/}
+        doi {10.1143/JJAP.48.09KA02}
+        publisher {The Japan Society of Applied Physics}
+        title {Formation Mechanism of Oriented Pb(Zr,Ti)O$_{3}$ Thin Films on Platinum Bottom Electrodes from Amorphous Films Prepared by Liquid Delivery Metalorganic Chemical Vapor Deposition}
+        journal {Japanese Journal of Applied Physics}
+        volume 48
+        issue 9
+        start_page 09KA02
+	status ok
+        author {Otani Yohei Y {Yohei Otani}}
+        author {Fukuda Yukio Y {Yukio Fukuda}} 
+        author {Okamura Soichiro S {Soichiro Okamura}} 
+        author {Nakamura Kimitoshi K {Kimitoshi Nakamura}} 
+        author {Nishida Takashi T {Takashi Nishida}} 
+        author {Uchiyama Kiyoshi K {Kiyoshi Uchiyama}}
+        author {Shiosaki Tadashi T {Tadashi Shiosaki}}
+}
+
+test {http://jjap.ipap.jp/link?JJAP/1/239/} {
+	formatted_url {{Japan Society of Applied Physics} http://jjap.ipap.jp/link?JJAP/1/239/}
+        linkout {JSAP 239 jjap 1 JJAP}
+	year 1962
+	type JOUR
+        url {http://jjap.ipap.jp/link?JJAP/1/239/}
+        doi {10.1143/JJAP.1.239}
+        publisher {The Japan Society of Applied Physics}
+        title {Dielectric Constant of PbTe}
+        journal {Japanese Journal of Applied Physics}
+        volume 1
+        issue 4
+        start_page 239
+        end_page 239
+	status ok
+        author {Kanai Yasuo Y {Yasuo Kanai}}
+        author {Shohno Katsufusa K {Katsufusa Shohno}}
+}
+
+test {http://jjap.ipap.jp/link?JJAP/29/L1069/} {
+	formatted_url {{Japan Society of Applied Physics} http://jjap.ipap.jp/link?JJAP/29/L1069/}
+        linkout {JSAP L1069 jjap 29 JJAP}
+	year 1990
+	type JOUR
+        url {http://jjap.ipap.jp/link?JJAP/29/L1069/}
+        doi {10.1143/JJAP.29.L1069}
+        publisher {The Japan Society of Applied Physics}
+        title {Relation between Pinning Potential and Critial Current Density of YBaCuO Superconducting Thin Films}
+        journal {Japanese Journal of Applied Physics}
+        volume 29
+        issue {Part 2, No. 7}
+        start_page L1069
+        end_page L1071
+	status ok
+        author {Enpuku Keiji K {Keiji Enpuku}}
+        author {Sako Ryuich R {Ryuich Sako}}
+        author {Kisu Takanobu T {Takanobu Kisu}}
+        author {Yoshida Keiji K {Keiji Yoshida}}
+}
+
+test {http://apex.ipap.jp/link?APEX/2/112501/} {
+	formatted_url {{Japan Society of Applied Physics} http://apex.ipap.jp/link?APEX/2/112501/}
+        linkout {JSAP 112501 apex 2 APEX}
+	year 2009
+	type JOUR
+        url {http://apex.ipap.jp/link?APEX/2/112501/}
+        doi {10.1143/APEX.2.112501}
+        publisher {The Japan Society of Applied Physics}
+        title {Low Threshold InP/AlGaInP Quantum Dot In-Plane Laser Emitting at 638\,nm}
+        journal {Applied Physics Express}
+        volume 2
+        issue 11
+        start_page 112501
+	status ok
+        author {Schulz Wolfgang WM {Wolfgang Michael Schulz}} 
+        author {Eichfelder Marcus M {Marcus Eichfelder}} 
+        author {Ro{ss}bach Robert R {Robert Ro{ss}bach}} 
+        author {Jetter Michael M {Michael Jetter}} 
+        author {Michler Peter P {Peter Michler}}
+}
+
