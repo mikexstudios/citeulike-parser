@@ -4,6 +4,13 @@ import re, sys, urllib2, cookielib,sys
 from urlparse import urlparse
 from urllib import urlencode
 from urllib2 import urlopen
+import BeautifulSoup
+from html5lib import treebuilders
+import html5lib
+import warnings
+
+warnings.simplefilter("ignore",DeprecationWarning)
+
 
 
 # error messages (taken from iop.py)
@@ -77,19 +84,17 @@ except:
 	sys.exit(1)
 content = f.read()
 
-match = re.search(r"""aps-abstractbox\s*aps-mediumtext">\s*<p>(.*)</p><br\s/>""", content, re.DOTALL)
-abstract = ''
-if match:
-	# strip HTML tags (taken from iop.py)
-	from sgmllib import SGMLParser
-	class XMLJustText (SGMLParser):
-		just_text = ''
-		def handle_data (self,data):
-			self.just_text = self.just_text + ' ' + data
+parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+soup = parser.parse(content)
 
-	parser = XMLJustText()
-	parser.feed(match.group(1))
-	abstract = parser.just_text.replace(',',';').replace('\n',' ').strip()
+abstract = ''
+
+div = soup.find('div',attrs={'class':'aps-abstractbox'})
+if div:
+	abs = []
+	for t in div.findAll(text=True):
+		abs.append(t);
+	abstract =  " ".join(abs).strip()
 
 # We would much much rather extract the DOI from the bibtex feed, since it has a
 # much more std structure, (that isn't as subject to change as the page conent.

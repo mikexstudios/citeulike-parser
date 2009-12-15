@@ -1,0 +1,40 @@
+plugin {
+	version {1}
+	name {Informa Healthcare}
+	url {http://informahealthcare.com/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {informahealthcare.com}
+}
+
+format_linkout IHC {
+	return [list "Informa Healthcare" \
+			"http://www.informahealthcare.com/doi/abs/${ckey_1}"]
+}
+
+test {http://informahealthcare.com/doi/abs/10.1080/17482620802646204} {
+	volume 4
+	linkout {IHC {} 10.1080/17482620802646204 {} {}}
+	linkout {DOI {} 10.1080/17482620802646204 {} {}}
+	formatted_url {{Informa Healthcare} http://www.informahealthcare.com/doi/abs/10.1080/17482620802646204}
+	formatted_url {DOI http://dx.doi.org/10.1080/17482620802646204}
+	year 2009
+	month 1
+	day 1
+	type JOUR
+	start_page 68
+	url http://dx.doi.org/10.1080/17482620802646204
+	end_page 77
+	doi 10.1080/17482620802646204
+	issue 2
+	title {The humanization of healthcare: A value framework for qualitative research}
+	journal {International Journal of Qualitative Studies on Health and Well-being}
+	abstract {doi: 10.1080/17482620802646204 Qualitative research, through its illumination of people's perspectives and experiences, has contributed a particular kind of useful evidence for caring practices. Until now however, it has found its location in healthcare without making the powerful impact on humanizing practice that is its key strength. Our paper develops a conceptual framework for humanizing care, and through examples illustrates an emerging agenda that moves qualitative research into its next and overdue phase: to enter policy-making; curricula in professional education; and to be meaningfully translated into practice in ways that place people as human beings at the centre of care. This paper provides eight philosophically informed dimensions of humanization, which together, form a framework that constitutes a comprehensive value base for considering both the potentially humanizing and dehumanizing elements in caring systems and interactions. In each case, we show, with reference to published studies, how qualitative research findings are already consistent with the humanizing focus articulated in our conceptual framework. We finally describe a reciprocal relationship in which the humanizing value framework guides a dedicated focus for qualitative research, and in which qualitative research in its turn, supports the humanising emphasis because of its intrinsic features.}
+	author {Todres Les L {Todres, Les}}
+	author {Galvin Kathleen KT {Galvin, Kathleen T.}}
+	author {Holloway Immy I {Holloway, Immy}}
+	status ok
+}
+
