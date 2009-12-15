@@ -36,4 +36,4 @@
 
 import atypon
 
-atypon.process("informahealthcare.com", "IHC")
+atypon.process("informahealthcare.com","IHC")

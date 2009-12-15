@@ -57,7 +57,7 @@ ERR_STR_NO_DOI = 'No document object identifier found in the URL: '
 ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
 
 
-def process(serverRoot, linkoutType):
+def process(serverRoot, linkoutType=None):
 	CITATION_SERVER_ROOT = 'http://%s/action/downloadCitation' % serverRoot
 
 	sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
@@ -106,7 +106,8 @@ def process(serverRoot, linkoutType):
 
 	# print the results
 	print "begin_tsv"
-	print "linkout\t%s\t\t%s\t\t" % (linkoutType,doi)
+	if linkoutType:
+		print "linkout\t%s\t\t%s\t\t" % (linkoutType,doi)
 	print "linkout\tDOI\t\t%s\t\t" % (doi)
 	print "type\tJOUR"
 	print "doi\t" + doi
