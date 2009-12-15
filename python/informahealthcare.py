@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2008 Fergus Gallagher <fergus.gallagher@citeulike.org>
+# Copyright (c) 2009 Fergus Gallagher <fergus.gallagher@citeulike.org>
 # All rights reserved.
 #
-# This code is derived from software contributed to CiteULike.org
-# by
-#    Diwaker Gupta
-#    Kristinn B. Gylfason <citeulike@askur.org>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
