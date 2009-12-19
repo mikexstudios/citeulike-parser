@@ -81,7 +81,7 @@ proc CROSSREF::parse_journal {doc} {
 	}
 
 	foreach a [lsort -ascii -index 0 $author_list] {
-		lappend ret(authors) [lindex $a 1]
+		lappend ret(authors) [::author::parse_author [lindex $a 1]]
 	}
 
 	catch {
