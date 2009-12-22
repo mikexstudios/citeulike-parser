@@ -70,6 +70,8 @@ def handle(url):
     abstractEnd = abstractStart + abstractLen
     abstractRaw = page[abstractStart:abstractEnd]
     abstract = abstractRaw.replace('\r\n',' ')
+    p = re.compile( r'\s+')
+    abstract = p.sub(" ",abstract)
 
     # find hyperlinks in page
     myparser = MyParser()
@@ -95,13 +97,13 @@ def handle(url):
     authors = []
     for line in RIS.splitlines():
         if line[:2] == 'T1':  # bibtexify title before printing
-            newTitle = (bibTexString(line.split('-')[1])).strip()
+            newTitle = (bibTexString(line.split('-',1)[1])).strip()
         elif line[:2] == 'JO':  # don't print journal title, take uabbreviated bibtex version
             pass
         elif line[:2] == 'A1':  # RIS does a bad job on authors, fix
-            authorRaw = line.split('-')[1]
-            firstNames = authorRaw.split(',')[1].strip()
-            lastNames = authorRaw.split(',')[0].strip()
+            authorRaw = line.split('-',1)[1]
+            firstNames = authorRaw.split(',',1)[1].strip()
+            lastNames = authorRaw.split(',',1)[0].strip()
             authorClean = firstNames + ' ' + lastNames
             authors.append(authorClean)
         else:
