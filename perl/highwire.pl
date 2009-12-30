@@ -276,18 +276,18 @@ sub get_content {
 	# Hmmm.   I can't get decoded_content to work as described,
 	# so decode bytes "by hand".
 	my $ret = "";
-	eval{
-		# ARGH!  Perl on fester has old version so no
-		# content_charset
-		if ($refman->content_charset) {
-			$ret = decode($refman->content_charset,$ris);
-		} else {
-			$ret = $refman->decoded_content;
-		}
-	};
-	if ($ret) {
-		return $ret;
-	}
+#	eval {
+#		# ARGH!  Perl on fester has old version so no
+#		# content_charset
+#		if ($refman->content_charset) {
+#			$ret = decode($refman->content_charset,$ris);
+#		} else {
+#			$ret = $refman->decoded_content;
+#		}
+#	};
+#	if ($ret) {
+#		return $ret;
+#	}
 	my $headers =  $refman->headers;
 	my $ct = $headers->{"content-type"};
 	if ($ct) {
