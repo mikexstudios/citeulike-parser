@@ -172,7 +172,7 @@ test {http://bioinformatics.oxfordjournals.org/cgi/screenpdf/18/4/529} {
 	title			{Construction of optimal quality control for oligo arrays}
 	journal			{Bioinformatics}
 	author			{Colbourn Charles CJ {Colbourn, Charles J.}}
-	author			{Ling Alan AC {Ling, Alan C. H.}}
+	author			{Ling Alan ACH {Ling, Alan C. H.}}
 	author			{Tompa Martin M {Tompa, Martin}}
 	type			{JOUR}
 	url			http://bioinformatics.oxfordjournals.org/cgi/content/abstract/18/4/529

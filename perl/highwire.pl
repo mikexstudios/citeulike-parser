@@ -4,7 +4,7 @@ use warnings;
 use LWP::UserAgent;
 use LWP;
 use HTTP::Request::Common;
-
+use Encode;
 #
 # Copyright (c) 2009 CiteULike.org
 # All rights reserved.
@@ -210,12 +210,12 @@ if ($mjid) {
 #Get the reference manager RIS file and check retrieved file
 
 $refman = $ua->get("$link_refman1") || (print "status\terr\t (5)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
-$ris = $refman->content;
+$ris = get_content($refman);
 
 if ($ris !~ m{ER\s+-}) {
 	$refman = $ua->get("$link_refman2") || (print "status\terr\t (6)Could not retrieve the citation for this article, Try posting the article from the abstract page.\n" and exit);
-	$ris = $refman->content;
-	print $ris;
+	$ris = get_content($refman);
+	# print "$link_refman2 :: ".$refman->content_charset."\n$ris\n======================\n";
 }
 
 if ($ris !~ m{ER\s+-}) {
@@ -265,10 +265,23 @@ sub gobble_proxy {
 sub get {
 	my ($url) = @_;
 	my $a = $ua->request(GET $url);
-	my $content = $a->content;
+	my $content = get_content($a);
 	return $content;
 }
 
+
+sub get_content {
+	my ($refman) = @_;
+	$ris = $refman->content;
+	# Hmmm.   I can't get decoded_content to work as described,
+	# so decode bytes "by hand".
+	if ($refman->content_charset) {
+		$ris = decode($refman->content_charset,$ris);
+	} else {
+		$ris = $refman->decoded_content;
+	}
+	return $ris;
+}
 
 #<status>#######################################################################
 sub status {
@@ -282,7 +295,7 @@ sub status {
 	else {
 		print ">>>>> ERROR: ".$res->base."\n";
 		print $res->status_line, "\n";
-		print $res->content;
+		print $res->decoded_content;
 	}
 	print "---------------------------------------------------\n";
 }
