@@ -272,7 +272,8 @@ sub get {
 
 sub get_content {
 	my ($refman) = @_;
-	$ris = $refman->content;
+	my $headers =  $refman->headers;
+	my $ris = $refman->content;
 	# Hmmm.   I can't get decoded_content to work as described,
 	# so decode bytes "by hand".
 	my $ret = "";
@@ -288,7 +289,6 @@ sub get_content {
 #	if ($ret) {
 #		return $ret;
 #	}
-	my $headers =  $refman->headers;
 	my $ct = $headers->{"content-type"};
 	if ($ct) {
 		my ($enc) = ($ct =~ /;charset=([^;]+)/i);
@@ -296,10 +296,11 @@ sub get_content {
 			print "$ct :: $enc\n";
 			$ret = decode($enc,$ris);
 		}
-	} else {
-		$ret = $refman->decoded_content;
 	}
-
+	if (!$ret)  {
+		$ret = decode("iso-8859-1",$ris);
+	}
+	#print "$ret\n";
 	return $ret;
 }
 
