@@ -137,7 +137,16 @@ def handle(url):
 
 	xml_url  = crossref_xml_url(doi)
 	xml_page = urlopen(xml_url).read()
+
+
 	xml_page = xml_page.decode('utf-8')
+
+	# Get rid of extraneous "stars" \u2606.   Sometimes at end of title (hopefully
+	# they're never meant to be "real" elsewhere...)
+	xml_page = xml_page.replace(u'\u2606',' ')
+	#\xe2\x98\x86
+
+
 
 	m = re.search("DOI not found in CrossRef", xml_page)
 	if m:
