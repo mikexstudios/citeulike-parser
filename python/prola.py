@@ -8,10 +8,12 @@ import BeautifulSoup
 from html5lib import treebuilders
 import html5lib
 import warnings
+import codecs
+
 
 warnings.simplefilter("ignore",DeprecationWarning)
 
-
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 # error messages (taken from iop.py)
 ERR_STR_PREFIX = 'status\terr\t'
