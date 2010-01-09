@@ -1007,7 +1007,7 @@ namespace eval author {
 		}
 
 		# anything ending in "group" (or similar)
-		if {[regexp -nocase {\s+(group|consortium|project|alliance|team)$} $raw -> ret(last_name) ]} {
+		if {[regexp -nocase {\s+(group|consortium|project|alliance|team|association)$} $raw -> ret(last_name) ]} {
 			if {$debug} { puts "Match Rule 4" }
 			set ret(verbatim) 1
 			return [array get ret]
