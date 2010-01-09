@@ -1007,8 +1007,9 @@ namespace eval author {
 		}
 
 		# anything ending in "group" (or similar)
-		if {[regexp -nocase {\s+(group|consortium|project|alliance|team|association)$} $raw -> ret(last_name) ]} {
+		if {[regexp -nocase {\s+(group|consortium|project|alliance|team|association)\s*$} $raw ]} {
 			if {$debug} { puts "Match Rule 4" }
+			set ret(last_name) $raw
 			set ret(verbatim) 1
 			return [array get ret]
 		}
@@ -1368,6 +1369,7 @@ namespace eval author {
  				{"Cameron" "Richard" "RD" "Richard D Cameron, Jr."}\
  				{"Cameron" "Richard" "RD" "Cameron Jr., Richard D"}\
  				{"Cameron" "Richard" "RD" "Cameron, Jr., Richard D"}\
+				{"French Medical Association" "" "" "French Medical Association"}\
 			]
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
