@@ -1007,7 +1007,7 @@ namespace eval author {
 		}
 
 		# anything containing "group" (or similar)
-		if {[regexp -nocase {group|consortium|project|alliance|team|association|institute|federal|department|union|university|foundation|college|international|american|british|research|company} $raw ]} {
+		if {[regexp -nocase {group|consortium|project|alliance|team|association|institute|federal|department|union|university|foundation|college|international|american|british|research|company|centre|center} $raw ]} {
 			if {$debug} { puts "Match Rule 4" }
 			set ret(last_name) $raw
 			set ret(verbatim) 1
