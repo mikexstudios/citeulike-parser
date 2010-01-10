@@ -69,8 +69,9 @@ format_linkout DOI {
 	set r [list "DOI" "http://dx.doi.org/[::cul::url::encodeURI $ckey_1]"]
 	if {[string first "10.1021/" $ckey_1]==0} {
 		lappend r {American Chem. Soc. Publications}
+		regexp {(10.1021/)(.*)} $ckey_1 -> a b
 		#lappend r "http://pubs3.acs.org/acs/journals/doilookup?in_doi=[::cul::url::encodeURIComponent $ckey_1]"
-		lappend r "http://pubs.acs.org/doi/abs/$ckey_1"
+		lappend r "http://pubs.acs.org/doi/abs/$a[::cul::url::encodeURIComponent $b]"
 	}
 	return $r
 }
