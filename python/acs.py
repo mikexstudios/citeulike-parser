@@ -65,6 +65,7 @@ if not doi_match:
 	sys.exit(1)
 
 doi = doi_match.group(1)
+doi = urllib.unquote(doi)
 
 # Fetch the citation export page - shouldn't need to (we don't require anything from the page),
 # but this is one of those sites that just insists on using cookies session tracking
