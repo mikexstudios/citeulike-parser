@@ -38,6 +38,7 @@
 
 #
 # Function to encode URL compenents
+# NOTE: not utf-8 safe unless indicated.
 #
 namespace eval cul::url {
 
@@ -84,4 +85,36 @@ namespace eval cul::url {
 		variable uricompmap
 		return [string map $uricompmap $uricomp]
 	}
+
+	# These below do UTF-8 URIencode/decode properly
+	proc decodeUTF8 {url} {
+		set text ""
+		set url [string map [list + { }] $url]
+		while {[string length $url]} {
+			if [regexp {^%([0-9a-fA-F][0-9a-fA-F])(.*)} $url _ hex url] {
+				scan $hex %x i
+				append text [format %c $i]
+				continue
+			}
+			if [regexp {^(.)(.*)} $url _ byte url] {
+				append text $byte
+				continue
+			}
+		}
+		return [encoding convertfrom utf-8 $text]
+	}
+
+	proc encodeURIComponentUTF8 {text} {
+		set url ""
+		foreach byte [split [encoding convertto utf-8 $text] ""] {
+			scan $byte %c i
+			if {[string match {[%<>"]} $byte] || $i <= 32 || $i > 127} {
+				append url [format %%%02X $i]
+			} else {
+				append url $byte
+			}
+		}
+		return $url
+	}
+
 }
