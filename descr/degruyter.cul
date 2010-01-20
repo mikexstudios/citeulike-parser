@@ -1,0 +1,41 @@
+plugin {
+	version {1}
+	name {de Gruyter}
+	url {http://www.reference-global.com/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {www.reference-global.com}
+}
+
+format_linkout DEGRUY {
+	return [list "de Gruyter" \
+			"http://www.reference-global.com/doi/abs/${ckey_1}"]
+}
+
+
+test {http://www.reference-global.com/doi/abs/10.1515/ADVGEOM.2009.024} {
+	formatted_url {{de Gruyter} http://www.reference-global.com/doi/abs/10.1515/ADVGEOM.2009.024}
+	formatted_url {DOI http://dx.doi.org/10.1515/ADVGEOM.2009.024}
+	volume 47
+linkouts ->
+	linkout {DEGRUY {} 10.1515/ADVGEOM.2009.024 {} {}}
+	linkout {DOI {} 10.1515/ADVGEOM.2009.024 {} {}}
+	type JOUR
+	url {http://dx.doi.org/10.1515/ADVGEOM.2009.024}
+	doi {10.1515/ADVGEOM.2009.024}
+	volume 9
+	year 2009
+	start_page 517
+	end_page 539
+	day 1
+	issue 4
+	title {Rational maps in real algebraic geometry}
+	journal {Advances in Geometry}
+	abstract {doi: 10.1515/ADVGEOM.2009.024 Abstract The paper deals with rational maps between real algebraic sets. We are interested in the rational maps which extend to continuous maps defined on the entire source space. In particular, we prove that every continuous map between unit spheres is homotopic to a rational map of such a type. We also establish connections with algebraic cycles and vector bundles.}
+	author {Kucharz Wojciech W {Kucharz, Wojciech}}
+	month 10
+	status ok
+}
+
