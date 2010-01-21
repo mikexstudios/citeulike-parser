@@ -93,9 +93,15 @@ $abstract_part = "abstract";
 #$abstract_part = "refs";
 
 
+if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/(\d+)}) {
+	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
+	$journal_site = gobble_proxy($journal_site);
+	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
+}
 #
 # New (2008) Highwire URL format .
-if ($url =~ m{http://([^/]+)/content/}) {
+elsif ($url =~ m{http://([^/]+)/content/}) {
+	print "HERE1\n";
 	($journal_site) = ($1);
 	$url =~ s/\.(\w+)$/.abstract/;
 	($url_abstract, $doi, $pmid, $body) = get_abstract_url($url);
@@ -133,6 +139,8 @@ elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|short|extract|full|r
 else {
 	print "status\terr\t (1) This ($url) does not appear to be a Highwire Press article. Try posting the article from the abstract page.\n" and exit;
 }
+
+print "HERE2\n";
 
 $doi = "";
 
