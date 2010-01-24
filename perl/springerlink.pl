@@ -3,6 +3,7 @@
 use warnings;
 #use LWP::Simple;
 use LWP 5.64;
+use File::Temp qw/tempfile/;
 
 
 #
@@ -57,8 +58,9 @@ $url = <>;
 chomp($url);
 
 #let's emulate better some browser headers
+#'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
 my @ns_headers = (
-   'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
+   'User-Agent' => '',
    'Accept' => 'image/gif, image/x-xbitmap, image/jpeg,
         image/pjpeg, image/png, */*',
    'Accept-Charset' => 'iso-8859-1,*,utf-8',
@@ -94,7 +96,7 @@ if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
 
 # lets remove any initial 'www.' : springerlink.com doesn't like it
 
-$url =~ s/www\.//;
+$url =~ s/(beta|www)\.//;
 
 # Remove any instance of metapress in the URL
 $url =~ s/springerlink\.metapress\.com/springerlink.com/;
@@ -108,23 +110,32 @@ $url =~ m{/content/([^/?]+)};
 
 my $slink = $1 || "";
 
-
+#print "xxxx:slink.1:$slink\n";
 # TODO copy changes for url_abstract into other metapress plugin "roysoc"
 # Assuming it works
 
+(undef, $cookies) = tempfile(UNLINK => 1);
+
+
+
 # If we have a UID from the source URL, then we can jump direct to the RIS
 if ($slink) {
-	$url_abstract = "http://springerlink.com/content/$slink";
+	$url_abstract = "http://www.springerlink.com/content/$slink";
 	# this annoying, need to get a page first - probably a cookie thing.
 	# At least the HTTP HEAD works and so speeds things up.
-	$browser->head("$url_abstract");
-	$link_ris = "http://springerlink.com/export.mpx?code=$slink&mode=ris";
+	#$browser->get("$url_abstract") or print "FAIL\n";
+	qx{wget -q -U "" -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
+	$link_ris = "http://www.springerlink.com/export.mpx?code=$slink&mode=ris";
 } else {
 	# Get the link to the reference manager RIS file
 	$url_abstract = $url;
-	$response = $browser->get("$url_abstract") or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+	#$response = $browser->get("$url_abstract") or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
-	$source_abstract = $response->content;
+	#$source_abstract = $response->content;
+
+	qx{wget -q -U "" -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
+	$source_abstract = qx{wget -q -U "" -O - --load-cookies $cookies "$url_abstract"} or  (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+
 	if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
 		$link_ris = "http://springerlink.com/$1";
 		$link_ris =~ s/&amp;/&/; # replace &amp; for &
@@ -136,13 +147,17 @@ if ($slink) {
 	}
 }
 
+#print "xxxx:link_ris.1:$link_ris\n";
 
 #Get the reference manager RIS file and check retrieved file
-$response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+#$response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+#$ris = $response->content;
 
-$ris = $response->content;
+$ris = qx{wget -q -U "" -O - --load-cookies $cookies "$link_ris"} or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 $ris =~ s/\r//g;
+
+#print "$ris\n";
 
 unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
