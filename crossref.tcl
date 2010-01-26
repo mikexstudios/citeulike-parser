@@ -136,8 +136,9 @@ proc CROSSREF::parse_chapter {doc} {
 
 	set x {}
 	catch {
-		set x  [[$doc selectNodes "$prefix/book_metadata"]]
+		set x  [$doc selectNodes "$prefix/book_metadata"]
 	}
+
 
 	if {[llength $x] > 0} {
 		set meta "$prefix/book_metadata"
@@ -178,15 +179,14 @@ proc CROSSREF::parse_chapter {doc} {
 	}
 
 	catch {
-		catch {
-			set ret(day)   [[$doc selectNodes ${meta}/publication_date/day] text]
-		}
-		catch {
-			set ret(month) [[$doc selectNodes ${meta}/publication_date/month] text]
-		}
-		catch {
-			set ret(year)  [[$doc selectNodes ${meta}/publication_date/year] text]
-		}
+		set ret(day)   [[$doc selectNodes ${meta}/publication_date/day] text]
+	}
+	catch {
+		set ret(month) [[$doc selectNodes ${meta}/publication_date/month] text]
+	}
+	# puts "Looking for ${meta}/publication_date/year"
+	catch {
+		set ret(year)  [[$doc selectNodes ${meta}/publication_date/year] text]
 	}
 
 	catch {
@@ -237,7 +237,6 @@ proc CROSSREF::parse_chapter {doc} {
 
 	foreach a_node $a_nodes {
 
-		puts "XXXX: $a_node"
 		set seq [$a_node getAttribute sequence]
 		if {$seq eq "first"} {
 			set seq A
