@@ -51,21 +51,9 @@ use File::Temp qw/tempfile/;
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-my $browser = LWP::UserAgent->new;
-$browser->cookie_jar({}); #springerlink.com expects we store cookies
 
 $url = <>;
 chomp($url);
-
-#let's emulate better some browser headers
-#'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
-my @ns_headers = (
-   'User-Agent' => '',
-   'Accept' => 'image/gif, image/x-xbitmap, image/jpeg,
-        image/pjpeg, image/png, */*',
-   'Accept-Charset' => 'iso-8859-1,*,utf-8',
-   'Accept-Language' => 'en-US',
-  );
 
 #Examples of compatible url formats:
 #ADD some examples here later.
@@ -74,12 +62,24 @@ my @ns_headers = (
 if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
 	my $doi = $1;
 	my $s_url = "http://www.springerlink.com/openurl.asp?genre=article&id=doi:$doi";
+
+	my $browser = LWP::UserAgent->new;
+	$browser->cookie_jar({}); #springerlink.com expects we store cookies
+	#let's emulate better some browser headers
+	#'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
+	my @ns_headers = (
+		'User-Agent' => '',
+		'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*',
+		'Accept-Charset' => 'iso-8859-1,*,utf-8',
+		'Accept-Language' => 'en-US',
+	);
+
 	my $resp = $browser->head("$s_url", @ns_headers);
 	if ($resp) {
 		my $code = $resp->code;
 		if ($code == 200 ) {
-		# this gives us back the last hop "request", i.e., the
-		# URL of the last redirect
+			# this gives us back the last hop "request", i.e., the
+			# URL of the last redirect
 			my $req = $resp->request();
 			my $uri = $req->uri;
 			print "status\tredirect\t$uri\n";
