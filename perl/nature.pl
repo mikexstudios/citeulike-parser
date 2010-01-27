@@ -49,6 +49,7 @@ binmode STDOUT, ":utf8";
 $url = <>;
 
 $page = get $url;
+$page =~ s/\|\[(\w+)\]\|/&$1;/g;
 
 my $tree = HTML::TreeBuilder->new();
 $tree->parse($page);
