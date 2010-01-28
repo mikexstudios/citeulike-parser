@@ -1,0 +1,43 @@
+plugin {
+	version {1}
+	name {Journal of the American Veterinary Medical Association}
+	url {http://avmajournals.avma.org/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {avmajournals.avma.org}
+}
+
+format_linkout JAVMA {
+	return [list "Journal of the American Veterinary Medical Association" \
+			"http://avmajournals.avma.org/doi/abs/${ckey_1}"]
+}
+
+
+test {http://avmajournals.avma.org/doi/abs/10.2460/javma.236.2.192} {
+	formatted_url {{Journal of the American Veterinary Medical Association} http://avmajournals.avma.org/doi/abs/10.2460/javma.236.2.192}
+	formatted_url {DOI http://dx.doi.org/10.2460/javma.236.2.192}
+	volume 236
+linkouts ->
+	linkout {JAVMA {} 10.2460/javma.236.2.192 {} {}}
+	linkout {DOI {} 10.2460/javma.236.2.192 {} {}}
+	type JOUR
+	url {http://dx.doi.org/10.2460/javma.236.2.192}
+	doi {10.2460/javma.236.2.192}
+	year 2010
+	start_page 192
+	end_page 192
+	day 15
+	issue 2
+	title {Effect of exercise and osteochondral injury on synovial fluid and serum concentrations of carboxy-terminal telopeptide fragments of type II collagen in racehorses}
+	journal {Journal of the American Veterinary Medical Association}
+	abstract {doi: 10.2460/javma.236.2.192 Objective—To investigate the effects of exercise and osteochondral injury on concentrations of carboxy-terminal telopeptide fragments of type II collagen (CTX-II) in synovial fluid (SF) and serum of Thoroughbred racehorses and to compare findings with radiographic and arthroscopic scores of joint injury severity. Animals—78 Thoroughbreds with (n = 38) and without (40) osteochondral injury. Procedures—Serum and metacarpophalangeal or carpal joint SF samples were collected from noninjured horses before and at the end of 5 to 6 months of race training (pre- and postexercise samples, respectively) and from horses with osteochondral injury (1 joint assessed/horse). Synovial fluid and serum CTX-II concentrations were determined by use of an ELISA. Radiographic and arthroscopic scores of joint injury severity were determined for the injured horses. Results—The CTX-II concentrations in SF and SF:serum CTX-II ratio were significantly higher for horses with joint injuries, compared with pre- and postexercise findings in noninjured horses. Serum CTX-II concentrations in postexercise and injured-horse samples were significantly lower than values in pre-exercise samples. On the basis of serum and SF CTX-II concentrations and SF:serum CTX-II ratio, 64% to 93% of serum and SF samples were correctly classified into their appropriate group (pre-exercise, postexercise, or injured-joint samples). In horses with joint injuries, arthroscopic scores were positively correlated with radiographic scores, but neither score correlated with SF or serum CTX-II concentration. Conclusions and Clinical Relevance—Results suggest that serum and SF CTX-II concentrations and SF:serum CTX-II ratio may be used to detect cartilage degradation in horses with joint injury. (Am J Vet Res 2010;71:33–40)}
+	author {Cleary Orlaith OB {Cleary, Orlaith B.}}
+	author {Trumble Troy TN {Trumble, Troy N.}}
+	author {Merritt Kelly KA {Merritt, Kelly A.}}
+	author {Brown Murray MP {Brown, Murray P.}}
+	month 1
+	status ok
+}
+
