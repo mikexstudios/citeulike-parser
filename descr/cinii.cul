@@ -1,0 +1,61 @@
+# Written by Masahiro Sakai
+# Public domain
+
+plugin {
+	version {1}
+	name {CiNii}
+	url {http://ci.nii.ac.jp/}
+	blurb {}
+	author {Masahiro Sakai}
+	email {masahiro.sakai@gmail.com}
+	language {ruby}
+        regexp {ci.nii.ac.jp/naid/\d+}
+}
+
+format_linkout NAID {
+	return [list "CiNii" "http://ci.nii.ac.jp/naid/${ikey_1}/" ]
+}
+
+test {http://ci.nii.ac.jp/naid/120001747884} {
+	status ok
+	formatted_url {CiNii http://ci.nii.ac.jp/naid/120001747884/}
+	linkout {NAID 120001747884 {} {} {}}
+	type {JOUR}
+	year 2010
+	month 1
+	volume 37
+	issue 1
+	start_page 177
+	end_page 189
+	title {On Electron Spin Polarization Created in the Excited Triplet State of Accessory Chlorophyll via Photoinduced Charge-Recombination of the Photosystem II Reaction Center}
+	journal {Applied Magnetic Resonance}
+	publisher {Springer}
+	url {http://ci.nii.ac.jp/naid/120001747884/en/}
+	issn {09379347}
+	doi {10.1007/s00723-009-0049-8}
+	authors {{Katagiri Shusuke S {Shusuke Katagiri}} {Kobori Yasuhiro Y {Yasuhiro Kobori}}}
+}
+
+test {http://ci.nii.ac.jp/naid/110006291054/} {
+	status ok
+	formatted_url {CiNii http://ci.nii.ac.jp/naid/110006291054/}
+	linkout {NAID 110006291054 {} {} {}}
+	type {JOUR}
+	year 2007
+	month 6
+	day 15
+	volume 48
+	issue 10
+	start_page 1
+	end_page 16
+	title {An Implementation of Parallel Threads for YARV: Yet Another RubyVM}
+	journal {情報処理学会論文誌. プログラミング}
+	publisher {Information Processing Society of Japan (IPSJ)}
+	url {http://ci.nii.ac.jp/naid/110006291054/en/}
+	issn {03875806}
+	author {{Koichi Sasad} {} A {KOICHI SASADA}}
+	author {{Yukihiro Matsumot} {} O {YUKIHIRO MATSUMOTO}}
+	author {{Atsushi Maed} {} A {ATSUSHI MAEDA}}
+	author {{Mitaro Namik} {} I {MITARO NAMIKI}}
+	abstract {In this paper, we describe an implementation of parallel threads for YARV: Yet Another RubyVM. The Ruby language is used worldwide because of its ease of use. Ruby also supports multi-threaded programming. The current Ruby interpreter controls all threads only in user-level to achieve high portability. However, this user-level implementation can not support blocking task and can not improve performance on parallel computers. To solve these problems, we implement parallel threads using native threads provided by systems software on YARV: Yet Another RubyVM what we are developing as another Ruby interpreter. To achieve parallel execution, correct synchronizations are needed. Especially, C extension libraries for Ruby which are implemented without consideration about parallel execution need a particular scheme for running in parallel. And we also try to reduce a number of times of synchronization. In this paper, we show implementations of these schemes and results of performance improvement on parallel threads execution.}
+}
