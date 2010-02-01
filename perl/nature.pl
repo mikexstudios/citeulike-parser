@@ -48,6 +48,11 @@ binmode STDOUT, ":utf8";
 
 $url = <>;
 
+if ($url =~ m{/doifinder/(.*)}) {
+	print "status\tredirect\thttp://dx.doi.org/$1\n";
+	exit;
+}
+
 $page = get $url;
 $page =~ s/\|\[(\w+)\]\|/&$1;/g;
 

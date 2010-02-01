@@ -58,6 +58,8 @@ if (! $in_url =~ m{^http://dx\.doi\.org/}i ) {
 
 $in_url =~ m{^http://dx\.doi\.org/(.*)}i;
 
+print "$in_url\n";
+
 $doi = $1;
 
 # pid=username:password (private!)

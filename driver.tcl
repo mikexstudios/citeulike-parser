@@ -263,6 +263,8 @@ namespace eval driver {
 				error "Invalid status code from plugin. Expected ok, err, or redirect. Got: $last_line"
 			}
 
+			set extra [string trim $extra]
+
 			if {$status=="err"} {
 				return [list status err msg [string trim $extra]]
 			}
@@ -276,7 +278,7 @@ namespace eval driver {
 			# If another plugin can handle it, we'll do that
 			if {$status=="redirect"} {
 				incr rec_level
-				return [parse_url $extra $rec_level]
+				return [parse_url [string trim $extra] $rec_level]
 			}
 
 			# Otherwise we'll just have to sort out the data.
