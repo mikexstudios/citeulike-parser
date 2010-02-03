@@ -14,6 +14,7 @@ plugin {
 }
 
 format_linkout PROLA {
+	set ckey_1 [regsub {(/p(?:\d+))_(\d+)} $ckey_1 {\1}]
 	return [list "APS (abstract)" \
 				"http://link.aps.org/abstract/$ckey_1" \
 				"APS (pdf)" \
