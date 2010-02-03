@@ -46,13 +46,11 @@ def bibTexString(string):
 
 
 def handle(url):
-    m = re.match(r'(http://www\.(atmos-chem-phys|clim-past)\.net/[0-9]+/[0-9]+/[0-9]{4}/[[:alpha:]]+-[0-9]+-[0-9]{4}\w*)', url)
+#    m = re.match(r'(http://www\.(atmos-chem-phys|clim-past)\.net/[0-9]+/[0-9]+/[0-9]{4}/[[:alpha:]]+-[0-9]+-[0-9]{4}\w*)', url)
 #    print m
 #    if not m:
 #        raise ParseException, "URL not supported %s" % url
 
-    # read page
-    page = urlopen(url).read()
 
     # get base url
     o = urlparse(url)
@@ -63,6 +61,22 @@ def handle(url):
     else:
         urlBase = o[0]
         journalNameUrlComponent = o[0].rstrip('.net').lstrip('http://www.')
+
+
+    # read page
+    page = urlopen(url).read()
+
+    # EGU don't use proper redirects - just html ones :-(
+    # <meta http-equiv=refresh content="0; url=/7/441/2010/bg-7-441-2010.html">
+    #
+    m = re.search(r'http-equiv=refresh content="0; url=/([^"]+)"', page, re.MULTILINE)
+    if m:
+        url = urlBase+"/"+m.group(1)
+#	print "Reload %s" % url
+        page = urlopen(url).read()
+
+
+
 
     # extract abstract from page
     abstractStart = page.rfind('Abstract.') + 17  # add length of title and tag
