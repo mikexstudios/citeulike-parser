@@ -12,6 +12,10 @@ import htmlentitydefs
 import html5lib
 from html5lib import treebuilders
 
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 class ParseException(Exception):
 	pass

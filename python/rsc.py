@@ -17,6 +17,11 @@
 
 import sys, cgi, urlparse, urllib2
 
+import socket
+
+socket.setdefaulttimeout(15)
+
+
 CITATION_SERVER_ROOT = 'http://www.rsc.org/delivery/_ArticleLinking/refdownload.asp'
 REQ_STR = '?ManuscriptId=%(article_id)s&type=refman'
 QUERY=4;

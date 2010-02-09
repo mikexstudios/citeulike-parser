@@ -7,6 +7,9 @@ import re,sys
 from urllib2 import urlopen
 from urlparse import urlparse
 import sgmllib
+import socket
+
+socket.setdefaulttimeout(15)
 
 
 class ParseException(Exception):

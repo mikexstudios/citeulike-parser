@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 import re, sys, urllib2, cookielib
 
+import socket
+
+socket.setdefaulttimeout(15)
+
+
 # regexp to extract the scopus eid of the article from the url
 EID_REGEXP="&eid=[a-zA-Z0-9\.\-]*(&|$)"
 # regexp to extract the input formfield holding the stateKey value for this session

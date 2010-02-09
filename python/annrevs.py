@@ -37,6 +37,9 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 import re, sys, urllib, urllib2, cookielib
+import socket
+
+socket.setdefaulttimeout(15)
 
 CITATION_SERVER_ROOT = 'http://arjournals.annualreviews.org/action/downloadCitation'
 DOI_URL_SEP ='%2F'

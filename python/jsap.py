@@ -15,6 +15,10 @@
 # this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys, urllib2
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 CITATION_SERVER_ROOT = 'http://%(lc_journal)s.ipap.jp/cgi-bin/dumparticle'
 REQ_STR = '?mode=bibtex&journal=%(journal)s&volume=%(volume)s&page=%(page)s'

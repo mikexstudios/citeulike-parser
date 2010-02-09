@@ -16,6 +16,11 @@ import htmlentitydefs
 import html5lib
 from html5lib import treebuilders
 
+import socket
+
+socket.setdefaulttimeout(15)
+
+
 #http://medicine.plosjournals.org/perlserv/?request=get-document&doi=10.1371%2Fjournal.pmed.0020124
 def url2doi(url):
 	""" Look for any instance of a DOI in the URL """

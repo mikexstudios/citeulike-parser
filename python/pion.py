@@ -2,6 +2,9 @@
 
 import re, sys, urlparse, urllib2
 from cultools import urlparams, bail
+import socket
+
+socket.setdefaulttimeout(15)
 
 
 #

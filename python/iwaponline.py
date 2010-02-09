@@ -39,6 +39,10 @@ import string
 import sys
 import urllib2
 import textwrap
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 url = sys.stdin.readline()
 url = url.strip()

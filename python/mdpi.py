@@ -11,6 +11,10 @@ from html5lib import treebuilders
 import warnings
 import codecs
 warnings.simplefilter("ignore",DeprecationWarning)
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 
 

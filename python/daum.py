@@ -5,6 +5,10 @@
 # Seo Sanghyeon
 
 import re, urllib, sys
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 def url_to_docid(url):
     match = re.search(r'ref.daum.net/item/(\d+)', url)

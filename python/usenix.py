@@ -40,6 +40,11 @@ import sys
 import urllib2
 import textwrap
 
+import socket
+
+socket.setdefaulttimeout(15)
+
+
 url = sys.stdin.readline()
 ckey_1 = url.strip()
 #keys = re.search("events/(([^/]+/)*)(\S*).html", url)

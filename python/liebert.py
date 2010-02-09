@@ -41,6 +41,10 @@
 
 
 import re, sys, urllib, urllib2, cookielib
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 CITATION_SERVER_ROOT = 'http://www.liebertonline.com/action/downloadCitation'
 DOI_URL_SEP ='%2F'

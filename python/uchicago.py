@@ -39,5 +39,8 @@
 #
 
 import atypon
+import socket
+
+socket.setdefaulttimeout(15)
 
 atypon.process("www.journals.uchicago.edu", "UCHIC")

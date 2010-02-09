@@ -8,6 +8,10 @@
 import urllib
 import sys
 import re
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 def main():
 	# Append bibtex to the url

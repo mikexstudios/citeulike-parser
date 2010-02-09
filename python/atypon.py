@@ -38,6 +38,10 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 import re, sys, urllib, urllib2, cookielib, codecs
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 DOI_URL_SEP ='%2F'
 DOI_SEP ='/'

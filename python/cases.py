@@ -6,6 +6,10 @@ from urllib2 import urlopen
 from copy import copy
 import BeautifulSoup
 import htmlentitydefs
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 class ParseException(Exception):
 	pass

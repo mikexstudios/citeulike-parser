@@ -4,6 +4,10 @@ import sys, re
 from urllib import urlopen
 from re import findall, sub
 from htmlentitydefs import entitydefs
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 # regular expressions for extracting fields from the abstract page
 content_re = r'<div id="content">(.*?)</div>'  # the content div

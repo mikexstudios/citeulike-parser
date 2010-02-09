@@ -36,6 +36,11 @@
 import sys, re, codecs
 from urllib2 import urlopen
 from urlparse import urlparse
+
+import socket
+
+socket.setdefaulttimeout(15)
+
 url = sys.stdin.readline().strip()
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)

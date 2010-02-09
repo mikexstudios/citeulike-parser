@@ -7,6 +7,10 @@
 #
 
 import re, sys, urllib, urllib2,codecs
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 # URL parts
 JSTAGE_URL = 'http://www.jstage.jst.go.jp/'

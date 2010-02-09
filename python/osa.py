@@ -19,6 +19,9 @@ import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs
 from BeautifulSoup import BeautifulSoup
 import html5lib
 from html5lib import treebuilders
+import socket
+
+socket.setdefaulttimeout(15)
 
 
 RIS_SERVER_ROOT = \

@@ -39,6 +39,10 @@
 #
 
 import re, sys, urllib2
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 
 

@@ -10,6 +10,10 @@ import html5lib
 import warnings
 import codecs
 
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 warnings.simplefilter("ignore",DeprecationWarning)
 

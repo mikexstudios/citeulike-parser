@@ -34,6 +34,10 @@
 
 import sys
 from urllib import urlopen
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 # error messages
 ERR_STR_FETCH = 'Unable to fetch the bibliographic data: '

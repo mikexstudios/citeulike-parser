@@ -38,6 +38,10 @@
 #
 
 import re, sys, urllib, urllib2
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 ACS_URL = 'http://pubs.acs.org'
 

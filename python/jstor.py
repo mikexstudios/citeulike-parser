@@ -36,6 +36,10 @@
 
 from urllib2 import urlopen
 import urllib2, urllib, re
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 def url_to_id(url):
 

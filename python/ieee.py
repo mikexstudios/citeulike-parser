@@ -41,6 +41,10 @@ import re, sys, cookielib, urllib2
 from cultools import urlparams, bail
 from urllib import urlencode, unquote
 from urllib2 import urlopen
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 # Read URL from stdin
 url = sys.stdin.readline().strip()

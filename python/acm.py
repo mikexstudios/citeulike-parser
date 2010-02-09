@@ -35,6 +35,10 @@
 import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs
 from BeautifulSoup import BeautifulSoup
 
+import socket
+
+socket.setdefaulttimeout(15)
+
 ACM_URL = 'http://portal.acm.org/'
 
 ERR_STR_PREFIX = 'status\terr\t'

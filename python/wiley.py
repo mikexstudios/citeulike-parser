@@ -39,6 +39,11 @@
 
 import re, sys, urllib2, cookielib, urlparse
 
+import socket
+
+socket.setdefaulttimeout(15)
+
+
 SERVER_ROOT = 'http://www3.interscience.wiley.com/tools/citex'
 GET_COOKIE_STR = '?clienttype=1&subtype=1&mode=1&version=1&id=%s'
 DOWNL_REF_STR = '?mode=2&format=%s&type=2&file=%s&exportCitation.x=10&exportCitation.y=7&exportCitation=submit'

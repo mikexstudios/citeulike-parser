@@ -3,6 +3,10 @@ import re, sys, urllib, urllib2, cookielib
 from BeautifulSoup import BeautifulSoup, Tag
 from urllib2 import HTTPError
 import BaseHTTPServer
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 cj=cookielib.CookieJar()
 opener=urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))

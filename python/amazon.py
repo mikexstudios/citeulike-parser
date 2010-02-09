@@ -39,6 +39,10 @@
 import re, os
 import isbn, ecs
 from html2text import html2text
+import socket
+
+socket.setdefaulttimeout(15)
+
 
 class BadUrl(Exception):
 	pass
