@@ -81,7 +81,7 @@ proc url_get {url {once_only 0}} {
 		# Do it.
 		set token [http::geturl $url -headers $headers]
 		upvar #0 $token state
-		
+
 		# Set whatever cookies get returned into our hi-tech
 		# variable storage system.
 		foreach {name value} $state(meta) {
@@ -93,11 +93,17 @@ proc url_get {url {once_only 0}} {
 				}
 			}
 		}
-				
+
 		set code [lindex $state(http) 1]
 		if {$code==302 || $code==301} {
 			array set meta $state(meta)
-			set url $meta(Location)
+
+			if {[info exists meta(Location)]} {
+				set url $meta(Location)
+			} else {
+				set url $meta(location)
+			}
+
 
 			if {$once_only} {
 				return $url
@@ -113,7 +119,7 @@ proc url_get {url {once_only 0}} {
 	}
 
 	set page $state(body)
-	
+
 	return $page
 }
 
@@ -124,12 +130,12 @@ proc bail {error} {
 
 # Try to extract the start and end page from the raw text
 proc parse_page_numbers {p} {
-	
+
 	if {[regexp {^(\d+)-+(\d+)$} $p -> first last]} {
 		if {$last < $first} {
 			# Something like 1293-5
 			set end_pos "end-[string length $last]"
-			
+
 			set last "[string range $first 0 $end_pos]$last"
 		}
 		return [list $first $last]
@@ -166,7 +172,7 @@ proc parse_start_end_pages {p} {
 	if {$last < $first} {
 	    # Something like 1293-5
 	    set end_pos "end-[string length $last]"
-	    
+
 	    set last "[string range $first 0 $end_pos]$last"
 	}
 	return [list $first $last]
