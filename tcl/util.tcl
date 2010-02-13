@@ -84,6 +84,7 @@ proc url_get {url {once_only 0}} {
 
 		# Set whatever cookies get returned into our hi-tech
 		# variable storage system.
+		catch {unset location}
 		foreach {name value} $state(meta) {
 			if {[string tolower $name]=="set-cookie"} {
 				set cookie_set [lindex [split $value {;}] 0]
@@ -92,18 +93,20 @@ proc url_get {url {once_only 0}} {
 					set COOKIES($cookie_key) $cookie_set
 				}
 			}
+			if {[string tolower $name] eq "location"} {
+				set location $value
+			}
+
 		}
 
 		set code [lindex $state(http) 1]
 		if {$code==302 || $code==301} {
-			array set meta $state(meta)
 
-			if {[info exists meta(Location)]} {
-				set url $meta(Location)
-			} else {
-				set url $meta(location)
+			if {![info exists location]} {
+				error "No location in 30x HTTP headers while following $url"
 			}
 
+			set url $location
 
 			if {$once_only} {
 				return $url

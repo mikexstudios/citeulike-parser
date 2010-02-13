@@ -53,7 +53,7 @@ namespace eval author {
 	set TRAILING_JUNK_2 {,?\s*(?:II|III|IV)} ; # The Indiana Jones school of naming your children..
 	set NAME_2 {(?:[^ \t\n\r\f\v,.]{2,}|[^ \t\n\r\f\v,.;]{2,}\-[^ \t\n\r\f\v,.;]{2,})}
 	set INITIALS_4  {(?:(?:[A-Z]\.\s){1,4})|(?:(?:[A-Z]\.\s){1,3}[A-Z]\s)|(?:[A-Z]{1,4}\s)|(?:(?:[A-Z]\.-?){1,4}\s)|(?:(?:[A-Z]\.-?){1,3}[A-Z]\s)|(?:(?:[A-Z]-){1,3}[A-Z]\s)|(?:(?:[A-Z]\s){1,4})|(?:(?:[A-Z] ){1,3}[A-Z]\.\s)|(?:[A-Z]-(?:[A-Z]\.){1,3}\s)}
-	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|Mc|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
+	set PREFIX {Dell(?:[a|e])?\s|Dalle\s|D[a|e]ll\'\s|Dela\s|Del\s|[Dd]e (?:La |Los )?\s|M(?:a)?c|[Dd]e\s|[Dd][a|i|u]\s|L[a|e|o]\s|[D|L|O]\'|St\.?\s|San\s|[Dd]en\s|[Vv]on\s(?:[Dd]er\s)?|(?:[Ll][ea] )?[Vv]an\s(?:[Dd]e(?:n|r)?\s)?}
 	set PREFIX2 {^(dell([ae])?|d[aiue]|l[aeio]|v[oa]n|san|de[rn])$}
 	set SURNAME [subst {(?:$PREFIX){0,2}(?:$NAME_2)}]
 	set SURNAMES [subst {${SURNAME}(?: $SURNAME)*}]
@@ -916,6 +916,8 @@ namespace eval author {
 
 	# Try to pick out a few common formats with regexps first.
 	proc common_formats {raw} {
+
+
 		array set x [_common_formats $raw]
 
 
@@ -926,6 +928,7 @@ namespace eval author {
 			if {[info exists x(initials)]} {
 				set x(initials) [string toupper [string map {"." "" "-" "" " " ""} $x(initials)]]
 			}
+
 
 			if {[info exists x(first_name)]} {
 				set x(first_name) [capitalize_name $x(first_name)]
@@ -977,6 +980,11 @@ namespace eval author {
 		variable SURNAMES
 
 		set debug 0
+
+
+		if {![regexp {[a-z]} $raw]} {
+			set raw [capitalize_name $raw]
+		}
 
 		# "verbatim name"
 		if {[regexp {^\s*"([^"]+)"\s*$} $raw -> ret(last_name)]} {
@@ -1370,6 +1378,8 @@ namespace eval author {
  				{"Cameron" "Richard" "RD" "Cameron Jr., Richard D"}\
  				{"Cameron" "Richard" "RD" "Cameron, Jr., Richard D"}\
 				{"French Medical Association" "" "" "French Medical Association"}\
+				{"Marsden" "Magnus" "M" "Magnus Marsden"}\
+				{"Marsden" "Magnus" "M" "MAGNUS MARSDEN"}\
 			]
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
