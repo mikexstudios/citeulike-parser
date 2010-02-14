@@ -282,6 +282,96 @@ proc CROSSREF::parse_chapter {doc} {
 	return [array get ret]
 }
 
+
+#<CONFERENCE>###################################################################
+proc CROSSREF::parse_conf {doc} {
+	array set ret [list]
+
+	set prefix //doi_record/crossref/conference
+	set meta "$prefix/proceedings_metadata"
+
+	set paper ${prefix}/conference_paper
+	#
+	# Authors
+	#    - NB we use the 'sequence' attribute to get author order correct
+	#
+	set a_nodes [$doc selectNodes ${prefix}/conference_paper/contributors/person_name\[@contributor_role='author'\]]
+
+
+	set author_list [list]
+
+	foreach a_node $a_nodes {
+		set seq [$a_node getAttribute sequence]
+		if {$seq eq "first"} {
+			set seq A
+		} else {
+			set seq Z
+		}
+		set fname ""
+		set lname ""
+		catch {
+			set fname [[$a_node selectNodes given_name] text]
+		}
+		catch {
+			set lname [[$a_node selectNodes surname] text]
+		}
+
+		lappend author_list [list $seq "$lname, $fname"]
+	}
+
+	foreach a [lsort -ascii -index 0 $author_list] {
+		lappend ret(authors) [::author::parse_author [lindex $a 1]]
+	}
+
+
+	catch {
+		set ret(day)   [[$doc selectNodes ${meta}/publication_date/day] text]
+	}
+	catch {
+		set ret(month) [[$doc selectNodes ${meta}/publication_date/month] text]
+	}
+	# puts "Looking for ${meta}/publication_date/year"
+	catch {
+		set ret(year)  [[$doc selectNodes ${meta}/publication_date/year] text]
+	}
+
+	catch {
+		set ret(title) [_get_text [$doc selectNodes ${paper}/titles/title\[1\]]]
+	}
+
+	catch {
+		set ret(publisher) [[$doc selectNodes ${meta}/publisher/publisher_name] text]
+	}
+
+	catch {
+		set ret(isbn) [[$doc selectNodes ${meta}/isbn\[1\]] text]
+	}
+
+	catch {
+		set ret(title_secondary) [_get_text [$doc selectNodes ${meta}/proceedings_title]]
+	}
+
+	catch {
+		set ret(start_page) [[$doc selectNodes ${paper}/pages/first_page] text]
+	}
+	catch {
+		set ret(end_page) [[$doc selectNodes ${paper}/pages/last_page] text]
+	}
+
+
+	catch {
+		set ret(location) [[$doc selectNodes ${prefix}/event_metadata/conference_location] text]
+	}
+
+
+	set ret(type) INCONF
+
+
+	return [array get ret]
+
+}
+
+
 proc ns_test {xml} {
 	set doc [[dom parse $xml] documentElement]
 	puts "XXX1: $xml"
@@ -326,6 +416,10 @@ proc CROSSREF::parse_xml {xml {hints {}}} {
 			set ret [parse_chapter $doc]
 		}
 	}
+	# Conference?
+		if {[$doc selectNodes //doi_record/crossref/conference] ne ""} {
+			set ret [parse_conf $doc]
+		}
 	if {$ret ne ""} {
 		return $ret
 	}
@@ -357,3 +451,14 @@ proc CROSSREF::load {doi} {
 
 	return $state(body)
 }
+
+proc test_conf {} {
+	source author.tcl
+	set doi "10.1109/MSR.2007.13"
+	set crossref_xml [CROSSREF::load $doi]
+	set crossref_data [CROSSREF::parse_xml $crossref_xml]
+	puts $crossref_data
+
+}
+
+# test_conf
