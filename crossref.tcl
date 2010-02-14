@@ -392,13 +392,11 @@ proc ns_test {xml} {
 
 proc CROSSREF::parse_xml {xml {hints {}}} {
 
-
 	regsub -all {xmlns(:\w+)?="[^"]+"} $xml {} xml
 
 	set doc [[dom parse $xml] documentElement]
 
 	set ret ""
-
 
 	# Journal?
 	catch {
@@ -417,9 +415,11 @@ proc CROSSREF::parse_xml {xml {hints {}}} {
 		}
 	}
 	# Conference?
+	catch {
 		if {[$doc selectNodes //doi_record/crossref/conference] ne ""} {
 			set ret [parse_conf $doc]
 		}
+	}
 	if {$ret ne ""} {
 		return $ret
 	}
