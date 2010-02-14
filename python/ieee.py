@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.6
 
-# Copyright (c) 2007 Richard Cameron <citeulike@askur.org>
+# Copyright (c) 2010 Fergus Gallagher <fergus@citeulike.org>
 # All rights reserved.
 #
 # This code is derived from software contributed to CiteULike.org
 # by
-#    Richard Cameron
+#    Fergus Gallagher
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -42,12 +42,21 @@ from cultools import urlparams, bail
 from urllib import urlencode, unquote
 from urllib2 import urlopen
 import socket
+import BeautifulSoup
+from html5lib import treebuilders
+import html5lib
+import warnings
+import codecs
 
 socket.setdefaulttimeout(15)
+
+warnings.simplefilter("ignore",DeprecationWarning)
 
 
 # Read URL from stdin
 url = sys.stdin.readline().strip()
+
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 
 if url.startswith("http://ieeexplore.ieee.org/Xplore/login.jsp?url="):
@@ -70,7 +79,7 @@ url = url_head + "?" + url_tail
 try:
 	ar_number = int(urlparams(url)["arnumber"])
 except KeyError:
-	bail("Couldn't find and 'arNumber' field in the URL")
+	bail("Couldn't find an 'arNumber' field in the URL")
 
 jar = cookielib.CookieJar()
 handler = urllib2.HTTPCookieProcessor(jar)
@@ -78,72 +87,54 @@ opener = urllib2.build_opener(handler)
 urllib2.install_opener(opener)
 
 # Fetch the original page to get the session cookie
-original = urlopen("http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=%d" % ar_number).read()
+original = urlopen("http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=%d" % ar_number).read()
 
-doi = re.findall(".*Digital Object Identifier\:.(10\...../[^<]+)<", original)
 
-published = None
-m = re.search("Publication Date:(?:.*[^\d])?(\d+) (\w+)(?:\.)? (\d+)", original, re.MULTILINE)
-if m:
-	months = { 'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12,
-		'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6, 'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12 }
-	published = {}
-	published["year"]=m.group(3)
-	try:
-		published["month"]=months[m.group(2)]
-	except:
-		pass
-	published["day"]=m.group(1)
-else:
-	m = re.search("Published:\s+(\d+)-(\d+)-(\d+)", original)
-	if m:
-		published = {}
-		published["year"]=m.group(1)
-		published["month"]=m.group(2)
-		published["day"]=m.group(3)
+parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+soup = parser.parse(original)
 
-# Post to get the RIS document
-data = urlencode( { 'dlSelect' : 'cite_abs',
-                    'fileFormate' : 'ris', # spelling mistake intentional (on their part)
-                    'arnumber' : "<arnumber>%d</arnumber>" % ar_number,
-                    'Submit' : 'Download' } )
-ris =  urlopen("http://ieeexplore.ieee.org/xpls/citationAct", data).read()
+abstract = ''
 
-if not re.search("TY  -", ris):
-	bail("Can't fetch RIS record")
+abstractLink = soup.find('a',attrs={'name':'Abstract'})
+if abstractLink:
+	abstractDiv = abstractLink.parent
+	abs = []
+	for t in abstractDiv.findAll(text=True):
+		if t != "Abstract":
+			abs.append(t);
+	abstract =  " ".join(abs).strip()
 
-# We're seeing authors duplicated like this:
-#  AU  - Dahele, J.
-#  A1  - Dahele, J.
-# Strip AU if both AU, A1 present. Should probably check that both sets of authors
-# are identical if we are going to remove one...
-if re.search("AU  -", ris) and re.search("A1  -", ris):
-	ris_p = re.compile('^AU  - .*\n', re.M)
-	ris = re.sub(ris_p, "", ris, re.M)
+
+#body = soup.findAll('div',attrs={'class':'body-text'})
+#print body
+
+doi = None
+
+aLinks = soup.findAll("a")
+for a in aLinks:
+	if not a.has_key("href"):
+		continue
+	href = a["href"]
+	if href.startswith("http://dx.doi.org/"):
+		match = re.search(r'(10\..*)', href)
+		if match:
+			doi = match.group(1)
+		break
+
+
+if not doi:
+	bail("Couldn't find an DOI")
+
 
 print "begin_tsv"
 
 if doi:
-	print "linkout\tDOI\t\t%s\t\t" % (doi[0])
+	print "linkout\tDOI\t\t%s\t\t" % (doi)
 
-#if re.search("PY\s+-\s+(\d+)",ris):
-#	# trust the RIS
-#	pass
-#elif published:
-#	pass
-
-if published:
-	print "year\t%s" % published["year"]
-	if published.has_key("month"):
-		print "month\t%s" % published["month"]
-	if published.has_key("day"):
-		print "day\t%s" % published["day"]
-
+if abstract != "":
+	print "abstract\t%s" % abstract
 
 print "linkout\tIEEE\t%d\t\t\t" % (ar_number)
 print "end_tsv"
-print "begin_ris"
-print "%s" % (ris)
-print "end_ris"
 print "status\tok"
 

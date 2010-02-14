@@ -7,6 +7,7 @@ plugin {
 	email {camster@citeulike.org}
 	language {python}
 	regexp {ieeexplore.ieee.org}
+	use_crossref 1
 }
 
 format_linkout IEEE {
