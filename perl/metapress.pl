@@ -3,7 +3,7 @@
 use warnings;
 #use LWP::Simple;
 use LWP 5.64;
-
+use File::Temp qw/tempfile/;
 
 #
 # Copyright (c) 2009 Fergus Gallagher, CiteULike.org
@@ -56,7 +56,7 @@ if ($url =~ /springerlink/) {
 
 #let's emulate better some browser headers
 my @ns_headers = (
-   'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
+   'User-Agent' => 'Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/532.9 (KHTML, like Gecko) Chrome/5.0.307.7 Safari/532.9',
    'Accept' => 'image/gif, image/x-xbitmap, image/jpeg,
         image/pjpeg, image/png, */*',
    'Accept-Charset' => 'iso-8859-1,*,utf-8',
@@ -80,32 +80,40 @@ my $slink = $1 || "";
 chomp $slink;
 
 
+my ($BASE) = ($url =~ m{(http://(?:[^/]+))});
+
+(undef, $cookies) = tempfile(UNLINK => 1);
+
+
 # TODO copy changes for url_abstract into other metapress plugin "roysoc"
 # Assuming it works
 
 # If we have a UID from the source URL, then we can jump direct to the RIS
 if ($slink) {
-	$url_abstract = "http://metapress.com/content/$slink";
+	$url_abstract = $BASE."/content/$slink";
 	# this annoying, need to get a page first - probably a cookie thing.
 	# At least the HTTP HEAD works and so speeds things up.
-	$browser->head("$url_abstract", @ns_headers);
-	$link_ris = "http://metapress.com/export.mpx?code=$slink&mode=ris";
+	#$browser->head("$url_abstract", @ns_headers);
+	qx{wget -q -U "" -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
+	$link_ris = $BASE."/export.mpx?code=$slink&mode=ris";
 } else {
 	# Get the link to the reference manager RIS file
 	$url_abstract = $url;
-	$browser->head("$url_abstract", @ns_headers);
-	$response = $browser->get("$url_abstract") or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+	qx{wget -q -U "" -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
+	# $browser->head("$url_abstract", @ns_headers);
+	#$response = $browser->get("$url_abstract") or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
-	$source_abstract = $response->content;
+	#$source_abstract = $response->content;
+	$source_abstract = qx{wget -q -U "" -O - --load-cookies $cookies "$url_abstract"} or  (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+
 	if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
-		$link_ris = "http://metapress.com/$1";
+		$link_ris = $BASE."/$1";
 		$link_ris =~ s/&amp;/&/; # replace &amp; for &
 		$link_ris =~ s/\.\.\/*//; # remove any ../
 		$link_ris =~ s/\.\.\/*//; # remove any ../ again
 	} elsif ($source_abstract =~ m{href=".*&id=([^&]+)&.*">Linking Options</a>}i) {
-		$link_ris = "http://metapress.com/export.mpx?code=$1&mode=ris"
+		$link_ris = $BASE."/export.mpx?code=$1&mode=ris"
 	} else {
-		print $source_abstract;
 		print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
 	}
 }
@@ -113,16 +121,19 @@ if ($slink) {
 
 #Get the reference manager RIS file and check retrieved file
 
-$browser->head("$link_ris", @ns_headers);
-$response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+#$browser->head("$link_ris", @ns_headers);
+#$response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+#$ris = $response->content;
 
-$ris = $response->content;
+#qx{wget -q -U "" -O - --load-cookies $cookies "$url_abstract"};
+$ris = qx{wget -q -U "" -O - --load-cookies $cookies "$link_ris"} or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 $ris =~ s/\r//g;
 
 unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from MetaPress's 'export citation'\n" and exit;
 }
+	print "$ris\n$link_ris\n";
 
 #Generate linkouts and print RIS:
 print "begin_tsv\n";
@@ -140,6 +151,11 @@ if ($ris =~ m{UR  - http://dx.doi.org/([0-9a-zA-Z_/.:-]+/[0-9a-zA-Z_/.:-]+)}) {
 	$have_linkouts = 1;
 }
 if ($ris =~ m{UR  - http://www.metapress.com/content/([^/\r\n]+)}) {
+	$slink = $1;
+	chomp $slink;
+	print "linkout\tMPRESS\t\t$slink\t\t\n";
+	$have_linkouts = 1;
+} elsif ($ris =~ m{UR  - http://(?:\w+).metapress.com/link.asp\?id=(\w+)}) {
 	$slink = $1;
 	chomp $slink;
 	print "linkout\tMPRESS\t\t$slink\t\t\n";
