@@ -1,5 +1,6 @@
 from urlparse import urlparse
 import sys
+import cgi
 
 def bail(msg):
 	print "status\terr\t", msg
@@ -7,6 +8,6 @@ def bail(msg):
 
 def urlparams(url):
 	ret = {}
-	for key, value in [i.split('=') for i in urlparse(url)[4].split('&')]:
-		ret[key.lower()]=value
+	for (key,val) in cgi.parse_qsl(urlparse(url)[4]):
+		ret[key.lower()]=val
 	return ret
