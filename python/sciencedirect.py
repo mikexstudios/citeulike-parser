@@ -115,7 +115,9 @@ def scrape_abstract(page):
 #
 def handle(url):
 
-	page = urlopen(canon_url(url)).read()
+	cUrl = canon_url(url)
+	print "%s => %s" % (url, cUrl)
+	page = urlopen(cUrl).read()
 
 	m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
 
@@ -125,11 +127,13 @@ def handle(url):
 		parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
 		soup = parser.parse(page)
 #		soup = BeautifulSoup.BeautifulSoup(page)
-		for link in soup.findAll('a'):
-			if link.string and string.lower(link.string) in ('view abstract'):
-				page = urlopen(canon_url("http://www.sciencedirect.com" + link['href'])).read()
-				m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
-				break
+
+		link = soup.find(text=re.compile(r"view abstract", re.I))
+		if link:
+			href = link.parent['href']
+			page = urlopen(canon_url("http://www.sciencedirect.com" + href)).read()
+			m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
+
 
 	if not m:
 		raise ParseException, "Cannot find DOI in page"
