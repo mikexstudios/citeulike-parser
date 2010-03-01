@@ -134,15 +134,29 @@ my $abstract = $tree->look_down( '_tag', 'span',
 );
 if ($abstract) {
 	$abstract = $abstract->as_text;
-} else {
+}
+
+if (!$abstract) {
 	@abstract = $tree->look_down( '_tag', 'p',
-		sub { $_[0]->attr("class") eq 'lead' }
+		sub { $_[0]->attr("class") =~ m{\blead\b} }
 	);
 	if (@abstract) {
 		$abstract = join (" ", map {$_->as_text} @abstract );
 	}
 }
-
+if (!$abstract) {
+	$abstract = $tree->look_down( '_tag', 'div',"id","abs");
+	if ($abstract) {
+		@abstract = $abstract->look_down( '_tag', 'p',
+			sub { $_[0]->attr("class") =~ m{\babs\b} }
+		);
+		if (@abstract) {
+			$abstract = join (" ", map {$_->as_text} @abstract );
+		} else {
+			undef $abstract;
+		}
+	}
+}
 
 if ($abstract) {
 	print "abstract\t$abstract\n";
