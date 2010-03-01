@@ -104,9 +104,17 @@ def scrape_abstract(page):
 						abs.append(t)
 				break
 
+	if len(abs) == 0:
+		for div in soup.findAll('div',attrs={'id':'articleContent'}):
+			p = div.find('div', attrs={'class':'articleText_indent'})
+			if p:
+				for t in p.findAll(text=True):
+					abs.append(t.string)
+
 	abstract = ' '.join(abs);
 
 	abstract = re.sub('\n+',' ',abstract)
+	abstract = re.sub('\s+',' ',abstract)
 	return unescape(abstract)
 
 
