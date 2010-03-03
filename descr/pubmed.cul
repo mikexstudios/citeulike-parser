@@ -69,8 +69,6 @@ format_linkout PMID {
 	lappend ret "http://view.ncbi.nlm.nih.gov/pubmed/$ikey_1"
 	lappend ret "Hubmed"
 	lappend ret "http://www.hubmed.org/display.cgi?uids=$ikey_1"
-	lappend ret "Pubget"
-	lappend ret "http://pubget.com/paper/${ikey_1}"
 
 	return $ret
 }
