@@ -73,5 +73,6 @@ format_linkout DOI {
 		#lappend r "http://pubs3.acs.org/acs/journals/doilookup?in_doi=[::cul::url::encodeURIComponent $ckey_1]"
 		lappend r "http://pubs.acs.org/doi/abs/$a[::cul::url::encodeURIComponent $b]"
 	}
+	lappend r "Pubget" "http://pubget.com/search?q=doi:[::cul::url::encodeURIComponent $ckey_1]"
 	return $r
 }

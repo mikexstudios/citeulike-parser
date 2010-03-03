@@ -70,7 +70,7 @@ format_linkout PMID {
 	lappend ret "Hubmed"
 	lappend ret "http://www.hubmed.org/display.cgi?uids=$ikey_1"
 	lappend ret "Pubget"
-	lappend ret "http://pubget.com/search?q=pmid%3A${ikey_1}"
+	lappend ret "http://pubget.com/paper/${ikey_1}"
 
 	return $ret
 }
