@@ -35,7 +35,32 @@ linkouts ->
 	journal {Advances in Geometry}
 	abstract {doi: 10.1515/ADVGEOM.2009.024 Abstract The paper deals with rational maps between real algebraic sets. We are interested in the rational maps which extend to continuous maps defined on the entire source space. In particular, we prove that every continuous map between unit spheres is homotopic to a rational map of such a type. We also establish connections with algebraic cycles and vector bundles.}
 	author {Kucharz Wojciech W {Kucharz, Wojciech}}
+	serial {1615-715X}
+	publisher {De Gruyter}
 	month 10
+	status ok
+}
+
+test {http://www.reference-global.com/doi/abs/10.1515/9783110215335.113} {
+	serial {978-3-11-021532-8}
+	linkout {DEGRUY {} 10.1515/9783110215335.113 {} {}}
+	linkout {DOI {} 10.1515/9783110215335.113 {} {}}
+	year {2009}
+	city {Berlin, New York}
+	type {JOUR}
+	start_page {113}
+	url {http://dx.doi.org/10.1515/9783110215335.113}
+	end_page {126}
+	doi {10.1515/9783110215335.113}
+	title_series {Studies on Language Acquisition}
+	day {14}
+	publisher {Mouton de Gruyter}
+	formatted_url {{de Gruyter} http://www.reference-global.com/doi/abs/10.1515/9783110215335.113}
+	formatted_url {DOI http://dx.doi.org/10.1515/9783110215335.113}
+	title_secondary {Research and Perspectives on Processing Instruction}
+	title {Chapter 5. Can you increase the positive effects of Structured Input on language development by enhancing it aurally and/or textually?}
+	abstract {doi: 10.1515/9783110215335.113}
+	month {7}
 	status ok
 }
 

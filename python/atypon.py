@@ -88,11 +88,17 @@ def process(serverRoot, linkoutType=None):
 	# fetch the BibTeX entry for the DOI and exit gracefully in case of trouble
 	cj = cookielib.CookieJar()
 	opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+
 	post_data = urllib.urlencode( { "doi" : doi,
 					"include" : "abs",
-					"format" : "refman",
-					"direct" : "on",
-					"submit" : "Download references"} )
+					"direct" : "true",
+					"downloadFilename" : "wdg_9783110215335.113",
+					"submit" : "Download publication citation data"} )
+
+	#doi=10.1515%2F9783110215335.113
+	#downloadFileName=wdg_9783110215335.113
+	#direct=true&submit=Download+publication+citation+data&include=cit
+
 	try:
 		# Cookie me...
 		opener.open("http://%s/action/showCitFormats?doi=%s" % (serverRoot, url_doi))
@@ -103,6 +109,7 @@ def process(serverRoot, linkoutType=None):
 		return
 
 	bibtex_entry = f.read().strip()
+	# print "# http://%s/action/showCitFormats?doi=%s" % (serverRoot, url_doi)
 
 	# get rid of the session id in the url
 	url_pat = re.compile(r';jsessionid.*$',re.MULTILINE)
