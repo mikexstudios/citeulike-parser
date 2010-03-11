@@ -84,8 +84,6 @@ except KeyError:
 jar = cookielib.CookieJar()
 handler = urllib2.HTTPCookieProcessor(jar)
 opener = urllib2.build_opener(handler)
-opener.addheaders=[('User-Agent','Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6 (.NET CLR 3.5.30729)')]
-
 urllib2.install_opener(opener)
 
 # Fetch the original page to get the session cookie
@@ -94,8 +92,6 @@ original = urlopen("http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=%d" 
 
 parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
 soup = parser.parse(original)
-
-print original
 
 abstract = ''
 
