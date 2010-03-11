@@ -59,13 +59,13 @@ if {[regexp {^http://link.aip.org/link} $url]} {
 # In this case, we have to parse the page to get that ID where we can go and get the URL
 # http://scitation.aip.org/vsearch/servlet/VerityServlet?KEY=ALL&smode=strresults&maxdisp=10&possible1=networks&possible1zone=article&OUTLOG=NO&viewabs=PSISDG&key=DISPLAY&docID=1&page=0&chapter=0
 
-
+#http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=IEECPS0019950CP407v2-249000001&idtype=cvips&gifs=yes&ref=no
 #TODO: Add error-checking for each of the many hits to web pages
 
 proc aip_id {url} {
 
 	if {[regexp "aip.org/getabs/" $url]} {
-		if {[regexp "id=(\[a-zA-Z0-9\]+)&" $url -> m_id]} {
+		if {[regexp "id=(\[a-zA-Z0-9\-\]+)&" $url -> m_id]} {
 			set id ${m_id}
 			return $id
 			puts "${url}"
