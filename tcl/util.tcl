@@ -79,6 +79,8 @@ proc url_get {url {once_only 0}} {
 		}
 
 		# Do it.
+		# puts "GET:: $url"
+		regexp {^http://([^/]+)/} $url -> host
 		set token [http::geturl $url -headers $headers]
 		upvar #0 $token state
 
@@ -107,6 +109,10 @@ proc url_get {url {once_only 0}} {
 			}
 
 			set url $location
+
+			if {![regexp {^http://} $url]} {
+				set url "http://${host}${url}"
+			}
 
 			if {$once_only} {
 				return $url
