@@ -76,7 +76,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {aip.org/(getabs|vsearch|link)}
+	regexp {aip.org/(getabs|vsearch|link|applab)}
 }
 
 
@@ -92,6 +92,7 @@ plugin {
 # The variables following variables are defined for your use
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
+# http://link.aip.org/link/APPLAB/v96/i9/p093112/s1
 format_linkout AIP {
 	return [list "Scitation (AIP)" \
 				"http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=${ckey_1}&idtype=cvips&gifs=yes" ]
@@ -141,8 +142,8 @@ test {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDA
 	journal {Physical Review D (Particles, Fields, Gravitation, and Cosmology)}
 	abstract {Brane inflation in superstring theory ends when branes collide, initiating the hot big bang. Cosmic superstrings are produced during the brane collision. The cosmic superstrings produced in a D3-brane-antibrane inflationary scenario have a spectrum: (p,q) bound states of p fundamental (F) strings and q D-strings, where p and q are coprime. By extending the velocity-dependent one-scale network evolution equations for Abelian Higgs cosmic strings to allow a spectrum of string tensions, we construct a coupled (infinite) set of equations for strings that interact through binding and self-interactions. We apply this model to a network of (p,q) superstrings. Our numerical solutions show that (p,q) networks rapidly approach a stable scaling solution. We also extract the relative densities of each string type from our solutions. Typically, only a small number of the lowest tension states are populated substantially once scaling is reached. The model we study also has an interesting new feature: the energy released in (p,q) string binding is by itself adequate to allow the network to reach scaling. This result suggests that the scaling solution is robust. To demonstrate that this result is not trivial, we show that choosing a different form for string interactions can lead to network frustration.}
 	cite {tye:103508}
-	author {Tye Henry HSH {S. H. Henry Tye}} 
-	author {Wasserman Ira I {Ira Wasserman}} 
+	author {Tye Henry HSH {S. H. Henry Tye}}
+	author {Wasserman Ira I {Ira Wasserman}}
 	author {Wyman Mark M {Mark Wyman}}
 	status ok
 }
@@ -165,7 +166,7 @@ test {http://spiedl.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME500
 	eid  {029901}
 	journal  {Journal of Electronic Imaging}
 	cite  {barrett:029901}
-	author {Barrett Harrison HH {Harrison H. Barrett}} 
+	author {Barrett Harrison HH {Harrison H. Barrett}}
 	author {Myers Kyle KJ {Kyle J. Myers}}
 	author {Dhurjaty Sreeram S {Sreeram Dhurjaty}}
 	status ok

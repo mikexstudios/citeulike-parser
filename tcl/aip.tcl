@@ -49,6 +49,8 @@ if {[regexp {^http://link.aip.org/link} $url]} {
 	set url [url_get $url 1]
 }
 
+set abpage ""
+
 
 # Could come in a couple of ways--lets figure out which ones are ok to parse and which ones we should bail on:
 #This is the format that we'll probably get our URLs in; notably it has an ID, which is subject to change, but can get us the BibTex reference
@@ -62,7 +64,10 @@ if {[regexp {^http://link.aip.org/link} $url]} {
 #http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=IEECPS0019950CP407v2-249000001&idtype=cvips&gifs=yes&ref=no
 #TODO: Add error-checking for each of the many hits to web pages
 
-proc aip_id {url} {
+# http://link.aip.org/link/APPLAB/v96/i9/p093112/s1 === http://apl.aip.org/applab/v96/i9/p093112_s1?isAuthorized=no
+
+proc aip_id {url abpage} {
+	upvar $abpage l_abpage
 
 	if {[regexp "aip.org/getabs/" $url]} {
 		if {[regexp "id=(\[a-zA-Z0-9\-\]+)&" $url -> m_id]} {
@@ -71,6 +76,16 @@ proc aip_id {url} {
 			puts "${url}"
 		}
 	}
+	if {[regexp "aip.org/applab/" $url]} {
+		set temppage [url_get $url]
+		if {[regexp {from_key=([a-zA-Z0-9]+)&} $temppage -> m_id]} {
+			set id $m_id
+			set l_abpage $temppage
+			# puts "${id}"
+			return $id
+		}
+	}
+
 	# Watch out for this one--won't let you do it if you aren't in the network--need to test on a university network
 	if {[regexp "aip.org/vsearch/" $url]} {
 		#we need to parse the page
@@ -96,10 +111,12 @@ proc striphtml {my_string} {
 }
 
 
-set id [aip_id $url]
+
+set id [aip_id $url abpage]
 if {[string equal "" $id]} {
 	bail "This does not seem to be a URL I recognize; it does not contain an ID."
 }
+
 
 # We've come from something like this:
 #   http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000012123523000001&idtype=cvips&gifs=Yes
@@ -171,22 +188,13 @@ set end "&idtype=cvips&gifs=Yes"
 set url "${base}${id}${end}"
 
 
-
-if {[catch {
-	set abpage [url_get $url]
-}]} {
-	set abpage ""
+if {$abpage eq ""} {
+	catch {
+		set abpage [url_get $url]
+	}
 }
-
-#set abpage [url_get $url]
-#puts $abpage
-#puts [regexp "abstract" $abpage]
-#These pages are really ugly and inconsistent--save me!
-#} elseif {[regexp {\(Received[^)]*; accepted[^)]*\)\s*<p>(.*?)</p>} $abpage -> abstract]} {
-#} elseif {[regexp {(1996\)\s*?<p>.*?</p>)} $abpage -> abstract]} {
-
-if {[regexp -nocase {<META name="description" content=\"([^\"]+)\">} $abpage -> abstract]} {
-	set abstract [striphtml $abstract]
+if {[regexp -nocase {<META name="description" content="([^"]+)"} $abpage -> abstract]} {
+	set abstract [string trim [striphtml $abstract]]
 	puts "abstract\t${abstract}"
 } elseif {[regexp {<div class=\"abstract\">.*?<p>(.*?)</p>.*?</div>} $abpage -> abstract]} {
 	set abstract [striphtml $abstract]
@@ -209,12 +217,6 @@ if {[regexp -nocase {<META name="description" content=\"([^\"]+)\">} $abpage -> 
 	set abstract [striphtml $abstract]
 	puts "abstract\t${abstract}"
 }
-
-#} elseif {[regexp {<!-- Component: abstract -->(?:.*?)<p>(.*?)&copy;} $abpage -> abstract]} {
-#	set abstract [striphtml $abstract]
-#	puts "abstract\t${abstract}"
-#}
-
 # Next, get DOI from the same page
 # This DOI routine is pretty iffy and needs to be checked pretty badly
 
