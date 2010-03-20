@@ -69,10 +69,10 @@ url = sys.stdin.readline()
 url = url.strip()
 
 # if this is a (restricted) URL, try to redirect to a readable one
-match  = re.search(r'http://iopscience.iop.org/([^?]*)', url)
-if match:
-	print "status\tredirect\thttp://www.iop.org/EJ/abstract/%s" % match.group(1)
-	sys.exit(0)
+#match  = re.search(r'http://iopscience.iop.org/([^?]*)', url)
+#if match:
+#	print "status\tredirect\thttp://www.iop.org/EJ/abstract/%s" % match.group(1)
+#	sys.exit(0)
 
 
 # fetch the page the user is viewing and exit gracefully in case of trouble
@@ -92,9 +92,11 @@ if not doi_match:
 
 doi = doi_match.group(1)
 
-url_match = re.search(r'<meta name="citation_abstract_html_url" content="http://www.iop.org/EJ/abstract/([^"]+)" />', content, DOI_REGEXP_FLAGS)
+url_match = re.search(r'<meta name="citation_abstract_html_url" content="http://iopscience.iop.org/([^"]+)" />', content, DOI_REGEXP_FLAGS)
+if not url_match:
+	print 'status\terr\tCannot extract citation_abstract_html_url from %s' % url
+	sys.exit(1)
 url_suffix = url_match.group(1)
-
 
 # fetch the RIS entry for the DOI and exit gracefully in case of trouble
 req = urllib2.Request(RIS_SERVER_ROOT + url_suffix)

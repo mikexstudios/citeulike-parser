@@ -76,7 +76,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {aip.org/(getabs|vsearch|link|applab)}
+	regexp {aip.org/(getabs|vsearch|link|(\w+/v\d))}
 }
 
 

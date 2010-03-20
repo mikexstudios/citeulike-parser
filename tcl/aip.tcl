@@ -76,7 +76,8 @@ proc aip_id {url abpage} {
 			puts "${url}"
 		}
 	}
-	if {[regexp "aip.org/applab/" $url]} {
+	if {[regexp {aip.org/(\w+)/v\d} $url]} {
+		puts "HEERE"
 		set temppage [url_get $url]
 		if {[regexp {from_key=([a-zA-Z0-9]+)&} $temppage -> m_id]} {
 			set id $m_id
