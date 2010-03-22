@@ -40,40 +40,61 @@
 
 import re, sys, urllib2
 import socket
+import BeautifulSoup
+import htmlentitydefs
+import codecs
+
+
 
 socket.setdefaulttimeout(15)
 
 
+def meta(soup, key):
+	el = soup.find("meta", {'name':key})
+	if el:
+		return el['content'];
+	return None
+
+def item(soup, entry, key):
+	el = meta(soup, key)
+	if el:
+		print "%s\t%s" % (entry, el)
+
+def unescape(text):
+    def fixup(m):
+        text = m.group(0)
+        if text[:2] == "&#":
+            # character reference
+            try:
+                if text[:3] == "&#x":
+                    return unichr(int(text[3:-1], 16))
+                else:
+                    return unichr(int(text[2:-1]))
+            except ValueError:
+                pass
+        else:
+            # named entity
+            try:
+                text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
+            except KeyError:
+                pass
+        return text # leave as is
+    #return re.sub("&#?\w+;", fixup, text).encode('utf-8')
+    return re.sub("&#?\w+;", fixup, text)
 
 
-
-RIS_SERVER_ROOT = 'http://www.iop.org/EJ/sview/'
-RIS_SERVER_POST_STR = 'submit=1&format=refmgr'
 
 # regexp to screen scrape the DOI and get the article info from it
 
-DOI_REGEXP = r'<meta name="citation_doi" content="([^"]+)" />'
-DOI_REGEXP_FLAGS = re.IGNORECASE
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 # error messages
 ERR_STR_PREFIX = 'status\terr\t'
 ERR_STR_FETCH = 'Unable to fetch the page: '
 ERR_STR_TRY_AGAIN = 'The server may be down.  Please try later.'
-ERR_STR_NO_DOI = 'No valid document object identifier (DOI) found on the page: '
-ERR_STR_NO_RIS = 'No RIS entry found for the DOI: '
-ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
 
 # read url from std input
-url = sys.stdin.readline()
-# get rid of the newline at the end
-url = url.strip()
-
-# if this is a (restricted) URL, try to redirect to a readable one
-#match  = re.search(r'http://iopscience.iop.org/([^?]*)', url)
-#if match:
-#	print "status\tredirect\thttp://www.iop.org/EJ/abstract/%s" % match.group(1)
-#	sys.exit(0)
-
+url = sys.stdin.readline().strip()
 
 # fetch the page the user is viewing and exit gracefully in case of trouble
 try:
@@ -84,45 +105,87 @@ except:
 
 content = f.read()
 
-# screen scrape the DOI from the page and exit gracefully if none is found
-doi_match  = re.search(DOI_REGEXP, content, DOI_REGEXP_FLAGS)
-if not doi_match:
-	print ERR_STR_PREFIX + ERR_STR_NO_DOI + url + '.  ' + ERR_STR_REPORT
-	sys.exit(1)
+soup = BeautifulSoup.BeautifulSoup(content)
 
-doi = doi_match.group(1)
+head = soup.find("head")
 
-url_match = re.search(r'<meta name="citation_abstract_html_url" content="http://iopscience.iop.org/([^"]+)" />', content, DOI_REGEXP_FLAGS)
-if not url_match:
-	print 'status\terr\tCannot extract citation_abstract_html_url from %s' % url
-	sys.exit(1)
-url_suffix = url_match.group(1)
+doi = meta(head, 'citation_doi')
 
-# fetch the RIS entry for the DOI and exit gracefully in case of trouble
-req = urllib2.Request(RIS_SERVER_ROOT + url_suffix)
-req.add_data(RIS_SERVER_POST_STR)
-try:
-	f = urllib2.urlopen(req)
-except:
-	print ERR_STR_PREFIX + ERR_STR_NO_RIS + doi + '.  ' + ERR_STR_REPORT
-	sys.exit(1)
+"""
+<meta name="dc.Title" content="IOP Publishing - IOPscience - 1980 Eur. J. Phys. 1 143 J M H Peters - Rayleigh's electrified water drops" />
+<meta name="Title" content="IOP Publishing - IOPscience - 1980 Eur. J. Phys. 1 143 J M H Peters - Rayleigh's electrified water drops" />
 
-ris_entry = f.read()
-# get rid of the extra newline at the end
-ris_entry = ris_entry.strip()
+<meta name="dc.Description" content="IOPscience is a unique platform for IOP-hosted journal content providing site-wide electronic access to more than 130 years of leading scientific research, and incorporates some of the most innovative technologies to enhance your user-experience." />
+<meta name="Description" content="IOPscience is a unique platform for IOP-hosted journal content providing site-wide electronic access to more than 130 years of leading scientific research, and incorporates some of the most innovative technologies to enhance your user-experience." />
+<meta name="robots" content="noarchive" />
+<meta name="citation_volume" content="1" />
+<meta name="citation_title" content="Rayleigh's electrified water drops" />
+<meta name="citation_firstpage" content="143" />
+<meta name="citation_date" content="1980-07-01" />
+<meta name="dc.Date" content="1980-07-01" />
+<meta name="citation_journal_title" content="European Journal of Physics" />
+<meta name="citation_publisher" content="IOP Publishing" />
+<meta name="citation_doi" content="10.1088/0143-0807/1/3/004" />
+<meta name="citation_abstract_html_url" content="http://iopscience.iop.org/0143-0807/1/3/004" />
+<meta name="citation_pdf_url" content="http://iopscience.iop.org/0143-0807/1/3/004/pdf/0143-0807_1_3_004.pdf" />
+<meta name="citation_authors" content="Peters, J M H" />
 
-# Tidy up author name formatting to help our parser out
-auth_exp = re.compile(r'A1  - (.+?),(.+?)$', re.M)
-ris_entry = re.sub(auth_exp, r'A1  - \1, \2', ris_entry)
-
+<meta name="dc.Contributor" content="Peters, J M H"/>
+"""
 
 # print the results
 print "begin_tsv"
-print "linkout\tDOI\t\t%s\t\t" % (doi)
 print "type\tJOUR"
-print "doi\t" + doi
+
+m = re.match(r'^10.\d\d\d\d/([^/]+)/([^/]+)/([^/]+)/([^/]+)', doi)
+if m:
+	print "linkout\tIOPDOI\t%s\t%s\t%s\t%s" % (m.group(2),m.group(1),m.group(3),m.group(4))
+	print "issn\t%s" % m.group(1)
+	print "volume\t%s" % m.group(2)
+	print "issue\t%s" % m.group(3)
+	print "cite\t%s-%s-%s-%s" % (m.group(1),m.group(2),m.group(3),m.group(4))
+
+print "linkout\tDOI\t\t%s\t\t" % (doi)
+
+print "doi\t%s" % doi
+finalUrl = f.geturl()
+finalUrl = re.sub(r'[?].*','', finalUrl)
+print "url\t%s" % finalUrl
+
+
+item(head, "title", "citation_title")
+item(head, "journal", "citation_journal_title")
+#item(head, "volume", "citation_volume")
+item(head, "start_page", "citation_firstpage")
+date = meta(head, 'dc.Date')
+if date:
+	m = re.match(r'(\d+)-(\d+)-(\d+)', date)
+	if m:
+		year = m.group(1)
+		month = m.group(2)
+		day = m.group(3)
+		if year:
+			print "year\t%s" % year
+		if month:
+			print "month\t%s" % month
+		if day:
+			print "day\t%s" % day
+
+# authors
+authors = head.findAll("meta", {"name":"dc.Contributor"})
+if authors:
+	for a in authors:
+		print "author\t%s" % a['content']
+
+# There's an abstract in the header but, for older articles, it's a dummy
+# generic one, so easiest to scrape
+# item(head,"abstract","dc.Description")
+# Note the TYPO articleAbsctract
+articleAbstract = soup.find(attrs={"id":"articleAbsctract"})
+if not articleAbstract:
+	articleAbstract = soup.find(attrs={"id":"articleAbstract"})
+if articleAbstract:
+	print "abstract\t%s" % unescape(" ".join(articleAbstract.findAll(text=True))).strip()
+
 print "end_tsv"
-print "begin_ris"
-print ris_entry
-print "end_ris"
 print "status\tok"

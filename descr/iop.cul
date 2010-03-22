@@ -15,125 +15,138 @@ format_linkout IOP {
 }
 
 format_linkout IOPDOI {
-	return [list "Electronic Journals (IoP DOI based)" \
-			"http://stacks.iop.org/${ckey_1}/${ikey_1}/i=${ikey_2}/a=${ckey_2}"]
+	return [list "IOP Journals" \
+			"http://iopscience.iop.org/${ckey_1}/${ikey_1}/${ikey_2}/${ckey_2}"]
 }
 
 test {http://www.iop.org/EJ/abstract/-ffissn=0305-4470/-ff30=all/0305-4470/38/45/008} {
-	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/0305-4470/38/i=45/a=008}
+	formatted_url {{IOP Journals} http://iopscience.iop.org/0305-4470/38/45/008}
 	formatted_url {DOI http://dx.doi.org/10.1088/0305-4470/38/45/008}
 	volume 38
 	linkout {IOPDOI 38 0305-4470 45 008}
 	linkout {DOI {} 10.1088/0305-4470/38/45/008 {} {}}
 	year 2005
+	month 11
+	day 11
+	issn 0305-4470
 	start_page 9849
 	type JOUR
-	url {http://stacks.iop.org/0305-4470/38/9849}
-	end_page 9858
+	url {http://iopscience.iop.org/0305-4470/38/45/008}
 	doi {10.1088/0305-4470/38/45/008}
 	issue 45
 	title {Interactions and non-commutativity in quantum Hall systems}
 	journal {Journal of Physics A: Mathematical and General}
-	cite {0305-4470-38-45-008}
-	author {Scholtz Frederik FG {Frederik G Scholtz}}
-	author {Chakraborty Biswajit B {Biswajit Chakraborty}}
-	author {Gangopadhyay Sunandan S {Sunandan Gangopadhyay}}
-	author {Govaerts Jan J {Jan Govaerts}}
-	abstract {We discuss the role that interactions play in the non-commutative structure that arises when the relative coordinates of two interacting particles are projected onto the lowest Landau level. It is shown that the interactions in general renormalize the non-commutative parameter away from the non-interacting value \frac1{B} . The effective non-commutative parameter is in general also angular momentum dependent. A heuristic argument, based on the non-commutative coordinates, is given to find the filling fractions at incompressibilty, which are in general renormalized by the interactions, and the results are consistent with known results in the case of singular magnetic fields.}
+	author {Scholtz Frederik FG {Scholtz, Frederik G}}
+	author {Chakraborty Biswajit B {Chakraborty, Biswajit}}
+	author {Gangopadhyay Sunandan S {Gangopadhyay, Sunandan}}
+	author {Govaerts Jan J {Govaerts, Jan}}
+	abstract {We discuss the role that interactions play in the non-commutative structure that arises when the relative coordinates of two interacting particles are projected onto the lowest Landau level. It is shown that the interactions in general renormalize the non-commutative parameter away from the non-interacting value  . The effective non-commutative parameter is in general also angular momentum dependent. A heuristic argument, based on the non-commutative coordinates, is given to find the filling fractions at incompressibilty, which are in general renormalized by the interactions, and the results are consistent with known results in the case of singular magnetic fields.}
 	status ok
 }
 
+
 test {http://www.iop.org/EJ/abstract/0031-9155/11/3/306} {
-	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/0031-9155/11/i=3/a=306}
+	formatted_url {{IOP Journals} http://iopscience.iop.org/0031-9155/11/3/306}
 	formatted_url {DOI http://dx.doi.org/10.1088/0031-9155/11/3/306}
 	volume 11
 	linkout {IOPDOI 11 0031-9155 3 306}
 	linkout {DOI {} 10.1088/0031-9155/11/3/306 {} {}}
 	year 1966
+	month 07
+	day 01
+	issn 0031-9155
 	start_page 405
 	type JOUR
-	url {http://stacks.iop.org/0031-9155/11/405}
-	end_page 409
+	url {http://iopscience.iop.org/0031-9155/11/3/306}
 	doi {10.1088/0031-9155/11/3/306}
 	issue 3
 	title {Parameters Describing the Microscopic Distribution of Radiation Dose}
 	journal {Physics in Medicine and Biology}
 	cite {0031-9155-11-3-306}
-	author {Bevan John JS {John S Bevan}}
+	author {Bevan John JS {Bevan, John S}}
 	abstract {The parameters introduced by Rossi for the quantification of energy deposition in small spherical volumes are discussed, and more general parameters, appropriate to the distribution of radiation dose in volumes of arbitrary shape, are defined. It is shown that the Rossi parameters can be regarded as a special case of the more general parameters. The application of these new parameters to cylindrical volumes is outlined, and a resulting ` definition ' of a long cylinder is suggested.}
 	status ok
 }
 
+
 test {http://www.iop.org/EJ/abstract/1009-1963/12/7/306} {
-	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/1009-1963/12/i=7/a=306}
+	formatted_url {{IOP Journals} http://iopscience.iop.org/1009-1963/12/7/306}
 	formatted_url {DOI http://dx.doi.org/10.1088/1009-1963/12/7/306}
 	volume 12
 	linkout {IOPDOI 12 1009-1963 7 306}
 	linkout {DOI {} 10.1088/1009-1963/12/7/306 {} {}}
 	year 2003
+	month 07
+	day 01
+	issn 1009-1963
 	start_page 732
 	type JOUR
-	url {http://stacks.iop.org/1009-1963/12/732}
-	end_page 737
+	url {http://iopscience.iop.org/1009-1963/12/7/306}
 	doi {10.1088/1009-1963/12/7/306}
 	issue 7
-	title {Spectral property and its shape transition on $^72-84$ Kr isotopes in microscopic core plus two-quasiparticle approach}
+	title {Spectral property and its shape transition on 72-84Kr isotopes in microscopic core plus two-quasiparticle approach}
 	journal {Chinese Physics}
 	cite {1009-1963-12-7-306}
-	author {Yi Shi SZ {Shi Zhu Yi}}
-	author {Zhi Zhao ZX {Zhao Xing Zhi}}
-	author {Hong Tong T {Tong Hong}}
-	abstract {By using a microscopic sdIBM-2+2q.p. approach, the levels of the ground-band, \&gamma; -band and partial two-quasi-particle bands for $^72-84$ Kr isotopes are calculated. The data obtained are in good agreement with the recent experimental results and successfully reproduce the nuclear shape phase transition of $^{72-84}$ Kr isotopes at zero temperature. The ground-state band is described successfully up to J $^{\&pi;}$ =18 $^{+}$ and E $_{ x }$ =10.0MeV. Based on this model, the aligned requisite minimum energy has been deduced. The theoretical calculations indicate that no distinct change of nuclear states is caused by the abruptly broken pair of a boson and predict that the first backbending of Kr isotopes may be the result of aligning of two quasi-neutrons in orbit g $_{9/2}$ , which gains the new experimental support of the measurements of g factors in the $^{78-86}$ Kr isotopes.}
+	author {Zhu-Yi Shi S {Zhu-Yi, Shi}}
+	author {Xing-Zhi Zhao Z {Xing-Zhi, Zhao}}
+	author {Hong Tong T {Hong, Tong}}
+	abstract {By using a microscopic sdIBM-2+2q.p. approach, the levels of the ground-band, γ-band and partial two-quasi-particle bands for  72-84 Kr isotopes are calculated. The data obtained are in good agreement with the recent experimental results and successfully reproduce the nuclear shape phase transition of  72-84 Kr isotopes at zero temperature. The ground-state band is described successfully up to  J π =18 +  and  E x =10.0MeV. Based on this model, the aligned requisite minimum energy has been deduced. The theoretical calculations indicate that no distinct change of nuclear states is caused by the abruptly broken pair of a boson and predict that the first backbending of Kr isotopes may be the result of aligning of two quasi-neutrons in orbit g 9/2 , which gains the new experimental support of the measurements of  g  factors in the  78-86 Kr isotopes.}
 	status ok
 }
 
 test {http://www.iop.org/EJ/abstract/1464-4266/7/3/013} {
-	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/1464-4266/7/i=3/a=013}
+	formatted_url {{IOP Journals} http://iopscience.iop.org/1464-4266/7/3/013}
 	formatted_url {DOI http://dx.doi.org/10.1088/1464-4266/7/3/013}
 	volume 7
 	linkout {IOPDOI 7 1464-4266 3 013}
 	linkout {DOI {} 10.1088/1464-4266/7/3/013 {} {}}
 	year 2005
-	start_page S89 
+	month 03
+	day 01
+	issn 1464-4266
+	start_page S89
 	type JOUR
-	url {http://stacks.iop.org/1464-4266/7/S89}
-	end_page S99
+	url {http://iopscience.iop.org/1464-4266/7/3/013}
 	doi {10.1088/1464-4266/7/3/013}
 	issue 3
 	title {The dynamical Casimir effect in a periodically changing domain: a dynamical systems approach}
 	journal {Journal of Optics B: Quantum and Semiclassical Optics}
 	cite {1464-4266-7-3-013}
-	author {Petrov Nikola NP {Nikola P Petrov}}
+	author {Petrov Nikola NP {Petrov, Nikola P}}
 	abstract {We study the problem of the behaviour of a quantum massless scalar field in the space between two parallel infinite perfectly conducting plates, one of them stationary, the other moving periodically. We reformulate the physical problem into a problem about the asymptotic behaviour of the iterates of a map of the circle, and then apply results from the theory of dynamical systems to study the properties of the map. Many of the general mathematical properties of maps of the circle translate into properties of the field in the cavity. For example, we give a complete classification of the possible resonances in the system, and show that small enough perturbations do not destroy the resonances. We use some mathematical identities to give a transparent physical interpretation of the processes of creation and amplification of the quantum field due to the motion of the boundary and to elucidate the similarities of and the differences between the classical and quantum fields in domains with moving boundaries.}
 	status ok
 }
 
+
 test {http://www.iop.org/EJ/abstract/1748-9326/1/1/014010} {
-	formatted_url {{Electronic Journals (IoP DOI based)} http://stacks.iop.org/1748-9326/1/i=1/a=014010}
+	formatted_url {{IOP Journals} http://iopscience.iop.org/1748-9326/1/1/014010}
 	formatted_url {DOI http://dx.doi.org/10.1088/1748-9326/1/1/014010}
 	status ok
 	volume 1
-        pages {014010 (12pp)}
 	linkout {IOPDOI 1 1748-9326 1 014010}
 	linkout {DOI {} 10.1088/1748-9326/1/1/014010 {} {}}
 	year 2006
+	month 10
+	day 01
+	issn 1748-9326
+	start_page 014010
 	type JOUR
-	url {http://stacks.iop.org/1748-9326/1/i=1/a=014010}
+	url {http://iopscience.iop.org/1748-9326/1/1/014010}
 	doi {10.1088/1748-9326/1/1/014010}
 	issue 1
 	title {Community effectiveness of stove and health education interventions for reducing exposure to indoor air pollution from solid fuels in four Chinese provinces}
 	journal {Environmental Research Letters}
-        abstract {Indoor air pollution (IAP) from biomass and coal is a leading cause of mortality and disease burden in the developing world. There is limited evidence of the community effectiveness of interventions for reducing IAP exposure. We conducted a community-based intervention study of stove and health education interventions in four low-income Chinese provinces: Gansu, Guizhou, Inner Mongolia, and Shaanxi. Separate townships in one county in each province were assigned to stove plus behavioral interventions, behavioral interventions alone, and control. Data on household fuel and stove use, and on concentrations of respirable particles (RPM), carbon monoxide (CO), and sulfur dioxide (SO$_2$), were collected in peak and late heating seasons before and after interventions. The effectiveness of interventions was evaluated using difference-in-difference analysis. Pollutant concentrations were also measured in controlled tests, in which stoves were operated by expert users. In controlled tests, there was consistent and substantial reduction in concentrations of RPM ($>$88\%) and CO ($>$66\%); in the two coal-using provinces, SO$_{2}$ concentrations declined more in Shaanxi than in Guizhou. In community implementation, combined stove and behavioral interventions reduced the concentrations of pollutants in rooms where heating was the main purpose of stove use in the peak heating season, with smaller, non-significant, reduction in late heating season. Gansu was the only province where combined stove and behavioral interventions led to pollution reduction where cooking was the primary purpose of stove use. Compared to the control group, no significant IAP reductions were seen in groups with health education alone.}
+        abstract {Indoor air pollution (IAP) from biomass and coal is a leading cause of mortality and disease burden in the developing world. There is limited evidence of the community effectiveness of interventions for reducing IAP exposure. We conducted a community-based intervention study of stove and health education interventions in four low-income Chinese provinces: Gansu, Guizhou, Inner Mongolia, and Shaanxi. Separate townships in one county in each province were assigned to stove plus behavioral interventions, behavioral interventions alone, and control. Data on household fuel and stove use, and on concentrations of respirable particles (RPM), carbon monoxide (CO), and sulfur dioxide (SO 2 ), were collected in peak and late heating seasons before and after interventions. The effectiveness of interventions was evaluated using difference-in-difference analysis. Pollutant concentrations were also measured in controlled tests, in which stoves were operated by expert users. In controlled tests, there was consistent and substantial reduction in concentrations of RPM (>88%) and CO (>66%); in the two coal-using provinces, SO 2  concentrations declined more in Shaanxi than in Guizhou. In community implementation, combined stove and behavioral interventions reduced the concentrations of pollutants in rooms where heating was the main purpose of stove use in the peak heating season, with smaller, non-significant, reduction in late heating season. Gansu was the only province where combined stove and behavioral interventions led to pollution reduction where cooking was the primary purpose of stove use. Compared to the control group, no significant IAP reductions were seen in groups with health education alone.}
 	cite {1748-9326-1-1-014010}
-        author {Zhou Zheng Z {Zheng Zhou}} 
-        author {Jin Yinlong Y {Yinlong Jin}} 
-        author {Liu Fan F {Fan Liu}}
-        author {Cheng Yibin Y {Yibin Cheng}}
-        author {Liu Jiang J {Jiang Liu}}
-        author {Kang Jiaqi J {Jiaqi Kang}}
-        author {He Gongli G {Gongli He}}
-        author {Tang Ning N {Ning Tang}}
-        author {Chen Xun X {Xun Chen}}
-        author {Baris Enis E {Enis Baris}}
-        author {Ezzati Majid M {Majid Ezzati}}
+	author {Zhou Zheng Z {Zhou, Zheng}}
+	author {Jin Yinlong Y {Jin, Yinlong}}
+	author {Liu Fan F {Liu, Fan}}
+	author {Cheng Yibin Y {Cheng, Yibin}}
+	author {Liu Jiang J {Liu, Jiang}}
+	author {Kang Jiaqi J {Kang, Jiaqi}}
+	author {He Gongli G {He, Gongli}}
+	author {Tang Ning N {Tang, Ning}}
+	author {Chen Xun X {Chen, Xun}}
+	author {Baris Enis E {Baris, Enis}}
+	author {Ezzati Majid M {Ezzati, Majid}}
 }
