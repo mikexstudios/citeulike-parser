@@ -117,7 +117,7 @@ my $slink = $1 || "";
 
 (undef, $cookies) = tempfile(UNLINK => 1);
 
-
+my $WGET = "wget --timeout=20 --max-redirect=10 -q -U ''"
 
 # If we have a UID from the source URL, then we can jump direct to the RIS
 if ($slink) {
@@ -125,7 +125,7 @@ if ($slink) {
 	# this annoying, need to get a page first - probably a cookie thing.
 	# At least the HTTP HEAD works and so speeds things up.
 	#$browser->get("$url_abstract") or print "FAIL\n";
-	qx{wget -q -U "" -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
+	qx{$WGET -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
 	$link_ris = "http://www.springerlink.com/export.mpx?code=$slink&mode=ris";
 } else {
 	# Get the link to the reference manager RIS file
@@ -134,8 +134,8 @@ if ($slink) {
 
 	#$source_abstract = $response->content;
 
-	qx{wget -q -U "" -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
-	$source_abstract = qx{wget -q -U "" -O - --load-cookies $cookies "$url_abstract"} or  (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+	qx{$WGET -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
+	$source_abstract = qx{$WGET -O - --load-cookies $cookies "$url_abstract"} or  (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 	if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
 		$link_ris = "http://springerlink.com/$1";
@@ -154,7 +154,7 @@ if ($slink) {
 #$response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 #$ris = $response->content;
 
-$ris = qx{wget -q -U "" -O - --load-cookies $cookies "$link_ris"} or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+$ris = qx{$WGET -O - --load-cookies $cookies "$link_ris"} or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 $ris =~ s/\r//g;
 
