@@ -117,7 +117,7 @@ my $slink = $1 || "";
 
 (undef, $cookies) = tempfile(UNLINK => 1);
 
-my $WGET = "wget --timeout=20 --max-redirect=10 -q -U 'CiteULike/1.0 +http://www.citeulike.org/'";
+my $WGET = "wget --timeout=20 -q -U 'CiteULike/1.0 +http://www.citeulike.org/'";
 
 # If we have a UID from the source URL, then we can jump direct to the RIS
 if ($slink) {
