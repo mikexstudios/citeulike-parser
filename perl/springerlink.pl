@@ -5,6 +5,7 @@ use warnings;
 use LWP 5.64;
 use File::Temp qw/tempfile/;
 
+# print "status\terr\t (0) Springerlink is blocked at the moment. Please again try later.\n" and exit;
 
 #
 # Copyright (c) 2005 Richard Cameron, CiteULike.org
@@ -142,7 +143,7 @@ if ($slink) {
 		$link_ris =~ s/\.\.\/*//; # remove any ../
 		$link_ris =~ s/\.\.\/*//; # remove any ../ again
 	}
-	else{
+	else {
 		print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
 	}
 }
