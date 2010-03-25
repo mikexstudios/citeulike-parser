@@ -219,8 +219,14 @@ if {[regexp -nocase {<META name="description" content="([^"]+)"} $abpage -> abst
 }
 # Next, get DOI from the same page
 # This DOI routine is pretty iffy and needs to be checked pretty badly
-
-if {[regexp "doi:</a>(\[a-zA-Z0-9\./\]+)" $abpage -> my_doi]} {
+#puts $abpage
+if {[regexp {doi:(10\.\d\d\d\d/[^ <]+)} $abpage -> my_doi]} {
+	puts "linkout\tDOI\t\t${my_doi}\t\t"
+	puts "doi\t${my_doi}"
+} elseif {[regexp {doi=(10.\d\d\d\d\.(?:[^"&]+))} $abpage -> my_doi]} {
+	puts "linkout\tDOI\t\t${my_doi}\t\t"
+	puts "doi\t${my_doi}"
+} elseif {[regexp "doi:</a>(\[a-zA-Z0-9\./\]+)" $abpage -> my_doi]} {
 	puts "linkout\tDOI\t\t${my_doi}\t\t"
 	puts "doi\t${my_doi}"
 } elseif {[regexp "/doi/(\[a-zA-Z0-9\./\]+)" $abpage -> my_doi]} {

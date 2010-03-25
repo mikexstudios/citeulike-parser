@@ -117,6 +117,10 @@ my $slink = $1 || "";
 
 (undef, $cookies) = tempfile(UNLINK => 1);
 
+#
+# Default (package) wget doesn't support --max-redirect
+# so look for a custom installed version first
+#
 my $WGETBIN;
 if (-x "/usr/local/bin/wget") {
 	$WGETBIN = "/usr/local/bin/wget";
