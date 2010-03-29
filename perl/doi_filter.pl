@@ -48,7 +48,8 @@ my @ns_headers = (
 # http://dx.doi.org/10.1234/xay (just a "random" url) hangs "forever"
 # (I wonder if 10.1234 is a spam trap? - Most other dud url redirect to
 # a sensible page, albeit with the same URL)
-$browser->timeout(10); # secs
+$browser->timeout(20); # secs
+$browser->max_redirect(10); # secs
 
 my $resp = $browser->head("$url", @ns_headers) or do {
 	print "OK\t$url\tNOT_CHANGED\tERROR\tEOL2\n";
