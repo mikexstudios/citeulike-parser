@@ -164,7 +164,7 @@ def handle(url):
 
 
 
-	m = re.search("DOI not found in CrossRef", xml_page)
+	m = re.search("not found in CrossRef", xml_page)
 	if m:
 		raise ParseException, "Unable to locate that DOI (%s) in crossref" % doi
 
