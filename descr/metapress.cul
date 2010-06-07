@@ -48,7 +48,7 @@ plugin {
 	author {Fergus Gallagher}
 	email {stevan.springer@gmail.com}
 	language {perl}
-	regexp {(http://\w+\.metapress\.com([^/]*)/(index/.*|app/home/contribution.*|content/.*))}
+	regexp {(http://\w+\.(metapress|akademiai)\.com([^/]*)/(index/.*|app/home/contribution.*|content/.*))}
 }
 
 # Linkout formatting
