@@ -3,6 +3,7 @@
 use LWP::Simple;
 use LWP::UserAgent;
 use URI::Escape;
+use HTTP::Cookies;
 
 #
 # Copyright (c) 2005 Dan Hodson, d.l.r.hodson@reading.ac.uk
@@ -44,15 +45,30 @@ use URI::Escape;
 $url = <>;
 
 #convert abstract URL to citation request URL
-$url =~ s/get-abstract|get-document/download-citation/;
-$url="$url&site=amsonline&t=procite";
+#$url =~ s/get-abstract|get-document/download-citation/;
+#$url="$url&site=amsonline&t=procite";
+$url =~ s/doi\/abs\//action\/downloadCitation\/\?doi\=/;
+$url =~ s/doi\/full\//action\/downloadCitation\/\?doi\=/;
+# standard creation of user agent object
+my $browser = new LWP::UserAgent;
+
+# AMS uses cookies
+$browser->cookie_jar( {} );
+
 
 #retrieve the RIS data 
 $flag=1;
 while($flag==1){
 	# Get the RIS file
-	$ris = get "$url" || die(print "status\terr\tCouldn't fetch the citation details from the AMetS web site.\n");
-
+    my $page = $browser->get("$url")|| die(print "status\terr\tCouldn't fetch the citation details from the AMetS web site.\n");
+    $ris=$page->content;
+    
+# remove N1 and N2 fields - do not contain abstract, although CUL expects them to
+    $ris =~ s/N1.+?\n//;
+    $ris =~ s/N2.+?\n//;
+    $ris =~ s/UR.+?\n//;
+    
+#    print $ris;
 	$flag=0;
 	#if document has moved - keep following the links to the final RIS file.
 	if ($ris =~ m/document has moved \<a href=\"(.+?)\"/){
@@ -61,9 +77,14 @@ while($flag==1){
 		$flag=1;
 	}
 }
-#extract doi from URL parameter, unescape it, and stuff it back into RIS record
-if ($ris =~ m{UR  - http://dx.doi.org/(.*)}) {
-	$DOI = uri_unescape($1);
+#extract doi from N1 parameter,
+
+# unescape it, and stuff it back into RIS record
+
+
+if ($ris =~ m{DO  - (.*)}) {
+#	$DOI = uri_unescape($1);
+	$DOI = $1;
 }else{
 	print "status\terr\tCouldn't extract the details from AMetS's 'export citation' link.\n";
 	exit;
@@ -77,6 +98,7 @@ print "date_other\t\n";
 print "end_tsv\n";
 #RIS output
 print "begin_ris\n";
+print "UR  - http://journals.ametsoc.org/";
 print $ris;
 print "\nend_ris\n";
 if ($ris =~ m{ER  -}) {
