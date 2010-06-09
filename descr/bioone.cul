@@ -1,0 +1,42 @@
+plugin {
+	version {1}
+	name {BioOne}
+	url {http://www.bioone.org/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {www.bioone.org}
+}
+
+format_linkout BIOONE {
+	return [list "BioOne" \
+			"http://www.bioone.org/doi/abs/${ckey_1}"]
+}
+
+
+test {http://www.bioone.org/doi/abs/10.1206/667.1} {
+	formatted_url {BioOne http://www.bioone.org/doi/abs/10.1206/667.1}
+	formatted_url {DOI http://dx.doi.org/10.1206/667.1}
+	linkout {BIOONE {} 10.1206/667.1 {} {}}
+	linkout {DOI {} 10.1206/667.1 {} {}}
+	status ok
+	serial 0003-0082
+	year 2010
+	month 3
+	day 4
+	type JOUR
+	start_page 1
+	url http://dx.doi.org/10.1206/667.1
+	end_page 40
+	doi 10.1206/667.1
+	publisher {American Museum of Natural History}
+	title {The Goblin Spiders of the New Endemic Australian Genus Cavisternum (Araneae: Oonopidae)}
+	journal {American Museum Novitates}
+	abstract {doi: 10.1206/667.1 Abstract The new endemic Australian goblin spider genus Cavisternum, gen. nov., is described with 19 new species: C. bagleyae, C. barthorum, C. bertmaini, C. carae, the type species C. clavatum, C. digweedi, C. ewani, C. foxae, C. gatangel, C. heywoodi, C. hughesi, C. ledereri, C. maxmoormanni, C. mayorum, C. michaelbellomoi, C. noelashepherdae, C. rochesterae, C. toadshow, and C. waldockae. A key is provided for all Cavisternum species known to date. Males of the genus Cavisternum possess a highly modified sternum, which is strongly concave and covered with clavate setae, and the cheliceral fangs are elongate with broad tips. The genus is found in tropical northern Australia and shows high endemicity, with most species recorded from a single location.}
+	author {Baehr Barbara BC {Baehr, Barbara C.}}
+	author {Harvey Mark MS {Harvey, Mark S.}}
+	author {Smith Helen HM {Smith, Helen M.}}
+}
+
+
