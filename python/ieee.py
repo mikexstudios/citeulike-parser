@@ -47,6 +47,7 @@ from html5lib import treebuilders
 import html5lib
 import warnings
 import codecs
+#from subprocess import Popen, PIPE
 
 socket.setdefaulttimeout(15)
 
@@ -89,9 +90,22 @@ urllib2.install_opener(opener)
 # Fetch the original page to get the session cookie
 original = urlopen("http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=%d" % ar_number).read()
 
+bufsize=-1
+
+#
+# Funny bug on some pages, only part (luckily most) of the page is downloaded
+# (even when I spawn GET/wget even though they work from command line!!!!)
+# Parser writes to stderr which makes driver.tcl barf, so redirect stderr
+# during the parsing.  Fragile!
+#
+#stderr = open("/dev/null", "w")
+stderr = sys.stdout
+original_stderr = sys.stderr
+sys.stderr = stderr
 
 parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
 soup = parser.parse(original)
+sys.stderr = original_stderr
 
 abstract = ''
 
