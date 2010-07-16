@@ -71,6 +71,7 @@ chomp($url);
 #$url = "http://bmj.bmjjournals.com/cgi/content/full/330/7506/0-g?ehom";			 #works
 #$url = "http://bmj.bmjjournals.com/cgi/content/full/329/7475/1188-c/DC1?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&author1=cameron&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120043717953_4754&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4";
 #$url = "http://bmj.bmjjournals.com/cgi/content/full/309/6970/1686?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120044557327_5038&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4";
+# http://eup.sagepub.com/content/8/1/131
 
 # see if URL matches one of the patterns we are looking for
 
@@ -101,7 +102,6 @@ if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/(\d+)}) {
 #
 # New (2008) Highwire URL format .
 elsif ($url =~ m{http://([^/]+)/content/}) {
-	print "HERE1\n";
 	($journal_site) = ($1);
 	$url =~ s/\.(\w+)$/.abstract/;
 	($url_abstract, $doi, $pmid, $body) = get_abstract_url($url);
@@ -139,8 +139,6 @@ elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|short|extract|full|r
 else {
 	print "status\terr\t (1) This ($url) does not appear to be a Highwire Press article. Try posting the article from the abstract page.\n" and exit;
 }
-
-print "HERE2\n";
 
 $doi = "";
 
@@ -226,6 +224,8 @@ if ($ris !~ m{ER\s+-}) {
 	# print "$link_refman2 :: ".$refman->content_charset."\n$ris\n======================\n";
 }
 
+# print "$ris\n";
+
 if ($ris !~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from HighWire's 'export citation'\n" and exit;
 }
@@ -252,10 +252,14 @@ if ($pmid) {
 }
 
 
+# Some sites put a single space in "TY -" line
+
+$ris =~ s/^TY -/TY  -/m;
+
 print "end_tsv\n";
 print "begin_ris\n";
 print $ris;
-print "end_ris\n";
+print "\nend_ris\n";
 print "status\tok\n";
 
 #
@@ -301,7 +305,7 @@ sub get_content {
 	if ($ct) {
 		my ($enc) = ($ct =~ /;charset=([^;]+)/i);
 		if ($enc) {
-			print "$ct :: $enc\n";
+			# print "$ct :: $enc\n";
 			$ret = decode($enc,$ris);
 		}
 	}
