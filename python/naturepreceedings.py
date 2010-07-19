@@ -8,8 +8,11 @@ import BeautifulSoup
 import htmlentitydefs
 
 import socket
+import codecs
 
 socket.setdefaulttimeout(15)
+
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 class ParseException(Exception):
 	pass
@@ -107,7 +110,12 @@ def handle(url):
 		abs = abstract.renderContents().strip()
 		abs = re.sub(r'<[^>]+>','',abs)
 		abs = unescape(abs)
-		print "abstract\t%s" % abs
+		# some encoding nonsense in some cases.
+		try:
+			abs= unicode(abs, encoding="utf-8")
+		except:
+			pass
+		print u"abstract\t%s" % abs
 
 	print "doi\t%s" % doi
 	print "end_tsv"
