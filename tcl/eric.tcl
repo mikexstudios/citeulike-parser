@@ -52,7 +52,7 @@ if {![regexp {(?:\&|\?)accno=([A-Za-z0-9]+)(?:\&|$)} $url -> accno]} {
 #
 # Now, fetch the export URL
 #
-set ris_url http://www.eric.ed.gov/ERICWebPortal/custom/portlets/clipboard/performExport.jsp?accno=${accno}&texttype=endnote
+set ris_url http://www.eric.ed.gov/ERICWebPortal/MyERIC/clipboard/performExport.jsp?accno=${accno}&texttype=endnote
 
 set ris [url_get $ris_url]
 
