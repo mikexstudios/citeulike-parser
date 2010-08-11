@@ -146,9 +146,10 @@ proc parse_ris {rec} {
 				}
 
 				{Y1|PY|Y2} {
-					set spl [split $v "/"]
+					# Metapress bug has "yyyy-mm-dd/"
+					set spl [split $v "/-"]
 					if {[llength $spl]>0} {
-						foreach {year month day other} [split $v "/"] {}
+						foreach {year month day other} [split $v "/-"] {}
 						if {$year!="" && [string is integer $year]} {
 							set ret(year) [format %04d $year]
 						} else {
