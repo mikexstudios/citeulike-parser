@@ -4,6 +4,7 @@ use warnings;
 #use LWP::Simple;
 use LWP 5.64;
 use File::Temp qw/tempfile/;
+use WWW::Mechanize;
 
 # print "status\terr\t (0) Springerlink is blocked at the moment. Please again try later.\n" and exit;
 
@@ -51,6 +52,7 @@ use File::Temp qw/tempfile/;
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+binmode STDOUT, ":utf8";
 
 
 $url = <>;
@@ -59,7 +61,7 @@ chomp($url);
 #Examples of compatible url formats:
 #ADD some examples here later.
 
-
+# Hmmm.  Why is springerprotocols here rather than seperate plugin?
 if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
 	my $doi = $1;
 	my $s_url = "http://www.springerlink.com/openurl.asp?genre=article&id=doi:$doi";
@@ -86,10 +88,10 @@ if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
 			print "status\tredirect\t$uri\n";
 			exit 0;
 		}
+	} else {
+		print "status\terr\tSorry, we cannot process that SpringerProtocols URL.\n" and exit;
 	}
 }
-
-
 
 
 # Parser for Springerlink Web Addresses:
@@ -111,68 +113,48 @@ $url =~ m{/content/([^/?]+)};
 
 my $slink = $1 || "";
 
-#print "xxxx:slink.1:$slink\n";
-# TODO copy changes for url_abstract into other metapress plugin "roysoc"
-# Assuming it works
-
-(undef, $cookies) = tempfile(UNLINK => 1);
-
-#
-# Default (package) wget doesn't support --max-redirect
-# so look for a custom installed version first
-#
-my $WGETBIN;
-if (-x "/usr/local/bin/wget") {
-	$WGETBIN = "/usr/local/bin/wget";
-} elsif (-x "/usr/bin/wget") {
-	$WGETBIN = "/usr/bin/wget";
-} else {
-	die "No wget";
-}
-
-my $WGET = "wget --timeout=20 --max-redirect=10 -q -U 'CiteULike/1.0 +http://www.citeulike.org/'";
-
 
 # If we have a UID from the source URL, then we can jump direct to the RIS
-if ($slink) {
-	$url_abstract = "http://www.springerlink.com/content/$slink";
-	# this annoying, need to get a page first - probably a cookie thing.
-	# At least the HTTP HEAD works and so speeds things up.
-	#$browser->get("$url_abstract") or print "FAIL\n";
-	qx{$WGET -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
-	$link_ris = "http://www.springerlink.com/export.mpx?code=$slink&mode=ris";
-} else {
-	# Get the link to the reference manager RIS file
-	$url_abstract = $url;
-	#$response = $browser->get("$url_abstract") or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
-
-	#$source_abstract = $response->content;
-
-	qx{$WGET -O /dev/null --keep-session-cookies  --save-cookies $cookies "$url_abstract"};
-	$source_abstract = qx{$WGET -O - --load-cookies $cookies "$url_abstract"} or  (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
-
-	if ($source_abstract =~ m{href='(.*)'\s*>RIS<}){
-		$link_ris = "http://springerlink.com/$1";
-		$link_ris =~ s/&amp;/&/; # replace &amp; for &
-		$link_ris =~ s/\.\.\/*//; # remove any ../
-		$link_ris =~ s/\.\.\/*//; # remove any ../ again
-	}
-	else {
-		print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
-	}
+if (!$slink) {
+	print "status\terr\t (3) Could not find a link to the citation details on this page. Try posting the article from the abstract page\n" and exit;
 }
 
-#print "xxxx:link_ris.1:$link_ris\n";
 
-#Get the reference manager RIS file and check retrieved file
-#$response = $browser->get("$link_ris",@ns_headers) || (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
-#$ris = $response->content;
 
-$ris = qx{$WGET -O - --load-cookies $cookies "$link_ris"} or (print "status\terr\t (2) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
+my $mech = WWW::Mechanize->new( autocheck => 1 );
+$mech->agent_alias( 'Windows IE 6' );
+
+my $link_ris = "http://www.springerlink.com/content/$slink/export-citation/";
+
+#print "$link_ris\n";
+
+$mech->get( $link_ris );
+
+my $form = $mech->form_name("aspnetForm");
+#print $form;
+
+my @inputs = $form->inputs;
+
+$mech->field('ctl00$ContentPrimary$ctl00$ctl00$Export' , "AbstractRadioButton");
+$mech->field('ctl00$ContentPrimary$ctl00$ctl00$Format' , "RisRadioButton");
+$mech->select('ctl00$ContentPrimary$ctl00$ctl00$CitationManagerDropDownList' , "ReferenceManager");
+
+#foreach (@inputs) {
+	#print "$_\n";
+	#print $_->name . " => " . $_->value."\n";
+#}
+
+my $response = $mech->click('ctl00$ContentPrimary$ctl00$ctl00$ExportCitationButton');
+$ris = $response->decoded_content();
+
+# strip UTF BOM
+$ris =~ s/^\xEF\xBB\xBF//;
+# Hmmm - above doesn't work so use hammer
+$ris =~ s/^[^A-Z]+//;
 
 $ris =~ s/\r//g;
 
-#print "$ris\n";
+#print "$ris\n" and exit;
 
 unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
@@ -213,5 +195,3 @@ print "begin_ris\n";
 print "$ris\n";
 print "end_ris\n";
 print "status\tok\n";
-
-
