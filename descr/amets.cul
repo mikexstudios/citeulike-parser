@@ -91,10 +91,10 @@ plugin {
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
 
-format_linkout DOI {#
-
-        return [list DOI "http://dx.doi.org/${ckey_1}"]
-}
+#format_linkout DOI {#
+#
+#        return [list DOI "http://dx.doi.org/${ckey_1}"]
+#}
 
 #format_linkout AMETS {#
 #
