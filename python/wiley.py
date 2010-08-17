@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2006 Kristinn B. Gylfason <citeulike@askur.org>
+# Copyright (c) 2010 Kristinn B. Gylfason <fergus@citeulike.org>
 # All rights reserved.
-#
-# This code is derived from software contributed to CiteULike.org
-# by
-#    Diwaker Gupta
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -37,131 +33,54 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-import re, sys, urllib2, cookielib, urlparse
+import re, sys, urllib2, urllib, cookielib, urlparse
 
 import socket
 
 socket.setdefaulttimeout(15)
 
 
-SERVER_ROOT = 'http://www3.interscience.wiley.com/tools/citex'
-GET_COOKIE_STR = '?clienttype=1&subtype=1&mode=1&version=1&id=%s'
-DOWNL_REF_STR = '?mode=2&format=%s&type=2&file=%s&exportCitation.x=10&exportCitation.y=7&exportCitation=submit'
-PLAIN_TEXT = '1' # use the Wiley "plain text" format
-RIS = '2' # there is a hidden option to get the data in RIS format, but the syntax of that data is wrong
-UNIX_EOL = '3' # get UNIX style end-of-lines (i.e. '\n')
-
-# regexp to match the article id from the url
-ID_REGEXP_FLAGS = re.VERBOSE
-
-ID1_REGEXP = r"""abstract/	# begin at abstract/
-		(\d*)		# valid article ids contain only digits
-		/"""	# terminate at /ABSTRACT
-
-ID2_REGEXP = r"""[^/]+/         # a word/
-                (\d+)           # a string of digits
-                /"""    # followed by /abstract
-
-
-# error messages
-ERR_STR_PREFIX = 'status\terr\t'
-ERR_STR_FETCH = 'Unable to fetch the bibliographic data: '
-ERR_STR_TRY_AGAIN = 'The server may be down.  Please try later.'
-ERR_STR_NO_ID = 'No article identifier found in the URL: '
-ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
-
-# dictionary to translate from Wiley "plain text" format the Citeulike TSV format
-# it also contains necessary substitution strings to convert the data
-PT_TO_TSV = {'AB':('abstract',None),\
-		'AD':('address',None),\
-		'AU':('author',', ','\nauthor\t'),\
-		'US':('url',None),\
-		'DOI':('doi',None),\
-		'PN':('pn',None),\
-		'ON':('issn',None),\
-		'CP':('copyright',None),\
-		'YR':('year',None),\
-		'PG':('start_page','-','\nend_page\t'),\
-		'NO':('issue',None),\
-		'VL':('volume',None),\
-		'SO':('journal',None),\
-		'TI':('title',None)}
-DEFAULT = ('unknown',None) # translate any unknown tags to the string 'unknown'
-
-TSV = 0; # location, in the PT_TO_TSV dictionary, of the TSV string
-PATT = 1; # location, in the PT_TO_TSV dictionary, of the string to replace
-REPL = 2; # location, in the PT_TO_TSV dictionary, of the replacement string
-NUM_SPLITS = 1 # number of times to split each line into tokens
-TAG = 0; # location, in the token tuple, of the "plain text" tag
-STR = -1; # location, in the token tuple, of the data string
-
-
 # read url from std input and get rid of the newline at the end
 url = sys.stdin.readline().strip()
 
-# If there's a whiff of 'ezproxy' in the url then get rid of it
-if 'ezproxy' in url.lower():
-	parts = list(urlparse.urlparse(url))
-	parts[1] = re.sub( r'(.+)\.ezproxy.+', r'\1', parts[1] )
-	url = urlparse.urlunparse(parts)
+m = re.search('http://onlinelibrary.wiley.com/doi/(10\.\d\d\d\d/[^/]+)', url, re.IGNORECASE)
 
-
-# parse the article id from the url and exit gracefully if not found
-id_match  = re.search(ID1_REGEXP, url, ID_REGEXP_FLAGS)
-
-if not id_match:
-	id_match = re.search(ID2_REGEXP, url, ID_REGEXP_FLAGS)
-
-if not id_match:
-	print ERR_STR_PREFIX + ERR_STR_NO_ID + url + '.  ' + ERR_STR_REPORT
+if not m:
+	print "status\terr\tCould not find doi in URL (" + url + ")"
 	sys.exit(1)
 
-article_id = id_match.group(1)
+doi = m.group(1)
 
-# Wiley likes to give us cookies to keep track of what we are doing
+# need to url decode DOI
+doi = urllib.unquote(doi)
+
+#http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2010.01465.x/full
+#wget -O- --post-data="doi=10.1111%252Fj.1461-0248.2010.01465.x&fileFormat=REFERENCE_MANAGER&hasAbstract=CITATION_AND_ABSTRACT" http://onlinelibrary.wiley.com/documentcitationdownloadformsubmit
+
+#print doi
+
 cj = cookielib.CookieJar()
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 
-# feed the cookie monster ;-)
-# (we need to have a session cookie before we can fetch the entry)
-try:
-	f = opener.open(SERVER_ROOT + GET_COOKIE_STR % article_id)
-except:
-	print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' + ERR_STR_TRY_AGAIN
-	sys.exit(1)
+post_data = urllib.urlencode( { "doi" : doi,
+				"fileFormat" : "REFERENCE_MANAGER",
+				"hasAbstract" : "CITATION_AND_ABSTRACT"} )
 
-# fetch the entry for the article_id and exit gracefully in case of trouble
-try:
-	f = opener.open(SERVER_ROOT + DOWNL_REF_STR % (PLAIN_TEXT, UNIX_EOL))
-except:
-	print ERR_STR_PREFIX + ERR_STR_FETCH + url + '.  ' + ERR_STR_TRY_AGAIN
-	sys.exit(1)
+f = opener.open("http://onlinelibrary.wiley.com/documentcitationdownloadformsubmit", post_data)
 
-entry = f.read().strip()
+ris = f.read().strip()
 
-# translate the "plain text" into TSV
-tsv_str = ''
-entry_dict = {}
-for line in entry.splitlines():
-	# split each line into two tokens (tag and data)
-	tokens = line.strip().split(': ',NUM_SPLITS)
-	# fetch the replacement tuple for that tag
-	rep_sec = PT_TO_TSV.get(tokens[TAG],DEFAULT)
-	# process the data string (if required)
-	if rep_sec[PATT]:
-		tokens[STR] = tokens[STR].replace(rep_sec[PATT],rep_sec[REPL])
-	# accumulate the results
-	tsv_str = tsv_str + rep_sec[TSV] + '\t' + tokens[STR] + '\n'
-	# also save the data in a dictionary
-	entry_dict[rep_sec[TSV]] = tokens[STR]
+#print ris
+
+#sys.exit(1)
 
 
 # print the results
 print "begin_tsv"
-print "linkout\tWILEY\t%s\t\t\t" % (article_id)
-if entry_dict.get('doi'):
-	print "linkout\tDOI\t\t%s\t\t" % entry_dict['doi']
+print "linkout\tDOI\t\t%s\t\t" % doi
 print "type\tJOUR"
-print tsv_str,
 print "end_tsv"
+print "begin_ris"
+print ris
+print "end_ris"
 print "status\tok"

@@ -1,25 +1,25 @@
 plugin {
 	version {1}
 	name {Wiley InterScience}
-	url {http://www.interscience.wiley.com/}
+	url {http://onlinelibrary.wiley.com/}
 	blurb {}
 	author {Kristinn B. Gylfason}
 	email {citeulike@askur.org}
 	language {python}
-	regexp {interscience.wiley.com[^/]*/cgi-bin/(abstract|fulltext)/[0-9]*/|interscience.wiley.com[^/]*/[^/]+/[0-9]+/}
+	regexp {http://onlinelibrary.wiley.com/doi/(10\.\d\d\d\d/[^/]+)}
+
 }
 
+# Defunct, but need for old linkouts?
 format_linkout WILEY {
 	return [list "Wiley InterScience" \
 			"http://www3.interscience.wiley.com/cgi-bin/abstract/${ikey_1}/ABSTRACT"]
 }
 
 
-test {http://www3.interscience.wiley.com/cgi-bin/abstract/62500349/ABSTRACT} {
-	formatted_url {{Wiley InterScience} http://www3.interscience.wiley.com/cgi-bin/abstract/62500349/ABSTRACT}
+test {http://onlinelibrary.wiley.com/doi/10.1002/(SICI)1096-9071(199908)58:4%3C338::AID-JMV4%3E3.0.CO;2-5} {
 	formatted_url {DOI {http://dx.doi.org/10.1002/(SICI)1096-9071(199908)58:4%3C338::AID-JMV4%3E3.0.CO;2-5}}
 	volume 58
-	linkout {WILEY 62500349 {} {} {}}
 	linkout {DOI {} {10.1002/(SICI)1096-9071(199908)58:4<338::AID-JMV4>3.0.CO;2-5} {} {}}
 	year 1999
 	type JOUR
