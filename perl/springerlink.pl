@@ -94,6 +94,16 @@ if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
 }
 
 
+
+# Is this a "book section"?  If so we need to get user to click the "View Article" link
+
+if ($url =~ /#section=/) {
+	print "status\terr\tWe cannot work out which chapter/section you want.  Please go back and select the 'View Details' button, and try that. \n";
+	exit;
+}
+
+
+
 # Parser for Springerlink Web Addresses:
 # ADD a parser to link from other forms of the article to the abstract later.
 
@@ -108,6 +118,7 @@ $url =~ s/springerlink\.metapress\.com/springerlink.com/;
 $url =~ s!springerlink\.com[^/]+/!springerlink.com/!;
 
 
+
 # extract the UID from the end of the line.
 $url =~ m{/content/([^/?]+)};
 
@@ -120,13 +131,13 @@ if (!$slink) {
 }
 
 
+my $link_ris = "http://www.springerlink.com/content/$slink/export-citation/";
+
+#print "$link_ris\n";
 
 my $mech = WWW::Mechanize->new( autocheck => 1 );
 $mech->agent_alias( 'Windows IE 6' );
 
-my $link_ris = "http://www.springerlink.com/content/$slink/export-citation/";
-
-#print "$link_ris\n";
 
 $mech->get( $link_ris );
 
