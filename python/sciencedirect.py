@@ -11,7 +11,6 @@ import BeautifulSoup
 import htmlentitydefs
 import html5lib
 from html5lib import treebuilders
-import tidy
 import lxml.html
 
 import socket
@@ -123,6 +122,7 @@ def scrape_abstract(page):
 # Old Scraper using Beautiful Soup.   Seems to fail on some pages
 #
 def xscrape_abstract(page):
+	import tidy
 
 	abs = []
 
