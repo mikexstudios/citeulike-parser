@@ -115,7 +115,7 @@ format_linkout EVPII {
 # If you ever fix a bug in the parser, it is highly recommended that
 # you add the offending page as a test case.
 
-test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6TVK-40X8HYB-2&_coverDate=09%2F01%2F2000&_alid=210978952&_rdoc=1&_fmt=&_orig=search&_qd=1&_cdi=5537&_sort=d&view=c&_acct=C000010021&_version=1&_urlVersion=0&_userid=121749&md5=7afb811531661847b590d5b841433991} {
+test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6TVK-40X8HYB-2&_user=10&_coverDate=09/01/2000&_rdoc=1&_fmt=high&_orig=search&_origin=search&_sort=d&_docanchor=&view=c&_acct=C000050221&_version=1&_urlVersion=0&_userid=10&md5=531972b99745c81a5807ce96b839fe5a&searchtype=a} {
 	formatted_url {DOI http://dx.doi.org/10.1016/S0167-2789(00)00094-4}
 	formatted_url {ElsevierPII http://linkinghub.elsevier.com/retrieve/pii/S0167-2789(00)00094-4}
 	linkout {DOI {} 10.1016/S0167-2789(00)00094-4 {} {}}
@@ -164,24 +164,3 @@ test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B8CWT-4ST2RTK-H&_
 	status ok
 }
 
-
-test {http://www.sciencedirect.com/science?_ob=ArticleURL&_udi=B6X09-4GT63KF-8&_coverDate=07%2F31%2F2005&_alid=302396169&_rdoc=1&_fmt=&_orig=search&_qd=1&_cdi=7209&_sort=d&view=c&_acct=C000058699&_version=1&_urlVersion=0&_userid=2744511&md5=a4e67ff1d73c27a79723943d32982def} {
-	formatted_url {DOI http://dx.doi.org/10.1037/0278-7393.31.4.703}
-	linkout {DOI {} 10.1037/0278-7393.31.4.703 {} {}}
-	year 2005
-	type JOUR
-	volume 31
-	start_page 703
-	end_page 713
-	plugin_version 2
-	pub_id_type other
-	doi {10.1037/0278-7393.31.4.703}
-	issue 4
-	title {When Do Visual and Verbal Memories Conflict? The Importance of Working-Memory Load and Retrieval.}
-	pub_id 2005-08130-008
-	journal {Journal of Experimental Psychology: Learning, Memory, and Cognition}
-	issn 0278-7393
-	author {Morey Candice CC {Morey, Candice C.}}
-	author {Cowan Nelson N {Cowan, Nelson}}
-	status ok
-}

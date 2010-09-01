@@ -11,15 +11,15 @@ import BeautifulSoup
 import htmlentitydefs
 import html5lib
 from html5lib import treebuilders
+import tidy
+import lxml.html
 
 import socket
 
 socket.setdefaulttimeout(15)
 
-
 class ParseException(Exception):
 	pass
-
 
 ##
 # Removes HTML or XML character references and entities from a text string.
@@ -60,7 +60,6 @@ def canon_url(url):
 		raise ParseException, "bad source url"
 	return "http://www.sciencedirect.com/" + m.group(1)
 
-
 #
 # Make up crossref metadata URL (just need the DOI)
 #
@@ -87,17 +86,69 @@ def crossref_xml_url(doi):
 #       <h3 class="h3">Abstract</h3>
 #       <p>An instrumented indentation technique...
 #
+
 def scrape_abstract(page):
+
+	root = lxml.html.fromstring(page)
+
+	#root = lxml.html.fromstring(html_data)
+	#links_lxml_res = root.cssselect("a.detailsViewLink")
+	#links_lxml = [link.get("href") for link in links_lxml_res]
+	#links_lxml = list(set(links_lxml))
+
+	abs = []
+	for div in root.cssselect("div.articleText"):
+		for h3 in div.cssselect("h3.h3"):
+			if string.lower(h3.text) in ('abstract'):
+				for p in div.cssselect("p"):
+					abs.append(p.text)
+
+	if len(abs) == 0:
+		for div in root.cssselect('#articleContent'):
+			for p in div.cssselect("div.articleText_indent"):
+				abs.append(p.text)
+
+
+	abstract = ' '.join(abs)
+
+	abstract = re.sub('\n+',' ',abstract)
+	abstract = re.sub('\s+',' ',abstract)
+#	print "1================================================================="
+#	print abstract
+#	print "2================================================================="
+	return unescape(abstract)
+
+
+#
+# Old Scraper using Beautiful Soup.   Seems to fail on some pages
+#
+def xscrape_abstract(page):
 
 	abs = []
 
+
+	options = dict(output_xhtml=1,
+		add_xml_decl=1,
+		indent=1,
+		tidy_mark=0)
+
+	page = tidy.parseString(page,**options)
+
+	#print "%s" % page
+	#return
+
 	parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
 	soup = parser.parse(page)
-#	soup = BeautifulSoup.BeautifulSoup(page)
+#	print page
+#	soup = BeautifulSoup.BeautifulSoup(page.__str__)
+	print "soup=%s" % soup
 	for div in soup.findAll('div',attrs={'class':'articleText'}):
+		print "****1"
 		h3 = div.find('h3',{'class':'h3'})
 		if h3:
+			print "****2"
 			val = h3.contents[0]
+			print "****3 %s" % val
 			if string.lower(val) in ('abstract'):
 				for p in h3.findNextSiblings('p'):
 					for t in p.findAll(text=True):
@@ -111,10 +162,13 @@ def scrape_abstract(page):
 				for t in p.findAll(text=True):
 					abs.append(t.string)
 
-	abstract = ' '.join(abs);
+	abstract = ' '.join(abs)
 
 	abstract = re.sub('\n+',' ',abstract)
 	abstract = re.sub('\s+',' ',abstract)
+	print "1================================================================="
+	print abstract
+	print "2================================================================="
 	return unescape(abstract)
 
 
@@ -124,10 +178,11 @@ def scrape_abstract(page):
 def handle(url):
 
 	cUrl = canon_url(url)
-	print "%s => %s" % (url, cUrl)
+#	print "%s => %s" % (url, cUrl)
 	page = urlopen(cUrl).read()
 
-	m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
+
+	m = re.search(r'<a(?: id="[^"]+")? href="http://dx.doi.org/([^"]+)"', page)
 
 	# this page might requires a login.  Luckily there seems to be a
 	# link "View Abstract" which can take us to a page we can read
@@ -140,7 +195,7 @@ def handle(url):
 		if link:
 			href = link.parent['href']
 			page = urlopen(canon_url("http://www.sciencedirect.com" + href)).read()
-			m = re.search(r'<a href="http://dx.doi.org/([^"]+)"', page)
+			m = re.search(r'<a(?: id="[^"]+")?  href="http://dx.doi.org/([^"]+)"', page)
 
 
 	if not m:
@@ -185,10 +240,11 @@ def handle(url):
 
 	yield "begin_tsv"
 
-	try:
-		abstract = scrape_abstract(page)
-	except:
-		abstract = ''
+	abstract = scrape_abstract(page)
+#	try:
+#		abstract = scrape_abstract(page)
+#	except:
+#		abstract = ''
 
 	if abstract:
 		print "abstract\t%s" % (abstract)
