@@ -127,8 +127,9 @@ def fetch(domain, asin):
 		num = getattr(pages, "NumberOfItems")
 		if num == '0':
 			raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
-		if num != '1':
-			raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact <bugs@citeulike.org>")
+		# Allow multi-volume works.  Do we need another check?
+		if False and num != '1':
+			raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact bugs@citeulike.org")
 	except AttributeError:
 		pass
 
