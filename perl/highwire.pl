@@ -72,6 +72,7 @@ chomp($url);
 #$url = "http://bmj.bmjjournals.com/cgi/content/full/329/7475/1188-c/DC1?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&author1=cameron&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120043717953_4754&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4";
 #$url = "http://bmj.bmjjournals.com/cgi/content/full/309/6970/1686?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120044557327_5038&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4";
 # http://eup.sagepub.com/content/8/1/131
+# http://www.pnas.org/content/99/suppl.3/7280.full
 
 # see if URL matches one of the patterns we are looking for
 
@@ -105,6 +106,10 @@ elsif ($url =~ m{http://([^/]+)/content/}) {
 	($journal_site) = ($1);
 	$url =~ s/\.(\w+)$/.abstract/;
 	($url_abstract, $doi, $pmid, $body) = get_abstract_url($url);
+	if (!$url_abstract) {
+		print "status\terr\t (0.5) Cannot find the URL for the abstract\n";
+		exit;
+	}
 	if ($url_abstract eq $url) {
 		$source_abstract = $body;
 	}
@@ -198,7 +203,7 @@ if ($mjid) {
 			$hiwire = "$journal_site/content/$volume/$page";
 		}
 	}
-} elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd|[S]ave) to [C|c]itation [M|m]anager)|(Download Citation))}) {
+} elsif (1 || $source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd|[S]ave) to [C|c]itation [M|m]anager)|(Download Citation))}) {
 	$link_citmgr = $1;
 	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
 
@@ -343,19 +348,29 @@ sub get_abstract_url {
 	$tree->parse($body);
 	@meta =  $tree->find("meta");
 	$citation_abstract_html_url = "";
+	$citation_fulltext_html_url = "";
 	$citation_doi = "";
 	$citation_pmid = "";
 	foreach $m (@meta) {
+
 		$name = $m->attr("name");
+
 		if ($name && $name eq "citation_abstract_html_url") {
 			$citation_abstract_html_url = $m->attr("content");
 		}
+		if ($name && $name eq "citation_fulltext_html_url") {
+			$citation_fulltext_html_url = $m->attr("content");
+		}
+
 		if ($name && $name eq "citation_doi") {
 			$citation_doi = $m->attr("content");
 		}
 		if ($name && $name eq "citation_pmid") {
 			$citation_pmid = $m->attr("content");
 		}
+	}
+	if (!$citation_abstract_html_url) {
+		$citation_abstract_html_url = $citation_fulltext_html_url;
 	}
 	return ($citation_abstract_html_url, $citation_doi, $citation_pmid, $body);
 }
