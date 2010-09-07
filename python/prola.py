@@ -4,11 +4,13 @@ import re, sys, urllib2, cookielib,sys
 from urlparse import urlparse
 from urllib import urlencode
 from urllib2 import urlopen
-import BeautifulSoup
-from html5lib import treebuilders
-import html5lib
+#import BeautifulSoup
+#from html5lib import treebuilders
+#import html5lib
 import warnings
 import codecs
+import lxml.html
+
 
 import socket
 
@@ -77,7 +79,8 @@ except:
 	print ERR_STR_PREFIX + ERR_STR_FETCH + bibtexurl + '.  ' + ERR_STR_TRY_AGAIN
 	sys.exit(1)
 bibtex = f.read()
-bibtex = bibtex.split('\n',2)[2]
+# There used to be some extra lines at the start of the BibTeX, but no more
+#bibtex = bibtex.split('\n',2)[2]
 bibtex = re.sub(r'\\ifmmode .*?\\else (.*?)\\fi\{\}',r'\1',bibtex)
 
 #okay so that handles most of it  but we still need to get the actual title of the journal,
@@ -90,17 +93,30 @@ except:
 	sys.exit(1)
 content = f.read()
 
-parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
-soup = parser.parse(content)
 
-abstract = ''
+#parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
+#soup = parser.parse(content)
 
-div = soup.find('div',attrs={'class':'aps-abstractbox'})
-if div:
-	abs = []
-	for t in div.findAll(text=True):
-		abs.append(t);
+
+#div = soup.find('div',attrs={'class':'aps-abstractbox'})
+#if div:
+#	abs = []
+#	for t in div.findAll(text=True):
+#		abs.append(t);
+#	abstract =  " ".join(abs).strip()
+
+
+root = lxml.html.fromstring(content)
+abs = []
+for div in root.cssselect("div.aps-abstractbox"):
+	t = div.text_content()
+	if t:
+		abs.append(t)
+if len(abs) > 0:
 	abstract =  " ".join(abs).strip()
+else:
+	abstract = ""
+
 
 # We would much much rather extract the DOI from the bibtex feed, since it has a
 # much more std structure, (that isn't as subject to change as the page conent.
