@@ -43,7 +43,10 @@ socket.setdefaulttimeout(15)
 # read url from std input and get rid of the newline at the end
 url = sys.stdin.readline().strip()
 
-m = re.search('http://onlinelibrary.wiley.com/doi/(10\.\d\d\d\d/[^/]+)', url, re.IGNORECASE)
+# Wiley DOIs can have
+# The (/\w+) at the end is optimistic.  Known values are /abstract + /full
+# but I'll provisionally assume that a /<word> at the end is to be stripped.
+m = re.search('http://onlinelibrary.wiley.com/doi/(10\.\d\d\d\d/(.+?))(/\w+)?$', url, re.IGNORECASE)
 
 if not m:
 	print "status\terr\tCould not find doi in URL (" + url + ")"

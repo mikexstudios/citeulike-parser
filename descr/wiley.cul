@@ -42,3 +42,23 @@ test {http://onlinelibrary.wiley.com/doi/10.1002/(SICI)1096-9071(199908)58:4%3C3
 	publisher {John Wiley & Sons, Inc.}
 	status ok
 }
+
+test {http://onlinelibrary.wiley.com/doi/10.1002/(SICI)1099-0526(199703/04)2:4%3C31::AID-CPLX8%3E3.0.CO;2-3/abstract} {
+	volume 2
+	serial 1099-0526
+	linkout {DOI {} {10.1002/(SICI)1099-0526(199703/04)2:4<31::AID-CPLX8>3.0.CO;2-3} {} {}}
+	year 1997
+	type JOUR
+	start_page 31
+	url http://dx.doi.org/10.1002/(SICI)1099-0526(199703/04)2:4<31::AID-CPLX8>3.0.CO;2-3
+	end_page 39
+	doi 10.1002/(SICI)1099-0526(199703/04)2:4<31::AID-CPLX8>3.0.CO;2-3
+	publisher {John Wiley & Sons, Inc.}
+	formatted_url {DOI {http://dx.doi.org/10.1002/(SICI)1099-0526(199703/04)2:4%3C31::AID-CPLX8%3E3.0.CO;2-3}}
+	issue 4
+	title {The emergence of risk aversion}
+	journal {Complexity}
+	abstract {Abstract 10.1002/(SICI)1099-0526(199703/04)2:4<31::AID-CPLX8>3.3.CO;2-V Economic decision making under uncertainty is universally characterized by aversion to risk. One of the most basic concepts in economic theory, risk aversion is usually explained by the concavity of the utility function, which, in turn, is based on a person's satiability for wealth. I use genetic algorithms to show that risk aversion, and some related consequences, emerge naturally as a result of evolutionary pressures. In analogy to the well-known hillclimbing metaphor, it is helpful in this context to characterize optimizing under uncertainty as “surfing in a fitness seascape.” © 1997 John Wiley & Sons, Inc.}
+	author {Szpiro {} GG {Szpiro, G. G.}}
+	status ok
+}
