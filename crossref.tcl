@@ -282,13 +282,25 @@ proc CROSSREF::parse_chapter {doc} {
 	return [array get ret]
 }
 
-
 #<CONFERENCE>###################################################################
+#
+#  XXXX: There's confusion between conference proceedings and conference papers
+#  Need to find some cases of each - perhaps need different parse for each.
+#  (though I suspect some smarter XPATH will do the job better)
+#
+#  PAPER: http://dx.doi.org/10.3182/20020721-6-ES-1901.00049 ("event" within "proceedings series")
+#
+
 proc CROSSREF::parse_conf {doc} {
 	array set ret [list]
 
 	set prefix //doi_record/crossref/conference
-	set meta "$prefix/proceedings_metadata"
+
+	catch {
+		set meta "$prefix/proceedings_metadata"
+		[[$doc selectNodes ${meta}]
+		set meta "$prefix/proceedings_series_metadata"
+	}
 
 	set paper ${prefix}/conference_paper
 	#
@@ -325,14 +337,17 @@ proc CROSSREF::parse_conf {doc} {
 
 
 	catch {
-		set ret(day)   [[$doc selectNodes ${meta}/publication_date/day] text]
+		set ret(year)  [[$doc selectNodes ${paper}/publication_date/year] text]
+		set ret(month) [[$doc selectNodes ${paper}/publication_date/month] text]
+		set ret(day)   [[$doc selectNodes ${paper}/publication_date/day] text]
 	}
-	catch {
-		set ret(month) [[$doc selectNodes ${meta}/publication_date/month] text]
-	}
-	# puts "Looking for ${meta}/publication_date/year"
-	catch {
-		set ret(year)  [[$doc selectNodes ${meta}/publication_date/year] text]
+
+	if {![info exists ret(year)]} {
+		catch {
+			set ret(year)  [[$doc selectNodes ${meta}/publication_date/year] text]
+			set ret(month) [[$doc selectNodes ${meta}/publication_date/month] text]
+			set ret(day)   [[$doc selectNodes ${meta}/publication_date/day] text]
+		}
 	}
 
 	catch {
@@ -363,6 +378,10 @@ proc CROSSREF::parse_conf {doc} {
 		set ret(location) [[$doc selectNodes ${prefix}/event_metadata/conference_location] text]
 	}
 
+	catch {
+		set ret(doi) [[$doc selectNodes //conference_paper/doi_data/doi] text]
+		lappend ret(linkout) [join [list DOI "" $ret(doi) "" ""] \t]
+	}
 
 	set ret(type) INCONF
 
