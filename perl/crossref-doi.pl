@@ -58,13 +58,14 @@ if (! $in_url =~ m{^http://dx\.doi\.org/}i ) {
 
 $in_url =~ m{^http://dx\.doi\.org/(.*)}i;
 
-print "$in_url\n";
+# print "$in_url\n";
 
 $doi = $1;
 
 # pid=username:password (private!)
-my $keydata=`cat $ENV{HOME}/.crossref-key`;
-my ($pid) = $keydata =~ m{(\w+:\w+)};
+my $pid=`cat $ENV{HOME}/.crossref-key`;
+
+$pid =~ s/\s+//g;
 
 $url="http://www.crossref.org/openurl/?id=doi:$doi&noredirect=true&pid=$pid&format=unixref";
 
@@ -89,6 +90,7 @@ $xml = new XML::Simple;
 #$body = $1;
 
 # parse XML (not really necessary as crossref.tcl has to do this anyway)
+
 $data = $xml->XMLin($body, ForceArray => [qw/title titles person_name identifier issn/]);
 
 $base = $data->{"doi_record"}->{"crossref"};
