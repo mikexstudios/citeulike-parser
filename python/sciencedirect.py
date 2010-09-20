@@ -65,7 +65,8 @@ def canon_url(url):
 def crossref_xml_url(doi):
 	url = "http://www.crossref.org/openurl/?id=doi:" + doi
 	url += "&noredirect=true"
-
+	# see http://www.crossref.org/help/Content/05_Interfacing_with_the_CrossRef_system/Using_the_Open_URL_Resolver.htm
+	# key is either "username:password" or "<email>"
 	key_file = os.environ.get("HOME") + "/.crossref-key"
 	if os.path.exists(key_file):
 		f = open(key_file)
@@ -100,12 +101,12 @@ def scrape_abstract(page):
 		for h3 in div.cssselect("h3.h3"):
 			if string.lower(h3.text) in ('abstract'):
 				for p in div.cssselect("p"):
-					abs.append(p.text)
+					abs.append(p.xpath("string()"))
 
 	if len(abs) == 0:
 		for div in root.cssselect('#articleContent'):
 			for p in div.cssselect("div.articleText_indent"):
-				abs.append(p.text)
+				abs.append(p.xpath("string()"))
 
 
 	abstract = ' '.join(abs)
