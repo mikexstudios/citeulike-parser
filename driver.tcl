@@ -466,6 +466,17 @@ namespace eval driver {
 			set ret(plugin_version) [set DETAIL_${plugin}(version)]
 
 
+			# strip some funnies from start of abstract
+			if {[info exists ret(abstract)]} {
+				# 1. "Abstract: " - need to be careful since "Abstract" *might*
+				# be a valid world, so check for colon.
+				regsub -nocase {^\s*abstract\s*:\s*} $ret(abstract) {} ret(abstract)
+
+				# 2. DOIs
+				regsub -nocase {^\s*(doi:?\s*:\s*)?(10\.\d\d\d\d/[^\s]+\s+)} $ret(abstract) {} ret(abstract)
+			}
+
+
 			# TODO - make sure the kv pairs takes priority over bibtex/ris
 			# Return the first plugin which gets a result.
 
