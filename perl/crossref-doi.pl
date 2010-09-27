@@ -100,7 +100,7 @@ if (!$base) {
 
 
 if (!$base) {
-	print "status\terr\t  That DOI does not appear to be a known type.\n";
+	print "status\terr\t  That DOI does not appear to be a known type. $doi\n";
 	exit;
 }
 

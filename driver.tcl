@@ -473,7 +473,10 @@ namespace eval driver {
 				regsub -nocase {^\s*abstract\s*:\s*} $ret(abstract) {} ret(abstract)
 
 				# 2. DOIs
-				regsub -nocase {^\s*(doi:?\s*:\s*)?(10\.\d\d\d\d/[^\s]+\s+)} $ret(abstract) {} ret(abstract)
+				regsub -nocase {^\s*(doi:?\s*:\s*)?(10\.\d\d\d\d/[^\s]+(\s+|$))} $ret(abstract) {} ret(abstract)
+				if {$ret(abstract) eq ""} {
+					unset ret(abstract)
+				}
 			}
 
 
