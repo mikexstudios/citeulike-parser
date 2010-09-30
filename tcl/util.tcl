@@ -61,7 +61,11 @@ if {[info exists env(http_proxy_port)] && $::env(http_proxy_port)!=""} {
 # This isn't a problem here, as we exec() a new process each
 # time, and we're generally only sending requests to one
 # publishers's site. One to keep an eye on though.
-proc url_get {url {once_only 0}} {
+
+#
+# mode is for backward compat.  If 0, returns the page, if 1 {page final_url}
+#
+proc url_get {url {once_only 0} {mode 0}} {
 
 	set url [string trim $url]
 	set url [string map [list " " "%20"] $url]
@@ -115,7 +119,11 @@ proc url_get {url {once_only 0}} {
 			}
 
 			if {$once_only} {
-				return $url
+				if {$mode == 1} {
+					return [list {} $url]
+				} else {
+					return $url
+				}
 			}
 		} else {
 			set getting 0
@@ -129,8 +137,14 @@ proc url_get {url {once_only 0}} {
 
 	set page $state(body)
 
-	return $page
+	if {$mode == 1} {
+		return [list $page $url]
+	} else {
+		return $page
+	}
 }
+
+
 
 proc bail {error} {
 	puts "status\terr\t$error"

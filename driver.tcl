@@ -111,6 +111,9 @@ namespace eval driver {
 		lappend TESTS_${PLUGIN} [list $url $kvpairs]
 	}
 
+	proc skiptest {url kvpairs} {
+		puts "Skipping tests for $url"
+	}
 
 #	proc interested {body} {
 #		variable PLUGIN

@@ -45,8 +45,17 @@ set url [gets stdin]
 #
 # If the URL is of the form http://link.aip.org/link..., then it's a redirect to a proper URL
 #
-if {[regexp {^http://link.aip.org/link} $url]} {
-	set url [url_get $url 1]
+#if {[regexp {^http://link.aip.org/link} $url]} {
+#	set url [url_get $url 1]
+#}
+
+set x [url_get $url 0 1]
+
+foreach {page url} $x {break}
+
+if {![regexp {aip.org} $url]} {
+	puts "status\tredirect\t$url"
+	return
 }
 
 set abpage ""
@@ -66,6 +75,8 @@ set abpage ""
 
 # http://link.aip.org/link/APPLAB/v96/i9/p093112/s1 === http://apl.aip.org/applab/v96/i9/p093112_s1?isAuthorized=no
 
+# http://jap.aip.org/resource/1/japiau/v107/i5/p054315_s1?isAuthorized=no => bibtex
+# http://scitation.aip.org/getabs/servlet/GetCitation?source=scitation&downloadcitation=+Go+&source=scitation&SelectCheck=JAPIAU000107000005054315000001&fn=open_bibtex2&Submit=DownloadFailed to load resource
 proc aip_id {url abpage} {
 	upvar $abpage l_abpage
 
@@ -76,7 +87,7 @@ proc aip_id {url abpage} {
 			puts "${url}"
 		}
 	}
-	if {[regexp {aip.org/(\w+)/v\d} $url]} {
+	if {[regexp {aip.org/(\w+)/v\d} $url] || [regexp {aip.org/resource/} $url]} {
 		set temppage [url_get $url]
 		if {[regexp {from_key=([a-zA-Z0-9]+)&} $temppage -> m_id]} {
 			set id $m_id
@@ -220,7 +231,7 @@ if {[regexp -nocase {<META name="description" content="([^"]+)"} $abpage -> abst
 # Next, get DOI from the same page
 # This DOI routine is pretty iffy and needs to be checked pretty badly
 #puts $abpage
-if {[regexp {doi:(10\.\d\d\d\d/[^\s<]+)} $abpage -> my_doi]} {
+if {[regexp {doi:(10\.\d\d\d\d/[^\s"<]+)} $abpage -> my_doi]} {
 	puts "linkout\tDOI\t\t${my_doi}\t\t"
 	puts "doi\t${my_doi}"
 } elseif {[regexp {doi=(10.\d\d\d\d\.(?:[^"&]+))} $abpage -> my_doi]} {

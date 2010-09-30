@@ -76,7 +76,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {aip.org/(getabs|vsearch|link|(\w+/v\d))}
+	regexp {aip.org/(resource|getabs|vsearch|link|(\w+/v\d))}
 }
 
 
@@ -121,28 +121,25 @@ format_linkout AIPP {
 # If you ever fix a bug in the parser, it is highly recommended that
 # you add the offending page as a test case.
 
+# this one (now) redirects to an APS page
 test {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes} {
-	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDAQ000071000010103508000001&idtype=cvips&gifs=yes}
-	formatted_url {{APS Permanent Link} http://link.aps.org/abstract/PRD/v71/e103508}
-	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevD.71.103508}
-	keywords {cosmology; superstrings; membrane theory}
-	start_page "103508"
 	volume 71
-	linkout {AIP {} PRVDAQ000071000010103508000001 {} {}}
-	linkout {APS 71 PRD {} e103508}
+	linkout {PROLA {} PRD/v71/i10/e103508 {} {}}
 	linkout {DOI {} 10.1103/PhysRevD.71.103508 {} {}}
 	year 2005
+	start_page 103508
 	type JOUR
-	url {http://link.aps.org/abstract/PRD/v71/e103508}
-	doi {10.1103/PhysRevD.71.103508}
-	publisher {APS}
+	doi 10.1103/PhysRevD.71.103508
+	publisher {American Physical Society}
+	formatted_url {{APS (abstract)} http://link.aps.org/abstract/PRD/v71/i10/e103508}
+	formatted_url {{APS (pdf)} http://link.aps.org/pdf/PRD/v71/i10/e103508}
+	formatted_url {DOI http://dx.doi.org/10.1103/PhysRevD.71.103508}
 	issue 10
 	title {Scaling of multitension cosmic superstring networks}
-	eid 103508
-	journal {Physical Review D (Particles, Fields, Gravitation, and Cosmology)}
+	journal {Physical Review D}
 	abstract {Brane inflation in superstring theory ends when branes collide, initiating the hot big bang. Cosmic superstrings are produced during the brane collision. The cosmic superstrings produced in a D3-brane-antibrane inflationary scenario have a spectrum: (p,q) bound states of p fundamental (F) strings and q D-strings, where p and q are coprime. By extending the velocity-dependent one-scale network evolution equations for Abelian Higgs cosmic strings to allow a spectrum of string tensions, we construct a coupled (infinite) set of equations for strings that interact through binding and self-interactions. We apply this model to a network of (p,q) superstrings. Our numerical solutions show that (p,q) networks rapidly approach a stable scaling solution. We also extract the relative densities of each string type from our solutions. Typically, only a small number of the lowest tension states are populated substantially once scaling is reached. The model we study also has an interesting new feature: the energy released in (p,q) string binding is by itself adequate to allow the network to reach scaling. This result suggests that the scaling solution is robust. To demonstrate that this result is not trivial, we show that choosing a different form for string interactions can lead to network frustration.}
-	cite {tye:103508}
-	author {Tye Henry HSH {S. H. Henry Tye}}
+	month May
+	author {Tye Henry SHH {S. H. Henry Tye}}
 	author {Wasserman Ira I {Ira Wasserman}}
 	author {Wyman Mark M {Mark Wyman}}
 	status ok
@@ -151,11 +148,13 @@ test {http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PRVDA
 test {http://spiedl.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME5000014000002029901000001&idtype=cvips&gifs=Yes&ver=dl} {
 	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME5000014000002029901000001&idtype=cvips&gifs=yes}
 	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?JEI/14/029901}
+	formatted_url {DOI http://dx.doi.org/10.1117/1.1905634}
 	keywords  {vectors; mathematical operators; Fourier analysis; Fourier transforms; spectral analysis; wavelet transforms; group theory; image processing; diffraction; photons; stochastic processes; estimation theory; inverse problems; single photon emission computed tomography; speckle}
 	start_page  "029901"
 	volume  14
 	linkout {AIP {} JEIME5000014000002029901000001 {} {}}
 	linkout {AIPP 14 JEI {} 029901}
+	linkout {DOI {} 10.1117/1.1905634 {} {}}
 	year  2005
 	type  JOUR
 	url  {http://link.aip.org/link/?JEI/14/029901/1}
@@ -173,7 +172,11 @@ test {http://spiedl.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JEIME500
 
 }
 
-test {http://spiedl.aip.org/vsearch/servlet/VerityServlet?KEY=SPIEDL&smode=strresults&sort=rel&maxdisp=25&threshold=0&pjournals=SPIEDL&possible1=network&possible1zone=article&SMODE=strsearch&OUTLOG=NO&deliveryType=spiedl&viewabs=PSISDG&key=DISPLAY&docID=1&page=0&chapter=0} {
+#
+# Hmmm.   This now gives a COMPLETELY DIFFERENT ARTICLE
+#
+
+skiptest {http://spiedl.aip.org/vsearch/servlet/VerityServlet?KEY=SPIEDL&smode=strresults&sort=rel&maxdisp=25&threshold=0&pjournals=SPIEDL&possible1=network&possible1zone=article&SMODE=strsearch&OUTLOG=NO&deliveryType=spiedl&viewabs=PSISDG&key=DISPLAY&docID=1&page=0&chapter=0} {
 	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=PSISDG004583000001000139000001&idtype=cvips&gifs=yes}
 	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?PSI/4583/139}
 	volume  4583
@@ -197,5 +200,33 @@ test {http://spiedl.aip.org/vsearch/servlet/VerityServlet?KEY=SPIEDL&smode=strre
 	author {Mishra Data DS {Data S. Mishra}}
 	status ok
 	location {Beijing, China}
+}
+
+test {http://jap.aip.org/resource/1/japiau/v107/i5/p054315_s1} {
+	keywords {annealing; elemental semiconductors; germanium; hydrogen; ion implantation; nucleation; semiconductor thin films; surface roughness; thermal expansion; transmission electron microscopy; X-ray diffraction}
+	volume 107
+	linkout {AIP {} JAPIAU000107000005054315000001 {} {}}
+	linkout {AIPP 107 JAP {} 054315}
+	linkout {DOI {} 10.1063/1.3326942 {} {}}
+	year 2010
+	start_page 054315
+	type JOUR
+	url http://link.aip.org/link/?JAP/107/054315/1
+	doi 10.1063/1.3326942
+	publisher AIP
+	formatted_url {{Scitation (AIP)} http://scitation.aip.org/getabs/servlet/GetabsServlet?prog=normal&id=JAPIAU000107000005054315000001&idtype=cvips&gifs=yes}
+	formatted_url {{Scitation (AIP) (Permanent Link)} http://link.aip.org/link/?JAP/107/054315}
+	formatted_url {DOI http://dx.doi.org/10.1063/1.3326942}
+	issue 5
+	eid 054315
+	title {Low temperature exfoliation process in hydrogen-implanted germanium layers}
+	journal {Journal of Applied Physics}
+	abstract {The feasibility of transferring hydrogen-implanted germanium to silicon with a reduced thermal budget is demonstrated. Germanium samples were implanted with a splitting dose of 5×1016 H2+ cm−2 at 180 keV and a two-step anneal was performed. Surface roughness and x-ray diffraction pattern measurements, combined with cross-sectional TEM analysis of hydrogen-implanted germanium samples were carried out in order to understand the exfoliation mechanism as a function of the thermal budget. It is shown that the first anneal performed at low temperature ( ≤ 150 °C for 22 h) enhances the nucleation of hydrogen platelets significantly. The second anneal is performed at 300 °C for 5 min and is shown to complete the exfoliation process by triggering the formation of extended platelets. Two key results are highlighted: (i) in a reduced thermal budget approach, the transfer of hydrogen-implanted germanium is found to follow a mechanism similar to the transfer of hydrogen-implanted InP and GaAs, (ii) such a low thermal budget (&lt;300 °C) is found to be suitable for directly bonded heterogeneous substrates, such as germanium bonded to silicon, where different thermal expansion coefficients are involved.}
+	author {Ferain {} IP {I. P. Ferain}}
+	author {Byun {} KY {K. Y. Byun}}
+	author {Colinge {} CA {C. A. Colinge}}
+	author {Brightup {} S {S. Brightup}}
+	author {Goorsky {} MS {M. S. Goorsky}}
+	status ok
 }
 
