@@ -100,7 +100,9 @@ test {http://www.rsc.org/delivery/_ArticleLinking/ArticleLinking.cfm?JournalCode
 
 test {http://www.rsc.org/Publishing/Journals/AN/article.asp?doi=AN8810600143} {
 	formatted_url {{Royal Society of Chemistry} http://www.rsc.org/Publishing/Journals/article.asp?doi=AN8810600143}
+	formatted_url {DOI http://dx.doi.org/10.1039/AN8810600143}
 	linkout {RSC {} AN8810600143 {} {}}
+	linkout {DOI {} 10.1039/AN8810600143 {} {}}
 	year 1881
 	type JOUR
 	volume 6
@@ -113,5 +115,27 @@ test {http://www.rsc.org/Publishing/Journals/AN/article.asp?doi=AN8810600143} {
 	title {On the Swedish laws for the sale of poisons}
 	journal {Analyst}
 	status ok
-	author {Heischf {} {} {F.I.C., C. HeischF.C.S.,}}
+	author {Heisch {} {} {F.I.C., C. Heisch F.C.S.}}
 }
+
+test {http://pubs.rsc.org/en/Content/ArticleLanding/1881/AN/AN8810600143} {
+	formatted_url {{Royal Society of Chemistry} http://www.rsc.org/Publishing/Journals/article.asp?doi=AN8810600143}
+	formatted_url {DOI http://dx.doi.org/10.1039/AN8810600143}
+	linkout {RSC {} AN8810600143 {} {}}
+	linkout {DOI {} 10.1039/AN8810600143 {} {}}
+	year 1881
+	type JOUR
+	volume 6
+	issue August
+	start_page 143
+	end_page 145
+	url {http://dx.doi.org/10.1039/AN8810600143}
+	doi {10.1039/AN8810600143}
+	publisher {The Royal Society of Chemistry}
+	title {On the Swedish laws for the sale of poisons}
+	journal {Analyst}
+	status ok
+	author {Heisch {} {} {F.I.C., C. Heisch F.C.S.}}
+}
+
+

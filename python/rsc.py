@@ -16,8 +16,7 @@
 
 
 import sys, cgi, urlparse, urllib2
-
-import socket
+import socket, re
 
 socket.setdefaulttimeout(15)
 
@@ -31,28 +30,37 @@ REQ_DATA = {}
 ERR_STR_PREFIX = 'status\terr\t'
 ERR_STR_FETCH = 'Unable to fetch the bibliographic data: '
 ERR_STR_TRY_AGAIN = 'The server may be down.  Please try later.'
-ERR_STR_NO_KEYS = 'Could not extract atricle details from the URL: '
+ERR_STR_NO_KEYS = 'Could not extract article details from the URL: '
 ERR_STR_REPORT = 'Please report the error to plugins@citeulike.org.'
 
 # read url from std input an get rid of the newline at the end
 url = sys.stdin.readline().strip()
 
 # parse the article details from the url
-src_query = cgi.parse_qs(urlparse.urlparse(url)[QUERY])
-if src_query.has_key('doi'):
+parsed_url = urlparse.urlparse(url)
+src_query = cgi.parse_qs(parsed_url.query)
+path = parsed_url.path
+
+# new style http://pubs.rsc.org/en/Content/ArticleLanding/2002/CC/b204846a
+m = re.match(r'^/en/Content/ArticleLanding/[^/]+/[^/]+/([^/]+)', path)
+if m:
+    REQ_DATA['article_id'] = m.group(1)
+elif src_query.has_key('doi'):
+    # OLD STYLE
     REQ_DATA['article_id'] = src_query['doi'][0]
 elif src_query.has_key('ManuscriptID'):
+    # OLD STYLE
     REQ_DATA['article_id'] = src_query['ManuscriptID'][0]
 else:
     print ERR_STR_PREFIX + ERR_STR_NO_KEYS + url + '.  ' + ERR_STR_REPORT
-    raise
+    sys.exit(0)
 
 # fetch the bibligraphic data
 try:
     f = urllib2.urlopen(CITATION_SERVER_ROOT + REQ_STR % REQ_DATA)
 except:
     print ERR_STR_PREFIX + ERR_STR_FETCH + CITATION_SERVER_ROOT + '.  ' + ERR_STR_TRY_AGAIN
-    raise
+    sys.exit(0)
 
 entry = f.read().strip()
 
