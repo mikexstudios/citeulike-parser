@@ -171,7 +171,11 @@ proc parse_ris {rec} {
 				}
 
 				{N1|AB|N2} {
-					append ret(abstract) "$v "
+					# skip a leading DOI
+					regsub {^\s*10\.\d\d\d\d/[^\s]+} $v {} v
+					if {$v ne ""} {
+						append ret(abstract) "$v "
+					}
 				}
 
 

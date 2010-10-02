@@ -112,7 +112,7 @@ namespace eval driver {
 	}
 
 	proc skiptest {url kvpairs} {
-		puts "Skipping tests for $url"
+		#puts "Skipping tests for $url"
 	}
 
 #	proc interested {body} {

@@ -73,6 +73,7 @@ chomp($url);
 #$url = "http://bmj.bmjjournals.com/cgi/content/full/309/6970/1686?maxtoshow=&HITS=10&hits=10&RESULTFORMAT=1&andorexacttitle=and&andorexacttitleabs=and&andorexactfulltext=and&searchid=1120044557327_5038&stored_search=&FIRSTINDEX=0&sortspec=relevance&resourcetype=1,2,3,4";
 # http://eup.sagepub.com/content/8/1/131
 # http://www.pnas.org/content/99/suppl.3/7280.full
+# http://www.sciencemag.org/cgi/citmgr?gca=sci;science.1193147v2
 
 # see if URL matches one of the patterns we are looking for
 
