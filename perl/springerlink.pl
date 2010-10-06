@@ -5,6 +5,7 @@ use warnings;
 use LWP 5.64;
 use File::Temp qw/tempfile/;
 use WWW::Mechanize;
+use Encode;
 
 # print "status\terr\t (0) Springerlink is blocked at the moment. Please again try later.\n" and exit;
 
@@ -96,11 +97,14 @@ if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
 
 
 # Is this a "book section"?  If so we need to get user to click the "View Article" link
-
-if ($url =~ /#section=/) {
-	print "status\terr\tWe cannot work out which chapter/section you want.  Please go back and select the 'View Details' button, and try that. \n";
-	exit;
-}
+#
+# Hmm.  This isn't always the case...
+# e.g., http://www.springerlink.com/content/u7h51v562279gj07#section=692524&page=1&locus=5
+# is a valid article.
+#if ($url =~ /#section=/) {
+	#print "status\terr\tWe cannot work out which chapter/section you want.  Please go back and select the 'View Details' button, and try that. \n";
+	#exit;
+#}
 
 
 
@@ -154,9 +158,19 @@ $mech->select('ctl00$ContentPrimary$ctl00$ctl00$CitationManagerDropDownList' , "
 	#print "$_\n";
 	#print $_->name . " => " . $_->value."\n";
 #}
+#$mech->add_header( "Accept-Charset" => 'utf-8' );
 
 my $response = $mech->click('ctl00$ContentPrimary$ctl00$ctl00$ExportCitationButton');
-$ris = $response->decoded_content();
+
+#
+# This seems very fragile - $ris is already UTF8 bytes.
+# There are no encoding headers in the response (always) but I think
+# browsers should default to UTF-8, whereas mechanize seems to assume something
+# like Latin-1
+#
+#$ris = $response->decoded_content({default_charset => "UTF-8"});
+$ris = $response->content();
+$ris = decode("utf8", $ris);
 
 # strip UTF BOM
 $ris =~ s/^\xEF\xBB\xBF//;
@@ -165,7 +179,6 @@ $ris =~ s/^[^A-Z]+//;
 
 $ris =~ s/\r//g;
 
-#print "$ris\n" and exit;
 
 unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
