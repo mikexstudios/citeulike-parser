@@ -202,7 +202,13 @@ proc parse_ris {rec} {
 				}
 
 				{SP} {
-					set ret(start_page) $v
+					# sometimes have SP-EP (esp. SpringerLink)
+					if {[regexp {(\d+)-(\d+)} $v -> sp ep]} {
+						set ret(start_page) $sp
+						set ret(end_page) $ep
+					} else {
+						set ret(start_page) $v
+					}
 				}
 
 				{EP} {
