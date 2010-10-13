@@ -201,7 +201,7 @@ namespace eval driver {
 
 	# Actually do the work. Given a URL, we'll actually
 	# run the appropriate plugins and then we'll have a result.
-	proc parse_url {url {rec_level 0} {candidate ""}} {
+	proc parse_url {url {rec_level 0} {candidate ""} {extra_linkouts {}}} {
 
 		# Plugins are permitted to "redirect" to other URLs
 		# but we really don't want to end up in an inifite loop
@@ -278,11 +278,6 @@ namespace eval driver {
 				continue
 			}
 
-			# If another plugin can handle it, we'll do that
-			if {$status=="redirect"} {
-				incr rec_level
-				return [parse_url [string trim $extra] $rec_level]
-			}
 
 			# Otherwise we'll just have to sort out the data.
 			set ret(status) $status
@@ -348,6 +343,23 @@ namespace eval driver {
 				error "Saw begin $state block, but no end $state block"
 			}
 
+
+			# If another plugin can handle it, we'll do that
+			# This is not caught earlier since a redirecting plugin
+			# may nevertheless pass back linkouts
+			if {$status=="redirect"} {
+				if [info exists ret(linkout)] {
+					set extra_linkouts [concat $extra_linkouts $ret(linkout)]
+				}
+				#puts "REDIRECT -> $extra :: $extra_linkouts"
+				puts [array get ret]
+				incr rec_level
+				return [parse_url [string trim $extra] $rec_level {} $extra_linkouts]
+			}
+
+			if {[info exists ret(linkout)] && $extra_linkouts ne ""} {
+				set ret(linkout) [concat $extra_linkouts $ret(linkout)]
+			}
 
 
 			if {[info exists ris_lines]} {

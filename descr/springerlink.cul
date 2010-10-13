@@ -59,6 +59,10 @@ format_linkout SLINK {
 	return [list SpringerLink "http://www.springerlink.com/content/${ckey_1}"]
 }
 
+format_linkout SPROT {
+	return [list SpringerProtocols "http://www.springerprotocols.com/Abstract/doi/${ikey_1}"]
+}
+
 #Tests
 
 test {http://springerlink.com/index/10.1007/BF01975011} {

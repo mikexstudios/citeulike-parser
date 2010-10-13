@@ -29,8 +29,6 @@ elsif ($url =~ m{^(10\..*)}) {
 	$url = "http://dx.doi.org/$1";
 }
 
-
-
 my $browser = LWP::UserAgent->new;
 $browser->cookie_jar({}); # just in case someone needs it
 
@@ -51,7 +49,18 @@ my @ns_headers = (
 $browser->timeout(20); # secs
 $browser->max_redirect(10); # secs
 
-my $resp = $browser->head("$url", @ns_headers) or do {
+
+#
+# CrossRef Multiple Resolvers: add magic flag to force redirection to primary.
+#
+my $url2 = $url;
+#
+# NOT TESTED PROPERLY YET - left here as "stub"
+#
+#if ($url =~ m{^dx.doi.org}) {
+#	$url2 = $url."?locatt=mode:legacy";
+#}
+my $resp = $browser->head("$url2", @ns_headers) or do {
 	print "OK\t$url\tNOT_CHANGED\tERROR\tEOL2\n";
 	exit 0;
 };

@@ -86,6 +86,9 @@ if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
 			# URL of the last redirect
 			my $req = $resp->request();
 			my $uri = $req->uri;
+			print "begin_tsv\n";
+			print "linkout\tSPROT\t$doi\t\t\t\n";
+			print "end_tsv\n";
 			print "status\tredirect\t$uri\n";
 			exit 0;
 		}
