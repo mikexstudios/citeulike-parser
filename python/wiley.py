@@ -43,9 +43,13 @@ socket.setdefaulttimeout(15)
 # read url from std input and get rid of the newline at the end
 url = sys.stdin.readline().strip()
 
+
 # Wiley DOIs can have
 # The (/\w+) at the end is optimistic.  Known values are /abstract + /full
 # but I'll provisionally assume that a /<word> at the end is to be stripped.
+
+url = re.sub(r';jsession.*','', url)
+
 m = re.search('http://onlinelibrary.wiley.com/doi/(10\.\d\d\d\d/(.+?))(/\w+)?$', url, re.IGNORECASE)
 
 if not m:
@@ -58,6 +62,7 @@ doi = m.group(1)
 doi = urllib.unquote(doi)
 
 #http://onlinelibrary.wiley.com/doi/10.1111/j.1461-0248.2010.01465.x/full
+#http://onlinelibrary.wiley.com/doi/10.1002/jcb.21099/abstract;jsessionid=833316DEC2536B0C334E85E5B4B19A0C.d03t01
 #wget -O- --post-data="doi=10.1111%252Fj.1461-0248.2010.01465.x&fileFormat=REFERENCE_MANAGER&hasAbstract=CITATION_AND_ABSTRACT" http://onlinelibrary.wiley.com/documentcitationdownloadformsubmit
 
 #print doi
@@ -69,14 +74,13 @@ post_data = urllib.urlencode( { "doi" : doi,
 				"fileFormat" : "REFERENCE_MANAGER",
 				"hasAbstract" : "CITATION_AND_ABSTRACT"} )
 
-f = opener.open("http://onlinelibrary.wiley.com/documentcitationdownloadformsubmit", post_data)
+post_url = "http://onlinelibrary.wiley.com/documentcitationdownloadformsubmit"
+f = opener.open(post_url, post_data)
 
 ris = f.read().strip()
 
-#print ris
-
+#print post_url, post_data
 #sys.exit(1)
-
 
 # print the results
 print "begin_tsv"
