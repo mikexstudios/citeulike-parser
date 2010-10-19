@@ -352,7 +352,7 @@ namespace eval driver {
 					set extra_linkouts [concat $extra_linkouts $ret(linkout)]
 				}
 				#puts "REDIRECT -> $extra :: $extra_linkouts"
-				puts [array get ret]
+				# puts [array get ret]
 				incr rec_level
 				return [parse_url [string trim $extra] $rec_level {} $extra_linkouts]
 			}

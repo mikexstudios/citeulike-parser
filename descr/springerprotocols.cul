@@ -1,0 +1,104 @@
+# Copyright (c) 2010 CiteULike.org
+# All rights reserved.
+#
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+#
+# Plugin description
+#
+
+plugin {
+	version {1}
+	name {Springer Protocols}
+	url {http://www.springerprotocols.com/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus@citeulike.org}
+	language {perl}
+	regexp {http://www.springerprotocols.com/Abstract/doi/.*}
+}
+
+# Linkout formatting
+# Raw ingredients required to build the full text URL dynamically using the following variables
+# collected by the plugin: type ikey_1 ckey_1 ikey_2 ckey_2
+
+format_linkout SPROT {
+	return [list SpringerProtocols "http://www.springerprotocols.com/Abstract/doi/${ikey_1}"]
+}
+
+#Tests
+
+test {http://www.springerprotocols.com/Abstract/doi/10.1007/978-1-60761-579-8_1} {
+	volume 625
+	serial 978-1-60761-579-8
+	linkout {SPROT 10.1007/978-1-60761-579-8_1 {} {} {}}
+	linkout {DOI {} 10.1007/978-1-60761-579-8_1 {} {}}
+	linkout {SLINK {} u7h51v562279gj07 {} {}}
+	year 2010
+	start_page 3
+	type INCOL
+	url http://dx.doi.org/10.1007/978-1-60761-579-8_1
+	end_page 8
+	isbn 978-1-60761-577-4
+	doi 10.1007/978-1-60761-579-8_1
+	title_series {Methods in Molecular Biology}
+	publisher {Humana Press}
+	formatted_url {SpringerProtocols http://www.springerprotocols.com/Abstract/doi/10.1007/978-1-60761-579-8_1}
+	formatted_url {DOI http://dx.doi.org/10.1007/978-1-60761-579-8_1}
+	formatted_url {SpringerLink http://www.springerlink.com/content/u7h51v562279gj07}
+	title_secondary {Carbon Nanotubes}
+	editor {Walker, John M.}
+	editor {Balasubramanian, Kannan}
+	editor {Burghard, Marko}
+	title {Non-covalent Attachment of Proteins to Single-Walled Carbon Nanotubes}
+	abstract {A method for the non-covalent attachment of proteins to single-walled carbon nanotubes (SWNTs) is described. In this method, the protein is adsorbed to SWNTs that are suspended using sodium cholate, a surfactant and bile salt. The sodium cholate is then removed by dialysis with retention of the protein on the SWNTs. This method has resulted in good protein loadings and good retention of protein activity.}
+	author {Neves Luís LFF {Neves, Luís F. F.}}
+	author {Tsai Ta-Wei T {Tsai, Ta-Wei}}
+	author {Palwai Naveen NR {Palwai, Naveen R.}}
+	author {Martyn David DE {Martyn, David E.}}
+	author {Tan Yongqiang Y {Tan, Yongqiang}}
+	author {Schmidtke David DW {Schmidtke, David W.}}
+	author {Resasco Daniel DE {Resasco, Daniel E.}}
+	author {Harrison Roger RG {Harrison, Roger G.}}
+	address {Totowa, NJ}
+	chapter 1
+	status	ok
+}
+
+
+
+
+
+
+
+
+

@@ -48,7 +48,7 @@ plugin {
 	author {Stevan Springer}
 	email {stevan.springer@gmail.com}
 	language {perl}
-	regexp {(http://(beta.|www.)?springerlink(\.metapress)?\.com([^/]*)/(index/.*|\(\w+\)/app/home/contribution.*|content/.*))|(http://www.springerprotocols.com/Abstract/doi/.*)}
+	regexp {(http://(beta.|www.)?springerlink(\.metapress)?\.com([^/]*)/(index/.*|\(\w+\)/app/home/contribution.*|content/.*))}
 	use_crossref 1
 }
 
@@ -57,10 +57,6 @@ plugin {
 # collected by the plugin: type ikey_1 ckey_1 ikey_2 ckey_2
 format_linkout SLINK {
 	return [list SpringerLink "http://www.springerlink.com/content/${ckey_1}"]
-}
-
-format_linkout SPROT {
-	return [list SpringerProtocols "http://www.springerprotocols.com/Abstract/doi/${ikey_1}"]
 }
 
 #Tests

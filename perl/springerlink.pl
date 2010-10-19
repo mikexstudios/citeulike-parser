@@ -59,44 +59,6 @@ binmode STDOUT, ":utf8";
 $url = <>;
 chomp($url);
 
-#Examples of compatible url formats:
-#ADD some examples here later.
-
-# Hmmm.  Why is springerprotocols here rather than seperate plugin?
-if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
-	my $doi = $1;
-	my $s_url = "http://www.springerlink.com/openurl.asp?genre=article&id=doi:$doi";
-
-	my $browser = LWP::UserAgent->new;
-	$browser->cookie_jar({}); #springerlink.com expects we store cookies
-	#let's emulate better some browser headers
-	#'User-Agent' => 'Mozilla/4.76 [en] (Win98; U)',
-	my @ns_headers = (
-		'User-Agent' => '',
-		'Accept' => 'image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, image/png, */*',
-		'Accept-Charset' => 'iso-8859-1,*,utf-8',
-		'Accept-Language' => 'en-US',
-	);
-
-	my $resp = $browser->head("$s_url", @ns_headers);
-	if ($resp) {
-		my $code = $resp->code;
-		if ($code == 200 ) {
-			# this gives us back the last hop "request", i.e., the
-			# URL of the last redirect
-			my $req = $resp->request();
-			my $uri = $req->uri;
-			print "begin_tsv\n";
-			print "linkout\tSPROT\t$doi\t\t\t\n";
-			print "end_tsv\n";
-			print "status\tredirect\t$uri\n";
-			exit 0;
-		}
-	} else {
-		print "status\terr\tSorry, we cannot process that SpringerProtocols URL.\n" and exit;
-	}
-}
-
 
 
 # Is this a "book section"?  If so we need to get user to click the "View Article" link
