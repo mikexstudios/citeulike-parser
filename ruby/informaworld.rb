@@ -79,7 +79,7 @@ if ris_entry.match /TY  - BOOK/
   exit(0)
 end
 
-unless ris_entry.match /UR  - http:\/\/www.informaworld.com\/([^\/]*?\/[^\/]*?)\n/
+unless ris_entry.match /UR  - http:\/\/www.informaworld.com\/(10\..+)\n/
   print "status\terr\tI can't find a DOI for this article.\n"
   exit(0)
 else
