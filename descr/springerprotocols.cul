@@ -44,7 +44,7 @@ plugin {
 	author {Fergus Gallagher}
 	email {fergus@citeulike.org}
 	language {perl}
-	regexp {http://www.springerprotocols.com/Abstract/doi/.*}
+	regexp {http://(www.)?springerprotocols.com/Abstract/doi/.*}
 }
 
 # Linkout formatting

@@ -48,7 +48,7 @@ $url = <>;
 chomp($url);
 
 
-if ($url =~ m{http://www.springerprotocols.com/Abstract/doi/(.*)}) {
+if ($url =~ m{http://(?:www\.)?springerprotocols.com/Abstract/doi/(.*)}) {
 	my $doi = $1;
 	my $s_url = "http://www.springerlink.com/openurl.asp?genre=article&id=doi:$doi";
 
