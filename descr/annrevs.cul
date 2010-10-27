@@ -79,7 +79,7 @@ plugin {
 	#
 	# Nature have two styles of URLs for their articles.. they seem to be slowly
 	# moving to the second.
-	regexp {http://arjournals.annualreviews.org}
+	regexp {http://(arjournals|www).annualreviews.org}
 }
 
 
@@ -97,20 +97,20 @@ plugin {
 #
 format_linkout ANNREV {
 	return [list "Annual Reviews" \
-			"http://arjournals.annualreviews.org/doi/abs/${ckey_1}"]
+			"http://www.annualreviews.org/doi/abs/${ckey_1}"]
 }
 
 test {http://arjournals.annualreviews.org/doi/abs/10.1146/annurev.med.59.090506.155819} {
-	formatted_url {{Annual Reviews} http://arjournals.annualreviews.org/doi/abs/10.1146/annurev.med.59.090506.155819}
-	formatted_url {DOI http://dx.doi.org/10.1146%2Fannurev.med.59.090506.155819}
+	formatted_url {{Annual Reviews} http://www.annualreviews.org/doi/abs/10.1146/annurev.med.59.090506.155819}
+	formatted_url {DOI http://dx.doi.org/10.1146/annurev.med.59.090506.155819}
 	volume 59
 	linkout {ANNREV {} 10.1146/annurev.med.59.090506.155819 {} {}}
 	linkout {DOI {} 10.1146/annurev.med.59.090506.155819 {} {}}
 	year 2008
 	start_page 1
 	type JOUR
-	url {http://arjournals.annualreviews.org/doi/abs/10.1146/annurev.med.59.090506.155819}
-	eprint {http://arjournals.annualreviews.org/doi/pdf/10.1146/annurev.med.59.090506.155819}
+	url {http://www.annualreviews.org/doi/abs/10.1146/annurev.med.59.090506.155819}
+	eprint {http://www.annualreviews.org/doi/pdf/10.1146/annurev.med.59.090506.155819}
 	end_page 12
 	doi {10.1146/annurev.med.59.090506.155819}
 	issue 1
@@ -120,6 +120,6 @@ test {http://arjournals.annualreviews.org/doi/abs/10.1146/annurev.med.59.090506.
 	author {Woosley Raymond R {Raymond Woosley}}
 	abstract {Societal expectations about drug safety and efficacy are rising while productivity in the pharmaceutical industry is falling. In 2004, the US Food and Drug Administration introduced the Critical Path Initiative with the intent of modernizing drug development by incorporating recent scientific advances, such as genomics and advanced imaging technologies, into the process. An important part of the initiative is the use of public-private partnerships and consortia to accomplish the needed research. This article explicates the reasoning behind the Critical Path Initiative and discusses examples of successful consortia.}
 	status ok
-	cite annrevs_import
+	cite doi:10.1146/annurev.med.59.090506.155819
 	plugin annrevs
 }
