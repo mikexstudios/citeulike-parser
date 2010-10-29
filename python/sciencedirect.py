@@ -99,7 +99,7 @@ def scrape_abstract(page):
 	abs = []
 	for div in root.cssselect("div.articleText"):
 		for h3 in div.cssselect("h3.h3"):
-			if string.lower(h3.text) in ('abstract'):
+			if h3.text and string.lower(h3.text) in ('abstract'):
 				for p in div.cssselect("p"):
 					abs.append(p.xpath("string()"))
 
