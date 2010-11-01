@@ -32,7 +32,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs
+import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs, cookielib
 from BeautifulSoup import BeautifulSoup
 
 import socket
@@ -62,6 +62,16 @@ acm_id = acm_id_match.group(1)
 #
 # Fetch the page...
 #
+
+cookie_jar = cookielib.CookieJar()
+handlers = []
+handlers.append( urllib2.HTTPCookieProcessor(cookie_jar) )
+
+opener=urllib2.build_opener(*handlers)
+#opener.addheaders = [('User-agent', 'lwp-request/5.810')]
+opener.addheaders = [("User-Agent", "CiteULike/1.0 +http://www.citeulike.org/")]
+urllib2.install_opener(opener)
+
 page_url = ACM_URL + 'citation.cfm?id=' + acm_id
 
 try:
