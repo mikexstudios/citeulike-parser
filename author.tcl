@@ -1015,7 +1015,7 @@ namespace eval author {
 		}
 
 		# anything containing "group" (or similar)
-		if {[regexp -nocase {group|consortium|project|alliance|team|association|institute|federal|department|union|university|foundation|college|international|american|british|research|company|centre|center} $raw ]} {
+		if {[regexp -nocase {\y(group|consortium|project|alliance|team|association|institute|federal|department|union|university|foundation|college|international|american|british|research|company|centre|center)\y} $raw ]} {
 			if {$debug} { puts "Match Rule 4" }
 			set ret(last_name) $raw
 			set ret(verbatim) 1
@@ -1148,6 +1148,9 @@ namespace eval author {
 			if {$debug} { puts "Match Rule 19" }
 			return [array get ret]
 		}
+
+		if {$debug} { puts "No Match" }
+
 
 	}
 
@@ -1377,9 +1380,10 @@ namespace eval author {
  				{"Cameron" "Richard" "RD" "Richard D Cameron, Jr."}\
  				{"Cameron" "Richard" "RD" "Cameron Jr., Richard D"}\
  				{"Cameron" "Richard" "RD" "Cameron, Jr., Richard D"}\
-				{"French Medical Association" "" "" "French Medical Association"}\
 				{"Marsden" "Magnus" "M" "Magnus Marsden"}\
 				{"Marsden" "Magnus" "M" "MAGNUS MARSDEN"}\
+				{"Centrella" "Joan" "JM" "Joan M. Centrella"}\
+				{"French Medical Association" "" "" "French Medical Association"}\
 			]
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
