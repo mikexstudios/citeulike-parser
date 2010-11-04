@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.6
 
-# Copyright (c) 2008 Oversity Ltd.
+# Copyright (c) 2010 Oversity Ltd.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,12 +32,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs, cookielib
-from BeautifulSoup import BeautifulSoup
-#import html5lib
-#from html5lib import treebuilders
+import sys, urllib, urllib2, urlparse, re, cookielib
 import lxml.html
-
 
 import socket
 
@@ -54,6 +50,10 @@ url = sys.stdin.readline().strip()
 
 url_query = urlparse.urlparse(url)[4]
 
+# can be id=1234567 or id=1234567.7654321
+# The last number seems to be the only significant one, but this code (and historical
+# articles) doesn't take that into account, so there are duplicates in the database :-(
+#
 acm_id_match = re.search('id=(\d+([.]\d+)?|[A-Za-z0-9_-]+)', url_query, re.IGNORECASE)
 
 if not acm_id_match:
@@ -61,7 +61,6 @@ if not acm_id_match:
 	sys.exit(1)
 
 acm_id = acm_id_match.group(1)
-
 
 #
 # Fetch the page...
@@ -72,7 +71,6 @@ handlers = []
 handlers.append( urllib2.HTTPCookieProcessor(cookie_jar) )
 
 opener=urllib2.build_opener(*handlers)
-#opener.addheaders = [('User-agent', 'lwp-request/5.810')]
 opener.addheaders = [("User-Agent", "CiteULike/1.0 +http://www.citeulike.org/")]
 urllib2.install_opener(opener)
 
@@ -85,9 +83,11 @@ except:
 	sys.exit(1)
 
 #
-# Now try to extract the abstract from the page itself - it's not in the BibTeX
+# The abstract is on a separate "page", called by JavaScript.   There is an alternative
+# all-in-one page "&preflayout=flat" but it's not marked up very well and nigh impossible
+# to get the abstract.
 #
-
+#
 #ColdFusion.Bind.register([],{'bindTo':'abstract','bindExpr':['tab_abstract.cfm?id=1141931&usebody=tabbody&cfid=://portal.acm.org/citation.cfm?id=1141911.1141931&cftoken=portal.acm.org/citation.cfm?id=1141911.1141931']},ColdFusion.Bind.urlBindHandler,true);
 abstract_match = re.search("tab_abstract.cfm([^\']+)", page, re.IGNORECASE)
 abs = []
@@ -95,7 +95,6 @@ if abstract_match:
 	abstract_url = "http://portal.acm.org/%s" % abstract_match.group(0)
 	abstract_page = urllib2.urlopen(abstract_url).read();
 	root = lxml.html.fromstring(abstract_page)
-#	for div in root.cssselect("div#abstract"):
 	for div in root:
 		t = div.text_content()
 		if t:
@@ -144,7 +143,7 @@ bibtex = bib_match.group(1).strip()
 
 
 #
-# Look for the DOI in the bibtex
+# Look for the DOI in the bibtex - it's usually like doi = {http://doi.acm.org/10.1145/1141911.1141931}
 #
 doi_match = re.search('doi\s*=\s*\{http://[^/]+/(10\.[^/]+/.+?)\}', bibtex,  re.IGNORECASE)
 
@@ -152,7 +151,6 @@ if doi_match:
 	doi = doi_match.group(1)
 else:
 	doi = ''
-
 
 #
 # Output plugin results
