@@ -102,9 +102,10 @@ if (!$slink) {
 
 my $link_ris = "http://www.springerlink.com/content/$slink/export-citation/";
 
-#print "$link_ris\n";
+print "$link_ris\n";
 
 my $mech = WWW::Mechanize->new( autocheck => 1 );
+$mech->quiet(1);
 $mech->agent_alias( 'Windows IE 6' );
 
 
@@ -117,8 +118,19 @@ my @inputs = $form->inputs;
 
 $mech->field('ctl00$ContentPrimary$ctl00$ctl00$Export' , "AbstractRadioButton");
 $mech->field('ctl00$ContentPrimary$ctl00$ctl00$Format' , "RisRadioButton");
-$mech->select('ctl00$ContentPrimary$ctl00$ctl00$CitationManagerDropDownList' , "ReferenceManager");
-
+my $res = $mech->select('ctl00$ContentPrimary$ctl00$ctl00$CitationManagerDropDownList' , "ReferenceManager");
+if (!$res) {
+	# Books - can't get citation so get from crossref.  Need DOI first.
+	# hacky... look for <dd>10.xxxxxx</dd>
+	# TODO - crossref.tcl can't parse crossref books yet....
+	my $c = $mech->content();
+	if ($c =~ /<dd>(10\.\d\d\d\d\/[^<]+)<\/dd>/) {
+		# fake a RIS - all we need is the DOI bit
+		$ris= "UR  - http://dx.doi.org/".$1;
+	} else {
+		$ris = "";
+	}
+} else {
 #foreach (@inputs) {
 	#print "$_\n";
 	#print $_->name . " => " . $_->value."\n";
@@ -149,6 +161,7 @@ unless ($ris =~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from SpringerLink's 'export citation'\n" and exit;
 }
 
+}
 #Generate linkouts and print RIS:
 print "begin_tsv\n";
 

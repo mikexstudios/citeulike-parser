@@ -34,6 +34,10 @@
 #
 import sys, urllib, urllib2, urlparse, cgi, re, mechanize, codecs, cookielib
 from BeautifulSoup import BeautifulSoup
+#import html5lib
+#from html5lib import treebuilders
+import lxml.html
+
 
 import socket
 
@@ -80,30 +84,33 @@ except:
 	print ERR_STR_PREFIX + "Could not fetch page (" + page_url + ")"
 	sys.exit(1)
 
-
 #
 # Now try to extract the abstract from the page itself - it's not in the BibTeX
 #
-# Abstract appears to be inside <p class="abstract">...</p>, but within that there's all sorts
-# of HTML markup that we need to strip. Also -- UGH, they should know better -- the HTML is malformed, so the
-# abstract is sometimes presented like this: <p class="abstract"><p>....</p></p> : YOU CAN'T NEST <p> tags
-#
-page = re.sub('<p class="abstract">\s+<p>', '<p class="abstract">', page)
 
-soup = BeautifulSoup(page)
+#ColdFusion.Bind.register([],{'bindTo':'abstract','bindExpr':['tab_abstract.cfm?id=1141931&usebody=tabbody&cfid=://portal.acm.org/citation.cfm?id=1141911.1141931&cftoken=portal.acm.org/citation.cfm?id=1141911.1141931']},ColdFusion.Bind.urlBindHandler,true);
+abstract_match = re.search("tab_abstract.cfm([^\']+)", page, re.IGNORECASE)
+abs = []
+if abstract_match:
+	abstract_url = "http://portal.acm.org/%s" % abstract_match.group(0)
+	abstract_page = urllib2.urlopen(abstract_url).read();
+	root = lxml.html.fromstring(abstract_page)
+#	for div in root.cssselect("div#abstract"):
+	for div in root:
+		t = div.text_content()
+		if t:
+			abs.append(t)
 
-try:
-	abstract = soup.find("p", "abstract").findAll(text=True)
-	abstract = u' '.join(abstract)
-	abstract = re.sub('\n+', ' ', abstract).strip()
-except:
-	abstract = ''
-
+if len(abs) > 0:
+	abstract =  " ".join(abs).strip()
+else:
+	abstract = ""
 
 #
 # Look for the link to the BibTeX export
 #
-bibtex_match = re.search("window.open[(]'([^\']+)',", page, re.IGNORECASE)
+# <a href="javascript:ColdFusion.Window.show('theformats');ColdFusion.navigate('exportformats.cfm?id=1141931&expformat=bibtex','theformats');" class="small-link-text">BibTeX</a>
+bibtex_match = re.search("ColdFusion.navigate[(]'([^\']+bibtex)',", page, re.IGNORECASE)
 
 if not bibtex_match:
 	print ERR_STR_PREFIX + "Could not find BibTeX export link (popBibTex.cfm...) in page"
@@ -114,6 +121,9 @@ bibtex_url = ACM_URL + bibtex_match.group(1)
 #
 # Fetch the BibTeX...
 #
+bibtex_url = re.sub("&amp;","&",bibtex_url)
+#print "Fetching: %s " % bibtex_url
+
 try:
 	bibtex_page = urllib2.urlopen(bibtex_url).read();
 except:
@@ -126,6 +136,7 @@ except:
 bib_match = re.search('<pre id="[^"]+">(.+?)</pre>', bibtex_page, re.IGNORECASE | re.DOTALL)
 
 if not bib_match:
+	print bibtex_page
 	print ERR_STR_PREFIX + "Could not find BibTeX in page"
 	sys.exit(1)
 
