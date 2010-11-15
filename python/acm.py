@@ -33,9 +33,11 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 import sys, urllib, urllib2, urlparse, re, cookielib
-import lxml.html
+import lxml.html, codecs
 
 import socket
+
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 socket.setdefaulttimeout(15)
 
