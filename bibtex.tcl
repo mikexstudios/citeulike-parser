@@ -39,7 +39,7 @@
 # Responsible for parsing bibtex files
 # We cheat and use BibTeX itself to do the parsing with a custom .bst file
 
-proc bib_dir {} { 
+proc bib_dir {} {
 	switch $::tcl_platform(platform) {
 		unix {
 			set tmpdir /tmp
@@ -68,22 +68,22 @@ proc bibtex_style_dir {} {
 proc parse_bibtex {bibtex_rec} {
 	set bibdir [bib_dir]
 	file mkdir $bibdir
-	
+
 	# Vaguely unique filename
 	set fname [expr {abs([clock clicks])}]
-	
+
 	set bibfile [open "$bibdir/$fname.bib" "w"]
 	puts $bibfile $bibtex_rec
 	close $bibfile
 
 	set olddir [pwd]
 	cd $bibdir
-	
+
 	file delete -- "$bibdir/$fname.aux"
 	file delete -- "$bibdir/$fname.bbl"
 	file delete -- "$bibdir/$fname.aux"
 	file delete -- "$bibdir/$fname.blg"
-	
+
 	# Copy the style file into the directory
 	file copy -force [bibtex_style_dir]/citeulike.bst $bibdir
 
@@ -91,7 +91,7 @@ proc parse_bibtex {bibtex_rec} {
 	set fp [open "$bibdir/${fname}.aux" w]
 	puts $fp [subst {\\citation{*}\n\\bibdata{$fname}\n\\bibstyle{citeulike}\n}]
 	close $fp
-	
+
 	# Run BibTeX on it
 	if {[catch {
 		set bibtex [open "|bibtex $bibdir/$fname" r]
@@ -130,9 +130,9 @@ proc bibtex_untangle {data} {
 	set data [regsub -all {%\n} $data {}]
 	set data [string map {"\n" " "} $data]
 	set data [string map {"  " " " "~citeulike-magic-level-0-separator~" "\000"} $data]
-	
+
 	set level0 [split $data "\000"]
-	
+
 	foreach {type cite vals} $level0 {
 		set type [string trim $type]
 		set cite [string trim $cite]
@@ -170,10 +170,10 @@ proc bibtex_untangle {data} {
 #			unset ret(pages)
 #		}
 #	}
-	
+
 	if {[info exists ret(pages)]} {
 
-		if {[regexp {^([A-Za-z0-9]+)--?([A-Za-z0-9]+)$} $ret(pages) match first last]} {
+		if {[regexp {^([A-Za-z0-9]+)\s*--?\s*([A-Za-z0-9]+)$} $ret(pages) match first last]} {
 			set ret(start_page) $first
 			set ret(end_page) $last
 			unset ret(pages)
@@ -201,7 +201,7 @@ proc bibtex_untangle {data} {
 		}
 	}
 
-								   
+
 	bibtex_cleanup
 
 	return [array get ret]
