@@ -1,5 +1,12 @@
 #!/usr/bin/env perl
 
+#
+# !!!!!!DEFUNCT!!!!!!
+# AMETS now uses atypon via amets.py.
+# Keeping this just for reference.
+#
+
+
 use LWP::Simple;
 use LWP::UserAgent;
 use URI::Escape;
