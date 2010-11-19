@@ -43,6 +43,7 @@ use HTTP::Cookies;
 # Extract Abstract data for American Meteorological Society Journals.
 
 $url = <>;
+$ourl = $url;
 
 #convert abstract URL to citation request URL
 #$url =~ s/get-abstract|get-document/download-citation/;
@@ -56,18 +57,19 @@ my $browser = new LWP::UserAgent;
 $browser->cookie_jar( {} );
 
 
-#retrieve the RIS data 
+#retrieve the RIS data
 $flag=1;
 while($flag==1){
-	# Get the RIS file
+    # Get the RIS file
     my $page = $browser->get("$url")|| die(print "status\terr\tCouldn't fetch the citation details from the AMetS web site.\n");
     $ris=$page->content;
-    
+
 # remove N1 and N2 fields - do not contain abstract, although CUL expects them to
-    $ris =~ s/N1.+?\n//;
-    $ris =~ s/N2.+?\n//;
-    $ris =~ s/UR.+?\n//;
-    
+    $ris =~ s/N1  -.+?$//m;
+    $ris =~ s/N2  -.+?$//m;
+    # not quite sure about this, but hey ho!
+    $ris =~ s/UR  -.+?$/UR  - $ourl/m;
+
 #    print $ris;
 	$flag=0;
 	#if document has moved - keep following the links to the final RIS file.
@@ -77,14 +79,14 @@ while($flag==1){
 		$flag=1;
 	}
 }
-#extract doi from N1 parameter,
+# extract doi from N1 parameter,
 
 # unescape it, and stuff it back into RIS record
 
-
-if ($ris =~ m{DO  - (.*)}) {
+if ($ris =~ m{DO  - (.*?)$}m) {
 #	$DOI = uri_unescape($1);
 	$DOI = $1;
+	$DOI =~ s/\s//g;
 }else{
 	print "status\terr\tCouldn't extract the details from AMetS's 'export citation' link.\n";
 	exit;
@@ -94,11 +96,12 @@ if ($ris =~ m{DO  - (.*)}) {
 #TSV output
 print "begin_tsv\n";
 print "linkout\tDOI\t\t$DOI\t\t\n";
-print "date_other\t\n";
+# print "date_other\t\n";
 print "end_tsv\n";
 #RIS output
 print "begin_ris\n";
-print "UR  - http://journals.ametsoc.org/";
+# INVALID!!! TY MUST COME FIRST
+#print "UR  - http://journals.ametsoc.org/";
 print $ris;
 print "\nend_ris\n";
 if ($ris =~ m{ER  -}) {
