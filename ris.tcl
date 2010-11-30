@@ -274,6 +274,14 @@ proc parse_ris {rec} {
 		set ret(authors) $authors
 	}
 
+	if {[info exists ret(editors)]} {
+		set editors {}
+		foreach editor $ret(editors) {
+			lappend editors [::author::parse_author $editor]
+		}
+		set ret(editors) $editors
+	}
+
 
 	return [array get ret]
 }
