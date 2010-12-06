@@ -12,7 +12,7 @@ socket.setdefaulttimeout(15)
 #
 url = sys.stdin.readline().strip()
 
-oclc_match = re.search(r'/(oclc|isbn)/([0-9]+)', url, re.IGNORECASE)
+oclc_match = re.search(r'/(oclc|isbn)/([0-9\-]+)', url, re.IGNORECASE)
 
 if not oclc_match:
 	bail("Couldn't find either an 'oclc' or 'isbn' in the URL (" + url + ")")
