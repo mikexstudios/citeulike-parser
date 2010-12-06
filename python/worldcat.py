@@ -37,7 +37,7 @@ if (type == "isbn"):
 		bail("Couldn't locate OCLC on page "+url)
 else:
 	oclc = id
-	m = re.search(r'rft.isbn=(\w+)', page)
+	m = re.search(r'rft.isbn=([\w\-]+)', page)
 	if m:
 		isbn = m.group(1)
 	else:
@@ -60,7 +60,8 @@ if not re.search(r'TY\s{1,4}-', ris_file):
 
 print "begin_tsv"
 print "linkout\tWCAT\t\t%s\t\t" % oclc
-if (isbn != ""):
+if isbn != "":
+	isbn = re.sub('-','',isbn)
 	print "linkout\tISBN\t\t%s\t\t" % isbn
 	print "isbn\t%s" % isbn
 print "end_tsv"
