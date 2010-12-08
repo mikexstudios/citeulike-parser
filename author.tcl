@@ -994,7 +994,7 @@ namespace eval author {
 		}
 
 		# Manually specified
-		if {[regexp {^\s*=/([^/]*)/([^/]*)/([^/]*)/=\s*$} $raw -> ret(first_name) ret(initials) ret(last_name)]} {
+		if {[regexp {^\s*=/([^/]*)/([^/]*)/(.*)/=\s*$} $raw -> ret(first_name) ret(initials) ret(last_name)]} {
 			if {$debug} { puts "Match Rule 1" }
 			set ret(verbatim) 1
 			return [array get ret]
@@ -1384,6 +1384,8 @@ namespace eval author {
 				{"Marsden" "Magnus" "M" "MAGNUS MARSDEN"}\
 				{"Centrella" "Joan" "JM" "Joan M. Centrella"}\
 				{"French Medical Association" "" "" "French Medical Association"}\
+				{"French Medical Association" "" "" "=///French Medical Association/="}\
+				{"French Medical Association A/B" "" "" "=///French Medical Association A/B/="}\
 			]
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
