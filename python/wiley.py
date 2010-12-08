@@ -79,6 +79,8 @@ f = opener.open(post_url, post_data)
 
 ris = f.read().strip()
 
+ris = re.sub(r'N2  - Abstract 10\.\d\d\d\d/[^\s]+\s*','N2  - ',ris)
+
 #print post_url, post_data
 #sys.exit(1)
 
