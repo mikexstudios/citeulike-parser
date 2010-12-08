@@ -105,7 +105,7 @@ if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/(\d+)}) {
 # New (2008) Highwire URL format .
 elsif ($url =~ m{http://([^/]+)/content/}) {
 	($journal_site) = ($1);
-	$url =~ s/\.(\w+)$/.abstract/;
+	$url =~ s/\.([a-z]+)$/.abstract/;
 	($url_abstract, $doi, $pmid, $body) = get_abstract_url($url);
 	if (!$url_abstract) {
 		print "status\terr\t (0.5) Cannot find the URL for the abstract\n";
@@ -316,7 +316,8 @@ sub get_content {
 		}
 	}
 	if (!$ret)  {
-		$ret = decode("iso-8859-1",$ris);
+		#$ret = decode("iso-8859-1",$ris);
+		$ret = decode("utf-8",$ris);
 	}
 	#print "$ret\n";
 	return $ret;
