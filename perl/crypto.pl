@@ -29,7 +29,10 @@ print "linkout\tIACR\t$year\t$id\t\t\n";
 
 # Authors
 if($data =~ m{<i>(.*?)</i>}is) {
-  for my $author (split(/\s*(?:,\s*and|,|and)\s*/, $1)) {
+  for my $author (split(/\s*?(?:,\s+and|,|\s+and)\s*/, $1)) {
+    $author =~ s/\s+/ /g;
+    $author =~ s/^\s+//g;
+    $author =~ s/\s+$//g;
     print "author\t$author\n";
   }
 }
