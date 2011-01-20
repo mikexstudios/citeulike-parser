@@ -146,28 +146,9 @@ proc parse_ris {rec} {
 				}
 
 				{Y1|PY|Y2} {
-					# Metapress bug has "yyyy-mm-dd/"
-					set spl [split $v "/-"]
-					if {[llength $spl]>0} {
-						foreach {year month day other} [split $v "/-"] {}
-						if {$year!="" && [string is integer $year]} {
-							set ret(year) [format %04d $year]
-						} else {
-							set ret(year) ""
-						}
-						if {$month!="" && [scan $month %d month]} {
-							set ret(month) $month
-						} else {
-							set ret(month) ""
-						}
-
-						if {$day!="" && [scan $day %d day]} {
-							set ret(day) $day
-						} else {
-							set ret(day) ""
-						}
-						set ret(date_other) $other
-					}
+					# We need to priortize Y1 > PY > Y2 so
+					# store each and process later
+					set date($k) $v
 				}
 
 				{N1|AB|N2} {
@@ -253,6 +234,41 @@ proc parse_ris {rec} {
 			}
 		}
 	}
+
+	# We want priority of Y1 > PY > Y2
+	foreach d {Y1 PY Y2} {
+		if {[info exists date($d)]} {
+			set thedate $date($d)
+			break
+		}
+	}
+
+
+	if {[info exists thedate]} {
+		# Metapress bug has "yyyy-mm-dd/"
+		set spl [split $thedate "/-"]
+		if {[llength $spl]>0} {
+			foreach {year month day other} $spl {}
+			if {$year!="" && [string is integer $year]} {
+				set ret(year) [format %04d $year]
+			} else {
+				set ret(year) ""
+			}
+			if {$month!="" && [scan $month %d month]} {
+				set ret(month) $month
+			} else {
+				set ret(month) ""
+			}
+
+			if {$day!="" && [scan $day %d day]} {
+				set ret(day) $day
+			} else {
+				set ret(day) ""
+			}
+			set ret(date_other) $other
+		}
+	}
+
 
 	if {[info exists ret(abstract)]} {
 		set ret(abstract) [string trim $ret(abstract)]
