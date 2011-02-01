@@ -47,7 +47,7 @@ set url [gets stdin]
 ::http::config -useragent "CiteULike Plugin - contact plugins@citeulike.org"
 
 proc arxiv_id {url} {
-	set mirrors [list arxiv.org xxx.soton.ac.uk xxx.lanl.gov]
+	set mirrors [list arxiv.org arxiv.com xxx.soton.ac.uk xxx.lanl.gov]
 	set re "([join $mirrors "|"])"
 	append re {[^/]*}
 	append re {/(pdf|abs|format|ps)/([^/]+/?[^/?]+)}

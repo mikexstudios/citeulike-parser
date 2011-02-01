@@ -75,7 +75,7 @@ plugin {
 	# Note: Some universities provide mirrors of commericial publishers' sites
 	# with different hostnames, so you should provide some leeway in your
 	# regexp if that applies to you.
-	regexp {((arxiv\.org|xxx.soton.ac.uk|xxx.lanl.gov)/(pdf|abs|format|ps)/([^/]+/?[^/?]+))|(front.math.ucdavis.edu/([^/]+/?[^/?]+))}
+	regexp {((arxiv\.(org|com)|xxx.soton.ac.uk|xxx.lanl.gov)/(pdf|abs|format|ps)/([^/]+/?[^/?]+))|(front.math.ucdavis.edu/([^/]+/?[^/?]+))}
 }
 
 
@@ -127,10 +127,10 @@ dynamics leads to a partially ordered metastable state with a finite size
 survival time. This characteristic time scales linearly with system size only
 when the updating rule respects the conservation law of the average
 magnetization. This scaling identifies a universal or generic property of the
-voter model dynamics associated with the conservation law of the magnetization.} 
+voter model dynamics associated with the conservation law of the magnetization.}
 	title {Conservation laws for the voter model in complex networks}
 	author {Suchecki Krzysztof K {Krzysztof Suchecki}}
-	author {Eguiluz Victor VM {Victor M. Eguiluz}} 
+	author {Eguiluz Victor VM {Victor M. Eguiluz}}
 	author {{San Miguel} Maxi M {Maxi San Miguel}}
 
 	type JOUR
@@ -161,4 +161,4 @@ representation for R_2(\omega).}
     month Mar
     day 1
     status ok
-}    
+}
