@@ -96,7 +96,7 @@ $abstract_part = "abstract";
 #$abstract_part = "refs";
 
 
-if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/(\d+)}) {
+if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/(\w+)}) {
 	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
 	$journal_site = gobble_proxy($journal_site);
 	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
@@ -162,6 +162,8 @@ if ($source_abstract) {
 	}
 }
 
+
+
 $ok || (print "status\terr\t (2 $url_abstract) Could not retrieve information from the specified page. Try posting the article from the abstract page.\n" and exit);
 
 if (!$doi) {
@@ -191,6 +193,7 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/?>
 	$mjid=$1;
 }
 
+
 if ($mjid) {
 	# $mjid =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
 	$link_refman1 = "http://"."$journal_site"."/cgi/citmgr?type=refman&gca=".$mjid;
@@ -204,7 +207,7 @@ if ($mjid) {
 			$hiwire = "$journal_site/content/$volume/$page";
 		}
 	}
-} elsif (1 || $source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd|[S]ave) to [C|c]itation [M|m]anager)|(Download Citation))}) {
+} elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd|[S]ave) to [C|c]itation [M|m]anager)|(Download Citation))}) {
 	$link_citmgr = $1;
 	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
 
