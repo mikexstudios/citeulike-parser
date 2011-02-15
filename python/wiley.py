@@ -50,6 +50,13 @@ url = sys.stdin.readline().strip()
 
 url = re.sub(r';jsession.*','', url)
 
+#
+# ShareThis button on Wiley adds extra crud
+# http://onlinelibrary.wiley.com/doi/10.1111/j.1469-8749.1975.tb04699.x/abstract?sms_ss=citeulike&at_xt=4d5ab3a1f2298daf%2C0
+
+url = re.sub(r'\?.*','', url)
+
+
 m = re.search('http://onlinelibrary.wiley.com/doi/(10\.\d\d\d\d/(.+?))(/\w+)?$', url, re.IGNORECASE)
 
 if not m:
