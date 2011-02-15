@@ -212,8 +212,13 @@ if ($mjid) {
 	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
 
 	$source_citmgr = get("$link_citmgr") || (print "status\terr\t (2.5) Could not retrieve information from the citation manager page.\n" and exit);
-	if ($source_citmgr =~ m{"(.*)">\s*<STRONG>Reference<BR><NOBR>Manager}) {
-		$link_refman1 = "http://"."$journal_site"."$1";
+	if ($source_citmgr =~ m{"(.*)">\s*<STRONG>Reference<BR><NOBR>Manager} or $source_citmgr =~ m{"(.*)">\s*Reference Manager}) {
+		if ($1 =~ m{^/}) {
+			$link_refman1 = "http://"."$journal_site"."$1";
+		} else {
+			$link_refman1 = "http://"."$journal_site"."/"."$1";
+		}
+		$link_refman1 =~ s/\&amp;/\&/g;
 		$link_refman2 = "";
 	} else {
 		print "status\terr\t (3) Could not find the citation details on this page. Try posting the article from the abstract page.\n" and exit;
@@ -232,8 +237,6 @@ if ($ris !~ m{ER\s+-}) {
 	$ris = get_content($refman);
 	# print "$link_refman2 :: ".$refman->content_charset."\n$ris\n======================\n";
 }
-
-# print "$ris\n";
 
 if ($ris !~ m{ER\s+-}) {
 	print "status\terr\tCouldn't extract the details from HighWire's 'export citation'\n" and exit;
