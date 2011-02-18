@@ -36,7 +36,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-import re, os
+import re, os, sys
 import isbn, ecs
 from html2text import html2text
 import socket
@@ -103,37 +103,7 @@ def extract(node, path):
 			return None
 	return ptr
 
-def fetch(domain, asin):
-
-	# map domain -> country ("locale")
-	locale = {
-		'com' : 'us',
-		'co.uk' : 'uk',
-		'de' : 'de',
-		'co.jp' : 'jp',
-		'fr' : 'fr',
-		'ca' : 'ca'
-	}[domain]
-
-	ecs.setLocale(locale)
-	try:
-		pages = ecs.ItemLookup(asin, ResponseGroup="Medium")
-	except ecs.InvalidParameterValue, e:
-		raise UserException, str(e)
-	if not pages:
-		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
-
-	try:
-		num = getattr(pages, "NumberOfItems")
-		if num == '0':
-			raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
-		# Allow multi-volume works.  Do we need another check?
-		if False and num != '1':
-			raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact bugs@citeulike.org")
-	except AttributeError:
-		pass
-
-	page = pages
+def fetch(page, asin, locale):
 
 	field_map = [
 		(['Title'], 'title'),
@@ -186,6 +156,11 @@ def fetch(domain, asin):
 	if isbn:
 		yield ("linkout", "\t".join(["ISBN", "", isbn, "", ""]))
 
+	title = extract(page,["Title"])
+	if not title and isbn:
+		yield("status","redirect\thttp://www.worldcat.org/isbn/%s" % isbn)
+		sys.exit(0)
+
 	def get_abstract(n):
 		abstract = extract(n, ['EditorialReviews', 'EditorialReview', 'Content'])
 		if abstract:
@@ -200,8 +175,8 @@ def fetch(domain, asin):
 
 	# Linkouts to the ASINS
 
-	yield ("linkout", "\t".join(["AZ-%s" % locale.upper(),
-								 "", asin, "", ""]) )
+	yield ("linkout", "\t".join(["AZ-%s" % locale.upper(), "", asin, "", ""]) )
+
 	# Different amazons may know this product by a different
 	# ASIN. Trawl through all of them and see who has this one.
 	for other_locale in ["us", "uk", "de", "jp", "fr", "ca"]:
@@ -266,6 +241,44 @@ def secret_key():
 def api_key():
 	return get_keys()[0]
 
+
+# map domain -> country ("locale")
+def get_locale(domain):
+	locale = {
+		'com' : 'us',
+		'co.uk' : 'uk',
+		'de' : 'de',
+		'co.jp' : 'jp',
+		'fr' : 'fr',
+		'ca' : 'ca'
+	}[domain]
+	return locale
+
+
+def get_page(domain, asin, locale):
+
+	ecs.setLocale(locale)
+	try:
+		pages = ecs.ItemLookup(asin, ResponseGroup="Medium")
+	except ecs.InvalidParameterValue, e:
+		raise UserException, str(e)
+	if not pages:
+		raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
+
+	try:
+		num = getattr(pages, "NumberOfItems")
+		if num == '0':
+			raise UserException, "Couldn't find any results for ISBN %s on the amazon.%s site." % (asin, domain)
+		# Allow multi-volume works.  Do we need another check?
+		if False and num != '1':
+			raise UserException("The Amazon API returned multiple items for this book. This shouldn't happen. Please contact bugs@citeulike.org")
+	except AttributeError:
+		pass
+
+	page = pages
+
+	return page
+
 def main():
 	import sys
 
@@ -278,8 +291,20 @@ def main():
 	url = sys.stdin.readline().strip()
 
 	(domain,asin) = parse_url(url)
+	locale = get_locale(domain)
+
+	page = get_page(domain, asin, locale)
+
+	isbn = extract(page, ['ISBN'])
+
+	title = extract(page,["Title"])
+
+	if not title and isbn:
+		print "status\tredirect\thttp://www.worldcat.org/isbn/%s" % isbn
+		sys.exit(0)
+
 	print "begin_tsv"
-	for (k,v) in fetch(domain, asin):
+	for (k,v) in fetch(page, asin, locale):
 		print unicode("%s\t%s" % (k,v)).encode("utf8")
 	print "end_tsv"
 
