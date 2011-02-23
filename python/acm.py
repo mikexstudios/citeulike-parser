@@ -143,6 +143,10 @@ if not bib_match:
 
 bibtex = bib_match.group(1).strip()
 
+# Sometime dodgy key (with space).  Replace that.   This is a quick hack and only
+# replaces a single space
+bibtex = re.sub(r'^(@\w+{\S+)[ ](\S+)',r'\1\2',bibtex, re.MULTILINE)
+
 
 #
 # Look for the DOI in the bibtex - it's usually like doi = {http://doi.acm.org/10.1145/1141911.1141931}
