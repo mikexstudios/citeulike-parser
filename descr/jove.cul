@@ -78,7 +78,7 @@ plugin {
 	#
 	# Nature have two styles of URLs for their articles.. they seem to be slowly
 	# moving to the second.
-	regexp {http://www\.jove.com/(index/Details\.stp|Details.php|details.stp)\?ID=(\d+)}
+	regexp {http://www\.jove.com/(index/Details\.stp|Details.php|details.stp)\?(?:ID|id)=(\d+)}
 }
 
 
