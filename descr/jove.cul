@@ -78,7 +78,7 @@ plugin {
 	#
 	# Nature have two styles of URLs for their articles.. they seem to be slowly
 	# moving to the second.
-	regexp {http://www\.jove.com/index/Details\.stp\?ID=(\d+)}
+	regexp {http://www\.jove.com/(index/Details\.stp|Details.php|details.stp)\?ID=(\d+)}
 }
 
 
@@ -95,7 +95,7 @@ plugin {
 # in the function: type ikey_1 ckey_1 ikey_2 ckey_2
 #
 format_linkout JOVE {
-	return [list "Journal of Visualized Experiment"  "http://www.jove.com/index/Details.stp?ID=${ikey_1}"]
+	return [list "Journal of Visualized Experiment"  "http://www.jove.com/details.stp?ID=${ikey_1}"]
 }
 
 
@@ -131,7 +131,7 @@ test {http://www.jove.com/index/Details.stp?ID=1067} {
 	title {Calcium Imaging of Cortical Neurons using Fura-2 AM}
 	journal {Journal of Visualized Experiments}
 	abstract {Calcium imaging is a common technique that is useful for measuring calcium signals in cultured cells. Calcium imaging techniques take advantage of calcium indicator dyes, which are BAPTA-based organic molecules that change their spectral properties in response to the binding of Ca2+ ions. Calcium indicator dyes fall into two categories, ratio-metric dyes like Fura-2 and Indo-1 and single-wavelength dyes like Fluo-4. Ratio-metric dyes change either their excitation or their emission spectra in response to calcium, allowing the concentration of intracellular calcium to be determined from the ratio of fluorescence emission or excitation at distinct wavelengths.  The main advantage of using ratio-metric dyes over single wavelength probes is that the ratio signal is independent of the dye concentration, illumination intensity, and optical path length allowing the concentration of intracellular calcium to be determined independently of these artifacts. One of the most common calcium indicators is Fura-2, which has an emission peak at 505 nM and changes its excitation peak from 340 nm to 380 nm in response to calcium binding.  Here we describe the use of Fura-2 to measure intracellular calcium elevations in neurons and other excitable cells.}
-	author {Barreto-Chang {} {} {L Barreto-Chang, Odmara}} 
+	author {Barreto-Chang {} {} {L Barreto-Chang, Odmara}}
 	author {Dolmetsch {} {} {E Dolmetsch, Ricardo}}
 	status ok
 }
