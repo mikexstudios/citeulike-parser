@@ -55,7 +55,7 @@ def item(soup, entry, key):
 
 def handle(url):
 
-	m = re.match(r'http://www\.jove.com/(?:index/Details\.stp|Details.php|details.stp)\?ID=(\d+)', url)
+	m = re.match(r'http://www\.jove.com/(?:index/Details\.stp|Details.php|details.stp)\?ID=(\d+)', url, re.IGNORECASE)
 	if not m:
 		raise ParseException, "URL not supported %s" % url
 	wkey = m.group(1)
