@@ -111,13 +111,21 @@ $mech->agent_alias( 'Windows IE 6' );
 
 $mech->get( $link_ris );
 
+#print $mech->content();
+
+
 my $form = $mech->form_name("aspnetForm");
 #print $form;
 
 my @inputs = $form->inputs;
 
 $mech->field('ctl00$ContentPrimary$ctl00$ctl00$Export' , "AbstractRadioButton");
-$mech->field('ctl00$ContentPrimary$ctl00$ctl00$Format' , "RisRadioButton");
+eval {
+	# not always present
+        no warnings 'all';
+        $mech->field('ctl00$ContentPrimary$ctl00$ctl00$Format' , "RisRadioButton");
+};
+
 my $res = $mech->select('ctl00$ContentPrimary$ctl00$ctl00$CitationManagerDropDownList' , "ReferenceManager");
 if (!$res) {
 	# Books - can't get citation so get from crossref.  Need DOI first.
