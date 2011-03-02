@@ -66,6 +66,7 @@ if (not $doi) {
 
 $clean_url = "http://www2.computer.org/plugins/dl/doi/$doi";
 
+
 my $data = "";
 $data = get $clean_url;
 if (not $data) {
@@ -74,45 +75,34 @@ if (not $data) {
 }
 
 # Get the bibtex info:
-if ($data =~ m{<div id="bibText-content">(.*?)</div>}s) {
 
-  my $bibtex = $1;
+my $bibtex_url = "http://www.computer.org/plugins/dl/citation/abs/bibtex/description/doi/$doi.bib";
+my $bibtex = get $bibtex_url;
+$bibtex =~ s/\r/\n/g;
 
-  $bibtex =~ s,&nbsp;, ,gs;
-  $bibtex =~ s,<br/>,\n,gs;
-  $bibtex =~ s,<[^>]+>,,gs;
-  $bibtex =~ s,%\d+,,gs; #I have no idea why this is needed.
-  $bibtex =~ s,\\',',gs;
-  $bibtex =~ s,\\",",gs;
+print "begin_bibtex\n";
+print "$bibtex\n";
+print "end_bibtex\n";
 
-  print "begin_bibtex\n";
-  print "$bibtex\n";
-  print "end_bibtex\n";
 
-  print "begin_tsv\n";
-  print "linkout\tCSDL\t\t$doi\t\t\n";
-  print "linkout\tDOI\t\t$doi\t\t\n";
+print "begin_tsv\n";
+print "linkout\tCSDL\t\t$doi\t\t\n";
+print "linkout\tDOI\t\t$doi\t\t\n";
 
-  # Get the abstract from the page.
-  if ($data =~ m{<div class="abs-articlesummary">(.*?)</div>}s) {
-  	my $abstract = $1;
-    $abstract =~ s,<[^>]+>,,gs;
+# Get the abstract from the page.
+if ($data =~ m{<div class="abs-articlesummary">(.*?)</div>}s) {
+	my $abstract = $1;
+	$abstract =~ s,<[^>]+>,,gs;
 	$abstract =~ s/&#822[0123];/"/gs; # microsoft smart double quotes
 	$abstract =~ s/&#821[67];/'/gs; # microsoft smart single quotes
-    decode_entities($abstract);
-    $abstract =~ s/^\s*Abstract\W+//;
-    print "abstract\t$abstract\n";
-
-  }
-  print "end_tsv\n";
-
-  print "status\tok\n";
-
-} else {
-
-  print "status\terr\tCouldn't extract bibtex entry from HTML on page $clean_url\n";
-
+	decode_entities($abstract);
+	$abstract =~ s/^\s*Abstract\W+//;
+	print "abstract\t$abstract\n";
 }
+
+print "end_tsv\n";
+
+print "status\tok\n";
 
 exit;
 
