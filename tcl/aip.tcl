@@ -77,6 +77,8 @@ set abpage ""
 
 # http://jap.aip.org/resource/1/japiau/v107/i5/p054315_s1?isAuthorized=no => bibtex
 # http://scitation.aip.org/getabs/servlet/GetCitation?source=scitation&downloadcitation=+Go+&source=scitation&SelectCheck=JAPIAU000107000005054315000001&fn=open_bibtex2&Submit=DownloadFailed to load resource
+
+# http://jcp.aip.org/resource/1/jcpsa6/v11/i6/p299_s1?isAuthorized=no No ID
 proc aip_id {url abpage} {
 	upvar $abpage l_abpage
 
@@ -89,7 +91,7 @@ proc aip_id {url abpage} {
 	}
 	if {[regexp {aip.org/(\w+)/v\d} $url] || [regexp {aip.org/resource/} $url]} {
 		set temppage [url_get $url]
-		if {[regexp {from_key=([a-zA-Z0-9]+)&} $temppage -> m_id]} {
+		if {[regexp {(?:skuID|from_key)=([a-zA-Z0-9]+)&} $temppage -> m_id]} {
 			set id $m_id
 			set l_abpage $temppage
 			# puts "${id}"
