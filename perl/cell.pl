@@ -44,6 +44,7 @@ use LWP 5.64;
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+binmode STDOUT, ":utf8";
 
 my $browser = LWP::UserAgent->new;
 $browser->cookie_jar({}); #springerlink.com expects we store cookies
@@ -60,6 +61,9 @@ my @ns_headers = (
    'Accept-Language' => 'en-US',
   );
 
+
+# strip query part
+$url =~ s/\?.*$//;
 
 $url =~ m{^http://www\.cell\.com/(?:([^/]+)(?:/))?abstract/(.*)$};
 
