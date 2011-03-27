@@ -9,16 +9,18 @@ warnings.simplefilter("ignore",DeprecationWarning)
 
 from urllib2 import urlopen
 from urlparse import urlparse
-import sys, re, urllib
+import sys, re, urllib, codecs
 from utils import decode_entities
-import BeautifulSoup
+#import BeautifulSoup
 import htmlentitydefs
-import html5lib
-from html5lib import treebuilders
+#import html5lib
+#from html5lib import treebuilders
+import lxml.html
 
 import socket
 
 socket.setdefaulttimeout(15)
+#sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 
 #http://medicine.plosjournals.org/perlserv/?request=get-document&doi=10.1371%2Fjournal.pmed.0020124
@@ -121,22 +123,18 @@ def main():
 	emit("begin_tsv")
 
 	# try harder to get a good abstract
-	try:
-		parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
-		soup = parser.parse(page)
-		div = soup.find('div',attrs={'class':'abstract'})
-		if div:
-			h2 = div.find("h2")
-			if h2 and re.search(r'Abstract',  h2.contents[0]):
-				p = div.find("p")
-				abs = []
-				for t in p.findAll(text=True):
-					abs.append(t)
-				abs = " ".join(abs).strip()
-				abs = re.sub(r"\s+", " ", abs)
-				emit("abstract",abs)
-	except:
-		pass
+	abs = []
+	root = lxml.html.document_fromstring(page)
+	for p in root.cssselect("div.abstract p"):
+		abs.append(p.xpath("string()"))
+
+
+	if len(abs) > 0:
+		abstract = ' '.join(abs)
+
+		abstract = re.sub('\n+',' ',abstract)
+		abstract = re.sub('\s+',' ',abstract)
+		emit("abstract",abstract)
 
 
 	# Use the DOI as the linkout
