@@ -387,9 +387,15 @@ namespace eval driver {
 			# puts "XXX: [array get ret]"
 
 			# Shall we use extra crossref data?  Off by default
+			# Either set globally in .cul file or in TSV, the latter taking
+			# priority
 			set use_crossref 0
-			catch {
-				set use_crossref [set DETAIL_${plugin}(use_crossref)]
+			if {[info exists ret(use_crossref)]} {
+				set use_crossref $ret(use_crossref)
+			} else {
+				catch {
+					set use_crossref [set DETAIL_${plugin}(use_crossref)]
+				}
 			}
 
 			if {[info exists crossref_lines]} {
