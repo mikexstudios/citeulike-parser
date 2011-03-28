@@ -1386,6 +1386,8 @@ namespace eval author {
 				{"French Medical Association" "" "" "French Medical Association"}\
 				{"French Medical Association" "" "" "=///French Medical Association/="}\
 				{"French Medical Association A/B" "" "" "=///French Medical Association A/B/="}\
+				{"Garcia Adeva" "" "JJ" "Garcia Adeva, J.J."}\
+
 			]
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
 	#			{"de la Vallee Poussin" "Charles" "CLXJ" "de la Vallee Poussin, Charles Louis Xavier Joseph"}\
