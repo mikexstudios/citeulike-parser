@@ -65,7 +65,7 @@ my @ns_headers = (
 # strip query part
 $url =~ s/\?.*$//;
 
-$url =~ m{^http://www\.cell\.com/(?:([^/]+)(?:/))?abstract/(.*)$};
+$url =~ m{^http://www\.cell\.com/(?:([^/]+)(?:/))*?abstract/(.*)$};
 
 my ($journal, $pii) = ($1 || "", $2 || "" );
 
@@ -87,8 +87,13 @@ my $response = $browser->get("$url_ris",@ns_headers) || (print "status\terr\tCou
 
 my $ris = $response->content;
 
+
+
 print "begin_tsv\n";
 print "linkout\tCELL\t\t$journal\t\t$pii\n";
+if ($ris =~ m{DOI\s+-\s+([^\r\n]+)}) {
+	print "linkout\tDOI\t\t$1\t\t\n";
+}
 print "end_tsv\n";
 print "begin_ris\n";
 print "$ris\n";

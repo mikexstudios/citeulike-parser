@@ -78,8 +78,8 @@ plugin {
 	#
 
 	# CELL itself is http://www.cell.com/abstract/xxxxx
-	# Other are http://www.cell.com/journalname/abstract/xxxxx		
-	regexp {http://www\.cell\.com/([^/]+/)?abstract/.*}
+	# Other are http://www.cell.com/journalname/abstract/xxxxx
+	regexp {http://www\.cell\.com/([^/]+/)*?abstract/.*}
 }
 
 
@@ -116,24 +116,35 @@ format_linkout CELL {
 #
 # This is the RIS test (break with BibTeX - so delete when stable)
 #
-test {http://www.jove.com/index/Details.stp?ID=1067} {
-	formatted_url {DOI http://dx.doi.org/10.3791/1067}
-	formatted_url {{Journal of Visualized Experiment} http://www.jove.com/index/Details.stp?ID=1067}
-	linkout {DOI {} 10.3791/1067 {} {}}
-	linkout {JOVE 1067 {} {} {}}
-	doi 10.3791/1067
-	year 2009
-	month 1
-	day 19
+test {http://www.cell.com/trends/cognitive-sciences/abstract/S1364-6613%2808%2900235-0} {
+	linkout {CELL {} cognitive-sciences {} S1364-6613(08)00235-0}
+	linkout {DOI {} 10.1016/j.tics.2008.10.001 {} {}}
+	formatted_url {Cell http://www.cell.com/cognitive-sciences/abstract/S1364-6613(08)00235-0}
+	formatted_url {DOI http://dx.doi.org/10.1016/j.tics.2008.10.001}
+	year 2008
+	month 12
+	day 1
+	volume 12
+	serial 1364-6613
 	type JOUR
-	plugin_version 1
-	issue 23
-	title {Calcium Imaging of Cortical Neurons using Fura-2 AM}
-	journal {Journal of Visualized Experiments}
-	abstract {Calcium imaging is a common technique that is useful for measuring calcium signals in cultured cells. Calcium imaging techniques take advantage of calcium indicator dyes, which are BAPTA-based organic molecules that change their spectral properties in response to the binding of Ca2+ ions. Calcium indicator dyes fall into two categories, ratio-metric dyes like Fura-2 and Indo-1 and single-wavelength dyes like Fluo-4. Ratio-metric dyes change either their excitation or their emission spectra in response to calcium, allowing the concentration of intracellular calcium to be determined from the ratio of fluorescence emission or excitation at distinct wavelengths.  The main advantage of using ratio-metric dyes over single wavelength probes is that the ratio signal is independent of the dye concentration, illumination intensity, and optical path length allowing the concentration of intracellular calcium to be determined independently of these artifacts. One of the most common calcium indicators is Fura-2, which has an emission peak at 505 nM and changes its excitation peak from 340 nm to 380 nm in response to calcium binding.  Here we describe the use of Fura-2 to measure intracellular calcium elevations in neurons and other excitable cells.}
-	author {Barreto-Chang {} {} {L Barreto-Chang, Odmara}} 
-	author {Dolmetsch {} {} {E Dolmetsch, Ricardo}}
+	start_page 455
+	url http://linkinghub.elsevier.com/retrieve/pii/S1364661308002350
+	end_page 460
+	doi 10.1016/j.tics.2008.10.001
+	id S1364-6613(08)00235-0
+	publisher {Elsevier Science,}
+	issue 12
+	title {Understanding evaluation of faces on social dimensions}
+	journal {Trends Cogn Sci}
+	abstract {People reliably and automatically make personality inferences from facial appearance despite little evidence for their accuracy. Although such inferences are highly inter-correlated, research has traditionally focused on studying specific traits such as trustworthiness. We advocate an alternative, data-driven approach to identify and model the structure of face evaluation. Initial findings indicate that specific trait inferences can be represented within a 2D space defined by valence/trustworthiness and power/dominance evaluation of faces. Inferences along these dimensions are based on similarity to expressions signaling approach or avoidance behavior and features signaling physical strength, respectively, indicating that trait inferences from faces originate in functionally adaptive mechanisms. We conclude with a discussion of the potential role of the amygdala in face evaluation.}
+	author {Todorov Alexander A {Todorov, Alexander}}
+	author {Said Chris CP {Said, Chris P.}}
+	author {Engell Andrew AD {Engell, Andrew D.}}
+	author {Oosterhof Nikolaas NN {Oosterhof, Nikolaas N.}}
 	status ok
 }
+
+
+
 
 
