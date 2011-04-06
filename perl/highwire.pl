@@ -96,10 +96,21 @@ $abstract_part = "abstract";
 #$abstract_part = "refs";
 
 
-if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/(\w+)}) {
+if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/((?:[.\w]+))}) {
 	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
 	$journal_site = gobble_proxy($journal_site);
+
+	# This is a complete hack in the blind.  A trailing ".n" -> ".a", ".b"
+	# seems to work.
+	$page =~ s/\.1$/a/;
+	$page =~ s/\.2$/b/;
+	$page =~ s/\.3$/c/;
+	$page =~ s/\.4$/d/;
+
+
 	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
+
+
 }
 #
 # New (2008) Highwire URL format .
@@ -192,7 +203,6 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/?>
 } elsif ($source_abstract =~ m{<meta\s+name="citation_mjid"\s*content="([^"]+)"\s*/?>}){
 	$mjid=$1;
 }
-
 
 if ($mjid) {
 	# $mjid =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
