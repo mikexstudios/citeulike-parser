@@ -96,20 +96,26 @@ $abstract_part = "abstract";
 #$abstract_part = "refs";
 
 
+
 if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/((?:[.\w]+))}) {
 	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
 	$journal_site = gobble_proxy($journal_site);
 
 	# This is a complete hack in the blind.  A trailing ".n" -> ".a", ".b"
 	# seems to work.
-	$page =~ s/\.1$/a/;
-	$page =~ s/\.2$/b/;
-	$page =~ s/\.3$/c/;
-	$page =~ s/\.4$/d/;
+	if ($page =~ /\.\d$/) {
+		$page =~ s/\.1$/a/;
+		$page =~ s/\.2$/b/;
+		$page =~ s/\.3$/c/;
+		$page =~ s/\.4$/d/;
+	} else {
+		$page =~ s/\.(\w+)$//;
+	}
+
+
 
 
 	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
-
 
 }
 #
