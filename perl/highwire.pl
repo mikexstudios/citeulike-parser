@@ -128,9 +128,9 @@ elsif ($url =~ m{http://([^/]+)/content/}) {
 		print "status\terr\t (0.5) Cannot find the URL for the abstract\n";
 		exit;
 	}
-	if ($url_abstract eq $url) {
+	#if ($url_abstract eq $url) {
 		$source_abstract = $body;
-	}
+	#}
 	$hiwire = $url_abstract;
 	$hiwire =~ s/\.abstract$//;
 	$hiwire =~ s|^http://||;
