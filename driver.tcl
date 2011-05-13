@@ -334,7 +334,9 @@ namespace eval driver {
 				} elseif {$state=="ris"} {
 					lappend ris_lines $line
 				} elseif {$state=="bibtex"} {
-					lappend bibtex_lines $line
+					if {![regexp "^%" $line]} {
+						lappend bibtex_lines $line
+					}
 				} elseif {$state=="crossref"} {
 					lappend crossref_lines $line
 				}

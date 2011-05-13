@@ -83,6 +83,10 @@ bibtex = f.read()
 #bibtex = bibtex.split('\n',2)[2]
 bibtex = re.sub(r'\\ifmmode .*?\\else (.*?)\\fi\{\}',r'\1',bibtex)
 
+# strip % comments at start - cause problems
+bibtex = re.sub(r'(?m)^%.*','',bibtex)
+
+
 #okay so that handles most of it  but we still need to get the actual title of the journal,
 # and we need to find the abstract if it has one.
 absurl = host +'/abstract' + address
