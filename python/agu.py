@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.6
 
-import os, sys, re, urllib2, cookielib, string
+import os, sys, re, urllib2, cookielib, string, codecs
 from urllib import urlencode
 from urllib2 import urlopen
 from copy import copy
@@ -10,6 +10,7 @@ import socket
 
 socket.setdefaulttimeout(15)
 
+sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 class ParseException(Exception):
 	pass
@@ -40,7 +41,7 @@ def unescape(text):
             except KeyError:
                 pass
         return text # leave as is
-    return re.sub("&#?\w+;", fixup, text).encode('utf-8')
+    return re.sub("&#?\w+;", fixup, text)
 
 def meta(soup, key):
 	el = soup.find("meta", {'name':key})
