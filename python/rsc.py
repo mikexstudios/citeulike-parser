@@ -42,7 +42,8 @@ src_query = cgi.parse_qs(parsed_url.query)
 path = parsed_url.path
 
 # new style http://pubs.rsc.org/en/Content/ArticleLanding/2002/CC/b204846a
-m = re.match(r'^/en/Content/ArticleLanding/[^/]+/[^/]+/([^/]+)', path)
+# http://pubs.rsc.org/en/content/articlelanding/2011/lc/c1lc20128j
+m = re.match(r'^/en/Content/ArticleLanding/[^/]+/[^/]+/([^/]+)', path, re.I)
 if m:
     REQ_DATA['article_id'] = m.group(1)
 elif src_query.has_key('doi'):
