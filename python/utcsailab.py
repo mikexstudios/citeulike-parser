@@ -9,7 +9,7 @@ sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
 socket.setdefaulttimeout(15)
 
-UTCSAI_URL = 'http://z.cs.utexas.edu/users/ai-lab/'
+UTCSAI_URL = 'http://cs.utexas.edu/users/ai-lab/'
 
 ERR_STR_PREFIX = 'status\terr\t'
 

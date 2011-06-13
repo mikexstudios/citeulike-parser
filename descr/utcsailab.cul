@@ -1,17 +1,21 @@
 plugin {
-	version {1}
+	version {2}
 	name {University of Texas at Austin AI Lab Website}
-	url {http://z.cs.utexas.edu/users/ai-lab/}
+	url {http://cs.utexas.edu/users/ai-lab/}
 	blurb {}
 	author {Jacob Schrum}
 	email {ai-lab@cs.utexas.edu}
 	language {python}
-	regexp {http://(z|nn).cs.utexas.edu/(|users/ai-lab/)}
+	regexp {http://(z.|nn.|)cs.utexas.edu/(|users/ai-lab/|~ai-lab/)}
 }
 
 format_linkout UTCSAI {
-	return [list "UTCSAI"\
+	return [list "UTCSAI1"\
 		     "http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=${ikey_1}"\
+		     "UTCSAI2"\
+                     "http://cs.utexas.edu/users/ai-lab/pub-view.php?PubID=${ikey_1}"\
+		     "UTCSAI3"\
+                     "http://cs.utexas.edu/~ai-lab/pub-view.php?PubID=${ikey_1}"\
 		     "UTCSNN"\
 		     "http://nn.cs.utexas.edu/pub-view.php?PubID=${ikey_1}"\
                ]
@@ -19,14 +23,16 @@ format_linkout UTCSAI {
 
 test {http://z.cs.utexas.edu/users/ai-lab/?schrum:gecco10} {
 
-	formatted_url {UTCSAI http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=126948}
+	formatted_url {UTCSAI1 http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=126948}
+	formatted_url {UTCSAI2 http://cs.utexas.edu/users/ai-lab/pub-view.php?PubID=126948}
+	formatted_url {UTCSAI3 http://cs.utexas.edu/~ai-lab/pub-view.php?PubID=126948}
 	formatted_url {UTCSNN http://nn.cs.utexas.edu/pub-view.php?PubID=126948}
 	linkout {UTCSAI 126948 {} {} {}}
 	start_page 439
 	end_page 446
 	year 2010
 	type INCONF
-	url {http://z.cs.utexas.edu/users/ai-lab/?schrum:gecco10}
+	url {http://www.cs.utexas.edu/users/ai-lab/?schrum:gecco10}
 	title_secondary {Proceedings of the Genetic and Evolutionary Computation Conference (GECCO 2010)}
 	title {Evolving Agent Behavior In Multiobjective Domains Using Fitness-Based Shaping}
 	abstract {Multiobjective evolutionary algorithms have long been applied to engineering problems. Lately they have also been used to evolve behaviors for intelligent agents. In such applications, it is often necessary to "shape" the behavior via increasingly difficult tasks. Such shaping requires extensive domain knowledge. An alternative is fitness-based shaping through changing selection pressures, which requires little to no domain knowledge. Two such methods are evaluated in this paper. The first approach, Targeting Unachieved Goals, dynamically chooses when an objective should be used for selection based on how well the population is performing in that objective. The second method, Behavioral Diversity, adds a behavioral diversity objective to the objective set. These approaches are implemented in the popular multiobjective evolutionary algorithm NSGA-II and evaluated in a multiobjective battle domain. Both methods outperform plain NSGA-II in evolution time and final performance, but differ in the profiles of final solution populations. Therefore, both methods should allow multiobjective evolution to be more extensively applied to various agent control problems in the future.}
@@ -36,19 +42,21 @@ test {http://z.cs.utexas.edu/users/ai-lab/?schrum:gecco10} {
 	author {Schrum Jacob J {Jacob Schrum}}
 	author {Miikkulainen Risto R {Risto Miikkulainen}}	
 	plugin utcsailab
-	plugin_version 1
+	plugin_version 2
 	status ok
 }
 
 test {http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465} {
 
-	formatted_url {UTCSAI http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465}
+	formatted_url {UTCSAI1 http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465}
+	formatted_url {UTCSAI2 http://cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465}
+	formatted_url {UTCSAI3 http://cs.utexas.edu/~ai-lab/pub-view.php?PubID=51465}
 	formatted_url {UTCSNN http://nn.cs.utexas.edu/pub-view.php?PubID=51465}
 	linkout {UTCSAI 51465 {} {} {}}
 	year 2006
 	title {Learning Language from Perceptual Context: A Challenge Problem for AI}
 	title_secondary {Proceedings of the 2006 AAAI Fellows Symposium}
-	url {http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465}
+	url {http://www.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465}
 	type INCONF
 	cite {mooney:aaaifellows06}
 	month {July}
@@ -56,7 +64,7 @@ test {http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465} {
 	author {Mooney Raymond RJ {Raymond J. Mooney}}
 	abstract {We present the problem of learning to understand natural language from examples of utterances paired only with their relevant real-world context as an important challenge problem for AI.  Machine learning has been adopted as the most effective way of developing natural-language processing systems; however, currently, complex annotated corpora are required for training. By learning language from perceptual context, the need for laborious annotation is removed and the system's resulting understanding is grounded in its perceptual experience.}
 	plugin utcsailab
-	plugin_version 1
+	plugin_version 2
 	status ok
 }
 
@@ -66,9 +74,9 @@ test {http://nn.cs.utexas.edu/keyword?stanley:ec02} {
 	year 2002
 	type JOUR
 	start_page 99
-	url http://z.cs.utexas.edu/users/ai-lab/?stanley:ec02
+	url http://www.cs.utexas.edu/users/ai-lab/?stanley:ec02
 	end_page 127
-	plugin_version 1
+	plugin_version 2
 	issue 2
 	title {Evolving Neural Networks Through Augmenting Topologies}
 	journal {Evolutionary Computation}
@@ -82,6 +90,59 @@ test {http://nn.cs.utexas.edu/keyword?stanley:ec02} {
 	author {Stanley Kenneth KO {Kenneth O. Stanley}} 
 	author {Miikkulainen Risto R {Risto Miikkulainen}}
 	plugin utcsailab
-	formatted_url {UTCSAI http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=97100}
+	formatted_url {UTCSAI1 http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=97100}
+	formatted_url {UTCSAI2 http://cs.utexas.edu/users/ai-lab/pub-view.php?PubID=97100}
+	formatted_url {UTCSAI3 http://cs.utexas.edu/~ai-lab/pub-view.php?PubID=97100}
 	formatted_url {UTCSNN http://nn.cs.utexas.edu/pub-view.php?PubID=97100}
 }
+
+test {http://cs.utexas.edu/users/ai-lab/keyword?stanley:ec02} {
+	volume 10
+	linkout {UTCSAI 97100 {} {} {}}
+	year 2002
+	type JOUR
+	start_page 99
+	url http://www.cs.utexas.edu/users/ai-lab/?stanley:ec02
+	end_page 127
+	plugin_version 2
+	issue 2
+	title {Evolving Neural Networks Through Augmenting Topologies}
+	journal {Evolutionary Computation}
+	status ok
+	abstract {An important question in neuroevolution is how to gain an advantage from evolving neural network topologies along with weights. We present a method, NeuroEvolution of Augmenting Topologies (NEAT) that outperforms the best fixed-topology method on a challenging benchmark reinforcement learning task. We claim that the increased efficiency is due to (1) employing a principled method of crossover of different topologies, (2) protecting structural innovation using speciation, and (3) incrementally growing from minimal structure. We test this claim through a series of ablation studies that demonstrate that each component is necessary to the system as a whole and to each other. What results is significantly faster learning. NEAT is also an important contribution to GAs because it shows how it is possible for evolution to both optimize <i>and complexify</i> solutions simultaneously, offering the possibility of evolving increasingly complex solutions over generations, and strengthening the analogy with biological evolution. <p>
+
+
+
+[ The pdf file is made available by MIT Press ]}
+	cite {stanley:ec02}
+	author {Stanley Kenneth KO {Kenneth O. Stanley}} 
+	author {Miikkulainen Risto R {Risto Miikkulainen}}
+	plugin utcsailab
+	formatted_url {UTCSAI1 http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=97100}
+	formatted_url {UTCSAI2 http://cs.utexas.edu/users/ai-lab/pub-view.php?PubID=97100}
+	formatted_url {UTCSAI3 http://cs.utexas.edu/~ai-lab/pub-view.php?PubID=97100}
+	formatted_url {UTCSNN http://nn.cs.utexas.edu/pub-view.php?PubID=97100}
+}
+
+test {http://cs.utexas.edu/~ai-lab/pub-view.php?PubID=51465} {
+
+	formatted_url {UTCSAI1 http://z.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465}
+	formatted_url {UTCSAI2 http://cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465}
+	formatted_url {UTCSAI3 http://cs.utexas.edu/~ai-lab/pub-view.php?PubID=51465}
+	formatted_url {UTCSNN http://nn.cs.utexas.edu/pub-view.php?PubID=51465}
+	linkout {UTCSAI 51465 {} {} {}}
+	year 2006
+	title {Learning Language from Perceptual Context: A Challenge Problem for AI}
+	title_secondary {Proceedings of the 2006 AAAI Fellows Symposium}
+	url {http://www.cs.utexas.edu/users/ai-lab/pub-view.php?PubID=51465}
+	type INCONF
+	cite {mooney:aaaifellows06}
+	month {July}
+	address {Boston, MA}
+	author {Mooney Raymond RJ {Raymond J. Mooney}}
+	abstract {We present the problem of learning to understand natural language from examples of utterances paired only with their relevant real-world context as an important challenge problem for AI.  Machine learning has been adopted as the most effective way of developing natural-language processing systems; however, currently, complex annotated corpora are required for training. By learning language from perceptual context, the need for laborious annotation is removed and the system's resulting understanding is grounded in its perceptual experience.}
+	plugin utcsailab
+	plugin_version 2
+	status ok
+}
+
