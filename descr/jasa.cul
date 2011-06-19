@@ -1,0 +1,115 @@
+#
+# Copyright (c) 2011 Fergus Gallagher, CiteULike.org
+# All rights reserved.
+#
+
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#        This product includes software developed by
+#		 CiteULike <http://www.citeulike.org> and its
+#		 contributors.
+# 4. Neither the name of CiteULike nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY CITEULIKE.ORG AND CONTRIBUTORS
+# ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+# TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Each plugin needs a description so the driver can advertise the details
+# to the users on the site
+plugin {
+	# Integer version number for the plugin code. When this number is incremented,
+	# CiteULike may reparse all existing articles with the new code.
+	version {1}
+
+	# The name of the plugin, as displayed on the "CiteULike supports..." page
+	name {JASA}
+
+	# The link the front page of this service
+	url {http://asadl.org/}
+
+	# Any additional information which needs to be displayed to the user.
+	# E.g. "Experimental support"
+	blurb {}
+
+	# Your name
+	author {Fergus Gallagher}
+
+	# Your email address
+	email {plugins@citeulike.org}
+
+	# Language you wrote the plugin in
+	language {python}
+
+	# Regular expression to match URLs that the plugin is
+	# *potentially* interested in. Any URL matching this regexp
+	# will cause your parser to be invoked. Currently, this will
+	# require fork()ing a process, so you should try to reduce the number
+	# of false positives by making your regexp as restrictive as possible.
+	#
+	# If it is not possible to determine whether or not your plugin is
+	# interested purely on the basis of the URL, you will have a chance
+	# to refine this decision in your code. For now, try to make a reasonable
+	# approximation - like, check for URLs on the right hostname
+	#
+	# Note: Some universities provide mirrors of commericial publishers' sites
+	# with different hostnames, so you should provide some leeway in your
+	# regexp if that applies to you.
+	regexp {http://asadl.org/jasa/resource}
+}
+
+
+
+
+#
+# TESTS
+#
+
+# Each plugin MUST provide a set of tests. The motivation behind this is
+# that web scraping code is inherently fragile, and is likely to break whenever
+# the provider decides to redisign their site. CiteULike will periodically
+# run tests to see if anything has broken.
+
+# Please provide as comprehensive a set of tests as possible.
+# If you ever fix a bug in the parser, it is highly recommended that
+# you add the offending page as a test case.
+
+# this one (now) redirects to an APS page
+test {http://asadl.org/jasa/resource/1/jasman/v129/i6/pEL217_s1?bypassSSO=1} {
+	volume 129
+	linkout {DOI {} 10.1121/1.3571537 {} {}}
+	type JOUR
+	start_page EL217
+	doi 10.1121/1.3571537
+	publisher {Acoustical Society of America}
+	formatted_url {DOI http://dx.doi.org/10.1121/1.3571537}
+	issue 6
+	title {Rupture of anterior cruciate ligament monitored by acoustic emission}
+	abstract {The scope of this study is to relate the acoustic emission (AE) during rupture of human soft tissue (anterior cruciate ligament, ACL) to the mechanisms leading to its failure. The cumulative AE activity highlights the onset of serious damage, while other parameters, show repeatable tendencies, being well correlated with the tissue’s mechanical behavior. The frequency content of AE signals increases throughout the experiment, while other indices characterize between different modes of failure. Results of this preliminary study show that AE can shed light into the failure process of this tissue, and provide useful data on the ACL reconstruction.}
+	issn 00014966
+	author {Aggelis {} DG {D. G. Aggelis}}
+	author {Paschos {} NK {N. K. Paschos}}
+	author {Barkoula {} NM {N. M. Barkoula}}
+	author {Paipetis {} AS {A. S. Paipetis}}
+	author {Matikas {} TE {T. E. Matikas}}
+	author {Georgoulis {} AD {A. D. Georgoulis}}
+	status ok
+}
