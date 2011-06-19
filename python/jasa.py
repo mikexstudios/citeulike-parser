@@ -73,6 +73,8 @@ for f in key_map.keys():
 for a in metaheaders.get_multi_item("dc.creator"):
 	print "author\t%s" % a
 
+metaheaders.print_date("dc.date")
+
 
 print "end_tsv"
 print "status\tok"
