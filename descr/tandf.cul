@@ -1,0 +1,40 @@
+plugin {
+	version {1}
+	name {Taylor and Francis}
+	url {http://www.tandfonline.com/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {www.tandfonline.com}
+}
+
+format_linkout TANDF {
+	return [list "Taylor and Francis Online" \
+			"http://www.tandfonline.com/doi/abs/${ckey_1}"]
+}
+
+test {http://www.tandfonline.com/doi/abs/10.1080/17588921003731586} {
+	status ok
+	volume 1
+	serial 1758-8928
+	linkout {TANDF {} 10.1080/17588921003731586 {} {}}
+	linkout {DOI {} 10.1080/17588921003731586 {} {}}
+	year 2010
+	month 4
+	day 15
+	type JOUR
+	start_page 204
+	url http://www.tandfonline.com/doi/abs/10.1080/17588921003731586
+	end_page 220
+	doi 10.1080/17588921003731586
+	publisher {Psychology Press}
+	formatted_url {{Taylor and Francis Online} http://www.tandfonline.com/doi/abs/10.1080/17588921003731586}
+	formatted_url {DOI http://dx.doi.org/10.1080/17588921003731586}
+	issue 3
+	title {How neuroscience will change our view on consciousness}
+	journal {Cognitive Neuroscience}
+	abstract {Is there consciousness in machines? Or in animals? What happens to consciousness when we are asleep, or in vegetative state? These are just a few examples of the many questions about consciousness that are troubling scientists and laypersons alike. Moreover, these questions share a striking feature: They seem to have been around forever, yet neither science nor philosophy has been able to provide an answer. Why is that? In my view, the main reason is that the study of consciousness is dominated by what we know from introspection and behavior. This has fooled us into thinking that we know what we are conscious of. The scientific equivalent of this is Global Workspace theory. But in fact we don't know what we are conscious of, as I will explain from a simple experiment in visual perception. Once we acknowledge that, it is clear that we need other evidence about the presence or absence of a conscious sensation than introspection or behavior. Assuming the brain has something to do with it, I will demonstrate how arguments from neuroscience, together with theoretical and ontological arguments, can help us resolve what the exact nature of our conscious sensation is. It turns out that we see much more than we think, and that Global Workspace theory is all about access but not about seeing. The exercise is an example of how neuroscience will move us away from psychological intuitions about consciousness, and hence depict a notion of consciousness that may go against our deepest conviction: ?My consciousness is mine, and mine alone.? It's not. Is there consciousness in machines? Or in animals? What happens to consciousness when we are asleep, or in vegetative state? These are just a few examples of the many questions about consciousness that are troubling scientists and laypersons alike. Moreover, these questions share a striking feature: They seem to have been around forever, yet neither science nor philosophy has been able to provide an answer. Why is that? In my view, the main reason is that the study of consciousness is dominated by what we know from introspection and behavior. This has fooled us into thinking that we know what we are conscious of. The scientific equivalent of this is Global Workspace theory. But in fact we don't know what we are conscious of, as I will explain from a simple experiment in visual perception. Once we acknowledge that, it is clear that we need other evidence about the presence or absence of a conscious sensation than introspection or behavior. Assuming the brain has something to do with it, I will demonstrate how arguments from neuroscience, together with theoretical and ontological arguments, can help us resolve what the exact nature of our conscious sensation is. It turns out that we see much more than we think, and that Global Workspace theory is all about access but not about seeing. The exercise is an example of how neuroscience will move us away from psychological intuitions about consciousness, and hence depict a notion of consciousness that may go against our deepest conviction: ?My consciousness is mine, and mine alone.? It's not.}
+	author {Lamme Victor VAF {Lamme, Victor A. F.}}
+}
+
