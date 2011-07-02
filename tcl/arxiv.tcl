@@ -56,7 +56,7 @@ proc arxiv_id {url} {
 		return $arxiv_id
 	}
 
-	if {[regexp {front.math.ucdavis.edu/([^/]+/?[^/?]+)} $url match arxiv_id]} {
+	if {[regexp {front.math.ucdavis.edu/([^/]+/?[^/?]+)} $url -> arxiv_id]} {
 		return $arxiv_id
 	}
 
@@ -65,6 +65,12 @@ proc arxiv_id {url} {
 }
 
 set id [arxiv_id $url]
+
+# Strip out "subject class .XX"
+# http://arxiv.org/help/arxiv_identifier
+set id [regsub {\.[A-Z][A-Z]/} $id {/}]
+# Strip off vN suffix
+set id [regsub {v\d+$} $id {}]
 
 puts "begin_tsv"
 
