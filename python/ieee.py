@@ -42,12 +42,13 @@ from cultools import urlparams, bail
 from urllib import urlencode, unquote
 from urllib2 import urlopen
 import socket
-import BeautifulSoup
 from html5lib import treebuilders
 import html5lib
 import warnings
 import codecs
+import metaheaders
 #from subprocess import Popen, PIPE
+from lxml import etree
 
 socket.setdefaulttimeout(15)
 
@@ -82,65 +83,71 @@ try:
 except KeyError:
 	bail("Couldn't find an 'arNumber' field in the URL")
 
-jar = cookielib.CookieJar()
-handler = urllib2.HTTPCookieProcessor(jar)
-opener = urllib2.build_opener(handler)
-urllib2.install_opener(opener)
 
-# Fetch the original page to get the session cookie
-original = urlopen("http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=%d" % ar_number).read()
+metaheaders = metaheaders.MetaHeaders("http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=%d" % ar_number)
 
-bufsize=-1
-
-#
-# Funny bug on some pages, only part (luckily most) of the page is downloaded
-# (even when I spawn GET/wget even though they work from command line!!!!)
-# Parser writes to stderr which makes driver.tcl barf, so redirect stderr
-# during the parsing.  Fragile!
-#
-#stderr = open("/dev/null", "w")
-stderr = sys.stdout
-original_stderr = sys.stderr
-sys.stderr = stderr
-
-parser = html5lib.HTMLParser(tree=treebuilders.getTreeBuilder("beautifulsoup"))
-soup = parser.parse(original)
-sys.stderr = original_stderr
+root = metaheaders.root
 
 abstract = ''
 
-abstractLink = soup.find('a',attrs={'name':'Abstract'})
-if abstractLink:
-	abstractDiv = abstractLink.parent
-	abs = []
-	for t in abstractDiv.findAll(text=True):
-		if t != "Abstract":
-			abs.append(t);
-	abstract =  " ".join(abs).strip()
+abstractDiv = root.xpath("//a[@name='Abstract']/../*/text()")
 
+if abstractDiv:
+	abstract = abstractDiv[0]
+	abstract = re.sub("^Abstract\s*", "", abstract).strip()
 
-#body = soup.findAll('div',attrs={'class':'body-text'})
-#print body
+#print etree.tostring(root, pretty_print=True)
 
-doi = None
-
-aLinks = soup.findAll("a")
-for a in aLinks:
-	if not a.has_key("href"):
-		continue
-	href = a["href"]
-	if href.startswith("http://dx.doi.org/"):
-		match = re.search(r'(10\..*)', href)
-		if match:
-			doi = match.group(1)
-		break
-
-
+doi = metaheaders.get_item("citation_doi")
 if not doi:
-	bail("Couldn't find an DOI")
+	aLinks = root.cssselect("a")
+
+	for a in aLinks:
+		if not a.attrib.has_key("href"):
+			continue
+		href = a.attrib["href"]
+		if href.startswith("http://dx.doi.org/"):
+			match = re.search(r'(10\..*)', href)
+			if match:
+				doi = match.group(1)
+			break
+
+
 
 
 print "begin_tsv"
+
+print "type\tJOUR"
+
+if True and metaheaders.get_item("citation_title"):
+	metaheaders.print_item("title","citation_title")
+	metaheaders.print_item("publisher","citation_publisher")
+	authors = metaheaders.get_multi_item("citation_author")
+	if authors:
+		for a in authors:
+			print "author\t%s" % a
+	else:
+		metaheaders.print_item("author","citation_authors")
+	metaheaders.print_item("volume","citation_volume")
+	metaheaders.print_item("issue","citation_issue")
+	metaheaders.print_item("start_page","citation_firstpage")
+	metaheaders.print_item("end_page","citation_lastpage")
+	# "serial" or "issn".  Do both, to be safe
+	metaheaders.print_item("serial","citation_issn")
+	metaheaders.print_item("issn","citation_issn")
+	metaheaders.print_item("isbn","citation_isbn")
+	metaheaders.print_item("title_secondary","citation_conference")
+	metaheaders.print_date("citation_date")
+	metaheaders.print_item("journal","citation_journal_title")
+	metaheaders.print_item("publisher","citation_publisher")
+
+	# date is sometimes (always?) like "Oct. 2004"
+	date = metaheaders.get_item("citation_date")
+
+else:
+	if not doi:
+		bail("Couldn't find an DOI")
+	print "use_crossref\t1"
 
 if doi:
 	print "linkout\tDOI\t\t%s\t\t" % (doi)

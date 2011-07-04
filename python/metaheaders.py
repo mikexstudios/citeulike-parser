@@ -18,7 +18,7 @@ class MetaHeaders:
 			attr=m.attrib
 			if attr.has_key(name) and attr.has_key(content) and attr[content] != "":
 				k = attr[name]
-				v = attr[content]
+				v = attr[content].strip()
 				if not meta.has_key(k):
 					meta[k] = []
 				meta[k].append(v)
@@ -52,22 +52,38 @@ class MetaHeaders:
 		month = None
 		day = None
 
-		m = re.match(r'(\d\d\d\d)(?:[-/])(\d+)(?:[-/])(\d+)', date)
+		m = re.search(r'(\d\d\d\d)(?:[-/])(\d+)(?:[-/])(\d+)', date)
 		if m:
 			year = m.group(1)
 			month = m.group(2)
 			day = m.group(3)
 
 		if not year:
-			m = re.match(r'(\d\d\d\d)(?:[-/])(\d+)', date)
+			m = re.search(r'(\d\d\d\d)(?:[-/])(\d+)', date)
 			if m:
 				year = m.group(1)
 				month = m.group(2)
 
+
 		if not year:
-			m = re.match(r'(\d\d\d\d)', date)
+			m = re.search(r'(\d\d\d\d)', date)
 			if m:
 				year = m.group(1)
+
+		m = re.search(r"([a-z]+)", date, re.IGNORECASE)
+		if m:
+			months = {
+				'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
+				'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12,
+				'January': 1, 'February': 2, 'March': 3, 'April': 4,
+				'May': 5, 'June': 6, 'July': 7, 'August': 8,
+				'September': 9, 'October': 10, 'November': 11, 'December': 12
+			}
+			try:
+				print "month\t%s" % months[m.group(1).capitalize()]
+				month = None
+			except:
+				pass
 
 		if year:
 			print "year\t%s" % year
@@ -75,8 +91,6 @@ class MetaHeaders:
 			print "month\t%s" % month
 		if day:
 			print "day\t%s" % day
-
-
 
 
 def test():

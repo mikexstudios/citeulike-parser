@@ -7,7 +7,7 @@ plugin {
 	email {camster@citeulike.org}
 	language {python}
 	regexp {ieeexplore.ieee.org}
-	use_crossref 1
+	use_crossref 0
 }
 
 format_linkout IEEE {
@@ -15,17 +15,19 @@ format_linkout IEEE {
 }
 
 test {http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?tp=&isnumber=987&arnumber=26487&punumber=2589} {
+	formatted_url {DOI http://dx.doi.org/10.1109/IEEESTD.1988.122645}
 	formatted_url {{IEEE Explore} http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=26487}
-	abstract {The VHSIC Hardware Description Language (VHDL) is a formal notation intended for use in all phases of the creation of electronic systems. Because it is both machine readable and human readable, it supports the development, verification, synthesis, and testing of hardware designs, the communication of hardware design data, and the maintenance, modification, and procurement of hardware. The form of a VHDL description is described by means of context-free syntax together with context-dependent syntactic and semantic requirements expressed by narrative rules. The context-free syntax of the language is described using a simple variant of Backus-Naur Form}
+	abstract {The VHSIC Hardware Description Language (VHDL) is a formal notation intended for use in all phases of the creation of electronic systems. Because it is both machine readable and human readable, it supports the development, verification, synthesis, and testing of hardware designs, the communication of hardware design data, and the maintenance, modification, and procurement of hardware. The form of a VHDL description is described by means of context-free syntax together with context-dependent syntactic and semantic requirements expressed by narrative rules. The context-free syntax of the language is described using a simple variant of Backus-Naur Form.>}
 	year 1988
-	month 3
-	day 31
+	linkout {DOI {} 10.1109/IEEESTD.1988.122645 {} {}}
 	linkout {IEEE 26487 {} {} {}}
-	title "IEEE standard VHDL language reference manual"
+	title "IEEE Standard VHDL Language Reference Manual"
 	type STD
-	journal "IEEE Std 1076-1987"
+	publisher IEEE
+	start_page 0_1
 	status ok
 }
+
 
 # Test with DOI
 test {http://ieeexplore.ieee.org/xpls/freeabs_all.jsp?arnumber=1350729} {
@@ -36,17 +38,18 @@ test {http://ieeexplore.ieee.org/xpls/freeabs_all.jsp?arnumber=1350729} {
 	linkout	{DOI {} 10.1109/MC.2004.172 {} {}}
 	linkout	{IEEE 1350729 {} {} {}}
 	year	2004
-	month	11
-	day	01
+	month	10
 	type	JOUR
 	start_page	64
 	end_page	72
 	issue	10
-	title	"Meaningful modeling: what's the semantics of \"semantics\"?"
+	title	"Meaningful modeling: what's the semantics of semantics?"
 	journal	"Computer"
 	abstract	"The Unified Modeling Language (UML) is a complex collection of mostly diagrammatic notations for software modeling, and its standardization has prompted an animated discussion about UML's semantics and how to represent it. We have thus set out to clarify some of the notions involved in defining modeling languages, with an eye toward the particular difficulties arising in defining UML. We are primarily interested in distinguishing a language's notation, or syntax, from its meaning, or semantics, as well as recognizing the differences between variants of syntax and semantics in their nature, purpose, style, and use."
 	status	ok
 	author	{Harel {} D {Harel, D.}}
 	author	{Rumpe {} B {Rumpe, B.}}
+	publisher IEEE
+	issn 0018-9162
 	plugin	ieee
 }
