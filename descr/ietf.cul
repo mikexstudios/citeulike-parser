@@ -2,7 +2,7 @@
 plugin {
 	version {1}
 	name {Requests for Comments and Internet-Drafts}
-	url {http://www.rfc-editor.org, http://tools.ietf.org}
+	url {http://tools.ietf.org}
 	blurb {Experimental support}
 	author {Olivier Mehani}
 	email {shtrom-cul@ssji.net}

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python2.6
 """
 CiteULike scraper for IETF and RFC-Editor URLs.
 Copyright (c) 2011, Olivier Mehani <shtrom-cul@ssji.net>
