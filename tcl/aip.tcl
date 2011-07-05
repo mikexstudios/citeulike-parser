@@ -54,7 +54,7 @@ set x [url_get $url 0 1]
 foreach {page url} $x {break}
 
 # An alias
-set url [regsub {library.seg.org} $url {scitation.aip.org}]
+set url [regsub -nocase {library.seg.org} $url {scitation.aip.org}]
 
 if {![regexp {aip.org} $url]} {
 	puts "status\tredirect\t$url"
