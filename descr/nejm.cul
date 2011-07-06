@@ -11,7 +11,7 @@ plugin {
 
 format_linkout NEJM {
 	return [list "New England Journal of Medicine" \
-			"http://www.journals.nejm.org/doi/abs/${ckey_1}"]
+			"http://www.nejm.org/doi/abs/${ckey_1}"]
 }
 
 
