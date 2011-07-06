@@ -1,0 +1,60 @@
+plugin {
+	version {1}
+	name {New England Journal of Medicine}
+	url {http://www.nejm.org/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus.gallagher@citeulike.org}
+	language {python}
+	regexp {www.nejm.org}
+}
+
+format_linkout NEJM {
+	return [list "New England Journal of Medicine" \
+			"http://www.journals.nejm.org/doi/abs/${ckey_1}"]
+}
+
+
+test {http://www.nejm.org/doi/full/10.1056/NEJMoa1006939} {
+	volume 364
+	serial 0028-4793
+	linkout {NEJM {} 10.1056/NEJMoa1006939 {} {}}
+	linkout {DOI {} 10.1056/NEJMoa1006939 {} {}}
+	year 2011
+	type JOUR
+	start_page 939
+	end_page 946
+	url http://dx.doi.org/10.1056/NEJMoa1006939
+	doi 10.1056/NEJMoa1006939
+	publisher {Massachusetts Medical Society}
+	day 9
+	formatted_url {{New England Journal of Medicine} http://www.journals.nejm.org/doi/abs/10.1056/NEJMoa1006939}
+	formatted_url {DOI http://dx.doi.org/10.1056/NEJMoa1006939}
+	issue 10
+	title {A Dystroglycan Mutation Associated with Limb-Girdle Muscular Dystrophy}
+	journal {New England Journal of Medicine}
+	abstract {Muscular dystrophies are genetic diseases characterized by weakness and progressive degeneration of skeletal muscle. The transmembrane protein dystroglycan, which is ultimately cleaved into an α and a β component, is a key link between the cytoskeleton and extracellular-matrix proteins that bear laminin globular domains (e.g., laminin, agrin, and neurexin).1,2 The mucin domain of α-dystroglycan is modified with numerous O-linked oligosaccharides that are essential for its normal function as an extracellular-matrix receptor in various tissues, including skeletal muscle and brain.2,3 Hypoglycosylation of α-dystroglycan and a consequent reduction of α-dystroglycan binding to extracellular-matrix proteins are observed in patients with the . . .}
+	month 3
+	author {Hara Yuji Y {Hara, Yuji}}
+	author {Balci-Hayta Burcu B {Balci-Hayta, Burcu}}
+	author {Yoshida-Moriguchi Takako T {Yoshida-Moriguchi, Takako}}
+	author {Kanagawa Motoi M {Kanagawa, Motoi}}
+	author {{Beltrán-Valero de Bernabé} Daniel D {Beltrán-Valero de Bernabé, Daniel}}
+	author {Gündeşli Hülya H {Gündeşli, Hülya}}
+	author {Willer Tobias T {Willer, Tobias}}
+	author {Satz Jakob JS {Satz, Jakob S.}}
+	author {Crawford Robert RW {Crawford, Robert W.}}
+	author {Burden Steven SJ {Burden, Steven J.}}
+	author {Kunz Stefan S {Kunz, Stefan}}
+	author {Oldstone Michael MBA {Oldstone, Michael B.A.}}
+	author {Accardi Alessio A {Accardi, Alessio}}
+	author {Talim Beril B {Talim, Beril}}
+	author {Muntoni Francesco F {Muntoni, Francesco}}
+	author {Topaloğlu Haluk H {Topaloğlu, Haluk}}
+	author {Dinçer Pervin P {Dinçer, Pervin}}
+	author {Campbell Kevin KP {Campbell, Kevin P.}}
+	status ok
+}
+
+
+
