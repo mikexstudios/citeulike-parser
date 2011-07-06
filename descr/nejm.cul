@@ -28,7 +28,7 @@ test {http://www.nejm.org/doi/full/10.1056/NEJMoa1006939} {
 	doi 10.1056/NEJMoa1006939
 	publisher {Massachusetts Medical Society}
 	day 9
-	formatted_url {{New England Journal of Medicine} http://www.journals.nejm.org/doi/abs/10.1056/NEJMoa1006939}
+	formatted_url {{New England Journal of Medicine} http://www.nejm.org/doi/abs/10.1056/NEJMoa1006939}
 	formatted_url {DOI http://dx.doi.org/10.1056/NEJMoa1006939}
 	issue 10
 	title {A Dystroglycan Mutation Associated with Limb-Girdle Muscular Dystrophy}
