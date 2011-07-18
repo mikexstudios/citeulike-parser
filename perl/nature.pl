@@ -62,6 +62,28 @@ $tree->parse($page);
 my $head = ($tree->look_down('_tag','head'))[0];
 my @meta = $head->look_down('_tag','meta');
 
+
+if ($url =~ m{/naturejobs/}) {
+	foreach $m (@meta) {
+		my $name = $m->attr("name");
+		my $content = $m->attr("content");
+		#print "$name = $content\n";
+		$name =~ /dc.identifier/i and do {
+			$content =~ s/doi://;
+			# sometimes see the DOI prefix twice!
+			$content =~ s/(10\.\d\d\d\d)\/(10\.\d\d\d\d)/$1/;
+			$doi = $content;
+			print "status\tredirect\thttp://dx.doi.org/$doi\n";
+			exit;
+		};
+	}
+	print "status\terr\tCannot process $url\n";
+	exit
+
+}
+
+
+
 print "begin_tsv\n";
 
 my $doi = 0;
@@ -70,41 +92,41 @@ foreach $m (@meta) {
 	my $name = $m->attr("name");
 	my $content = $m->attr("content");
 	#print "$name = $content\n";
-	$name =~ /dc.identifier/ and do {
+	$name =~ /dc.identifier/i and do {
 		$content =~ s/doi://;
 		# sometimes see the DOI prefix twice!
 		$content =~ s/(10\.\d\d\d\d)\/(10\.\d\d\d\d)/$1/;
 		$doi = $content;
 	};
-	$name =~ /dc.date/ and do {
+	$name =~ /dc.date/i and do {
 		$content =~ /(\d\d\d\d)(?:(?:-)(\d\d)(?:(?:-)(\d\d))?)?/;
 		print "year\t$1\n" if $1;
 		print "month\t$2\n" if $2;
 		print "day\t$3\n" if $3;
 	};
 	# prism.issn = ERROR! NO ISSN
-	$name =~ /prism.issn/ and do {
+	$name =~ /prism.issn/i and do {
 		print "issn\t$content\n" if $content =~ /\d+/;
 	};
-	$name =~ /dc.title/ and do {
+	$name =~ /dc.title/i and do {
 		print "title\t$content\n" if $content;
 	};
-	$name =~ /prism.startingPage/ and do {
+	$name =~ /prism.startingPage/i and do {
 		print "start_page\t$content\n" if $content;
 	};
-	$name =~ /prism.endingPage/ and do {
+	$name =~ /prism.endingPage/i and do {
 		print "end_page\t$content\n" if $content;
 	};
-	$name =~ /prism.volume / and do {
+	$name =~ /prism.volume/i and do {
 		print "volume\t$content\n" if $content;
 	};
-	$name =~ /prism.number / and do {
+	$name =~ /prism.number/i and do {
 		print "issue\t$content\n" if $content;
 	};
-	$name =~ /dc.publisher/ and do {
+	$name =~ /dc.publisher/i and do {
 		print "publisher\t$content\n" if $content;
 	};
-	$name =~ /prism.publicationName/ and do {
+	$name =~ /prism.publicationName/i and do {
 		print "journal\t$content\n" if $content;
 	};
 
@@ -127,6 +149,8 @@ foreach $m (@meta) {
 # type                      |                   |
 
 }
+
+
 
 
 my $abstract = $tree->look_down( '_tag', 'span',
@@ -165,6 +189,7 @@ if ($abstract) {
 }
 
 # We can get the bog-standard Nature linkout from just looking at the URL
+# http://www.nature.com/naturejobs/2011/110714/full/nj7355-255a.html
 
 if ($url =~ m{www.nature.com/cgi.*file=/([^/]+)/journal/v([^/]+)/n([^/]+)/([^/]+)/([^/]+)(_[^._]+)?.(html|pdf|ris)})	 {
 # Old style

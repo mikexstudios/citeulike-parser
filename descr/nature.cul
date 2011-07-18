@@ -78,7 +78,7 @@ plugin {
 	#
 	# Nature have two styles of URLs for their articles.. they seem to be slowly
 	# moving to the second.
-	regexp {(www.nature.com/cgi.*file=/([^/]+)/journal/v([^/]+)/n([^/]+)/([^/]+)/([^/]+)(_[^.]+)?.(html|pdf|ris))|www.nature.com/([^/]+)/journal/v([^/]+)/n([^/]+)/[^/]+/([^/._]+)|www.nature.com/doifinder/}
+	regexp {(www.nature.com/cgi.*file=/([^/]+)/journal/v([^/]+)/n([^/]+)/([^/]+)/([^/]+)(_[^.]+)?.(html|pdf|ris))|www.nature.com/([^/]+)/journal/v([^/]+)/n([^/]+)/[^/]+/([^/._]+)|www.nature.com/doifinder/|www.nature.com/naturejobs/}
 }
 
 
