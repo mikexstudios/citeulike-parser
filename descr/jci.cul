@@ -1,0 +1,37 @@
+plugin {
+	version {1}
+	name {The Journal of Clinical Investigation}
+	url {http://www.jci.org}
+	blurb {}
+	author {Fergus Gallagher}
+	email {plugins@citeulike.org}
+	language {python}
+	regexp {http://[^/]*\.jci\.org/articles/view/(\d+)}
+}
+
+format_linkout JCI {
+	return [list "JCI" "http://www.jci.org/articles/view/${ikey_1}"]
+}
+
+
+test {http://www.jci.org/articles/view/58719} {
+	volume 121
+	linkout {JCI 58719 {} {} {}}
+	linkout {DOI {} 10.1172/JCI58719 {} {}}
+	formatted_url {JCI http://www.jci.org/articles/view/58719}
+	formatted_url {DOI http://dx.doi.org/10.1172/JCI58719}
+	year 2011
+	start_page 2076
+	type JOUR
+	end_page 2079
+	url http://www.jci.org/articles/view/58719
+	doi 10.1172/JCI58719
+	publisher {The Journal of Clinical Investigation}
+	issue 6
+	title {Digging deeper into obesity}
+	journal {The Journal of Clinical Investigation}
+	abstract {The growing problem of obesity is associated with multiple morbidities, including increased risk of diabetes, hypertension, heart disease, sleep apnea, and cancer. Obesity promotes disability, decreases productivity, and shortens life span. Although much attention has been focused on diet and exercise, these strategies alone are not effective in preventing obesity and maintaining weight loss. Moreover, the development of pharmacological approaches for obesity treatment has been dogged by poor efficacy and serious side effects. The biology of obesity is very complex, and mechanisms linking obesity to various diseases are poorly understood. This issue of the JCI highlights important concepts in our understanding of the pathogenesis of obesity and its complications.}
+	month 6
+	author {Ahima Rexford RS {Rexford S. Ahima}}
+	status ok
+}
