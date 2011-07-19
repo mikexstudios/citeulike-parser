@@ -1,0 +1,37 @@
+plugin {
+	version {1}
+	name {PenSoft}
+	url {http://www.pensoft.net/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {plugins@citeulike.org}
+	language {python}
+	regexp {http://www.pensoft.net/journal_home_page.php}
+}
+
+format_linkout PENSFT {
+	return [list "PenSoft" "http://www.pensoft.net/journal_home_page.php?journal_id=${ikey_2}&page=article&type=show&article_id=${ikey_1}"]
+}
+
+
+test {http://www.pensoft.net/journal_home_page.php?journal_id=1&page=article&type=show&article_id=1501} {
+	volume 119
+	linkout {PENSFT 1501 {} 1 {}}
+	linkout {DOI {} 10.3897/zookeys.119.1501 {} {}}
+	year 2011
+	start_page 1
+	type JOUR
+	end_page 10
+	url http://dx.doi.org/10.3897/zookeys.119.1501
+	doi 10.3897/zookeys.119.1501
+	publisher {Pensoft Publishers}
+	formatted_url {PenSoft http://www.pensoft.net/journal_home_page.php?journal_id=1&page=article&type=show&article_id=1501}
+	formatted_url {DOI http://dx.doi.org/10.3897/zookeys.119.1501}
+	issue 0
+	title {Holotype redescription of Mimobdella japonica (Hirudinida, Arhynchobdellida, Erpobdelliformes) and taxonomic status of the genus Mimobdella}
+	journal ZooKeys
+	abstract {<p> Mimobdella japonica Blanchard, 1897, the type species of the genus Mimobdella, is redescribed based on the holotype. This species is characterized by the following characteristics: mid-body somites novem-annulate, two post-anal annuli, male gonopore in XI/XII, female gonopore in XII/XIII, 9 annuli (one full somite) between gonopores, strepsilaematous pharynx and three myognaths with stylets, possessing post-crop caeca in pairs, ovisacs reaching to XXI a2. The genus Mimobdella&nbsp;is placed under the family Salifidae, not Gastrostomobdellidae or Erpobdellidae, according to its possessing three myognaths bearing pharyngeal stylets. </p>}
+	month 07
+	author {Nakano Takafumi T {Takafumi Nakano}}
+	status ok
+}
