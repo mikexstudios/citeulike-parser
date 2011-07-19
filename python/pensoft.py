@@ -35,6 +35,7 @@
 #
 #http://www.pensoft.net/journal_home_page.php?journal_id=1&page=article&type=show&article_id=1501
 #http://www.pensoft.net/inc/journals/ris.php?articleId=1501&type=bib&journalId=1
+#http://www.pensoft.net/journals/zookeys/article/1706/a-survey-of-the-east-palaearctic-lycosidae-araneae-9-genus-xerolycosa-dahl-1908-evippinae-
 
 
 import socket, re, codecs, sys
@@ -46,22 +47,24 @@ socket.setdefaulttimeout(15)
 
 url = sys.stdin.readline().strip()
 
+m = re.search(r'/article/(\d+)/', url)
+if m:
+	article_id = m.group(1)
+else:
+	parsed_url = urlparse.urlparse(url)
+	src_query = cgi.parse_qs(parsed_url.query)
 
-parsed_url = urlparse.urlparse(url)
-src_query = cgi.parse_qs(parsed_url.query)
+	#journal_id = src_query['journal_id']
+	article_id = src_query['article_id']
+	if article_id:
+		article_id = article_id[0]
 
-journal_id = src_query['journal_id']
-article_id = src_query['article_id']
-
-if not journal_id or not article_id:
-	print "status\terr\tUnable to extract Pensoft article and journal IDs"
+if not article_id:
+	print "status\terr\tUnable to extract Pensoft article"
 	sys.exit(1)
 
-journal_id = journal_id[0]
-article_id = article_id[0]
 
-
-BIBTEX_URL= "http://www.pensoft.net/inc/journals/ris.php?articleId=%s&type=bib&journalId=%s" % (article_id, journal_id )
+BIBTEX_URL= "http://www.pensoft.net/inc/journals/ris.php?articleId=%s&type=bib" % (article_id, )
 
 print "xxxx", BIBTEX_URL
 
@@ -94,7 +97,7 @@ print "begin_bibtex"
 print bibtex
 print "end_bibtex"
 print "begin_tsv"
-print "linkout\tPENSFT\t%s\t\t%s\t" % (article_id, journal_id )
+print "linkout\tPENSFT\t%s\t\t\t" % (article_id, )
 if doi:
 	print "linkout\tDOI\t\t%s\t\t" % (doi)
 

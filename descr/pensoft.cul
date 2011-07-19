@@ -6,17 +6,17 @@ plugin {
 	author {Fergus Gallagher}
 	email {plugins@citeulike.org}
 	language {python}
-	regexp {http://www.pensoft.net/journal_home_page.php}
+	regexp {http://www.pensoft.net/(journal_home_page.php|journals/)}
 }
 
 format_linkout PENSFT {
-	return [list "PenSoft" "http://www.pensoft.net/journal_home_page.php?journal_id=${ikey_2}&page=article&type=show&article_id=${ikey_1}"]
+	return [list "PenSoft" "http://www.pensoft.net/journal_home_page.php?page=article&type=show&article_id=${ikey_1}"]
 }
 
 
 test {http://www.pensoft.net/journal_home_page.php?journal_id=1&page=article&type=show&article_id=1501} {
 	volume 119
-	linkout {PENSFT 1501 {} 1 {}}
+	linkout {PENSFT 1501 {} {} {}}
 	linkout {DOI {} 10.3897/zookeys.119.1501 {} {}}
 	year 2011
 	start_page 1
@@ -25,13 +25,36 @@ test {http://www.pensoft.net/journal_home_page.php?journal_id=1&page=article&typ
 	url http://dx.doi.org/10.3897/zookeys.119.1501
 	doi 10.3897/zookeys.119.1501
 	publisher {Pensoft Publishers}
-	formatted_url {PenSoft http://www.pensoft.net/journal_home_page.php?journal_id=1&page=article&type=show&article_id=1501}
+	formatted_url {PenSoft http://www.pensoft.net/journal_home_page.php?page=article&type=show&article_id=1501}
 	formatted_url {DOI http://dx.doi.org/10.3897/zookeys.119.1501}
 	issue 0
 	title {Holotype redescription of Mimobdella japonica (Hirudinida, Arhynchobdellida, Erpobdelliformes) and taxonomic status of the genus Mimobdella}
-	journal ZooKeys
 	abstract {<p> Mimobdella japonica Blanchard, 1897, the type species of the genus Mimobdella, is redescribed based on the holotype. This species is characterized by the following characteristics: mid-body somites novem-annulate, two post-anal annuli, male gonopore in XI/XII, female gonopore in XII/XIII, 9 annuli (one full somite) between gonopores, strepsilaematous pharynx and three myognaths with stylets, possessing post-crop caeca in pairs, ovisacs reaching to XXI a2. The genus Mimobdella&nbsp;is placed under the family Salifidae, not Gastrostomobdellidae or Erpobdellidae, according to its possessing three myognaths bearing pharyngeal stylets. </p>}
 	month 07
 	author {Nakano Takafumi T {Takafumi Nakano}}
+	status ok
+}
+
+
+test {http://www.pensoft.net/journals/zookeys/article/1706/a-survey-of-the-east-palaearctic-lycosidae-araneae-9-genus-xerolycosa-dahl-1908-evippinae-} {
+	volume 119
+	linkout {PENSFT 1706 {} {} {}}
+	linkout {DOI {} 10.3897/zookeys.119.1706 {} {}}
+	year 2011
+	start_page 11
+	type JOUR
+	end_page 27
+	url http://dx.doi.org/10.3897/zookeys.119.1706
+	doi 10.3897/zookeys.119.1706
+	publisher {Pensoft Publishers}
+	formatted_url {PenSoft http://www.pensoft.net/journal_home_page.php?page=article&type=show&article_id=1706}
+	formatted_url {DOI http://dx.doi.org/10.3897/zookeys.119.1706}
+	issue 0
+	title {A survey of the East Palaearctic Lycosidae (Araneae). 9. Genus Xerolycosa Dahl, 1908 (Evippinae)}
+	abstract {<p> Three species of Xerolycosa: X. nemoralis (Westring, 1861), X. miniata (C.L. Koch, 1834) and X. mongolica (Schenkel, 1963), occurring in the Palaearctic Region are surveyed, illustrated and redescribed. Arctosa mongolica Schenkel, 1963 is removed from synonymy with X. nemoralis and transferred to Xerolycosa, and the new combination Xerolycosa mongolica (Schenkel, 1963) comb. n. is established. One new synonymy, Xerolycosa undulata Chen, Song et Kim, 1998 syn. n. from Heilongjiang = X. mongolica (Schenkel, 1963), is proposed. In addition, one more new combination is established, Trochosa pelengena (Roewer, 1960) comb. n., ex Xerolycosa. </p>}
+	month 07
+	author {Marusik Yuri Y {Yuri Marusik}}
+	author {Kovblyuk Mykola M {Mykola Kovblyuk}}
+	author {Koponen Seppo S {Seppo Koponen}}
 	status ok
 }
