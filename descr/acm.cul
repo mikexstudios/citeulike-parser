@@ -6,7 +6,7 @@ plugin {
 	author {Chris Hall}
 	email {plugins@citeulike.org}
 	language {python}
-	regexp {http://[^/]*portal.acm.org[^/]*/citation}
+	regexp {http://[^/]*(portal|dl).acm.org[^/]*/citation}
 }
 
 format_linkout ACM {
