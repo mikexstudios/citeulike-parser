@@ -1,0 +1,40 @@
+plugin {
+	version {1}
+	name {SPIE Digitial Library}
+	url {http://spiedigitallibrary.org/}
+	blurb {}
+	author {Fergus Gallagher}
+	email {fergus@citeulike.org}
+	language {python}
+	regexp {spiedigitallibrary.org}
+	use_crossref 0
+}
+
+test {http://spiedigitallibrary.org/proceedings/resource/2/psisdg/7679/1/76790Z_1?isAuthorized=no} {
+	volume 7679
+	serial 0277786X
+	linkout {DOI {} 10.1117/12.851047 {} {}}
+	type INCONF
+	start_page 76790Z
+	doi 10.1117/12.851047
+	year 2010
+	month 05
+	day 05
+	publisher {The International Society for Optical Engineering.}
+	formatted_url {DOI http://dx.doi.org/10.1117/12.851047}
+	title_secondary {Defense, Security, and Sensing}
+	issue 1
+	title {Systematic study of the performance of small robots on controlled laboratory substrates}
+	journal {Proceedings of SPIE}
+	abstract {The design of robots able to locomote effectively over a diversity of terrain requires detailed ground interaction models; unfortunately such models are lacking due to the complicated response of real world substrates which can yield and flow in response to loading. To advance our understanding of the relevant modeling and design issues, we conduct a comparative study of the performance of DASH and RoACH, two small, biologically inspired, six legged, lightweight (~10 cm, ~20 g) robots fabricated using the smart composite microstructure (SCM) process. We systematically examine performance of both robots on rigid and flowing substrates. Varying both ground properties and limb stride frequency, we investigate average speed, mean mechanical power and cost of transport, and stability. We find that robot performance and stability is sensitive to the physics of ground interaction: on hard ground kinetic energy must be managed to prevent yaw, pitch, and roll instability to maintain high performance, while on sand the fluidizing interaction leads to increased cost of transport and lower running speeds. We also observe that the characteristic limb morphology and kinematics of each robot result in distinct differences in their abilities to traverse different terrains. Our systematic studies are the first step toward developing models of interaction of limbs with complex terrain as well as developing improved limb morphologies and control strategies.}
+	author {Li Chen C {Li, Chen}}
+	author {Hoover Aaron AM {Hoover, Aaron M.}}
+	author {Birkmeyer Paul P {Birkmeyer, Paul}}
+	author {Umbanhowar Paul PB {Umbanhowar, Paul B.}}
+	author {Fearing Ronald RS {Fearing, Ronald S.}}
+	author {Goldman Daniel DI {Goldman, Daniel I.}}
+
+	status ok
+}
+
+
