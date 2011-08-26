@@ -93,74 +93,69 @@ $url =~ s/\?.*$//;
 #  set url_abstract to URL that links to abstract.
 
 $abstract_part = "abstract";
-#$abstract_part = "refs";
 
 
-
-if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/((?:[.\w]+))}) {
-	($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
-	$journal_site = gobble_proxy($journal_site);
-
-	# This is a complete hack in the blind.  A trailing ".n" -> ".a", ".b"
-	# seems to work.
-	if ($page =~ /\.\d$/) {
-		$page =~ s/\.1$/a/;
-		$page =~ s/\.2$/b/;
-		$page =~ s/\.3$/c/;
-		$page =~ s/\.4$/d/;
-	} else {
-		$page =~ s/\.(\w+)$//;
-	}
-
-
-
-
-	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
-
-}
 #
 # New (2008) Highwire URL format .
-elsif ($url =~ m{http://([^/]+)/content/}) {
+if ($url =~ m{http://([^/]+)/content/}) {
 	($journal_site) = ($1);
 	$url =~ s/\.([a-z]+)$/.abstract/;
 	($url_abstract, $doi, $pmid, $body) = get_abstract_url($url);
-	if (!$url_abstract) {
-		print "status\terr\t (0.5) Cannot find the URL for the abstract\n";
-		exit;
-	}
-	#if ($url_abstract eq $url) {
+	if ($url_abstract) {
 		$source_abstract = $body;
-	#}
-	$hiwire = $url_abstract;
-	$hiwire =~ s/\.abstract$//;
-	$hiwire =~ s|^http://||;
-}
-
-#
-#  Published articles: determine journal,volume,number and page details.
-#
-#elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[A-Za-z0-9-.]+)/([0-9]+)/([A-Za-z0-9.]+)}) {
-elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters|pdf_extract)/((?:[a-zA-Z]+;)?[^/]+)/([^/]+)/([^/]+)}) {
-	($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
-	$journal_site = gobble_proxy($journal_site);
-	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
-}
-
-#
-#  Unpublished articles, determine journal and AOP id number.
-#  Create URL that links to abstract (some AOP links need minor modification)
-#
-elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|short|extract|full|refs|reprint|screenpdf|summary|eletters|pdf_extract)/(.*)}) {
-	($journal_site,$volume,$number,$page) = ($1,$4,"","");
-	$journal_site = gobble_proxy($journal_site);
-	if ($volume =~ m{(.*)/(.*)}) {
-		$volume = $1;
+		$hiwire = $url_abstract;
+		$hiwire =~ s/\.abstract$//;
+		$hiwire =~ s|^http://||;
 	}
-	$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume";
 }
 
-else {
-	print "status\terr\t (1) This ($url) does not appear to be a Highwire Press article. Try posting the article from the abstract page.\n" and exit;
+if (!$url_abstract) {
+
+	if ($url =~ m{http://([^/]+)/content/(\d+)/(\d+)/((?:[.\w]+))}) {
+		($journal_site,$volume,$number,$page) = ($1,$2,$3,$4);
+		$journal_site = gobble_proxy($journal_site);
+
+		# This is a complete hack in the blind.  A trailing ".n" -> ".a", ".b"
+		# seems to work.
+		if ($page =~ /\.\d$/) {
+			$page =~ s/\.1$/a/;
+			$page =~ s/\.2$/b/;
+			$page =~ s/\.3$/c/;
+			$page =~ s/\.4$/d/;
+		} else {
+			$page =~ s/\.(\w+)$//;
+		}
+
+		$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
+
+	}
+
+	#
+	#  Published articles: determine journal,volume,number and page details.
+	#
+	#elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters)/((?:[a-zA-Z]+;)?[A-Za-z0-9-.]+)/([0-9]+)/([A-Za-z0-9.]+)}) {
+	elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|short|long|extract|full|refs|reprint|screenpdf|summary|eletters|pdf_extract)/((?:[a-zA-Z]+;)?[^/]+)/([^/]+)/([^/]+)}) {
+		($journal_site,$volume,$number,$page) = ($1,$4,$5,$6);
+		$journal_site = gobble_proxy($journal_site);
+		$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume/$number/$page";
+	}
+
+	#
+	#  Unpublished articles, determine journal and AOP id number.
+	#  Create URL that links to abstract (some AOP links need minor modification)
+	#
+	elsif ($url =~ m{http://(.*)/cgi(/|/content/)(abstract|long|short|extract|full|refs|reprint|screenpdf|summary|eletters|pdf_extract)/(.*)}) {
+		($journal_site,$volume,$number,$page) = ($1,$4,"","");
+		$journal_site = gobble_proxy($journal_site);
+		if ($volume =~ m{(.*)/(.*)}) {
+			$volume = $1;
+		}
+		$url_abstract = "http://$journal_site/cgi/content/$abstract_part/$volume";
+	}
+
+	else {
+		print "status\terr\t (1) This ($url) does not appear to be a Highwire Press article. Try posting the article from the abstract page.\n" and exit;
+	}
 }
 
 $doi = "";
@@ -198,7 +193,7 @@ if (!$pmid) {
 		$pmid = $1;
 	} elsif ($source_abstract =~ m{<meta\s+name="citation_pmid"\s*content="([^"]+)"\s*/?>}) {
 		$pmid = $1;
-	} elsif ($source_abstract =~ m{access_num=([0-9]+)&link_type=PUBMED}) {
+	} elsif ($source_abstract =~ m{access_num=([0-9]+)&(?:amp;)?link_type=PUBMED}) {
 		$pmid = $1;
 	}
 }
@@ -209,6 +204,7 @@ if ($source_abstract =~ m{<meta\s+content="([^"]+)"\s*name="citation_mjid"\s*/?>
 } elsif ($source_abstract =~ m{<meta\s+name="citation_mjid"\s*content="([^"]+)"\s*/?>}){
 	$mjid=$1;
 }
+
 
 if ($mjid) {
 	# $mjid =~ s/([^A-Za-z0-9])/sprintf("%%%02X", ord($1))/seg;
@@ -223,7 +219,7 @@ if ($mjid) {
 			$hiwire = "$journal_site/content/$volume/$page";
 		}
 	}
-} elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd|[S]ave) to [C|c]itation [M|m]anager)|(Download Citation))}) {
+} elsif ($source_abstract =~ m{"([^"]+)">\s*((([Dd]ownload|[Aa]dd|[S]ave) to [C|c]itation [M|m]anager)|(Download Citation))}i) {
 	$link_citmgr = $1;
 	$link_citmgr = "http://"."$journal_site"."$link_citmgr" unless ($link_citmgr =~ m!^http://!);
 
