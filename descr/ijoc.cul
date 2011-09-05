@@ -1,0 +1,46 @@
+plugin {
+	version {1}
+	name {International Journal of Communication}
+	url {http://ijoc.org/}
+	blurb {}
+	author {Tristan Henderson}
+	email {tnhh@tnhh.org}
+	language {perl}
+	regexp {http://(www.)?ijoc.org/ojs/index.php/ijoc/article/view/\d+}
+}
+
+format_linkout IJOC {
+	return [list "IJOC" "http://ijoc.org/ojs/index.php/ijoc/article/view/${ikey_1}"]
+}
+
+test {http://ijoc.org/ojs/index.php/ijoc/article/view/158} {
+	formatted_url {IJOC http://ijoc.org/ojs/index.php/ijoc/article/view/158}
+	linkout {IJOC 158 {} {} {}}
+	volume 1
+	year 2007
+	type JOUR
+	plugin_version 1
+	title {[Special Section on Net Neutrality] Network Neutrality: Words of Power and 800-Pound Gorillas}
+	journal {International Journal of Communication}
+	url {http://ijoc.org/ojs/index.php/ijoc/article/view/158}
+	status ok
+	author {Clark David DD {David D. Clark}}
+	plugin ijoc
+}
+
+test {http://ijoc.org/ojs/index.php/ijoc/article/view/777} {
+	formatted_url {IJOC http://ijoc.org/ojs/index.php/ijoc/article/view/777}
+	linkout {IJOC 777 {} {} {}}
+	volume 5
+	year 2011
+	type JOUR
+	plugin_version 1
+	title {Gender Bias in Wikipedia and Britannica}
+	journal {International Journal of Communication}
+	url {http://ijoc.org/ojs/index.php/ijoc/article/view/777}
+	status ok
+	author {Reagle Joseph J {Joseph Reagle}}
+    author {Rhue Lauren L {Lauren Rhue}}
+	abstract {Is there a bias in the against women’s representation in Wikipedia biographies? Thousands of biographical subjects, from six sources, are compared against the English-language Wikipedia and the online Encyclopædia Britannica with respect to coverage, gender representation, and article length. We conclude that Wikipedia provides better coverage and longer articles, that Wikipedia typically has more articles on women than Britannica in absolute terms, but Wikipedia articles on women are more likely to be missing than articles on men relative to Britannica. For both reference works, article length did not consistently differ by gender.}
+	plugin ijoc
+}
