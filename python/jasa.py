@@ -6,6 +6,16 @@ import urllib2
 import metaheaders
 from cultools import bail
 
+
+def get_header(metaheaders, a, b):
+	A = metaheaders.get_item(a)
+	if A:
+		return A
+	B = metaheaders.get_item(b)
+	if B:
+		return B
+	return None
+
 url = sys.stdin.readline().strip()
 
 sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
@@ -40,8 +50,8 @@ dc.creator = ['D. G. Aggelis', 'N. K. Paschos', 'N. M. Barkoula', 'A. S. Paipeti
 
 
 key_map = {
-	"publisher" : "dc.publisher",
-	"abstract" : "dc.description",
+	"publisher" : "citation_publisher",
+	"abstract" : "description",
 	"issue": "citation_issue",
 	"issn": "citation.issn",
 	"title": "citation_title",
@@ -70,10 +80,18 @@ for f in key_map.keys():
 	v = v.strip()
 	print "%s\t%s"  % (f,v)
 
-for a in metaheaders.get_multi_item("dc.creator"):
-	print "author\t%s" % a
+authors = metaheaders.get_multi_item("dc.creator")
+if not authors:
+	authors = metaheaders.get_multi_item("citation_author")
+if authors:
+	for a in authors:
+		print "author\t%s" % a
 
-metaheaders.print_date("dc.date")
+if metaheaders.get_item("citation_date"):
+	metaheaders.print_date("citation_date")
+elif metaheaders.get_item("dc.date"):
+	metaheaders.print_date("dc.date")
+
 
 
 print "end_tsv"
